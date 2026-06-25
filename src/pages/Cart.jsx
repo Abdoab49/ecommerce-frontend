@@ -47,8 +47,8 @@ const handleCheckout = async () => {
 
     console.log('📦 Order Items:', orderItems);
 
-    // ✅ ✅ ✅ استخدام API المحلي
-    const response = await fetch('/api/orders', {
+    // ✅ ✅ ✅ استخدام API المحلي (order.js)
+    const response = await fetch('/api/order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

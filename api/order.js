@@ -1,4 +1,4 @@
-// frontend/api/orders.js
+// frontend/api/order.js
 export default async function handler(req, res) {
   // ✅ السماح للجميع بإرسال الطلبات
   res.setHeader('Access-Control-Allow-Origin', '*');

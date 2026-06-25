@@ -12,7 +12,8 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch('/api/orders');
+        // ✅ جلب الطلبات من API (order.js)
+        const response = await fetch('/api/order');
         const data = await response.json();
         console.log('📦 Orders:', data);
         setOrders(data);
