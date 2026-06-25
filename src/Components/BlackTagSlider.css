@@ -1,0 +1,268 @@
+/* إعادة تعيين كل الألوان إلى الأسود */
+html, body, #root, .black-app, .app, div[class*="app"] {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+body {
+  background-color: #000000 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+* {
+  background-color: transparent;
+}
+
+
+
+
+/* تنسيق عام - خلفية سوداء */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000000;
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+}
+
+.black-app {
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* تأثيرات خلفية متحركة اختيارية (تضيف لمسة جمالية) */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: #8b5cf6;
+  top: 10%;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: #3b82f6;
+  bottom: 10%;
+  right: -150px;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 250px;
+  height: 250px;
+  background: #ec4899;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* المحتوى الرئيسي */
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+/* الهيدر */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 1rem;
+  text-align: center;
+}
+
+header h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  header h1 {
+    font-size: 4rem;
+  }
+}
+
+.highlight {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899, #3b82f6);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+header p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* قائمة التاغات */
+.tag-list {
+  width: 35rem;
+  max-width: 90vw;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 1rem 0;
+  position: relative;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.loop-slider {
+  width: 100%;
+}
+
+.loop-slider .inner {
+  display: flex;
+  width: fit-content;
+  animation-name: loop;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: var(--direction);
+  animation-duration: var(--duration);
+}
+
+/* إيقاف عند المرور بالفأرة */
+.loop-slider:hover .inner {
+  animation-play-state: paused;
+}
+
+/* التاغ */
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0 0.2rem;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 2rem;
+  padding: 0.6rem 1.2rem;
+  margin-right: 1rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tag:hover {
+  background-color: #2a2a2a;
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.tag span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-right: 0.2rem;
+}
+
+/* تأثير التلاشي على الجانبين */
+.fade {
+  pointer-events: none;
+  background: linear-gradient(90deg, #000000, transparent 20%, transparent 80%, #000000);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* الفوتر */
+footer {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+footer p {
+  color: #374151;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+/* حركة التمرير */
+@keyframes loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* تنسيق شريط التمرير (اختياري) */
+::-webkit-scrollbar {
+  width: 8px;
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}

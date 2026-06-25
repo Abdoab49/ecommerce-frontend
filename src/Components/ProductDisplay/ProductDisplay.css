@@ -1,0 +1,137 @@
+/* نافذة اختيار المقاس (Modal) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 450px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c7da0;
+}
+
+.modal-sizes, .modal-colors, .modal-qty {
+  margin: 15px 0;
+  text-align: left;
+}
+
+.modal-sizes label, .modal-colors label, .modal-qty label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.size-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.modal-size-btn {
+  width: 50px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-size-btn.active {
+  background: #2c7da0;
+  color: white;
+  border-color: #2c7da0;
+}
+
+.color-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-color-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  cursor: pointer;
+}
+
+.modal-color-btn.active {
+  border-color: #2c7da0;
+  transform: scale(1.1);
+}
+
+.modal-qty div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-qty button {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.modal-qty span {
+  font-size: 18px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.modal-confirm {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #2c7da0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal-confirm:hover {
+  background: #1a5d7a;
+}
+
+.btn-buy-now {
+  background: #2c7da0;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}

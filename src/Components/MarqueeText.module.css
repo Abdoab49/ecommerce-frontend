@@ -1,0 +1,58 @@
+/* MarqueeText.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+.content {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+}
+.marquee {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  overflow-x: hidden;
+  background: transparent;
+}
+
+.track {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 20s linear infinite;
+}
+
+.content {
+  display: inline-block;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  letter-spacing: 2px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* إيقاف الحركة عند hover */
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .content {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    font-size: 1.2rem;
+  }
+}

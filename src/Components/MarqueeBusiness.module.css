@@ -1,0 +1,115 @@
+/* MarqueeBusiness.module.css */
+
+* {
+  box-sizing: border-box;
+}
+
+.marquee {
+  --duration: 4s;
+  --gap: 1.5rem;
+  --space: 3rem;
+
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--gap);
+  width: 100%;
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
+.marqueeGroup {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: scroll var(--duration) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeGroup {
+    animation-play-state: paused;
+  }
+}
+
+/* جعل المربع مربعاً (متساوي الأضلاع) */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 1rem;
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+  width: 150px;
+  height: 150px;  /* نفس العرض */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.card h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+@media (max-width: 768px) {
+  .card {
+    width: 120px;
+    height: 120px;
+    padding: 0.8rem;
+  }
+  .card img {
+    width: 55px;
+    height: 55px;
+  }
+  .card h4 {
+    font-size: 0.75rem;
+  }
+  .marquee {
+    --gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100px;
+    height: 100px;
+    padding: 0.6rem;
+  }
+  .card img {
+    width: 45px;
+    height: 45px;
+  }
+  .card h4 {
+    font-size: 0.65rem;
+  }
+}

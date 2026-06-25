@@ -1,0 +1,125 @@
+/* LogoSlider.module.css */
+
+.slider {
+  overflow: hidden;
+  --size: 300px;
+  --spacing: 16px;
+  --duration: 20s;
+  --track-size: calc((var(--size) + var(--spacing)) * (var(--items) - 1));
+  max-inline-size: var(--track-size);
+  margin-block: 42px;
+  margin-inline: auto;
+}
+
+.sliderTrack {
+  display: grid;
+  container-type: inline-size;
+  width: max-content;
+  grid-template-columns: [track] var(--track-size) [stick] 0px;
+}
+
+/* اتجاه عكسي للعناصر */
+.slider[data-reverse] .sliderItem {
+  animation-direction: reverse;
+}
+
+.sliderItem {
+  grid-area: stick;
+  width: var(--size);
+  aspect-ratio: 4 / 3;
+  animation: move var(--duration) linear infinite;
+  animation-delay: calc((var(--duration) / var(--items) * var(--index)) * -1);
+  background-color: rgb(0, 0, 0);
+}
+
+.sliderItem.isVideo {
+  aspect-ratio: 16 / 9;
+}
+
+@keyframes move {
+  to {
+    transform: translateX(calc(-100cqw - 100%));
+  }
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+/* شاشات كبيرة */
+@media (max-width: 1200px) {
+  .slider {
+    --size: 260px;
+    --spacing: 14px;
+    --duration: 18s;
+  }
+}
+
+/* شاشات متوسطة */
+@media (max-width: 992px) {
+  .slider {
+    --size: 220px;
+    --spacing: 12px;
+    --duration: 16s;
+  }
+}
+
+/* شاشات صغيرة */
+@media (max-width: 768px) {
+  .slider {
+    --size: 180px;
+    --spacing: 10px;
+    --duration: 14s;
+  }
+}
+
+/* شاشات موبايل */
+@media (max-width: 576px) {
+  .slider {
+    --size: 140px;
+    --spacing: 8px;
+    --duration: 12s;
+  }
+}
+
+/* شاشات موبايل صغيرة */
+@media (max-width: 400px) {
+  .slider {
+    --size: 110px;
+    --spacing: 6px;
+    --duration: 10s;
+  }
+}
+
+/* تنسيق الصور */
+.sliderItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* إضافة تأثير عند hover */
+.sliderItem img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* تنسيق الصور */
+.sliderItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* إزالة الخلفية الملونة */
+.sliderItem {
+  background-color: transparent;
+}
+
+/* إضافة تأثير عند hover */
+.sliderItem img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}

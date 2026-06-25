@@ -1,0 +1,368 @@
+/* ===== IMPORT FONTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.newsletter {
+    width: 65%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 0% 140px;
+    margin-bottom: 150px;
+    gap: 30px;
+}
+
+.newsletter h1 {
+    color: #ffffff;
+    font-size: 55px;
+    font-weight: 600;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+}
+
+.newsletter p {
+    color: #ffffff;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+/* ===== المجموعة (بأيقونة البحث) ===== */
+.group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    width: 730px;
+    height: 70px;
+    border-radius: 80px;
+    border: 1px solid #e3e3e3;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* أيقونة البحث */
+.search-icon {
+    position: absolute;
+    left: 25px;
+    width: 22px;
+    height: 22px;
+    fill: #616161;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.newsletter .input {
+    width: 100%;
+    height: 100%;
+    padding-left: 60px;
+    padding-right: 20px;
+    border: none;
+    outline: none;
+    border-radius: 80px;
+    color: #454545;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.newsletter .input::placeholder {
+    color: #aaa;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ===== زر الاشتراك ===== */
+.newsletter button {
+    width: 6.5em;
+    height: 2.3em;
+    margin: 0.5em;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* تأثير hover لتغيير لون النص */
+.newsletter button:hover {
+    color: black;
+}
+
+/* التأثير الحركة (الخلفية البيضاء المنزلقة) */
+.newsletter button:after {
+    content: "";
+    background: white;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.5s;
+}
+
+/* تشغيل التأثير عند hover */
+.newsletter button:hover:after {
+    transform: skewX(-45deg) scale(1, 1);
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+/* شاشات كبيرة (ديسكتوب) */
+@media (max-width: 1280px) {
+    .newsletter {
+        padding: 0px 80px;
+        margin-bottom: 120px;
+        gap: 20px;
+    }
+    .newsletter h1 {
+        font-size: 42px;
+    }
+    .newsletter p {
+        font-size: 18px;
+    }
+    .group {
+        width: 600px;
+        height: 60px;
+    }
+    .search-icon {
+        width: 18px;
+        height: 18px;
+        left: 20px;
+    }
+    .newsletter .input {
+        padding-left: 50px;
+        font-size: 15px;
+    }
+    .newsletter button {
+        width: 5.5em;
+        height: 2.1em;
+        font-size: 18px;
+    }
+}
+
+/* شاشات متوسطة (تابلت) */
+@media (max-width: 1024px) {
+    .newsletter {
+        width: 80%;
+        margin-bottom: 60px;
+        padding: 0px 40px;
+    }
+    .newsletter h1 {
+        font-size: 36px;
+    }
+    .newsletter p {
+        font-size: 16px;
+    }
+    .group {
+        width: 500px;
+        height: 55px;
+    }
+    .search-icon {
+        width: 16px;
+        height: 16px;
+        left: 18px;
+    }
+    .newsletter .input {
+        padding-left: 45px;
+        font-size: 14px;
+    }
+    .newsletter button {
+        width: 5em;
+        height: 2em;
+        font-size: 16px;
+    }
+}
+
+/* شاشات صغيرة (تابلت صغير) */
+@media (max-width: 900px) {
+    .newsletter {
+        width: 90%;
+        height: 35vh;
+        margin-bottom: 50px;
+        padding: 0px 20px;
+    }
+    .newsletter h1 {
+        font-size: 30px;
+    }
+    .newsletter p {
+        font-size: 15px;
+    }
+    .group {
+        width: 450px;
+        height: 50px;
+    }
+    .search-icon {
+        width: 15px;
+        height: 15px;
+        left: 16px;
+    }
+    .newsletter .input {
+        padding-left: 42px;
+        font-size: 14px;
+    }
+    .newsletter button {
+        width: 4.8em;
+        height: 1.9em;
+        font-size: 15px;
+    }
+}
+
+/* شاشات صغيرة (موبايل) */
+@media (max-width: 768px) {
+    .newsletter {
+        width: 95%;
+        height: 30vh;
+        margin-bottom: 40px;
+        padding: 0px 15px;
+    }
+    .newsletter h1 {
+        font-size: 26px;
+        text-align: center;
+    }
+    .newsletter p {
+        font-size: 14px;
+        text-align: center;
+    }
+    .group {
+        width: 380px;
+        height: 48px;
+    }
+    .search-icon {
+        width: 14px;
+        height: 14px;
+        left: 15px;
+    }
+    .newsletter .input {
+        padding-left: 40px;
+        font-size: 13px;
+    }
+    .newsletter .input::placeholder {
+        font-size: 12px;
+    }
+    .newsletter button {
+        width: 4.5em;
+        height: 1.8em;
+        font-size: 14px;
+    }
+}
+
+/* شاشات صغيرة جداً (موبايل صغير) */
+@media (max-width: 550px) {
+    .newsletter {
+        width: 100%;
+        height: 28vh;
+        margin-bottom: 30px;
+        padding: 0px 10px;
+        gap: 12px;
+    }
+    .newsletter h1 {
+        font-size: 22px;
+        text-align: center;
+    }
+    .newsletter p {
+        font-size: 12px;
+        text-align: center;
+        max-width: 250px;
+    }
+    .group {
+        width: 320px;
+        height: 44px;
+    }
+    .search-icon {
+        width: 13px;
+        height: 13px;
+        left: 14px;
+    }
+    .newsletter .input {
+        padding-left: 38px;
+        font-size: 12px;
+    }
+    .newsletter .input::placeholder {
+        font-size: 11px;
+    }
+    .newsletter button {
+        width: 4.2em;
+        height: 1.7em;
+        font-size: 12px;
+        margin: 0.4em;
+    }
+}
+
+/* شاشات صغيرة جداً (موبايل صغير جداً) */
+@media (max-width: 400px) {
+    .newsletter {
+        height: 25vh;
+        margin-bottom: 25px;
+        gap: 10px;
+    }
+    .newsletter h1 {
+        font-size: 18px;
+    }
+    .newsletter p {
+        font-size: 11px;
+        max-width: 220px;
+    }
+    .group {
+        width: 280px;
+        height: 40px;
+    }
+    .search-icon {
+        width: 11px;
+        height: 11px;
+        left: 12px;
+    }
+    .newsletter .input {
+        padding-left: 34px;
+        font-size: 11px;
+    }
+    .newsletter .input::placeholder {
+        font-size: 10px;
+    }
+    .newsletter button {
+        width: 4em;
+        height: 1.6em;
+        font-size: 11px;
+        margin: 0.3em;
+    }
+}
+
+/* شاشات أفقية (لاندسكيب) */
+@media (orientation: landscape) and (max-height: 500px) {
+    .newsletter {
+        height: auto;
+        min-height: 200px;
+        margin-bottom: 30px;
+        padding: 20px;
+        gap: 15px;
+    }
+    .newsletter h1 {
+        font-size: 28px;
+    }
+    .newsletter p {
+        font-size: 14px;
+    }
+    .group {
+        width: 400px;
+        height: 45px;
+    }
+    .newsletter button {
+        font-size: 14px;
+        height: 2em;
+    }
+}

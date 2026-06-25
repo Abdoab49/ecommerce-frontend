@@ -1,0 +1,161 @@
+/* ===== LOGO SCROLLER ===== */
+
+/* ===== الحاوية الرئيسية ===== */
+.scroller-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background: transparent;
+  padding: 20px 0;
+}
+
+/* ===== السكّرولر ===== */
+.scroller {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  animation: scroll 36s linear infinite;
+  width: max-content;
+}
+
+/* ===== عنصر الشعار ===== */
+.logo {
+  display: inline-block;
+  width: 100px;
+  height: 80px;
+  margin-right: 10px;
+  flex: 0 0 auto;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(0);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+/* ===== تأثير hover ===== */
+.logo:hover img {
+  transform: scale(1.1);
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+/* ===== حركة التمرير ===== */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== شاشات كبيرة (ديسكتوب) ===== */
+@media (min-width: 1024px) {
+  .scroller-container {
+    padding: 30px 0;
+  }
+  
+  .logo {
+    width: 120px;
+    height: 90px;
+    margin-right: 15px;
+  }
+}
+
+/* ===== شاشات متوسطة (تابلت) ===== */
+@media (max-width: 992px) {
+  .logo {
+    width: 90px;
+    height: 70px;
+    margin-right: 10px;
+  }
+  
+  .scroller {
+    animation-duration: 30s;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroller-container {
+    padding: 15px 0;
+  }
+  
+  .logo {
+    width: 75px;
+    height: 60px;
+    margin-right: 8px;
+  }
+  
+  .scroller {
+    animation-duration: 25s;
+  }
+}
+
+/* ===== شاشات صغيرة (موبايل) ===== */
+@media (max-width: 480px) {
+  .scroller-container {
+    padding: 10px 0;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 50px;
+    margin-right: 6px;
+  }
+  
+  .scroller {
+    animation-duration: 20s;
+  }
+}
+
+/* ===== شاشات صغيرة جداً ===== */
+@media (max-width: 360px) {
+  .logo {
+    width: 50px;
+    height: 40px;
+    margin-right: 5px;
+  }
+  
+  .scroller {
+    animation-duration: 18s;
+  }
+}
+
+/* ===== إيقاف الحركة عند التمرير ===== */
+.scroller-container:hover .scroller {
+  animation-play-state: paused;
+}
+
+/* ===== دعم الوضع المظلم ===== */
+@media (prefers-color-scheme: dark) {
+  .logo img {
+    filter: brightness(0.9) contrast(1.1);
+  }
+}
+
+/* ===== تقليل الحركة ===== */
+@media (prefers-reduced-motion: reduce) {
+  .scroller {
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .logo img {
+    opacity: 1;
+  }
+}
+
+/* ===== الطباعة ===== */
+@media print {
+  .scroller-container {
+    display: none;
+  }
+}

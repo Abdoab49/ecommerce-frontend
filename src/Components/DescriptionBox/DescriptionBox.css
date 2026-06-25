@@ -1,0 +1,134 @@
+.descriptionbox{
+    margin: 60px 170px;
+}
+
+.descriptionbox-navigator{
+    display: flex;
+}
+
+.descriptionbox-nav-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 180px;
+    height: 70px;
+
+    border: 1px solid #d0d0d0;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.descriptionbox-nav-box.fade{
+    background: #fbfbfb;
+    color: #555;
+}
+
+.descriptionbox-description{
+    display: flex;
+    flex-direction: column;
+
+    gap: 25px;
+
+    border: 1px solid #d0d0d0;
+
+    padding: 48px;
+    padding-bottom: 70px;
+
+    line-height: 1.8;
+    color: #444;
+    font-size: 16px;
+}
+
+/* ==================== 1280px ==================== */
+
+@media(max-width:1280px){
+
+    .descriptionbox{
+        margin: 50px 80px;
+    }
+
+    .descriptionbox-nav-box{
+        width: 160px;
+        height: 65px;
+        font-size: 15px;
+    }
+
+    .descriptionbox-description{
+        padding: 40px;
+        gap: 20px;
+        font-size: 15px;
+    }
+}
+
+/* ==================== 1024px ==================== */
+
+@media(max-width:1024px){
+
+    .descriptionbox{
+        margin: 40px 40px;
+    }
+
+    .descriptionbox-nav-box{
+        width: 140px;
+        height: 60px;
+        font-size: 14px;
+    }
+
+    .descriptionbox-description{
+        padding: 35px;
+        padding-bottom: 50px;
+        font-size: 14px;
+    }
+}
+
+/* ==================== 800px ==================== */
+
+@media(max-width:800px){
+
+    .descriptionbox{
+        margin: 30px 20px;
+    }
+
+    .descriptionbox-navigator{
+        flex-wrap: wrap;
+    }
+
+    .descriptionbox-nav-box{
+        width: 120px;
+        height: 55px;
+        font-size: 13px;
+    }
+
+    .descriptionbox-description{
+        padding: 25px;
+        gap: 18px;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+}
+
+/* ==================== 500px ==================== */
+
+@media(max-width:500px){
+
+    .descriptionbox{
+        margin: 20px 10px;
+    }
+
+    .descriptionbox-nav-box{
+        width: 100px;
+        height: 50px;
+        font-size: 12px;
+    }
+
+    .descriptionbox-description{
+        padding: 18px;
+        padding-bottom: 30px;
+        font-size: 12px;
+        gap: 15px;
+    }
+}

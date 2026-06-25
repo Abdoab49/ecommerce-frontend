@@ -1,0 +1,356 @@
+/* ProductGrid.module.css */
+
+/* استيراد الخط Bangers */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+/* ===== تطبيق الخط على كل العناصر ===== */
+* {
+  font-family: "Bangers", system-ui, -apple-system, sans-serif;
+}
+
+/* كلاس الخط Bangers */
+.bangers-regular {
+  font-family: "Bangers", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.wrapper {
+  margin: 2rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
+
+.card {
+  border-radius: 0.2rem;
+  min-width: 28rem;
+  display: flex;
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.card__img {
+  width: 14rem;
+  height: 11rem;
+  object-fit: cover;
+}
+
+.card__body {
+  margin: 1rem;
+  flex-grow: 1;
+}
+
+.card__title {
+  line-height: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+  color: #1a1a2e;
+  display: block; /* ✅ ضمان الظهور */
+  visibility: visible; /* ✅ ضمان الظهور */
+  opacity: 1; /* ✅ ضمان الظهور */
+}
+
+.card__description {
+  line-height: 1.2rem;
+  color: #000000;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  display: block; /* ✅ ضمان الظهور */
+  visibility: visible; /* ✅ ضمان الظهور */
+  opacity: 1; /* ✅ ضمان الظهور */
+}
+
+.card__price {
+  font-size: 1.4rem;
+  margin-top: 0.6rem;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+  display: block; /* ✅ ضمان الظهور */
+  visibility: visible; /* ✅ ضمان الظهور */
+  opacity: 1; /* ✅ ضمان الظهور */
+}
+
+.card__price::before {
+  content: "$";
+  font-size: 1rem;
+  position: relative;
+  top: -0.3rem;
+  padding-right: 0.1rem;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+}
+
+.card__btn {
+  border: none;
+  border-top: 1px solid #e1e5ee;
+  background-color: transparent;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1a1a2e;
+  width: 100%;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  letter-spacing: 0.5px;
+  display: block; /* ✅ ضمان الظهور */
+  visibility: visible; /* ✅ ضمان الظهور */
+  opacity: 1; /* ✅ ضمان الظهور */
+}
+
+.card__btn:hover {
+  color: #000000;
+}
+
+/* ===== تنسيق السعر ===== */
+.priceContainer {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 10px 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.oldPrice {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.currentPrice {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #000000;
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+/* شاشات كبيرة (ديسكتوب) - 4 أعمدة */
+@media screen and (min-width: 1200px) {
+  .wrapper {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+  
+  .card {
+    min-width: auto;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .card__img {
+    width: 100%;
+    height: 12rem;
+  }
+}
+
+/* شاشات متوسطة (لاب توب) - 3 أعمدة */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .wrapper {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin: 1.5rem;
+  }
+  
+  .card {
+    min-width: auto;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .card__img {
+    width: 100%;
+    height: 12rem;
+  }
+}
+
+/* شاشات تابلت - 2 أعمدة */
+@media screen and (min-width: 600px) and (max-width: 991px) {
+  .wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1rem;
+  }
+  
+  .card {
+    flex-direction: column;
+    text-align: center;
+    min-width: auto;
+  }
+  
+  .card__img {
+    width: 100%;
+    height: 12rem;
+  }
+}
+
+/* شاشات موبايل - 2 أعمدة */
+@media screen and (max-width: 599px) {
+  .wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    margin: 0.8rem;
+  }
+  
+  .card {
+    flex-direction: column;
+    text-align: center;
+    min-width: auto;
+  }
+  
+  .card__img {
+    width: 100%;
+    height: 10rem;
+  }
+  
+  .card__body {
+    margin: 0.6rem;
+  }
+  
+  .card__title {
+    font-size: 1rem;
+    line-height: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .card__description {
+    font-size: 0.8rem;
+    line-height: 1rem;
+  }
+  
+  .card__price {
+    font-size: 1.1rem;
+    margin-top: 0.4rem;
+  }
+  
+  .card__btn {
+    font-size: 0.8rem;
+    padding-top: 0.6rem;
+    margin-top: 0.6rem;
+  }
+}
+
+/* شاشات موبايل صغيرة جداً */
+@media screen and (max-width: 400px) {
+  .wrapper {
+    gap: 0.6rem;
+    margin: 0.6rem;
+  }
+  
+  .card__img {
+    height: 8rem;
+  }
+  
+  .card__title {
+    font-size: 0.9rem;
+  }
+  
+  .card__description {
+    font-size: 0.7rem;
+    display: none;
+  }
+  
+  .card__price {
+    font-size: 1rem;
+  }
+  
+  .card__btn {
+    font-size: 0.7rem;
+    padding-top: 0.4rem;
+    margin-top: 0.4rem;
+  }
+}
+
+/* شاشات أفقية */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .wrapper {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin: 0.8rem;
+  }
+  
+  .card__img {
+    height: 8rem;
+  }
+  
+  .card__description {
+    display: none;
+  }
+}
+
+/* منع خروج الصورة عن الإطار */
+.el-wrapper .box-up,
+.product-image-wrapper,
+.card {
+  overflow: hidden;
+}
+
+/* جعل الصورة منضبطة داخل الإطار */
+.el-wrapper .img,
+.card__img,
+.product-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ===== رسالة الإشعار ===== */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ===== للهواتف ===== */
+@media (max-width: 768px) {
+  .notification {
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px;
+    font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  }
+}

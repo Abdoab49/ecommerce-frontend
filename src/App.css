@@ -1,0 +1,16 @@
+/* App.css - خلفية سوداء */
+.App {
+  text-align: center;
+  background-color: #000000 !important;
+  min-height: 100vh;
+}
+
+/* إخفاء النجوم نهائياً */
+.container, #stars, #stars:after {
+  display: none !important;
+}
+
+/* أي عنصر آخر */
+* {
+  background-color: transparent;
+}

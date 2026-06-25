@@ -1,0 +1,365 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+:root {
+  --first-color: #ffffff;
+  --second-color: #ffffff;
+  --third-color: #ffffff;
+  --forth-color: #ffffff;
+  --accent-color: #000000;
+  --dark-color: #000000;
+
+  --body-font: "Open Sans";
+  --h1-font-size: 1.5rem;
+  --h3-font-size: 1rem;
+  --normal-font-size: 0.938rem;
+  --smaller-font-size: 0.75rem;
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --h1-font-size: 2rem;
+    --normal-font-size: 1rem;
+    --smaller-font-size: 0.813rem;
+  }
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 2rem 0 0 0;
+  background-color: #fff;
+  color: var(--dark-color);
+  font-family: var(--body-font);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  padding: 2rem 0;
+}
+
+.bd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  max-width: 1000px;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  align-items: center;
+  gap: 2rem;
+}
+
+.title-shop {
+  position: relative;
+  margin: 0 2.5rem;
+}
+
+.title-shop::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 72px;
+  height: 2px;
+  background-color: var(--dark-color);
+  margin-left: 0.25rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.card:hover .card-name {
+  left: 0;
+}
+
+.card:hover .card-img {
+  transform: rotate(30deg);
+  margin-left: 3.5rem;
+}
+
+.card:hover .card-prices {
+  margin-left: 3.5rem;
+  padding: 0 1.5rem;
+}
+
+article:nth-child(1) {
+  background-color: var(--first-color);
+}
+article:nth-child(2) {
+  background-color: var(--second-color);
+}
+article:nth-child(3) {
+  background-color: var(--third-color);
+}
+article:nth-child(4) {
+  background-color: var(--forth-color);
+}
+
+.card-img {
+  width: 180px;
+  height: auto;
+  padding: 3rem 0;
+  transition: 0.5s;
+}
+
+.card-name {
+  position: absolute;
+  left: -25%;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  background-color: var(--dark-color);
+  color: #fff;
+  font-weight: bold;
+  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-name p {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  margin: 0;
+  text-align: center;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  color: var(--dark-color);
+}
+
+.card-icon:hover {
+  color: var(--accent-color);
+}
+
+.card-prices {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.card-price {
+  display: block;
+  text-align: center;
+}
+
+.card-price-before {
+  font-size: var(--smaller-font-size);
+  color: var(--accent-color);
+  margin-bottom: 0.25rem;
+  text-decoration: line-through;
+}
+
+.card-price-now {
+  font-size: var(--h3-font-size);
+  font-weight: bold;
+}
+
+@media screen and (min-width: 1200px) {
+  body {
+    margin: 3rem 0 0 0;
+  }
+
+  .title-shop {
+    margin: 0.5rem;
+  }
+
+  .bd-grid {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* تصغير حجم البطاقات */
+.card {
+  padding: 0.8rem 1rem;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+/* تصغير حجم الصورة */
+.card-img {
+  width: 120px;
+  padding: 1rem 0;
+}
+
+/* تصغير حجم النص العمودي */
+.card-name {
+  width: 40px;
+}
+
+.card-name p {
+  font-size: 10px;
+}
+
+/* تصغير حجم السعر */
+.card-price-now {
+  font-size: 0.85rem;
+}
+
+.card-price-before {
+  font-size: 0.65rem;
+}
+
+/* تصغير حجم الأيقونات */
+.card-icon {
+  font-size: 1.2rem;
+}
+
+/* تصغير المسافات بين العناصر */
+.bd-grid {
+  gap: 1rem;
+}
+
+/* ===== MEDIA QUERIES للهواتف: 2 كاردات تحت 2 ===== */
+
+/* للشاشات المتوسطة (تابلت) */
+@media screen and (max-width: 991px) {
+  .bd-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .card {
+    max-width: 220px;
+  }
+  
+  .card-img {
+    width: 100px;
+  }
+  
+  .card-name {
+    width: 35px;
+  }
+  
+  .card-name p {
+    font-size: 9px;
+  }
+}
+
+/* للهواتف (أقل من 768px) - 2 كاردات في الصف */
+@media screen and (max-width: 768px) {
+  .bd-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+  
+  .card {
+    max-width: 100% !important;
+    padding: 0.6rem !important;
+  }
+  
+  .card-img {
+    width: 80px !important;
+    padding: 0.5rem 0 !important;
+  }
+  
+  .card-name {
+    width: 30px !important;
+  }
+  
+  .card-name p {
+    font-size: 8px !important;
+  }
+  
+  .card-price-now {
+    font-size: 0.75rem !important;
+  }
+  
+  .card-price-before {
+    font-size: 0.6rem !important;
+  }
+  
+  .card-icon {
+    font-size: 1rem !important;
+  }
+  
+  .title-shop {
+    margin: 0 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .title-shop::after {
+    width: 40px;
+  }
+}
+
+/* للهواتف الصغيرة (أقل من 550px) */
+@media screen and (max-width: 550px) {
+  .bd-grid {
+    gap: 8px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+  }
+  
+  .card {
+    padding: 0.5rem !important;
+  }
+  
+  .card-img {
+    width: 70px !important;
+  }
+  
+  .card-name {
+    width: 25px !important;
+  }
+  
+  .card-name p {
+    font-size: 7px !important;
+  }
+  
+  .card-price-now {
+    font-size: 0.7rem !important;
+  }
+  
+  .card-price-before {
+    font-size: 0.55rem !important;
+  }
+}
+
+/* للهواتف الصغيرة جداً (أقل من 400px) */
+@media screen and (max-width: 400px) {
+  .bd-grid {
+    gap: 6px !important;
+  }
+  
+  .card-img {
+    width: 60px !important;
+  }
+  
+  .card-price-now {
+    font-size: 0.65rem !important;
+  }
+  
+  .card-name {
+    width: 22px !important;
+  }
+  
+  .card-name p {
+    font-size: 6px !important;
+  }
+}

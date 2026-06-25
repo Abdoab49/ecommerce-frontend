@@ -1,0 +1,260 @@
+/* HotSaleProduct.css */
+.hot-sale-card {
+  width: 350px;
+  background: #f5f5f5;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 25px;
+  text-align: center;
+  font-family: 'Open Sans Condensed', sans-serif;
+  margin: 50px auto;
+  position: relative;
+}
+
+/* العنوان */
+.title {
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 30px;
+  color: #23211f;
+  margin-bottom: 5px;
+}
+
+.desc {
+  font-size: 17px;
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+
+/* السلايدر */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.slider-image {
+  width: 260px;
+  overflow: hidden;
+}
+
+.slider-image img {
+  width: 100%;
+  margin: -60px 0 -40px;
+}
+
+.slider-btn {
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s;
+}
+
+.slider-btn:hover {
+  background: #ff3100;
+  transform: scale(1.05);
+}
+
+/* نقاط التصفح */
+.dots-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dot.active {
+  transform: scale(1.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* ====== السعر والزر في نفس الخط ====== */
+.cta-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: 900;
+  transition: color 0.3s;
+  margin: 0;
+}
+
+/* ====== الزر btn-17 مع تصغير الحجم ====== */
+.btn-17,
+.btn-17 *,
+.btn-17 :after,
+.btn-17 :before,
+.btn-17:after,
+.btn-17:before {
+  border: 0 solid;
+  box-sizing: border-box;
+}
+
+.btn-17 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: button;
+  background-color: #000;
+  background-image: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 80%;
+  font-weight: 900;
+  line-height: 1.4;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0;
+  text-transform: uppercase;
+  border-radius: 99rem;
+  border-width: 2px;
+  padding: 0.5rem 2rem;
+  z-index: 0;
+  overflow: hidden;
+  position: relative;
+  float: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-17:disabled {
+  cursor: default;
+}
+
+.btn-17:-moz-focusring {
+  outline: auto;
+}
+
+.btn-17 svg {
+  display: block;
+  vertical-align: middle;
+}
+
+.btn-17 [hidden] {
+  display: none;
+}
+
+.btn-17 .text-container {
+  display: block;
+  mix-blend-mode: difference;
+  overflow: hidden;
+  position: relative;
+}
+
+.btn-17 .text {
+  display: block;
+  position: relative;
+}
+
+.btn-17:hover .text {
+  -webkit-animation: move-up-alternate 0.3s forwards;
+  animation: move-up-alternate 0.3s forwards;
+}
+
+@-webkit-keyframes move-up-alternate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(80%);
+  }
+  51% {
+    transform: translateY(-80%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes move-up-alternate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(80%);
+  }
+  51% {
+    transform: translateY(-80%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.btn-17:after,
+.btn-17:before {
+  --skew: 0.2;
+  background: #fff;
+  content: "";
+  display: block;
+  height: 102%;
+  left: calc(-50% - 50% * var(--skew));
+  pointer-events: none;
+  position: absolute;
+  top: -104%;
+  transform: skew(calc(150deg * var(--skew))) translateY(var(--progress, 0));
+  transition: transform 0.2s ease;
+  width: 100%;
+}
+
+.btn-17:after {
+  --progress: 0%;
+  left: calc(50% + 50% * var(--skew));
+  top: 102%;
+  z-index: -1;
+}
+
+.btn-17:hover:before {
+  --progress: 100%;
+}
+
+.btn-17:hover:after {
+  --progress: -102%;
+}
+
+/* عند الشاشات الصغيرة */
+@media (max-width: 400px) {
+  .hot-sale-card {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .slider-image {
+    width: 200px;
+  }
+  
+  .cta-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .price {
+    text-align: center;
+  }
+  
+  .btn-17 {
+    width: 100%;
+    padding: 0.4rem 1.5rem;
+  }
+}

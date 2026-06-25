@@ -1,0 +1,725 @@
+/* ===== IMPORT FONT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #ffffff;
+  padding: 30px;
+}
+
+.productWrapper {
+  display: flex;
+  gap: 60px;
+  max-width: 1200px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* ===== IMAGE SECTION ===== */
+.imageSection {
+  flex: 1;
+  min-width: 0;
+}
+
+.imageFrame {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.06);
+}
+
+.productImage {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* ===== NAVIGATION ARROWS ===== */
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a1a2e;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.prevBtn:hover,
+.nextBtn:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.prevBtn {
+  left: 10px;
+}
+
+.nextBtn {
+  right: 10px;
+}
+
+/* ===== THUMBNAILS ===== */
+.thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.thumbnail {
+  flex: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background: #ffffff;
+  transition: border 0.2s;
+  aspect-ratio: 1 / 1;
+  max-width: 80px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 4px;
+}
+
+.thumbnail.active {
+  border-color: #000000;
+}
+
+.thumbnail:hover {
+  border-color: #ccc;
+}
+
+/* ===== INFO SECTION ===== */
+.infoSection {
+  flex: 1;
+  padding: 10px 0;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.brand {
+  color: #000000;
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 400;
+  color: #1a1a2e;
+  margin-bottom: 2px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* ===== PRICE ===== */
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 2px;
+}
+
+.currentPrice {
+  font-size: 32px;
+  font-weight: 400;
+  color: #1a1a2e;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+}
+
+.originalPrice {
+  font-size: 18px;
+  color: #adb5bd;
+  text-decoration: line-through;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.discount {
+  background: #fde8e8;
+  color: #000000;
+  font-weight: 400;
+  padding: 2px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.taxInfo {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 0;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.dutyInfo {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 24px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* ===== SIZE SECTION ===== */
+.sizeSection {
+  margin-bottom: 24px;
+}
+
+.sizeLabel {
+  font-size: 16px;
+  font-weight: 400;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+}
+
+.sizeOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sizeBtn {
+  min-width: 60px;
+  height: 42px;
+  padding: 0 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1a1a2e;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.sizeBtn:hover {
+  border-color: #000000;
+  background: #f5edff;
+}
+
+.sizeBtn.active {
+  border-color: #000000;
+  background: #000000;
+  color: #ffffff;
+}
+
+.errorMsg {
+  color: #000000;
+  font-size: 14px;
+  margin-top: 8px;
+  font-weight: 400;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   ===== ADD TO CART BUTTON (NEW) =====
+   ============================================ */
+
+.cartRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.addToCart {
+  --background-default: #000000;
+  --background-hover: #000000;
+  --background-scale: 1;
+  --text-color: #fff;
+  --text-o: 1;
+  --text-x: 12px;
+  --cart: #fff;
+  --cart-x: -48px;
+  --cart-y: 0px;
+  --cart-rotate: 0deg;
+  --cart-scale: .75;
+  --cart-clip: 0px;
+  --cart-clip-x: 0px;
+  --cart-tick-offset: 10px;
+  --cart-tick-color: #45CE30;
+  --shirt-y: -16px;
+  --shirt-scale: 0;
+  --shirt-color: #000000;
+  --shirt-logo: #fff;
+  --shirt-second-y: 24px;
+  --shirt-second-color: #fff;
+  --shirt-second-logo: #17171B;
+  
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  outline: none;
+  background: none;
+  border: none;
+  padding: 12px 0;
+  width: 200px;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  font-family: "Bebas Neue", sans-serif;
+  transition: all 0.3s;
+}
+
+.addToCart:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 5px;
+  transition: background .25s;
+  background: #000000;
+  transform: scaleX(1);
+}
+
+.addToCart:not(.active):hover:before {
+  background: #000000;
+}
+
+.addToCart span {
+  display: block;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #fff;
+  letter-spacing: 1.5px;
+  opacity: var(--text-o);
+  transform: translateX(var(--text-x)) translateZ(0);
+}
+
+.addToCart svg {
+  display: block;
+  width: var(--svg-width, 24px);
+  height: var(--svg-height, 24px);
+  position: var(--svg-position, relative);
+  left: var(--svg-left, 0);
+  top: var(--svg-top, 0);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.addToCart svg path {
+  fill: var(--svg-fill, none);
+  stroke: var(--svg-stroke, none);
+  stroke-width: var(--svg-stroke-width, 2);
+}
+
+.addToCart .morph {
+  --svg-width: 64px;
+  --svg-height: 13px;
+  --svg-left: 50%;
+  --svg-top: -12px;
+  --svg-position: absolute;
+  --svg-fill: var(--background, var(--background-default));
+  transition: fill .25s;
+  pointer-events: none;
+  margin-left: -32px;
+}
+
+.addToCart .shirt,
+.addToCart .cart {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+}
+
+.addToCart .shirt {
+  margin: -12px 0 0 -12px;
+  top: 0;
+  transform-origin: 50% 100%;
+  transform: translateY(var(--shirt-y)) scale(var(--shirt-scale));
+}
+
+.addToCart .shirt svg {
+  --svg-fill: var(--shirt-color);
+}
+
+.addToCart .shirt svg g {
+  --svg-fill: var(--svg-g-fill, var(--shirt-logo));
+}
+
+.addToCart .shirt svg.second {
+  --svg-fill: var(--shirt-second-color);
+  --svg-g-fill: var(--shirt-second-logo);
+  --svg-position: absolute;
+  clip-path: polygon(0 var(--shirt-second-y), 24px var(--shirt-second-y), 24px 24px, 0 24px);
+}
+
+.addToCart .cart {
+  --svg-width: 36px;
+  --svg-height: 26px;
+  --svg-stroke: var(--cart);
+  top: 10px;
+  margin-left: -18px;
+  transform: translate(var(--cart-x), var(--cart-y)) rotate(var(--cart-rotate)) scale(var(--cart-scale)) translateZ(0);
+}
+
+.addToCart .cart:before {
+  content: '';
+  display: block;
+  width: 22px;
+  height: 12px;
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  background: var(--cart);
+  clip-path: polygon(0 0, 22px 0, calc(22px - var(--cart-clip-x)) var(--cart-clip), var(--cart-clip-x) var(--cart-clip));
+}
+
+.addToCart .cart path.wheel {
+  --svg-stroke-width: 1.5;
+}
+
+.addToCart .cart path.tick {
+  --svg-stroke: var(--cart-tick-color);
+  stroke-dasharray: 10px;
+  stroke-dashoffset: var(--cart-tick-offset);
+}
+
+.addToCart.active {
+  pointer-events: none;
+}
+
+.addToCart.active:before {
+  background: #000000;
+}
+
+/* ===== RELATED PRODUCTS ===== */
+.relatedSection {
+  max-width: 1200px;
+  width: 100%;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 2px solid #e8e8e8;
+}
+
+.relatedTitle {
+  font-size: 28px;
+  font-weight: 400;
+  color: #1a1a2e;
+  margin-bottom: 24px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.relatedCard {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.relatedCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.relatedImage {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f8f9fa;
+  padding: 16px;
+}
+
+.relatedImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.relatedCard:hover .relatedImage img {
+  transform: scale(1.05);
+}
+
+.relatedInfo {
+  padding: 16px;
+  text-align: center;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.relatedName {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 2px;
+  color: #1a1a2e;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.relatedBrand {
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 4px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.relatedPrice {
+  font-size: 18px;
+  font-weight: 400;
+  color: #000000;
+  display: block;
+  margin-bottom: 10px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.relatedBtn {
+  width: 100%;
+  padding: 8px;
+  background: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+}
+
+.relatedBtn:hover {
+  background: #16bf78;
+}
+
+/* ============================================
+   ===== MEDIA QUERIES =====
+   ============================================ */
+
+@media (max-width: 1199px) {
+  .productWrapper {
+    gap: 40px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 991px) {
+  .productWrapper {
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .imageSection {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .infoSection {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .currentPrice {
+    font-size: 28px;
+  }
+
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .productWrapper {
+    gap: 24px;
+  }
+
+  .imageFrame {
+    padding: 12px;
+  }
+
+  .prevBtn,
+  .nextBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .thumbnails {
+    gap: 8px;
+  }
+
+  .thumbnail {
+    max-width: 55px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .currentPrice {
+    font-size: 26px;
+  }
+
+  .cartRow {
+    flex-direction: column;
+  }
+
+  .addToCart {
+    width: 100%;
+  }
+
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 575px) {
+  .container {
+    padding: 12px 10px;
+  }
+
+  .productWrapper {
+    gap: 16px;
+  }
+
+  .imageFrame {
+    padding: 8px;
+  }
+
+  .prevBtn,
+  .nextBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .thumbnails {
+    gap: 6px;
+  }
+
+  .thumbnail {
+    max-width: 42px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .currentPrice {
+    font-size: 24px;
+  }
+
+  .sizeBtn {
+    min-width: 42px;
+    height: 32px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+
+  .addToCart {
+    height: 50px;
+    font-size: 14px;
+  }
+
+  .relatedGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .relatedTitle {
+    font-size: 22px;
+  }
+}
+
+/* ===== IMAGE COUNTER ===== */
+.imageCounter {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .imageCounter {
+    bottom: 12px;
+    right: 12px;
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+}
+

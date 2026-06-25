@@ -1,0 +1,86 @@
+/* نفس إعدادات Popular.css مع تغيير الأسماء */
+.newcollections {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    background: #ffffff;
+}
+
+.newcollections-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.newcollections-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #111;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.newcollections-header p {
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+}
+
+.newcollections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 35px;
+    justify-items: center;
+    align-items: stretch;
+}
+
+/* تأثير hover على الشبكة */
+.newcollections-grid > * {
+    transition: all 0.3s ease;
+}
+
+/* للشاشات المتوسطة */
+@media (max-width: 992px) {
+    .newcollections {
+        padding: 50px 20px;
+    }
+    
+    .newcollections-header h1 {
+        font-size: 28px;
+    }
+    
+    .newcollections-grid {
+        gap: 25px;
+    }
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .newcollections {
+        padding: 40px 15px;
+    }
+    
+    .newcollections-header h1 {
+        font-size: 24px;
+    }
+    
+    .newcollections-header p {
+        font-size: 14px;
+    }
+    
+    .newcollections-grid {
+        gap: 20px;
+    }
+}
+
+/* للجوال */
+@media (max-width: 600px) {
+    .newcollections-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+    
+    .newcollections {
+        padding: 30px 15px;
+    }
+}

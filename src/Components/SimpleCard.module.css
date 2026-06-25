@@ -1,0 +1,428 @@
+/* ============================================ */
+/* التنسيق الأساسي (لجميع الشاشات) */
+/* ============================================ */
+
+.cardsWrapper {
+  width: 100%;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 0 0 250px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cardImgTop {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.cardBody {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  margin: 0 0 8px 0;
+  color: #000000;
+}
+
+.cardText {
+  font-size: 0.85rem;
+  color: #000000;
+  margin: 0 0 8px 0;
+}
+
+.cardPrice {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000000;
+  margin: 10px 0;
+}
+
+.btn {
+  width: 100%;
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease;
+  margin-top: auto;
+}
+
+.btn:hover {
+  background-color: #008be7;
+}
+
+/* ============================================ */
+/* 💻 المقاسات الكبيرة (Desktop & Laptop) */
+/* 4 بطاقات جنب بعض */
+/* ============================================ */
+
+/* من 992px إلى 1199px */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .cardsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; /* منع الالتفاف - 4 بطاقات جنب بعض */
+    gap: 20px;
+    overflow-x: auto; /* في حالة ضيق الشاشة جداً */
+    justify-content: center;
+  }
+  
+  .card {
+    flex: 0 0 23%; /* 4 بطاقات متساوية مع مسافات */
+    min-width: 200px;
+  }
+  
+  .cardImgTop {
+    height: 180px;
+  }
+}
+
+/* من 1200px إلى 1919px */
+@media (min-width: 1200px) and (max-width: 1919px) {
+  .cardsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; /* 4 بطاقات جنب بعض */
+    gap: 25px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    flex: 0 0 280px; /* عرض ثابت لكل بطاقة */
+  }
+  
+  .cardImgTop {
+    height: 200px;
+  }
+}
+
+/* شاشات 4K فأكبر */
+@media (min-width: 1920px) {
+  .cardsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; /* 4 بطاقات جنب بعض */
+    gap: 30px;
+    justify-content: center;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    flex: 0 0 320px; /* عرض ثابت أكبر */
+  }
+  
+  .cardImgTop {
+    height: 240px;
+  }
+  
+  .cardTitle {
+    font-size: 1.3rem;
+  }
+  
+  .cardText {
+    font-size: 1rem;
+  }
+  
+  .cardPrice {
+    font-size: 1.3rem;
+  }
+  
+  .btn {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+}
+
+/* ============================================ */
+/* 💻 الشاشات الكبيرة (Laptop - Desktop) */
+/* ============================================ */
+@media (min-width: 1200px) and (max-width: 1919px) {
+  .cardsContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 25px;
+  }
+  
+  .card {
+    flex: 0 0 280px;
+  }
+  
+  .cardImgTop {
+    height: 200px;
+  }
+}
+
+/* ============================================ */
+/* 🖥️ الشاشات المتوسطة (Small Desktop - Laptop) */
+/* ============================================ */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .cardsContainer {
+    gap: 20px;
+  }
+  
+  .card {
+    flex: 0 0 calc(25% - 20px); /* 4 بطاقات */
+    min-width: 200px;
+  }
+  
+  .cardImgTop {
+    height: 180px;
+  }
+}
+
+/* ============================================ */
+/* 📟 الأجهزة اللوحية (Tablets - Landscape) */
+/* ============================================ */
+@media (min-width: 768px) and (max-width: 991px) {
+  .cardsContainer {
+    gap: 15px;
+  }
+  
+  .card {
+    flex: 0 0 calc(33.333% - 15px); /* 3 بطاقات في السطر */
+    min-width: 180px;
+  }
+  
+  .cardImgTop {
+    height: 160px;
+  }
+  
+  .cardTitle {
+    font-size: 0.95rem;
+  }
+  
+  .cardText {
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================ */
+/* 📱 الأجهزة اللوحية الصغيرة (Tablets - Portrait) */
+/* ============================================ */
+@media (min-width: 576px) and (max-width: 767px) {
+  .cardsContainer {
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 15px); /* 2 بطاقات في السطر */
+    min-width: 180px;
+  }
+  
+  .cardImgTop {
+    height: 160px;
+  }
+  
+  .cardTitle {
+    font-size: 0.9rem;
+  }
+  
+  .cardText {
+    font-size: 0.8rem;
+  }
+  
+  .cardPrice {
+    font-size: 1rem;
+  }
+  
+  .btn {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+}
+
+/* ============================================ */
+/* 📱 الهواتف الكبيرة (Large Phones) */
+/* ============================================ */
+@media (min-width: 480px) and (max-width: 575px) {
+  .cardsContainer {
+    gap: 12px;
+    padding: 15px;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 12px); /* 2 بطاقات في السطر */
+    min-width: 170px;
+  }
+  
+  .cardImgTop {
+    height: 150px;
+  }
+  
+  .cardTitle {
+    font-size: 0.9rem;
+  }
+  
+  .cardText {
+    font-size: 0.75rem;
+  }
+  
+  .cardPrice {
+    font-size: 1rem;
+  }
+  
+  .btn {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+  
+  .cardBody {
+    padding: 12px;
+  }
+}
+
+/* ============================================ */
+/* 📱 الهواتف المتوسطة (Medium Phones) */
+/* ============================================ */
+@media (min-width: 375px) and (max-width: 479px) {
+  .cardsContainer {
+    gap: 10px;
+    padding: 12px;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 10px); /* 2 بطاقات في السطر */
+    min-width: 150px;
+  }
+  
+  .cardImgTop {
+    height: 130px;
+  }
+  
+  .cardTitle {
+    font-size: 0.85rem;
+  }
+  
+  .cardText {
+    font-size: 0.7rem;
+  }
+  
+  .cardPrice {
+    font-size: 0.9rem;
+  }
+  
+  .btn {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+  }
+  
+  .cardBody {
+    padding: 10px;
+  }
+}
+
+/* ============================================ */
+/* 📱 الهواتف الصغيرة (Small Phones - iPhone SE, etc.) */
+/* ============================================ */
+@media (min-width: 320px) and (max-width: 374px) {
+  .cardsContainer {
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 8px); /* 2 بطاقات في السطر */
+    min-width: 130px;
+  }
+  
+  .cardImgTop {
+    height: 110px;
+  }
+  
+  .cardTitle {
+    font-size: 0.75rem;
+  }
+  
+  .cardText {
+    font-size: 0.65rem;
+  }
+  
+  .cardPrice {
+    font-size: 0.85rem;
+    margin: 5px 0;
+  }
+  
+  .btn {
+    font-size: 0.65rem;
+    padding: 4px 6px;
+  }
+  
+  .cardBody {
+    padding: 8px;
+  }
+}
+
+/* ============================================ */
+/* 📱 الهواتف الصغيرة جداً (Very Small Phones - < 320px) */
+/* ============================================ */
+@media (max-width: 319px) {
+  .cardsContainer {
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 8px); /* 2 بطاقات في السطر */
+    min-width: 120px;
+  }
+  
+  .cardImgTop {
+    height: 100px;
+  }
+  
+  .cardTitle {
+    font-size: 0.7rem;
+  }
+  
+  .cardText {
+    font-size: 0.6rem;
+  }
+  
+  .cardPrice {
+    font-size: 0.75rem;
+    margin: 5px 0;
+  }
+  
+  .btn {
+    font-size: 0.6rem;
+    padding: 4px 5px;
+  }
+  
+  .cardBody {
+    padding: 6px;
+  }
+}

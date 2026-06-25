@@ -1,0 +1,364 @@
+/* Body & Container */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+    padding: 40px 20px; /* زيادة padding */
+    min-height: 100vh;
+    transform: scale(1.05); /* تكبير الحاوية بنسبة 5% */
+    transform-origin: center;
+}
+
+hr {
+    height: 2px; /* زيادة سمك الخط */
+    background-color: rgba(16, 86, 82, 0.5);
+    border: none;
+    margin: 20px 0; /* زيادة المسافة */
+}
+
+.card {
+    width: 550px; /* تكبير العرض من 450px إلى 550px */
+    max-width: 100%;
+    background: rgb(255, 250, 235);
+    box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    width: 100%;
+    height: 65px; /* زيادة الارتفاع من 50px */
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 25px; /* زيادة padding */
+    border-bottom: 2px solid rgba(16, 86, 82, .75);
+    font-weight: 700;
+    font-size: 18px; /* تكبير الخط من 14px */
+    color: #000000;
+    letter-spacing: 1.5px;
+}
+
+/* Cart */
+.cart {
+    border-radius: 19px 19px 0px 0px;
+}
+
+.cart .steps {
+    display: flex;
+    flex-direction: column;
+    padding: 25px; /* زيادة padding من 20px */
+    max-height: 600px; /* زيادة الارتفاع من 500px */
+    overflow-y: auto;
+}
+
+.cart .steps .step {
+    display: grid;
+    gap: 15px; /* زيادة المسافة من 10px */
+}
+
+.cart .steps .step span {
+    font-size: 16px; /* تكبير الخط من 13px */
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 10px; /* زيادة المسافة */
+    display: block;
+}
+
+.cart .steps .step p {
+    font-size: 14px; /* تكبير الخط من 11px */
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.5; /* تحسين قراءة النص */
+}
+
+/* Cart Items */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0; /* زيادة padding */
+    border-bottom: 1px solid rgba(16, 86, 82, 0.2);
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-details {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* زيادة المسافة من 12px */
+    flex: 1;
+}
+
+.cart-item-image {
+    width: 70px; /* تكبير العرض من 50px */
+    height: 85px; /* تكبير الارتفاع من 60px */
+    object-fit: cover;
+    border-radius: 10px; /* زيادة التقريب */
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-name {
+    font-size: 15px; /* تكبير الخط من 12px */
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 6px;
+}
+
+.cart-item-price {
+    font-size: 13px; /* تكبير الخط من 11px */
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.cart-item-remove {
+    background: none;
+    border: none;
+    color: #ff5a5a;
+    font-size: 13px; /* تكبير الخط من 11px */
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 15px; /* زيادة padding */
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.cart-item-remove:hover {
+    background: rgba(255, 90, 90, 0.1);
+    transform: scale(1.05);
+}
+
+/* Promo */
+.promo form {
+    display: grid;
+    grid-template-columns: 1fr 100px; /* تكبير عرض الزر من 80px */
+    gap: 15px; /* زيادة المسافة من 10px */
+    padding: 0px;
+}
+
+.input_field {
+    width: auto;
+    height: 45px; /* زيادة الارتفاع من 36px */
+    padding: 0 0 0 15px; /* زيادة padding */
+    border-radius: 8px; /* زيادة التقريب */
+    outline: none;
+    border: 1px solid rgb(16, 86, 82);
+    background-color: rgb(251, 243, 228);
+    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+    font-size: 14px; /* تكبير الخط من 12px */
+}
+
+.input_field:focus {
+    border: 1px solid transparent;
+    box-shadow: 0px 0px 0px 2px rgb(16, 86, 82);
+    background-color: rgb(201, 193, 178);
+}
+
+.input_field::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 13px;
+}
+
+.promo form button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px; /* زيادة padding */
+    gap: 10px;
+    width: 100%;
+    height: 45px; /* زيادة الارتفاع من 36px */
+    background: rgba(16, 86, 82, .75);
+    box-shadow: 0px 0.5px 0.5px #F3D2C9, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+    border-radius: 8px;
+    border: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px; /* تكبير الخط من 12px */
+    line-height: 15px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.promo form button:hover {
+    background: rgba(16, 86, 82, 1);
+    transform: translateY(-1px);
+}
+
+/* Checkout */
+.payments .details {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 0px;
+    gap: 12px; /* زيادة المسافة من 8px */
+}
+
+.payments .details span:nth-child(odd) {
+    font-size: 15px; /* تكبير الخط من 12px */
+    font-weight: 600;
+    color: #000000;
+    margin: auto auto auto 0;
+}
+
+.payments .details span:nth-child(even) {
+    font-size: 16px; /* تكبير الخط من 13px */
+    font-weight: 600;
+    color: #000000;
+    margin: auto 0 auto auto;
+}
+
+/* Checkout Card */
+.checkout {
+    border-radius: 0px 0px 19px 19px;
+    overflow: hidden;
+}
+
+.checkout .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 25px; /* زيادة padding */
+    background-color: rgba(16, 86, 82, 0.15);
+    gap: 20px; /* زيادة المسافة */
+}
+
+.price {
+    position: relative;
+    font-size: 32px; /* تكبير الخط من 24px */
+    color: #2B2B2F;
+    font-weight: 900;
+}
+
+.checkout .checkout-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 180px; /* تكبير العرض من 150px */
+    height: 52px; /* تكبير الارتفاع من 42px */
+    background: rgba(16, 86, 82, 0.85);
+    box-shadow: 0px 0.5px 0.5px rgba(16, 86, 82, .75), 0px 1px 0.5px rgba(16, 86, 82, .75);
+    border-radius: 10px;
+    border: 1px solid rgb(16, 86, 82);
+    color: #ffffff;
+    font-size: 16px; /* تكبير الخط من 13px */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.checkout .checkout-btn:hover {
+    background: rgba(16, 86, 82, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 86, 82, 0.3);
+}
+
+.checkout .checkout-btn:active {
+    transform: translateY(0);
+}
+
+/* Scrollbar styling */
+.cart .steps::-webkit-scrollbar {
+    width: 8px; /* زيادة العرض من 6px */
+}
+
+.cart .steps::-webkit-scrollbar-track {
+    background: rgba(16, 86, 82, 0.1);
+    border-radius: 10px;
+}
+
+.cart .steps::-webkit-scrollbar-thumb {
+    background: rgba(16, 86, 82, 0.5);
+    border-radius: 10px;
+}
+
+.cart .steps::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 86, 82, 0.8);
+}
+
+/* Responsive Design */
+@media (max-width: 650px) {
+    .container {
+        transform: scale(1);
+        padding: 20px 10px;
+    }
+    
+    .card {
+        width: 95%;
+    }
+    
+    .cart .steps {
+        padding: 18px;
+        max-height: 450px;
+    }
+    
+    .checkout .footer {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 15px 20px;
+    }
+    
+    .checkout .checkout-btn {
+        width: 100%;
+    }
+    
+    .price {
+        text-align: center;
+    }
+    
+    .promo form {
+        grid-template-columns: 1fr;
+    }
+    
+    .promo form button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-item-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .cart-item-image {
+        width: 55px;
+        height: 70px;
+    }
+    
+    .cart-item-remove {
+        padding: 6px 12px;
+    }
+    
+    .title {
+        font-size: 16px;
+        height: 55px;
+    }
+    
+    .price {
+        font-size: 28px;
+    }
+}
