@@ -136,8 +136,8 @@ const Cart = () => {
       }));
 
       console.log('📦 Order Items:', orderItems);
-
-      const response = await fetch('https://abcd1234.ngrok-free.dev/api/orders', {
+      
+      const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
