@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest =====
+  // ===== ✅ زر Add Manifest (معدل - يحفظ في localStorage مباشرة) =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -137,7 +137,7 @@ const Cart = () => {
 
       console.log('📦 Order Items:', orderItems);
 
-      // ✅ ✅ ✅ حفظ الطلب مباشرة في localStorage
+      // ✅ ✅ ✅ حفظ الطلب مباشرة في localStorage (بدون API)
       const order = {
         id: Date.now().toString(),
         items: orderItems,
