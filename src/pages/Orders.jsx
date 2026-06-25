@@ -1,8 +1,6 @@
 // src/pages/Orders.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllOrders } from '../api';
-import { getProductPrice } from '../Data/prices';
 import './Orders.css';
 
 const Orders = () => {
@@ -14,27 +12,11 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await getAllOrders();
+        // ✅ جلب الطلبات من API
+        const response = await fetch('/api/orders');
+        const data = await response.json();
         console.log('📦 Orders:', data);
-        
-        // ✅ تحديث الأسعار من prices.js
-        const updatedOrders = data.map(order => ({
-          ...order,
-          items: order.items?.map(item => {
-            const priceData = getProductPrice(item.name);
-            return {
-              ...item,
-              price: priceData.new_price,
-              old_price: priceData.old_price
-            };
-          }),
-          totalAmount: order.items?.reduce((sum, item) => {
-            const priceData = getProductPrice(item.name);
-            return sum + (priceData.new_price * (item.quantity || 1));
-          }, 0) || order.totalAmount
-        }));
-        
-        setOrders(updatedOrders);
+        setOrders(data);
       } catch (err) {
         console.error('Error:', err);
         setError('Failed to load orders');
@@ -83,12 +65,11 @@ const Orders = () => {
 
       <div className="orders-list">
         {orders.map((order) => (
-          <div key={order._id} className="order-card">
-            {/* ===== HEADER ===== */}
+          <div key={order.id} className="order-card">
             <div className="order-header">
               <div className="order-id">
                 <span className="label">Order #</span>
-                <span className="value">{order._id?.slice(-8).toUpperCase()}</span>
+                <span className="value">{order.id.slice(-8).toUpperCase()}</span>
               </div>
               <div className="order-status">
                 <span className={`status-badge ${order.status}`}>
@@ -113,16 +94,9 @@ const Orders = () => {
               </div>
             </div>
 
-            {/* ===== ITEMS ===== */}
             <div className="order-items">
               {order.items?.map((item, index) => {
-                // ✅ الحصول على السعر من prices.js
-                const priceData = getProductPrice(item.name);
-                const displayPrice = priceData.new_price;
-                const displayOldPrice = priceData.old_price;
-                const itemTotal = displayPrice * (item.quantity || 1);
-                const oldTotal = displayOldPrice ? displayOldPrice * (item.quantity || 1) : null;
-
+                const itemTotal = item.price * (item.quantity || 1);
                 return (
                   <div key={index} className="order-item">
                     <div className="item-image">
@@ -139,34 +113,16 @@ const Orders = () => {
                       <div className="item-details">
                         <span className="item-qty">Qty: {item.quantity}</span>
                         {item.size && <span className="item-size">Size: {item.size}</span>}
-                        {displayOldPrice && displayOldPrice > displayPrice && (
-                          <span className="item-discount" style={{color: '#e53935', fontWeight: 'bold', marginLeft: '8px'}}>
-                            🎉 New Price!
-                          </span>
-                        )}
                       </div>
                     </div>
                     <div className="item-price">
-                      <span style={{fontWeight: 'bold', color: '#e53935'}}>
-                        {displayPrice} DH
-                      </span>
-                      {oldTotal && oldTotal !== itemTotal && (
-                        <span style={{ 
-                          fontSize: '12px', 
-                          color: '#999', 
-                          textDecoration: 'line-through',
-                          display: 'block'
-                        }}>
-                          {oldTotal} DH
-                        </span>
-                      )}
+                      <span>${itemTotal.toFixed(2)}</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* ===== SHIPPING INFO ===== */}
             <div className="order-shipping">
               <h4>📍 Shipping Details</h4>
               <div className="shipping-info-grid">
@@ -193,16 +149,10 @@ const Orders = () => {
               </div>
             </div>
 
-            {/* ===== TOTAL ===== */}
             <div className="order-footer">
               <div className="order-total">
                 <span className="total-label">Total</span>
-                <span className="total-value" style={{color: '#e53935'}}>
-                  {order.items?.reduce((sum, item) => {
-                    const priceData = getProductPrice(item.name);
-                    return sum + (priceData.new_price * (item.quantity || 1));
-                  }, 0)} DH
-                </span>
+                <span className="total-value">${order.totalAmount?.toFixed(2) || 0}</span>
               </div>
             </div>
           </div>
