@@ -1,399 +1,248 @@
+// src/api/index.js
+
 // ============================================
-//  API Service - ربط Frontend مع Backend
+//  📦 PRODUCTS API (بيانات محلية)
 // ============================================
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// ✅ بيانات المنتجات المحلية
+const localProducts = [
+  // ===== منتجات ShoeStore =====
+  { id: 1, name: 'NIKE', category: 'men', image: '/Assets/ShoeStore/tshirt1.png', price: 100, old_price: 150 },
+  { id: 2, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt2.png', price: 80, old_price: 130 },
+  { id: 3, name: 'T-shirt basketball', category: 'men', image: '/Assets/ShoeStore/tshirt3.png', price: 200, old_price: 300 },
+  { id: 4, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt4.png', price: 80, old_price: 130 },
+  { id: 5, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt5.png', price: 80, old_price: 130 },
+  { id: 6, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt6.png', price: 80, old_price: 130 },
+  { id: 7, name: 'T-shirt basketball', category: 'men', image: '/Assets/ShoeStore/tshirt7.png', price: 200, old_price: 300 },
+  { id: 8, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt8.png', price: 80, old_price: 130 },
+
+  // ===== منتجات MEN (كأس العالم) =====
+  { id: 45, name: 'MOROCCO', category: 'men', image: '/Assets/tshirt/tshirt1.png', price: 45, old_price: 70 },
+  { id: 46, name: 'ARGENTINA', category: 'men', image: '/Assets/tshirt/tshirt2.png', price: 45, old_price: 70 },
+  { id: 47, name: 'BRAZIL', category: 'men', image: '/Assets/tshirt/tshirt3.png', price: 45, old_price: 70 },
+  { id: 48, name: 'SPAIN', category: 'men', image: '/Assets/tshirt/tshirt4.png', price: 45, old_price: 70 },
+  { id: 49, name: 'FRANCE', category: 'men', image: '/Assets/tshirt/tshirt5.png', price: 45, old_price: 70 },
+  { id: 50, name: 'GERMANY', category: 'men', image: '/Assets/tshirt/tshirt6.png', price: 45, old_price: 70 },
+  { id: 51, name: 'ENGLAND', category: 'men', image: '/Assets/tshirt/tshirt7.png', price: 45, old_price: 70 },
+  { id: 52, name: 'ITALY', category: 'men', image: '/Assets/tshirt/tshirt8.png', price: 45, old_price: 70 },
+
+  // ===== منتجات WOMEN =====
+  { id: 9, name: 'Women Air Max', category: 'women', image: '/Assets/women/product1.png', price: 120, old_price: 160 },
+  { id: 10, name: 'Women Court', category: 'women', image: '/Assets/women/product2.png', price: 90, old_price: 130 },
+
+  // ===== منتجات KIDS =====
+  { id: 11, name: 'Kids Air Max', category: 'kid', image: '/Assets/kids/product1.png', price: 60, old_price: 90 },
+  { id: 12, name: 'Kids Court', category: 'kid', image: '/Assets/kids/product2.png', price: 50, old_price: 75 },
+];
 
 // ============================================
 //  📦 PRODUCTS API
 // ============================================
 
-// ✅ جلب جميع المنتجات
+// ✅ جلب جميع المنتجات (محلي)
 export const getProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products`);
-    if (!response.ok) throw new Error('Failed to fetch products');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
+  return localProducts;
 };
 
-// ✅ جلب منتج محدد
+// ✅ جلب منتج محدد (محلي)
 export const getProductById = async (id) => {
-  try {
-    const response = await fetch(`${API_URL}/products/${id}`);
-    if (!response.ok) throw new Error('Product not found');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching product:', error);
-    return null;
-  }
+  return localProducts.find(p => p.id === id) || null;
 };
 
-// ✅ إضافة منتج جديد (Admin فقط)
+// ✅ إضافة منتج جديد (محلي)
 export const addProduct = async (productData) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-      body: JSON.stringify(productData),
-    });
-    if (!response.ok) throw new Error('Failed to add product');
-    return await response.json();
-  } catch (error) {
-    console.error('Error adding product:', error);
-    return null;
-  }
+  const newProduct = { id: Date.now(), ...productData };
+  localProducts.push(newProduct);
+  return newProduct;
 };
 
-// ✅ تحديث منتج (Admin فقط)
+// ✅ تحديث منتج (محلي)
 export const updateProduct = async (id, productData) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-      body: JSON.stringify(productData),
-    });
-    if (!response.ok) throw new Error('Failed to update product');
-    return await response.json();
-  } catch (error) {
-    console.error('Error updating product:', error);
-    return null;
-  }
+  const index = localProducts.findIndex(p => p.id === id);
+  if (index === -1) return null;
+  localProducts[index] = { ...localProducts[index], ...productData };
+  return localProducts[index];
 };
 
-// ✅ حذف منتج (Admin فقط)
+// ✅ حذف منتج (محلي)
 export const deleteProduct = async (id) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-    if (!response.ok) throw new Error('Failed to delete product');
-    return await response.json();
-  } catch (error) {
-    console.error('Error deleting product:', error);
-    return null;
-  }
+  const index = localProducts.findIndex(p => p.id === id);
+  if (index === -1) return null;
+  localProducts.splice(index, 1);
+  return { success: true };
 };
 
 // ============================================
-//  👤 USERS API
+//  👤 USERS API (محلي)
 // ============================================
 
-// ✅ تسجيل مستخدم جديد
+// ✅ تسجيل مستخدم جديد (محلي)
 export const registerUser = async (userData) => {
-  try {
-    const response = await fetch(`${API_URL}/users/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    });
-    if (!response.ok) throw new Error('Registration failed');
-    const data = await response.json();
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data));
-    }
-    return data;
-  } catch (error) {
-    console.error('Error registering user:', error);
-    return null;
-  }
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const existingUser = users.find(u => u.email === userData.email);
+  if (existingUser) throw new Error('User already exists');
+  
+  const newUser = { id: Date.now(), ...userData };
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+  
+  const token = 'local-token-' + Date.now();
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(newUser));
+  return { token, ...newUser };
 };
 
-// ✅ تسجيل الدخول
+// ✅ تسجيل الدخول (محلي)
 export const loginUser = async (credentials) => {
-  try {
-    const response = await fetch(`${API_URL}/users/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
-    if (!response.ok) throw new Error('Login failed');
-    const data = await response.json();
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data));
-    }
-    return data;
-  } catch (error) {
-    console.error('Error logging in:', error);
-    return null;
-  }
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = users.find(u => u.email === credentials.email && u.password === credentials.password);
+  if (!user) throw new Error('Invalid credentials');
+  
+  const token = 'local-token-' + Date.now();
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+  return { token, ...user };
 };
 
-// ✅ تسجيل الخروج
+// ✅ تسجيل الخروج (محلي)
 export const logoutUser = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 };
 
-// ✅ جلب معلومات المستخدم
+// ✅ جلب معلومات المستخدم (محلي)
 export const getUserProfile = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('No token found');
-    
-    const response = await fetch(`${API_URL}/users/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) throw new Error('Failed to get profile');
-    return await response.json();
-  } catch (error) {
-    console.error('Error getting profile:', error);
-    return null;
-  }
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  return user;
 };
 
 // ============================================
-//  🛒 CART API
+//  🛒 CART API (محلي)
 // ============================================
 
-
-
-// ✅ جلب السلة
+// ✅ جلب السلة (محلي)
 export const getCart = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/cart`, {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-    if (!response.ok) throw new Error('Failed to fetch cart');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching cart:', error);
-    return [];
-  }
+  return JSON.parse(localStorage.getItem('cart') || '[]');
 };
 
-// ✅ تحديث كمية منتج في السلة
+// ✅ إضافة إلى السلة (محلي)
+export const addToCart = async (productId, quantity) => {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const existing = cart.find(item => item.productId === productId);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cart.push({ productId, quantity });
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  return cart;
+};
+
+// ✅ تحديث كمية منتج في السلة (محلي)
 export const updateCartItem = async (productId, quantity) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/cart/${productId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-      body: JSON.stringify({ quantity }),
-    });
-    if (!response.ok) throw new Error('Failed to update cart');
-    return await response.json();
-  } catch (error) {
-    console.error('Error updating cart:', error);
-    return null;
-  }
-};
-
-// ✅ حذف منتج من السلة
-export const removeFromCartAPI = async (productId) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/cart/${productId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-    if (!response.ok) throw new Error('Failed to remove from cart');
-    return await response.json();
-  } catch (error) {
-    console.error('Error removing from cart:', error);
-    return null;
-  }
-};
-
-// ✅ تفريغ السلة
-export const clearCart = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/cart`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-    if (!response.ok) throw new Error('Failed to clear cart');
-    return await response.json();
-  } catch (error) {
-    console.error('Error clearing cart:', error);
-    return null;
-  }
-};
-
-// ============================================
-//  📦 ORDERS API
-// ============================================
-
-// ✅ إنشاء طلب جديد
-export const createOrder = async (orderData) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : '',
-      },
-      body: JSON.stringify(orderData),
-    });
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Failed to create order');
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const item = cart.find(i => i.productId === productId);
+  if (item) {
+    item.quantity = quantity;
+    if (item.quantity <= 0) {
+      const index = cart.indexOf(item);
+      cart.splice(index, 1);
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error creating order:', error);
-    return null;
   }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  return cart;
 };
 
-// ✅ جلب جميع الطلبات (Admin)
+// ✅ حذف منتج من السلة (محلي)
+export const removeFromCartAPI = async (productId) => {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const index = cart.findIndex(i => i.productId === productId);
+  if (index !== -1) cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  return cart;
+};
+
+// ✅ تفريغ السلة (محلي)
+export const clearCart = async () => {
+  localStorage.removeItem('cart');
+  return [];
+};
+
+// ============================================
+//  📦 ORDERS API (محلي)
+// ============================================
+
+// ✅ إنشاء طلب جديد (محلي)
+export const createOrder = async (orderData) => {
+  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  const newOrder = {
+    id: Date.now().toString(),
+    ...orderData,
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  };
+  orders.push(newOrder);
+  localStorage.setItem('orders', JSON.stringify(orders));
+  return newOrder;
+};
+
+// ✅ جلب جميع الطلبات (محلي)
 export const getAllOrders = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/orders`, {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-    if (!response.ok) throw new Error('Failed to fetch orders');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching orders:', error);
-    return [];
-  }
+  return JSON.parse(localStorage.getItem('orders') || '[]');
 };
 
-// ✅ جلب طلبات المستخدم
+// ✅ جلب طلبات المستخدم (محلي)
 export const getUserOrders = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('No token found');
-    
-    const response = await fetch(`${API_URL}/orders/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) throw new Error('Failed to fetch user orders');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching user orders:', error);
-    return [];
-  }
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  if (!user) return [];
+  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  return orders.filter(o => o.userId === user.id);
 };
 
-// ✅ جلب طلب محدد
+// ✅ جلب طلب محدد (محلي)
 export const getOrderById = async (id) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/orders/${id}`, {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-    if (!response.ok) throw new Error('Order not found');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching order:', error);
-    return null;
-  }
+  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  return orders.find(o => o.id === id) || null;
 };
 
-// ✅ تحديث حالة الطلب (Admin)
+// ✅ تحديث حالة الطلب (محلي)
 export const updateOrderStatus = async (id, status) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/orders/${id}/status`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-      body: JSON.stringify({ status }),
-    });
-    if (!response.ok) throw new Error('Failed to update order');
-    return await response.json();
-  } catch (error) {
-    console.error('Error updating order:', error);
-    return null;
-  }
+  const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  const order = orders.find(o => o.id === id);
+  if (order) order.status = status;
+  localStorage.setItem('orders', JSON.stringify(orders));
+  return order;
 };
 
 // ============================================
-//  📤 UPLOAD API
+//  📤 UPLOAD API (محلي)
 // ============================================
 
-// ✅ رفع صورة
+// ✅ رفع صورة (محلي - يحاكي الرفع)
 export const uploadImage = async (file) => {
-  try {
-    const token = localStorage.getItem('token');
-    const formData = new FormData();
-    formData.append('image', file);
-    
-    const response = await fetch(`${API_URL}/upload`, {
-      method: 'POST',
-      headers: {
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-      body: formData,
-    });
-    if (!response.ok) throw new Error('Failed to upload image');
-    return await response.json();
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    return null;
-  }
+  // ✅ محاكاة رفع الصورة
+  return { 
+    success: true, 
+    image_url: URL.createObjectURL(file) 
+  };
 };
 
 // ============================================
-//  🔍 SEARCH API
+//  🔍 SEARCH API (محلي)
 // ============================================
 
-// ✅ البحث عن منتجات
+// ✅ البحث عن منتجات (محلي)
 export const searchProducts = async (query) => {
-  try {
-    const response = await fetch(`${API_URL}/products/search?q=${encodeURIComponent(query)}`);
-    if (!response.ok) throw new Error('Failed to search products');
-    return await response.json();
-  } catch (error) {
-    console.error('Error searching products:', error);
-    return [];
-  }
+  return localProducts.filter(p => 
+    p.name.toLowerCase().includes(query.toLowerCase())
+  );
 };
 
 // ============================================
-//  🏷️ CATEGORIES API
+//  🏷️ CATEGORIES API (محلي)
 // ============================================
 
-// ✅ جلب المنتجات حسب الفئة
+// ✅ جلب المنتجات حسب الفئة (محلي)
 export const getProductsByCategory = async (category) => {
-  try {
-    const response = await fetch(`${API_URL}/products/category/${category}`);
-    if (!response.ok) throw new Error('Failed to fetch products by category');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching products by category:', error);
-    return [];
-  }
+  return localProducts.filter(p => p.category === category);
 };

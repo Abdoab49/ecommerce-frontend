@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest (معدل - يحفظ في localStorage مباشرة) =====
+  // ===== ✅ زر Add Manifest =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -134,6 +134,8 @@ const Cart = () => {
         category: item.category || 'T-Shirts',
         brand: item.brand || 'National Team'
       }));
+
+      console.log('📦 Order Items:', orderItems);
 
       // ✅ ✅ ✅ حفظ الطلب مباشرة في localStorage
       const order = {
