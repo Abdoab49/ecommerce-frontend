@@ -35,7 +35,7 @@ const localProducts = [
 //  📦 EXPORT FUNCTIONS
 // ============================================
 
-// ✅ جلب جميع المنتجات
+// ✅ جلب جميع المنتجات (محلي)
 export const getProducts = async () => {
   return localProducts;
 };
@@ -62,4 +62,16 @@ export const createOrder = async (orderData) => {
 // ✅ جلب جميع الطلبات
 export const getAllOrders = async () => {
   return JSON.parse(localStorage.getItem('orders') || '[]');
+};
+
+// ✅ البحث عن منتجات
+export const searchProducts = async (query) => {
+  return localProducts.filter(p => 
+    p.name.toLowerCase().includes(query.toLowerCase())
+  );
+};
+
+// ✅ جلب المنتجات حسب الفئة
+export const getProductsByCategory = async (category) => {
+  return localProducts.filter(p => p.category === category);
 };
