@@ -10,21 +10,17 @@ const Orders = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        // ✅ جلب الطلبات من API (order.js)
-        const response = await fetch('/api/order');
-        const data = await response.json();
-        console.log('📦 Orders:', data);
-        setOrders(data);
-      } catch (err) {
-        console.error('Error:', err);
-        setError('Failed to load orders');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
+    // ✅ جلب الطلبات من localStorage مباشرة
+    try {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      console.log('📦 Orders:', orders);
+      setOrders(orders);
+    } catch (err) {
+      console.error('Error:', err);
+      setError('Failed to load orders');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {
