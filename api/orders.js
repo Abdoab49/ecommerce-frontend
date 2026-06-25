@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // ✅ الرد على طلبات OPTIONS (التحقق المسبق)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -13,7 +12,6 @@ export default async function handler(req, res) {
   // ✅ GET: جلب جميع الطلبات
   if (req.method === 'GET') {
     try {
-      // قراءة الطلبات من localStorage
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
       return res.status(200).json(orders);
     } catch (error) {
