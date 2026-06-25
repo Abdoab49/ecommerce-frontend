@@ -10,29 +10,28 @@ const ShopContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [cartCount, setCartCount] = useState(0);
 
-  // ===== تحميل المنتجات من البيانات المحلية =====
+  // ===== تحميل المنتجات =====
   useEffect(() => {
     const fetchData = async () => {
       try {
         const products = await getProducts();
         setAllProduct(products);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching products:', error);
-      } finally {
         setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  // ===== تحميل السلة من localStorage =====
+  // ===== تحميل السلة =====
   useEffect(() => {
     const savedCart = localStorage.getItem('cartItems');
     if (savedCart) {
       try {
         const parsed = JSON.parse(savedCart);
         setCartItems(parsed);
-        // ✅ حساب عدد العناصر
         const count = Object.values(parsed).reduce((sum, qty) => sum + qty, 0);
         setCartCount(count);
       } catch (error) {
@@ -46,7 +45,6 @@ const ShopContextProvider = ({ children }) => {
     setCartItems((prev) => {
       const newCart = { ...prev, [itemId]: (prev[itemId] || 0) + 1 };
       localStorage.setItem('cartItems', JSON.stringify(newCart));
-      // ✅ تحديث العدد
       const count = Object.values(newCart).reduce((sum, qty) => sum + qty, 0);
       setCartCount(count);
       return newCart;
@@ -62,7 +60,6 @@ const ShopContextProvider = ({ children }) => {
         if (newCart[itemId] === 0) delete newCart[itemId];
       }
       localStorage.setItem('cartItems', JSON.stringify(newCart));
-      // ✅ تحديث العدد
       const count = Object.values(newCart).reduce((sum, qty) => sum + qty, 0);
       setCartCount(count);
       return newCart;
