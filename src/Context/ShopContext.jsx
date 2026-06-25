@@ -1,28 +1,42 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getProducts } from '../api';
 
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = ({ children }) => {
-  const [all_product, setAllProduct] = useState([]);
-  const [cartItems, setCartItems] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [cartCount, setCartCount] = useState(0);
+  // ✅ ✅ ✅ بيانات المنتجات مباشرة (بدون Backend)
+  const [all_product, setAllProduct] = useState([
+    // ===== منتجات ShoeStore =====
+    { id: 1, name: 'NIKE', category: 'men', image: '/Assets/ShoeStore/tshirt1.png', price: 100, old_price: 150 },
+    { id: 2, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt2.png', price: 80, old_price: 130 },
+    { id: 3, name: 'T-shirt basketball', category: 'men', image: '/Assets/ShoeStore/tshirt3.png', price: 200, old_price: 300 },
+    { id: 4, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt4.png', price: 80, old_price: 130 },
+    { id: 5, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt5.png', price: 80, old_price: 130 },
+    { id: 6, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt6.png', price: 80, old_price: 130 },
+    { id: 7, name: 'T-shirt basketball', category: 'men', image: '/Assets/ShoeStore/tshirt7.png', price: 200, old_price: 300 },
+    { id: 8, name: 'T-shirt football', category: 'men', image: '/Assets/ShoeStore/tshirt8.png', price: 80, old_price: 130 },
 
-  // ===== تحميل المنتجات =====
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const products = await getProducts();
-        setAllProduct(products);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    // ===== منتجات MEN (كأس العالم) =====
+    { id: 45, name: 'MOROCCO', category: 'men', image: '/Assets/tshirt/tshirt1.png', price: 45, old_price: 70 },
+    { id: 46, name: 'ARGENTINA', category: 'men', image: '/Assets/tshirt/tshirt2.png', price: 45, old_price: 70 },
+    { id: 47, name: 'BRAZIL', category: 'men', image: '/Assets/tshirt/tshirt3.png', price: 45, old_price: 70 },
+    { id: 48, name: 'SPAIN', category: 'men', image: '/Assets/tshirt/tshirt4.png', price: 45, old_price: 70 },
+    { id: 49, name: 'FRANCE', category: 'men', image: '/Assets/tshirt/tshirt5.png', price: 45, old_price: 70 },
+    { id: 50, name: 'GERMANY', category: 'men', image: '/Assets/tshirt/tshirt6.png', price: 45, old_price: 70 },
+    { id: 51, name: 'ENGLAND', category: 'men', image: '/Assets/tshirt/tshirt7.png', price: 45, old_price: 70 },
+    { id: 52, name: 'ITALY', category: 'men', image: '/Assets/tshirt/tshirt8.png', price: 45, old_price: 70 },
+
+    // ===== منتجات WOMEN =====
+    { id: 9, name: 'Women Air Max', category: 'women', image: '/Assets/women/product1.png', price: 120, old_price: 160 },
+    { id: 10, name: 'Women Court', category: 'women', image: '/Assets/women/product2.png', price: 90, old_price: 130 },
+
+    // ===== منتجات KIDS =====
+    { id: 11, name: 'Kids Air Max', category: 'kid', image: '/Assets/kids/product1.png', price: 60, old_price: 90 },
+    { id: 12, name: 'Kids Court', category: 'kid', image: '/Assets/kids/product2.png', price: 50, old_price: 75 },
+  ]);
+
+  const [cartItems, setCartItems] = useState({});
+  const [loading, setLoading] = useState(false);  // ✅ لا حاجة للتحميل
+  const [cartCount, setCartCount] = useState(0);
 
   // ===== تحميل السلة من localStorage =====
   useEffect(() => {
@@ -31,7 +45,6 @@ const ShopContextProvider = ({ children }) => {
       try {
         const parsed = JSON.parse(savedCart);
         setCartItems(parsed);
-        // ✅ حساب عدد العناصر
         const count = Object.values(parsed).reduce((sum, qty) => sum + qty, 0);
         setCartCount(count);
       } catch (error) {
@@ -45,7 +58,6 @@ const ShopContextProvider = ({ children }) => {
     setCartItems((prev) => {
       const newCart = { ...prev, [itemId]: (prev[itemId] || 0) + 1 };
       localStorage.setItem('cartItems', JSON.stringify(newCart));
-      // ✅ تحديث العدد
       const count = Object.values(newCart).reduce((sum, qty) => sum + qty, 0);
       setCartCount(count);
       return newCart;
@@ -61,7 +73,6 @@ const ShopContextProvider = ({ children }) => {
         if (newCart[itemId] === 0) delete newCart[itemId];
       }
       localStorage.setItem('cartItems', JSON.stringify(newCart));
-      // ✅ تحديث العدد
       const count = Object.values(newCart).reduce((sum, qty) => sum + qty, 0);
       setCartCount(count);
       return newCart;
@@ -79,8 +90,8 @@ const ShopContextProvider = ({ children }) => {
   const getTotalCartAmount = () => {
     let total = 0;
     all_product.forEach((item) => {
-      if (cartItems[item._id] > 0) {
-        total += item.price * cartItems[item._id];
+      if (cartItems[item.id] > 0) {
+        total += item.price * cartItems[item.id];
       }
     });
     return total;
