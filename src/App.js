@@ -16,7 +16,7 @@ import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
 import Cart from './pages/Cart';
 import LoginSignup from './pages/LoginSignup';
-import Orders from './pages/Orders';        // ✅ إضافة Orders
+import Orders from './pages/Orders';
 import SizeSelection from './Components/SizeSelection';
 
 /* BANNERS */

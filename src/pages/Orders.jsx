@@ -11,8 +11,8 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // ✅ ✅ ✅ جلب جميع الطلبات من Backend
-        const response = await fetch('http://localhost:5000/api/orders');
+        // ✅ ✅ ✅ جلب جميع الطلبات من Backend (Render)
+        const response = await fetch('https://backend.onrender.com/api/orders');
         const data = await response.json();
         console.log('📦 All Orders:', data);
         setOrders(data);
