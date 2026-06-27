@@ -1,7 +1,7 @@
 // src/pages/Orders.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Orders.module.css';
+import styles from './Orders.css';
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         // ✅ ✅ ✅ جلب جميع الطلبات من Backend (Render)
-        const response = await fetch('https://backend.onrender.com/api/orders');
+        const response = await fetch('https://backend-3lyx.onrender.com/api/orders');
         const data = await response.json();
         console.log('📦 All Orders:', data);
         setOrders(data);

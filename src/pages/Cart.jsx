@@ -138,7 +138,7 @@ const Cart = () => {
       console.log('📦 Order Items:', orderItems);
 
       // ✅ ✅ ✅ إرسال الطلب إلى Backend (Render)
-      const response = await fetch('https://backend.onrender.com/api/orders', {
+      const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
