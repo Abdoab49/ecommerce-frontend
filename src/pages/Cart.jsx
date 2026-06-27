@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest =====
+  // ===== ✅ زر Add Manifest (معدل) =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -138,35 +138,20 @@ const Cart = () => {
 
       console.log('📦 Order Items:', orderItems);
 
-      // ✅ إرسال الطلب إلى Backend
+      // ✅ ✅ ✅ إرسال الطلب بهذه الطريقة (مبسطة)
       const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          customer: {
-            fullName: fullName,
-            phone: phone,
-            email: ''
-          },
-          shippingAddress: {
-            city: city,
-            street: address,
-            state: 'Casablanca-Settat',
-            zipCode: '20000',
-            country: 'Morocco'
-          },
+          fullName: fullName,
+          phone: phone,
+          city: city,
+          address: address,
           items: orderItems,
-          totals: {
-            subtotal: totalAmount,
-            discount: promoPrice,
-            totalAmount: finalAmount
-          },
-          payment: {
-            method: 'cash_on_delivery'
-          },
-          notes: ''
+          totalAmount: finalAmount,
+          promoPrice: promoPrice
         })
       });
 
