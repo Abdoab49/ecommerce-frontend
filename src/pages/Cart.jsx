@@ -172,8 +172,8 @@ const Cart = () => {
       setCartItems([]);
       clearCart();
       
-      // ✅ ✅ ✅ التغيير: يذهب إلى الصفحة الرئيسية
-      navigate('/');
+      // ✅ ✅ ✅ لا يتحول لأي صفحة (يبقى في السلة)
+      // navigate('/');
 
     } catch (error) {
       console.error('❌ Error:', error);
