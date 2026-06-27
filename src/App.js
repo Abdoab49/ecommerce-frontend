@@ -16,7 +16,7 @@ import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
 import Cart from './pages/Cart';
 import LoginSignup from './pages/LoginSignup';
-import Orders from './pages/Orders';        // ✅ إضافة
+// import Orders from './pages/Orders';        // ❌ علق هذا
 import SizeSelection from './Components/SizeSelection';
 
 /* BANNERS */
@@ -47,7 +47,7 @@ function App() {
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/login' element={<LoginSignup />} />
                             <Route path='/size-selection' element={<SizeSelection />} />
-                            <Route path='/orders' element={<Orders />} />   {/* ✅ إضافة Route */}
+                            {/* <Route path='/orders' element={<Orders />} />   ❌ علق هذا */}
                         </Routes>
                     </div>
                 </div>
