@@ -172,7 +172,7 @@ const Cart = () => {
       setCartItems([]);
       clearCart();
       
-      navigate('/orders');
+      navigate('/');
 
     } catch (error) {
       console.error('❌ Error:', error);
