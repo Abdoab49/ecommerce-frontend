@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest (معدل مع الهيكل الجديد) =====
+  // ===== ✅ زر Add Manifest =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -138,7 +138,7 @@ const Cart = () => {
 
       console.log('📦 Order Items:', orderItems);
 
-      // ✅ ✅ ✅ إرسال الطلب بالهيكل الجديد
+      // ✅ إرسال الطلب إلى Backend
       const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
         method: 'POST',
         headers: {
