@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest (معدل) =====
+  // ===== ✅ زر Add Manifest =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -137,44 +137,45 @@ const Cart = () => {
 
       console.log('📦 Order Items:', orderItems);
 
-      // ✅ ✅ ✅ حفظ الطلب مباشرة في localStorage
-      const order = {
-        id: Date.now().toString(),
-        items: orderItems,
-        totalAmount: finalAmount,
-        subtotal: totalAmount,
-        discount: promoPrice,
-        shippingAddress: {
-          fullName: fullName,
-          phone: phone,
-          city: city,
-          street: address,
-          state: 'Casablanca-Settat',
-          zipCode: '20000',
-          country: 'Morocco'
+      // ✅ ✅ ✅ إرسال الطلب إلى Backend
+      const response = await fetch('http://localhost:5000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         },
-        paymentMethod: 'cash_on_delivery',
-        status: 'pending',
-        createdAt: new Date().toISOString()
-      };
+        body: JSON.stringify({
+          items: orderItems,
+          totalAmount: finalAmount,
+          subtotal: totalAmount,
+          discount: promoPrice,
+          shippingAddress: {
+            fullName: fullName,
+            phone: phone,
+            city: city,
+            street: address,
+            state: 'Casablanca-Settat',
+            zipCode: '20000',
+            country: 'Morocco'
+          },
+          paymentMethod: 'cash_on_delivery'
+        })
+      });
 
-      // ✅ حفظ في localStorage
-      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-      orders.push(order);
-      localStorage.setItem('orders', JSON.stringify(orders));
+      const result = await response.json();
+      console.log('📡 Response:', response.status, result);
 
-      console.log('📦 Order saved:', order);
-
-      alert(`✅ Order placed successfully! Total: ${finalAmount} DH`);
-      
-      localStorage.removeItem('cart');
-      localStorage.removeItem('cartItems');
-      setCartItems([]);
-      clearCart();
-      
-      // ✅ ✅ ✅ إعادة تحميل الصفحة لتبقى في السلة
-      window.location.reload();
-
+      if (response.ok) {
+        alert(`✅ Order placed successfully! Total: ${finalAmount} DH`);
+        
+        localStorage.removeItem('cart');
+        localStorage.removeItem('cartItems');
+        setCartItems([]);
+        clearCart();
+        
+        window.location.reload();
+      } else {
+        alert('❌ Failed to place order: ' + (result.message || 'Unknown error'));
+      }
     } catch (error) {
       console.error('❌ Error:', error);
       alert('❌ Error placing order: ' + error.message);

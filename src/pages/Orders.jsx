@@ -1,155 +1,80 @@
 // src/pages/Orders.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Orders.css';
+import styles from './Orders.module.css';
 
 const Orders = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // ✅ جلب الطلبات من localStorage مباشرة
-    try {
-      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-      console.log('📦 Orders:', orders);
-      setOrders(orders);
-    } catch (err) {
-      console.error('Error:', err);
-      setError('Failed to load orders');
-    } finally {
-      setLoading(false);
-    }
+    const fetchOrders = async () => {
+      try {
+        // ✅ ✅ ✅ جلب جميع الطلبات من Backend
+        const response = await fetch('http://localhost:5000/api/orders');
+        const data = await response.json();
+        console.log('📦 All Orders:', data);
+        setOrders(data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
   }, []);
 
   if (loading) {
-    return (
-      <div className="orders-loading">
-        <div className="loading-spinner"></div>
-        <p>Loading your orders...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="orders-error">
-        <p>❌ {error}</p>
-        <button onClick={() => window.location.reload()}>Try Again</button>
-      </div>
-    );
+    return <div className={styles.loading}>Loading orders...</div>;
   }
 
   if (orders.length === 0) {
     return (
-      <div className="orders-empty">
-        <div className="empty-icon">📦</div>
-        <h2>No orders yet</h2>
+      <div className={styles.emptyOrders}>
+        <h2>📦 No orders yet</h2>
         <p>Start shopping to place your first order!</p>
-        <button onClick={() => navigate('/')}>Start Shopping</button>
+        <button onClick={() => navigate('/')}>Continue Shopping</button>
       </div>
     );
   }
 
   return (
-    <div className="orders-container">
-      <div className="orders-header">
-        <h1>📋 My Orders</h1>
-        <span className="orders-count">{orders.length} orders</span>
-      </div>
-
-      <div className="orders-list">
+    <div className={styles.ordersContainer}>
+      <h2>📋 All Orders ({orders.length})</h2>
+      <div className={styles.ordersList}>
         {orders.map((order) => (
-          <div key={order.id} className="order-card">
-            <div className="order-header">
-              <div className="order-id">
-                <span className="label">Order #</span>
-                <span className="value">{order.id.slice(-8).toUpperCase()}</span>
-              </div>
-              <div className="order-status">
-                <span className={`status-badge ${order.status}`}>
-                  {order.status === 'pending' && '⏳ Pending'}
-                  {order.status === 'processing' && '⚙️ Processing'}
-                  {order.status === 'shipped' && '🚚 Shipped'}
-                  {order.status === 'delivered' && '✅ Delivered'}
-                  {order.status === 'cancelled' && '❌ Cancelled'}
-                </span>
-              </div>
-              <div className="order-date">
-                <span className="label">📅</span>
-                <span className="value">
-                  {new Date(order.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </span>
-              </div>
+          <div key={order.id} className={styles.orderCard}>
+            <div className={styles.orderHeader}>
+              <span className={styles.orderId}>Order #{order.id.slice(-6).toUpperCase()}</span>
+              <span className={`${styles.orderStatus} ${styles[order.status]}`}>
+                {order.status}
+              </span>
+              <span className={styles.orderDate}>
+                {new Date(order.createdAt).toLocaleDateString()}
+              </span>
             </div>
-
-            <div className="order-items">
-              {order.items?.map((item, index) => {
-                const itemTotal = item.price * (item.quantity || 1);
-                return (
-                  <div key={index} className="order-item">
-                    <div className="item-image">
-                      <img 
-                        src={item.image || '/Assets/ShoeStore/tshirt1.png'} 
-                        alt={item.name}
-                        onError={(e) => {
-                          e.target.src = '/Assets/ShoeStore/tshirt1.png';
-                        }}
-                      />
-                    </div>
-                    <div className="item-info">
-                      <h4 className="item-name">{item.name}</h4>
-                      <div className="item-details">
-                        <span className="item-qty">Qty: {item.quantity}</span>
-                        {item.size && <span className="item-size">Size: {item.size}</span>}
-                      </div>
-                    </div>
-                    <div className="item-price">
-                      <span>${itemTotal.toFixed(2)}</span>
-                    </div>
+            <div className={styles.orderItems}>
+              {order.items.map((item, index) => (
+                <div key={index} className={styles.orderItem}>
+                  <img src={item.image || '/Assets/ShoeStore/tshirt1.png'} alt={item.name} />
+                  <div>
+                    <p><strong>{item.name}</strong></p>
+                    <p>Qty: {item.quantity}</p>
+                    <p>Size: {item.size || 'M'}</p>
+                    <p>${item.price}</p>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
-
-            <div className="order-shipping">
-              <h4>📍 Shipping Details</h4>
-              <div className="shipping-info-grid">
-                <div className="shipping-item">
-                  <span className="shipping-label">Full Name:</span>
-                  <span className="shipping-value">{order.shippingAddress?.fullName || 'Not provided'}</span>
-                </div>
-                <div className="shipping-item">
-                  <span className="shipping-label">Phone:</span>
-                  <span className="shipping-value">{order.shippingAddress?.phone || 'Not provided'}</span>
-                </div>
-                <div className="shipping-item">
-                  <span className="shipping-label">City:</span>
-                  <span className="shipping-value">{order.shippingAddress?.city || 'Not provided'}</span>
-                </div>
-                <div className="shipping-item">
-                  <span className="shipping-label">Address:</span>
-                  <span className="shipping-value">{order.shippingAddress?.street || 'Not provided'}</span>
-                </div>
-                <div className="shipping-item">
-                  <span className="shipping-label">Country:</span>
-                  <span className="shipping-value">{order.shippingAddress?.country || 'Not provided'}</span>
-                </div>
-              </div>
+            <div className={styles.orderTotal}>
+              <strong>Total: ${(order.totalAmount || 0).toFixed(2)}</strong>
             </div>
-
-            <div className="order-footer">
-              <div className="order-total">
-                <span className="total-label">Total</span>
-                <span className="total-value">${order.totalAmount?.toFixed(2) || 0}</span>
-              </div>
+            <div className={styles.orderShipping}>
+              <p><strong>Customer:</strong> {order.shippingAddress?.fullName}</p>
+              <p><strong>Phone:</strong> {order.shippingAddress?.phone}</p>
+              <p><strong>City:</strong> {order.shippingAddress?.city}</p>
+              <p><strong>Address:</strong> {order.shippingAddress?.street}</p>
             </div>
           </div>
         ))}
