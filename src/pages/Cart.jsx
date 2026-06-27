@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest =====
+  // ===== ✅ زر Add Manifest (معدل - يرسل إلى Backend) =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
