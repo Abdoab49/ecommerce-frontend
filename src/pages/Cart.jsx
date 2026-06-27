@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest (معدل - يرسل إلى Backend) =====
+  // ===== ✅ زر Add Manifest (معدل مع الهيكل الجديد) =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -126,6 +126,7 @@ const Cart = () => {
       console.log('💰 Total Amount:', finalAmount);
 
       const orderItems = cartItems.map(item => ({
+        productId: item.id || Date.now().toString(),
         name: item.name || item.title || 'Unknown Product',
         price: extractPrice(item.price),
         quantity: item.quantity || 1,
@@ -137,27 +138,35 @@ const Cart = () => {
 
       console.log('📦 Order Items:', orderItems);
 
-      // ✅ ✅ ✅ إرسال الطلب إلى Backend (Render)
+      // ✅ ✅ ✅ إرسال الطلب بالهيكل الجديد
       const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          items: orderItems,
-          totalAmount: finalAmount,
-          subtotal: totalAmount,
-          discount: promoPrice,
-          shippingAddress: {
+          customer: {
             fullName: fullName,
             phone: phone,
+            email: ''
+          },
+          shippingAddress: {
             city: city,
             street: address,
             state: 'Casablanca-Settat',
             zipCode: '20000',
             country: 'Morocco'
           },
-          paymentMethod: 'cash_on_delivery'
+          items: orderItems,
+          totals: {
+            subtotal: totalAmount,
+            discount: promoPrice,
+            totalAmount: finalAmount
+          },
+          payment: {
+            method: 'cash_on_delivery'
+          },
+          notes: ''
         })
       });
 
