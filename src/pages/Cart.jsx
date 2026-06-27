@@ -90,7 +90,7 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest =====
+  // ===== ✅ زر Add Manifest (معدل) =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -172,8 +172,8 @@ const Cart = () => {
       setCartItems([]);
       clearCart();
       
-      // ✅ ✅ ✅ لا يتحول لأي صفحة (يبقى في السلة)
-      // navigate('/');
+      // ✅ ✅ ✅ إعادة تحميل الصفحة لتبقى في السلة
+      window.location.reload();
 
     } catch (error) {
       console.error('❌ Error:', error);
