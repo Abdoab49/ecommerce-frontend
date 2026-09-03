@@ -27,12 +27,28 @@ const SizeSelection = () => {
   const morphRef = useRef(null);
   const shirtRef = useRef(null);
 
+  // ===== ✅ دالة لتنسيق السعر بالدرهم المغربي =====
+  const formatPrice = (price) => {
+    if (typeof price === 'string') {
+      // إذا كان السعر نصاً يحتوي على $ أو DH
+      const numericPrice = parseFloat(price.replace(/[^0-9.]/g, ''));
+      if (!isNaN(numericPrice)) {
+        return `${numericPrice} DH`;
+      }
+      return price;
+    }
+    return `${price} DH`;
+  };
+
   // ===== ✅ صور المنتج من ShoeStore =====
   const productImages = {
     1: [
       '/Assets/ShoeStore/tshirt1.png',
-      '/Assets/ShoeStore/tshirt2.png',
-      '/Assets/ShoeStore/tshirt3.png'
+      '/Assets/ShoeStore/tshirt11.png',
+      '/Assets/ShoeStore/tshirt12.png',
+      '/Assets/ShoeStore/tshirt13.png',
+      '/Assets/ShoeStore/tshirt14.png',
+      '/Assets/ShoeStore/tshirt15.png'
     ],
     2: [
       '/Assets/ShoeStore/tshirt2.png',
@@ -72,7 +88,7 @@ const SizeSelection = () => {
     // ✅ إضافة صور للمنتجات الجديدة (45-52)
     45: [
       '/Assets/tshirt/tshirt1.png',
-      '/Assets/tshirt/tshirt1_2.png',
+      '/Assets/tshirt/tshirt11.png',
       '/Assets/tshirt/tshirt1_3.png'
     ],
     46: [
@@ -117,9 +133,7 @@ const SizeSelection = () => {
     id: product?.id || 1,
     name: product?.name || 'NIKE',
     brand: product?.company || 'YEEZY',
-    price: product?.price || '$120',
-    originalPrice: '$180.00',
-    discount: 33,
+    price: product?.price || '120 DH',
     description: product?.description || 'Premium quality t-shirt with modern fit. Designed for comfort and style, perfect for everyday wear.',
     maxQuantity: Infinity,
     sizes: ['S', 'M', 'L', 'XL'],
@@ -128,16 +142,15 @@ const SizeSelection = () => {
       ? parseFloat(product.price.replace(/[^0-9.]/g, '')) 
       : (typeof product?.price === 'number' ? product.price : 120),
     image: product?.img || '/Assets/ShoeStore/tshirt1.png',
-    // ✅ صور متعددة للمنتج
     images: product?.images || productImages[product?.id] || productImages[1]
   };
 
   // ===== RELATED PRODUCTS =====
   const relatedProducts = [
-    { id: 2, name: 'T-shirt football', price: '150dh', img: '/Assets/ShoeStore/tshirt2.png', company: 'YEEZY' },
-    { id: 3, name: 'T-shirt basketball', price: '$120', img: '/Assets/ShoeStore/tshirt3.png', company: 'YEEZY' },
-    { id: 4, name: 'T-shirt football', price: '$120', img: '/Assets/ShoeStore/tshirt4.png', company: 'YEEZY' },
-    { id: 5, name: 'T-shirt football', price: '$120', img: '/Assets/ShoeStore/tshirt5.png', company: 'YEEZY' },
+    { id: 2, name: 'T-shirt football', price: '150 DH', img: '/Assets/ShoeStore/tshirt2.png', company: 'YEEZY' },
+    { id: 3, name: 'T-shirt basketball', price: '120 DH', img: '/Assets/ShoeStore/tshirt3.png', company: 'YEEZY' },
+    { id: 4, name: 'T-shirt football', price: '120 DH', img: '/Assets/ShoeStore/tshirt4.png', company: 'YEEZY' },
+    { id: 5, name: 'T-shirt football', price: '120 DH', img: '/Assets/ShoeStore/tshirt5.png', company: 'YEEZY' },
   ];
 
   const handleSizeSelect = (size) => {
@@ -170,7 +183,7 @@ const SizeSelection = () => {
     const cartItem = {
       id: productData.id,
       name: productData.name,
-      price: productData.price,
+      price: formatPrice(productData.price),
       new_price: productData.new_price,
       size: selectedSize,
       quantity: quantity,
@@ -389,10 +402,9 @@ const SizeSelection = () => {
           <h1 className={styles.title}>{productData.name}</h1>
           <p className={styles.subtitle}>{productData.name} T-Shirt</p>
           
+          {/* ✅ عرض السعر بالدرهم المغربي */}
           <div className={styles.priceRow}>
-            <span className={styles.currentPrice}>{productData.price}</span>
-            <span className={styles.originalPrice}>{productData.originalPrice}</span>
-            <span className={styles.discount}>{productData.discount}%</span>
+            <span className={styles.currentPrice}>{formatPrice(productData.price)}</span>
           </div>
           <p className={styles.taxInfo}>incl. of taxes</p>
           <p className={styles.dutyInfo}>(Also includes all applicable duties)</p>

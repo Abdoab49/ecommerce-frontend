@@ -2,7 +2,7 @@
 
 // ✅ أسعار ShoeStore
 export const shoeStorePrices = {
-  'NIKE': { new_price: 100, old_price: 150 },
+  'NIKE TECH': { new_price: 100, old_price: 150 },
   'T-shirt football': { new_price: 80, old_price: 130 },
   'T-shirt basketball': { new_price: 200, old_price: 300 },
   'Supreme': { new_price: 90, old_price: 140 },

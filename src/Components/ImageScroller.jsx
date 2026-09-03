@@ -8,19 +8,14 @@ const ImageScroller = () => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    // If user hasn't opted for reduced motion, add animation
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // Add data-animated="true"
       scroller.setAttribute("data-animated", "true");
 
-      // Get the inner element
       const scrollerInner = scroller.querySelector(`.${styles.scrollerInner}`);
       if (!scrollerInner) return;
 
-      // Get all children
       const scrollerContent = Array.from(scrollerInner.children);
 
-      // Duplicate each item for infinite scroll
       scrollerContent.forEach((item) => {
         const duplicatedItem = item.cloneNode(true);
         duplicatedItem.setAttribute("aria-hidden", "true");
@@ -38,20 +33,36 @@ const ImageScroller = () => {
     >
       <div className={styles.scrollerInner}>
         <img 
-          src="https://assets2.razerzone.com/images/pnx.assets/92f9fc3a855858e3e98a86f92cac7207/esports-endorsements-1200x675-larssen-v2.webp" 
-          alt="esports endorsement 1" 
+          src="/Assets/ShoeStore/image.scroller1.png" 
+          alt="Product 1" 
         />
         <img 
-          src="https://assets2.razerzone.com/images/pnx.assets/92f9fc3a855858e3e98a86f92cac7207/esports-endorsements-1200x675-dropped-v2.webp" 
-          alt="esports endorsement 2" 
+          src="/Assets/ShoeStore/image.scroller2.png" 
+          alt="Product 2" 
         />
         <img 
-          src="https://assets2.razerzone.com/images/pnx.assets/92f9fc3a855858e3e98a86f92cac7207/esports-endorsements-1200x675-buzz-v3.webp" 
-          alt="esports endorsement 3" 
+          src="/Assets/ShoeStore/image.scroller3.png" 
+          alt="Product 3" 
         />
         <img 
-          src="https://assets2.razerzone.com/images/pnx.assets/92f9fc3a855858e3e98a86f92cac7207/esports-endorsements-1200x675-ale-v2.webp" 
-          alt="esports endorsement 4" 
+          src="/Assets/ShoeStore/tshirt4.png" 
+          alt="Product 4" 
+        />
+        <img 
+          src="/Assets/ShoeStore/tshirt5.png" 
+          alt="Product 5" 
+        />
+        <img 
+          src="/Assets/ShoeStore/tshirt6.png" 
+          alt="Product 6" 
+        />
+        <img 
+          src="/Assets/ShoeStore/tshirt7.png" 
+          alt="Product 7" 
+        />
+        <img 
+          src="/Assets/ShoeStore/tshirt8.png" 
+          alt="Product 8" 
         />
       </div>
     </div>

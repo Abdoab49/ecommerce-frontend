@@ -1,3 +1,5 @@
+/* SocialIcons.css */
+
 .social-container {
     position: relative;
     display: flex;
@@ -5,21 +7,21 @@
     align-items: center;
     margin: 20px auto;
     padding: 10px 0;
+    width: 100%;
 }
 
-.social-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 1rem;
-}
+
+
 
 .social-icons-wrapper {
     position: relative;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
     padding: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .social-icon-wrapper {
@@ -27,8 +29,8 @@
 }
 
 .social-icon {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 0.75rem;
     display: flex;
     align-items: center;
@@ -38,43 +40,72 @@
     clip-path: url(#squircleClip);
 }
 
-/* ألوان الخلفيات */
-.social-icon.github {
-    background: linear-gradient(135deg, #374151, #111827);
-    border: 1px solid rgba(75, 85, 99, 0.5);
+/* ✅ Facebook */
+.social-icon.facebook {
+    background: #1877f2;
+    border: none;
 }
 
-.social-icon.linkedin {
-    background: linear-gradient(135deg, #2563eb, #1e3a8a);
-    border: 1px solid rgba(59, 130, 246, 0.5);
+.social-icon.facebook .icon {
+    color: #ffffff;
 }
 
-.social-icon.youtube {
-    background: linear-gradient(135deg, #dc2626, #991b1b);
-    border: 1px solid rgba(239, 68, 68, 0.5);
+/* ✅ WhatsApp */
+.social-icon.whatsapp {
+    background: #25d366;
+    border: none;
 }
 
-.social-icon.discord {
-    background: linear-gradient(135deg, #4f46e5, #3730a3);
-    border: 1px solid rgba(99, 102, 241, 0.5);
+.social-icon.whatsapp .icon {
+    color: #ffffff;
 }
 
-/* تأثير hover */
+/* ✅ Instagram */
+.social-icon.instagram {
+    background: #d62976;
+    border: none;
+}
+
+.social-icon.instagram .icon {
+    color: #ffffff;
+}
+
+/* ✅ تأثير hover */
 .social-icon:hover {
     transform: scale(1.1) translateY(-0.3rem);
+}
+
+.social-icon.facebook:hover {
+    background: #0d6efd;
+    box-shadow: 0 8px 25px rgba(24, 119, 242, 0.5);
+}
+
+.social-icon.whatsapp:hover {
+    background: #20b85a;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+}
+
+.social-icon.instagram:hover {
+    background: #e4405f;
+    box-shadow: 0 8px 25px rgba(214, 41, 118, 0.5);
 }
 
 .icon {
     width: 1.8rem;
     height: 1.8rem;
-    color: white;
 }
 
-/* للشاشات الصغيرة */
+.social-icon-link {
+    text-decoration: none;
+    display: block;
+}
+
+/* ✅ MEDIA QUERIES */
+
 @media (max-width: 640px) {
     .social-icon {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2.8rem;
+        height: 2.8rem;
     }
     .icon {
         width: 1.4rem;
@@ -84,8 +115,26 @@
         gap: 0.5rem;
     }
 }
-/* أيقونة Facebook */
-.social-icon.facebook {
-    background: linear-gradient(135deg, #1877f2, #0c4a9e);
-    border: 1px solid rgba(24, 119, 242, 0.5);
+
+@media (max-width: 480px) {
+    .social-icon {
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 0.5rem;
+    }
+    .icon {
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+    .social-icons-wrapper {
+        gap: 0.4rem;
+        padding: 0.3rem;
+    }
+}
+
+/* ✅ دعم الوضع المظلم */
+@media (prefers-color-scheme: dark) {
+    .social-backdrop {
+        background: rgba(255, 255, 255, 0.05);
+    }
 }

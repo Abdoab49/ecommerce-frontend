@@ -12,9 +12,12 @@
   gap: 1rem;
 }
 
+/* ✅ حجم 675 × 500 */
 .scrollerInner img {
-  width: 500px;
-  height: auto;
+  width: 675px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
 .scroller[data-animated="true"] {
@@ -58,10 +61,42 @@
   }
 }
 
-/* للشاشات الصغيرة */
-@media screen and (max-width: 568px) {
+/* ✅ للهواتف - صورة كاملة */
+@media screen and (max-width: 768px) {
   .scrollerInner img {
-    width: 200px;
+    width: 100vw;
     height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  
+  .scrollerInner {
+    gap: 0.5rem;
+    padding-block: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .scrollerInner img {
+    width: 100vw;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 6px;
+  }
+  
+  .scrollerInner {
+    gap: 0.3rem;
+    padding-block: 0.3rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .scrollerInner img {
+    width: 100vw;
+    height: auto;
+    max-height: 250px;
+    object-fit: contain;
   }
 }

@@ -90,7 +90,6 @@ const Cart = () => {
     }
   };
 
-  // ===== ✅ زر Add Manifest (الهيكل الأصلي) =====
   const handleCheckout = async () => {
     console.log('🛒 Starting checkout...');
     
@@ -137,7 +136,6 @@ const Cart = () => {
 
       console.log('📦 Order Items:', orderItems);
 
-      // ✅ ✅ ✅ الهيكل الأصلي (الذي كان يعمل)
       const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
         method: 'POST',
         headers: {
@@ -264,13 +262,28 @@ const Cart = () => {
                 </div>
                 <div className={styles.price}>{productPrice} DH</div>
                 <div className={styles.quantity}>
-                  <input
-                    type="number"
-                    value={productQty}
-                    min="1"
-                    className={styles.quantityField}
-                    onChange={(e) => updateQuantity(index, parseInt(e.target.value))}
-                  />
+                  <div className={styles.quantityWrapper}>
+                    <button 
+                      className={styles.qtyBtn}
+                      onClick={() => updateQuantity(index, productQty - 1)}
+                      disabled={productQty <= 1}
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      value={productQty}
+                      min="1"
+                      className={styles.quantityField}
+                      onChange={(e) => updateQuantity(index, parseInt(e.target.value) || 1)}
+                    />
+                    <button 
+                      className={styles.qtyBtn}
+                      onClick={() => updateQuantity(index, productQty + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
                 <div className={styles.subtotal}>{productPrice * productQty} DH</div>
                 <div className={styles.remove}>

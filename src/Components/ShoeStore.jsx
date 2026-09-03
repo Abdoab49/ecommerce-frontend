@@ -14,7 +14,7 @@ const ShoeStore = () => {
     navigate('/size-selection', { state: { product: product } });
   };
 
-  // ✅ ✅ ✅ إضافة إلى السلة مع اسم صحيح
+  // ✅ إضافة إلى السلة
   const addToCart = async (productName, price, productId, e) => {
     e.stopPropagation();
     
@@ -23,7 +23,7 @@ const ShoeStore = () => {
     
     const newItem = {
       id: productId,
-      name: productName,        // ✅ NIKE, Supreme, ...
+      name: productName,
       title: productName,
       price: price,
       quantity: 1,
@@ -49,19 +49,184 @@ const ShoeStore = () => {
     }, 2000);
   };
 
+  // ✅ ✅ ✅ 20 منتج مع 3 صور لكل منتج
   const products = [
-    { id: 1, name: 'NIKE', img: '/Assets/ShoeStore/tshirt1.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 2, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt2.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 3, name: 'T-shirt basketball', img: '/Assets/ShoeStore/tshirt3.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 4, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt4.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 5, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt5.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 6, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt6.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 7, name: 'T-shirt basketball', img: '/Assets/ShoeStore/tshirt7.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 8, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
+    // ===== الصف الأول (1-4) =====
+    { 
+      id: 1, 
+      name: 'NIKE', 
+      img: '/Assets/ShoeStore/tshirt1.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'NIKE TECH',
+      images: ['/Assets/ShoeStore/tshirt1.png', '/Assets/ShoeStore/tshirt11.png', '/Assets/ShoeStore/tshirt12.png']
+    },
+    { 
+      id: 2, 
+      name: 'ADIDAS', 
+      img: '/Assets/ShoeStore/tshirt2.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt2.png', '/Assets/ShoeStore/tshirt21.png', '/Assets/ShoeStore/tshirt22.png']
+    },
+    { 
+      id: 3, 
+      name: 'PUMA', 
+      img: '/Assets/ShoeStore/tshirt3.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt3.png', '/Assets/ShoeStore/tshirt31.png', '/Assets/ShoeStore/tshirt32.png']
+    },
+    { 
+      id: 4, 
+      name: 'NEW BALANCE', 
+      img: '/Assets/ShoeStore/tshirt4.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt4.png', '/Assets/ShoeStore/tshirt41.png', '/Assets/ShoeStore/tshirt42.png']
+    },
+
+    // ===== الصف الثاني (5-8) =====
+    { 
+      id: 5, 
+      name: 'REEBOK', 
+      img: '/Assets/ShoeStore/tshirt5.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt5.png', '/Assets/ShoeStore/tshirt51.png', '/Assets/ShoeStore/tshirt52.png']
+    },
+    { 
+      id: 6, 
+      name: 'VANS', 
+      img: '/Assets/ShoeStore/tshirt6.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt6.png', '/Assets/ShoeStore/tshirt61.png', '/Assets/ShoeStore/tshirt62.png']
+    },
+    { 
+      id: 7, 
+      name: 'CONVERSE', 
+      img: '/Assets/ShoeStore/tshirt7.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt7.png', '/Assets/ShoeStore/tshirt71.png', '/Assets/ShoeStore/tshirt72.png']
+    },
+    { 
+      id: 8, 
+      name: 'ASICS', 
+      img: '/Assets/ShoeStore/tshirt8.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt8.png', '/Assets/ShoeStore/tshirt81.png', '/Assets/ShoeStore/tshirt82.png']
+    },
+
+    // ===== الصف الثالث (9-12) =====
+    { 
+      id: 9, 
+      name: 'UNDER ARMOUR', 
+      img: '/Assets/ShoeStore/tshirt9.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt9.png', '/Assets/ShoeStore/tshirt91.png', '/Assets/ShoeStore/tshirt92.png']
+    },
+    { 
+      id: 10, 
+      name: 'LACOSTE', 
+      img: '/Assets/ShoeStore/tshirt10.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt10.png', '/Assets/ShoeStore/tshirt101.png', '/Assets/ShoeStore/tshirt102.png']
+    },
+    { 
+      id: 11, 
+      name: 'LE COQ SPORTIF', 
+      img: '/Assets/ShoeStore/tshirt11.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt11.png', '/Assets/ShoeStore/tshirt111.png', '/Assets/ShoeStore/tshirt112.png']
+    },
+    { 
+      id: 12, 
+      name: 'KAPPA', 
+      img: '/Assets/ShoeStore/tshirt12.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt12.png', '/Assets/ShoeStore/tshirt121.png', '/Assets/ShoeStore/tshirt122.png']
+    },
+
+    // ===== الصف الرابع (13-16) =====
+    { 
+      id: 13, 
+      name: 'MIZUNO', 
+      img: '/Assets/ShoeStore/tshirt13.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt13.png', '/Assets/ShoeStore/tshirt131.png', '/Assets/ShoeStore/tshirt132.png']
+    },
+    { 
+      id: 14, 
+      name: 'DIADORA', 
+      img: '/Assets/ShoeStore/tshirt14.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt14.png', '/Assets/ShoeStore/tshirt141.png', '/Assets/ShoeStore/tshirt142.png']
+    },
+    { 
+      id: 15, 
+      name: 'HUMAN MADE', 
+      img: '/Assets/ShoeStore/tshirt15.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt15.png', '/Assets/ShoeStore/tshirt151.png', '/Assets/ShoeStore/tshirt152.png']
+    },
+    { 
+      id: 16, 
+      name: 'KITH', 
+      img: '/Assets/ShoeStore/tshirt16.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt16.png', '/Assets/ShoeStore/tshirt161.png', '/Assets/ShoeStore/tshirt162.png']
+    },
+
+    // ===== الصف الخامس (17-20) =====
+    { 
+      id: 17, 
+      name: 'FENDI', 
+      img: '/Assets/ShoeStore/tshirt17.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt17.png', '/Assets/ShoeStore/tshirt171.png', '/Assets/ShoeStore/tshirt172.png']
+    },
+    { 
+      id: 18, 
+      name: 'GUCCI', 
+      img: '/Assets/ShoeStore/tshirt18.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt18.png', '/Assets/ShoeStore/tshirt181.png', '/Assets/ShoeStore/tshirt182.png']
+    },
+    { 
+      id: 19, 
+      name: 'VERSACE', 
+      img: '/Assets/ShoeStore/tshirt19.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt19.png', '/Assets/ShoeStore/tshirt191.png', '/Assets/ShoeStore/tshirt192.png']
+    },
+    { 
+      id: 20, 
+      name: 'BURBERRY', 
+      img: '/Assets/ShoeStore/tshirt20.png', 
+      sizes: 'S , M , L , XL', 
+      company: 'YEEZY',
+      images: ['/Assets/ShoeStore/tshirt20.png', '/Assets/ShoeStore/tshirt201.png', '/Assets/ShoeStore/tshirt202.png']
+    },
   ];
 
-  const firstRow = products.slice(0, 4);
-  const secondRow = products.slice(4, 8);
+  // تقسيم المنتجات إلى 5 صفوف (كل صف 4 منتجات)
+  const rows = [];
+  for (let i = 0; i < products.length; i += 4) {
+    rows.push(products.slice(i, i + 4));
+  }
 
   const ProductCard = ({ product }) => {
     const priceData = getProductPrice(product.name);
@@ -77,7 +242,8 @@ const ShoeStore = () => {
               onClick={() => goToSizeSelection({
                 ...product,
                 price: price,
-                old_price: oldPrice
+                old_price: oldPrice,
+                images: product.images
               })}
               style={{ cursor: 'pointer' }}
             >
@@ -103,12 +269,7 @@ const ShoeStore = () => {
                   <span className="price">
                     {price} DH
                     {oldPrice && oldPrice > price && (
-                      <span style={{
-                        fontSize: '12px',
-                        color: '#8c8c8c',
-                        textDecoration: 'line-through',
-                        marginLeft: '8px'
-                      }}>
+                      <span className="old-price">
                         {oldPrice} DH
                       </span>
                     )}
@@ -130,17 +291,13 @@ const ShoeStore = () => {
 
   return (
     <div className="products-container">
-      <div className="products-wrapper">
-        {firstRow.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-
-      <div className="products-wrapper second-row">
-        {secondRow.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="products-wrapper">
+          {row.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ))}
 
       {notification.show && (
         <div className="cart-notification">

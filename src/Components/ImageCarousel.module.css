@@ -1,0 +1,659 @@
+/* ImageCarousel.module.css */
+
+.main {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  /* ✅ لا توجد خلفية */
+  border-radius: 16px;
+}
+
+.carousel {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: visible;
+}
+
+.carousel .item {
+  position: absolute;
+  top: 50%;
+  transition: all 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.carousel .item img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ✅ العنصر المختار */
+.carousel .item.selected {
+  z-index: 10;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.carousel .item.selected img {
+  width: 380px;
+  height: 380px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 3px solid #18e3fd;
+}
+
+/* ✅ العنصر السابق */
+.carousel .item.prev {
+  z-index: 5;
+  left: 20%;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+.carousel .item.prev img {
+  width: 250px;
+  height: 250px;
+  opacity: 0.8;
+}
+
+/* ✅ العنصر التالي */
+.carousel .item.next {
+  z-index: 5;
+  left: 80%;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+.carousel .item.next img {
+  width: 250px;
+  height: 250px;
+  opacity: 0.8;
+}
+
+/* ✅ العنصر السابق الثاني */
+.carousel .item.prevLeftSecond {
+  z-index: 3;
+  left: 5%;
+  transform: translate(-50%, -50%) scale(0.65);
+  opacity: 0.5;
+}
+
+.carousel .item.prevLeftSecond img {
+  width: 180px;
+  height: 180px;
+}
+
+/* ✅ العنصر التالي الثاني */
+.carousel .item.nextRightSecond {
+  z-index: 3;
+  left: 95%;
+  transform: translate(-50%, -50%) scale(0.65);
+  opacity: 0.5;
+}
+
+.carousel .item.nextRightSecond img {
+  width: 180px;
+  height: 180px;
+}
+
+/* ✅ العناصر المخفية */
+.carousel .item.hideLeft {
+  z-index: 1;
+  left: -10%;
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+}
+
+.carousel .item.hideRight {
+  z-index: 1;
+  left: 110%;
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+}
+
+/* ✅ تأثير hover */
+.carousel .item:hover img {
+  filter: brightness(1.05);
+}
+
+.carousel .item.selected:hover img {
+  transform: scale(1.02);
+  border-color: #18e3fd;
+}
+
+/* ✅ أزرار التنقل */
+.buttons {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 20;
+}
+
+.btn {
+  padding: 10px 28px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background: #18e3fd;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(24, 227, 253, 0.4);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* ✅ مؤشرات التنقل - في المنتصف تماماً */
+.indicators {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 15;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #18e3fd;
+  width: 30px;
+  border-radius: 10px;
+}
+
+/* ============================================ */
+/* ✅ MEDIA QUERIES */
+/* ============================================ */
+
+/* ✅ شاشات كبيرة */
+@media (min-width: 1400px) {
+  .main {
+    height: 600px;
+  }
+  
+  .carousel .item.selected img {
+    width: 450px;
+    height: 450px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .indicators {
+    bottom: 95px;
+  }
+}
+
+/* ✅ شاشات متوسطة */
+@media (max-width: 1200px) {
+  .main {
+    height: 450px;
+  }
+  
+  .carousel .item.selected img {
+    width: 320px;
+    height: 320px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .carousel .item.prev {
+    left: 18%;
+  }
+  
+  .carousel .item.next {
+    left: 82%;
+  }
+  
+  .indicators {
+    bottom: 80px;
+  }
+}
+
+/* ✅ تابلت */
+@media (max-width: 992px) {
+  .main {
+    height: 400px;
+  }
+  
+  .carousel .item.selected img {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 190px;
+    height: 190px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .carousel .item.prev {
+    left: 15%;
+  }
+  
+  .carousel .item.next {
+    left: 85%;
+  }
+  
+  .carousel .item.prevLeftSecond {
+    left: 2%;
+  }
+  
+  .carousel .item.nextRightSecond {
+    left: 98%;
+  }
+  
+  .btn {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+  
+  .indicators {
+    bottom: 72px;
+    gap: 8px;
+  }
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .dot.active {
+    width: 22px;
+  }
+}
+
+/* ✅ تابلت صغير */
+@media (max-width: 768px) {
+  .main {
+    height: 350px;
+    border-radius: 12px;
+  }
+  
+  .carousel .item.selected img {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .carousel .item.prev {
+    left: 12%;
+  }
+  
+  .carousel .item.next {
+    left: 88%;
+  }
+  
+  .btn {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
+  
+  .buttons {
+    bottom: 20px;
+    gap: 10px;
+  }
+  
+  .indicators {
+    bottom: 62px;
+    gap: 8px;
+  }
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .dot.active {
+    width: 20px;
+  }
+}
+
+/* ✅ هواتف كبيرة */
+@media (max-width: 576px) {
+  .main {
+    height: 280px;
+    border-radius: 10px;
+  }
+  
+  .carousel .item.selected img {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+  }
+  
+  .carousel .item.prev {
+    left: 10%;
+    transform: translate(-50%, -50%) scale(0.75);
+  }
+  
+  .carousel .item.next {
+    left: 90%;
+    transform: translate(-50%, -50%) scale(0.75);
+  }
+  
+  .carousel .item.prevLeftSecond {
+    left: 0%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.3;
+  }
+  
+  .carousel .item.nextRightSecond {
+    left: 100%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.3;
+  }
+  
+  .btn {
+    padding: 5px 14px;
+    font-size: 11px;
+    border-radius: 20px;
+  }
+  
+  .buttons {
+    bottom: 15px;
+    gap: 8px;
+  }
+  
+  .indicators {
+    bottom: 52px;
+    gap: 6px;
+  }
+  
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .dot.active {
+    width: 14px;
+  }
+}
+
+/* ✅ هواتف صغيرة */
+@media (max-width: 400px) {
+  .main {
+    height: 220px;
+    border-radius: 8px;
+  }
+  
+  .carousel .item.selected img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 75px;
+    height: 75px;
+    border-radius: 8px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    display: none;
+  }
+  
+  .carousel .item.prev {
+    left: 8%;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  
+  .carousel .item.next {
+    left: 92%;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  
+  .carousel .item.prevLeftSecond {
+    display: none;
+  }
+  
+  .carousel .item.nextRightSecond {
+    display: none;
+  }
+  
+  .carousel .item.hideLeft {
+    display: none;
+  }
+  
+  .carousel .item.hideRight {
+    display: none;
+  }
+  
+  .btn {
+    padding: 4px 12px;
+    font-size: 10px;
+    border-radius: 15px;
+  }
+  
+  .buttons {
+    bottom: 12px;
+    gap: 6px;
+  }
+  
+  .indicators {
+    bottom: 42px;
+    gap: 5px;
+  }
+  
+  .dot {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .dot.active {
+    width: 12px;
+  }
+}
+
+/* ✅ هواتف صغيرة جداً */
+@media (max-width: 320px) {
+  .main {
+    height: 180px;
+  }
+  
+  .carousel .item.selected img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+  }
+  
+  .carousel .item.prev {
+    left: 5%;
+  }
+  
+  .carousel .item.next {
+    left: 95%;
+  }
+  
+  .btn {
+    padding: 3px 10px;
+    font-size: 9px;
+  }
+  
+  .buttons {
+    bottom: 8px;
+    gap: 5px;
+  }
+  
+  .indicators {
+    bottom: 32px;
+    gap: 4px;
+  }
+  
+  .dot {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .dot.active {
+    width: 10px;
+  }
+}
+
+/* ✅ وضعية أفقية */
+@media (orientation: landscape) and (max-height: 500px) {
+  .main {
+    height: 200px;
+  }
+  
+  .carousel .item.selected img {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .carousel .item.prev img,
+  .carousel .item.next img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .carousel .item.prevLeftSecond img,
+  .carousel .item.nextRightSecond img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .carousel .item.prev {
+    left: 15%;
+  }
+  
+  .carousel .item.next {
+    left: 85%;
+  }
+  
+  .btn {
+    padding: 4px 12px;
+    font-size: 10px;
+  }
+  
+  .buttons {
+    bottom: 10px;
+  }
+  
+  .indicators {
+    bottom: 48px;
+    gap: 5px;
+  }
+  
+  .dot {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .dot.active {
+    width: 12px;
+  }
+}
+
+/* ✅ دعم الوضع المظلم */
+@media (prefers-color-scheme: dark) {
+  .main {
+    background: transparent; /* ✅ شفافة */
+  }
+  
+  .btn {
+    background: rgba(50, 50, 50, 0.9);
+  }
+  
+  .btn:hover {
+    background: #18e3fd;
+  }
+  
+  .dot {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .dot.active {
+    background: #18e3fd;
+  }
+}

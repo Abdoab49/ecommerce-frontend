@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './MarqueeBusiness.module.css';
 
+
 const MarqueeBusiness = () => {
   const businesses = [
     { id: 1, name: 'NIKE', image: 'Assets/Brand/logo1.png' },

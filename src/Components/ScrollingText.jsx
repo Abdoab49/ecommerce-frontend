@@ -5,7 +5,7 @@ const ScrollingText = () => {
   return (
     <div className={styles.scrollContainer}>
       <span className={styles.scrollingText}>
-        This is the scrolling text that loops infinitely across the screen.
+        Free delivery across all Moroccan cities for purchases over 500 MAD.
       </span>
     </div>
   );

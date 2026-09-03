@@ -74,7 +74,7 @@ const Navbar = () => {
                                 closeMenu();
                             }}
                         >
-                            WOMEN
+                            SPORT
                         </Link>
                     </li>
                     <li>
