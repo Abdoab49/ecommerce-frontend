@@ -19,7 +19,6 @@ import NewOverlayCard from '../Components/NewOverlayCard'
 import NewShoeStore from '../Components/NewShoeStore'
 import ImageCarousel from '../Components/ImageCarousel'
 import HeroCard from '../Components/HeroCard'
-import Board from '../Components/Board'
 const Shop = () => {
     return (
         <div>
@@ -27,7 +26,6 @@ const Shop = () => {
             <Hero />
             <ScrollingText />
             <Carousel />
-            <Board />
             <HeroCard />
             <OverlayCard />
             <LogoSlider />
