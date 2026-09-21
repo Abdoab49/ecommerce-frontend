@@ -1,6 +1,5 @@
 import styles from './ImageCarousel.module.css';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import './ImageCarousel.module.css';
 
 const ImageCarousel = () => {
   const [items, setItems] = useState([
@@ -19,7 +18,6 @@ const ImageCarousel = () => {
   const carouselRef = useRef(null);
   const touchStartX = useRef(0);
 
-  // ✅ حساب موضع كل عنصر
   const getItemPosition = (index) => {
     const totalItems = items.length;
     let diff = index - selectedIndex;
@@ -37,7 +35,6 @@ const ImageCarousel = () => {
     return 'hideLeft';
   };
 
-  // ✅ الانتقال إلى التالي
   const moveNext = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -45,7 +42,6 @@ const ImageCarousel = () => {
     setTimeout(() => setIsTransitioning(false), 400);
   }, [items.length, isTransitioning]);
 
-  // ✅ الانتقال إلى السابق
   const movePrev = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -53,7 +49,6 @@ const ImageCarousel = () => {
     setTimeout(() => setIsTransitioning(false), 400);
   }, [items.length, isTransitioning]);
 
-  // ✅ معالجة أحداث لوحة المفاتيح
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight') {
@@ -69,7 +64,6 @@ const ImageCarousel = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [moveNext, movePrev]);
 
-  // ✅ معالجة اللمس
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -87,7 +81,6 @@ const ImageCarousel = () => {
     }
   };
 
-  // ✅ معالجة الماوس
   const handleMouseDown = (e) => {
     touchStartX.current = e.clientX;
   };
@@ -104,7 +97,6 @@ const ImageCarousel = () => {
     }
   };
 
-  // ✅ النقر على عنصر
   const handleItemClick = (index) => {
     if (index === selectedIndex) return;
     if (isTransitioning) return;
@@ -115,9 +107,9 @@ const ImageCarousel = () => {
   };
 
   return (
-    <div className={main}>
+    <div className={styles.main}>
       <div 
-        className={carousel}
+        className={styles.carousel}
         ref={carouselRef}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
@@ -129,7 +121,7 @@ const ImageCarousel = () => {
           return (
             <div
               key={item.id}
-              className={`${item} ${styles[position]}`}
+              className={`${styles.item} ${styles[position]}`}
               onClick={() => handleItemClick(index)}
             >
               <img src={item.img} alt={`Slide ${item.id}`} />
@@ -138,16 +130,16 @@ const ImageCarousel = () => {
         })}
       </div>
 
-      <div className={buttons}>
-        <button className={btn} onClick={movePrev}>Prev</button>
-        <button className={btn} onClick={moveNext}>Next</button>
+      <div className={styles.buttons}>
+        <button className={styles.btn} onClick={movePrev}>Prev</button>
+        <button className={styles.btn} onClick={moveNext}>Next</button>
       </div>
 
-      <div className={indicators}>
+      <div className={styles.indicators}>
         {items.map((_, index) => (
           <span
             key={index}
-            className={`${dot} ${index === selectedIndex ? active : ''}`}
+            className={`${styles.dot} ${index === selectedIndex ? styles.active : ''}`}
             onClick={() => handleItemClick(index)}
           />
         ))}
