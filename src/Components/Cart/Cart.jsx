@@ -1,7 +1,6 @@
-import styles from './Cart.module.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Cart.module.css';
+import styles from './Cart.module.css';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -119,11 +118,11 @@ const Cart = () => {
   // ===== إذا كانت السلة فارغة =====
   if (cartItems.length === 0) {
     return (
-      <div className={emptyCart}>
+      <div className={styles.emptyCart}>
         <h2>🛒 Your cart is empty</h2>
         <p>Add some products to your cart to see them here.</p>
         <button 
-          className={shopBtn}
+          className={styles.shopBtn}
           onClick={() => navigate('/')}
         >
           Continue Shopping
@@ -133,29 +132,29 @@ const Cart = () => {
   }
 
   return (
-    <div className={cartContainer}>
-      <main className={main}>
-        <div className={basket}>
-          <div className={basketModule}>
+    <div className={styles.cartContainer}>
+      <main className={styles.main}>
+        <div className={styles.basket}>
+          <div className={styles.basketModule}>
             <label htmlFor="promo-code">Enter a promotional code</label>
             <input
               id="promo-code"
               type="text"
               name="promo-code"
               maxLength="5"
-              className={promoCodeField}
+              className={styles.promoCodeField}
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
             />
-            <button className={promoCodeCta} onClick={applyPromoCode}>Apply</button>
+            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
           </div>
 
-          <div className={basketLabels}>
+          <div className={styles.basketLabels}>
             <ul>
-              <li className={`${item} ${itemHeading}`}>Item</li>
-              <li className={price}>Price</li>
-              <li className={quantity}>Quantity</li>
-              <li className={subtotal}>Subtotal</li>
+              <li className={`${styles.item} ${styles.itemHeading}`}>Item</li>
+              <li className={styles.price}>Price</li>
+              <li className={styles.quantity}>Quantity</li>
+              <li className={styles.subtotal}>Subtotal</li>
             </ul>
           </div>
 
@@ -165,22 +164,22 @@ const Cart = () => {
             const productQty = item.quantity || 1;
             
             return (
-              <div key={index} className={basketProduct}>
-                <div className={item}>
-                  <div className={productImage}>
+              <div key={index} className={styles.basketProduct}>
+                <div className={styles.item}>
+                  <div className={styles.productImage}>
                     <img 
                       src={productImage} 
                       alt={item.name} 
-                      className={productFrame}
+                      className={styles.productFrame}
                       onError={(e) => {
                         e.target.src = '/Assets/ShoeStore/tshirt1.png';
                       }}
                     />
                   </div>
-                  <div className={productDetails}>
+                  <div className={styles.productDetails}>
                     <h1>
                       <strong>
-                        <span className={itemQuantity}>{productQty}</span> x {item.name}
+                        <span className={styles.itemQuantity}>{productQty}</span> x {item.name}
                       </strong>
                     </h1>
                     <p><strong>Category: {item.category || 'T-Shirts'}</strong></p>
@@ -189,18 +188,18 @@ const Cart = () => {
                     {item.brand && <p><strong>Brand: {item.brand}</strong></p>}
                   </div>
                 </div>
-                <div className={price}>${productPrice.toFixed(2)}</div>
-                <div className={quantity}>
+                <div className={styles.price}>${productPrice.toFixed(2)}</div>
+                <div className={styles.quantity}>
                   <input
                     type="number"
                     value={productQty}
                     min="1"
-                    className={quantityField}
+                    className={styles.quantityField}
                     onChange={(e) => updateQuantity(index, parseInt(e.target.value))}
                   />
                 </div>
-                <div className={subtotal}>${(productPrice * productQty).toFixed(2)}</div>
-                <div className={remove}>
+                <div className={styles.subtotal}>${(productPrice * productQty).toFixed(2)}</div>
+                <div className={styles.remove}>
                   <button onClick={() => removeItem(index)}>Remove</button>
                 </div>
               </div>
@@ -208,21 +207,21 @@ const Cart = () => {
           })}
         </div>
 
-        <aside className={aside}>
-          <div className={summary}>
-            <div className={summaryTotalItems}>
-              <span className={totalItems}>{totalItems}</span> Items in your Bag
+        <aside className={styles.aside}>
+          <div className={styles.summary}>
+            <div className={styles.summaryTotalItems}>
+              <span className={styles.totalItems}>{totalItems}</span> Items in your Bag
             </div>
-            <div className={summarySubtotal}>
-              <div className={subtotalTitle}>Subtotal</div>
-              <div className={subtotalValue}>${subtotal.toFixed(2)}</div>
-              <div className={`${summaryPromo} ${promoPrice === 0 ? hide : ''}`}>
-                <div className={promoTitle}>Promotion</div>
-                <div className={promoValue}>${promoPrice.toFixed(2)}</div>
+            <div className={styles.summarySubtotal}>
+              <div className={styles.subtotalTitle}>Subtotal</div>
+              <div className={styles.subtotalValue}>${subtotal.toFixed(2)}</div>
+              <div className={`${styles.summaryPromo} ${promoPrice === 0 ? styles.hide : ''}`}>
+                <div className={styles.promoTitle}>Promotion</div>
+                <div className={styles.promoValue}>${promoPrice.toFixed(2)}</div>
               </div>
             </div>
-            <div className={summaryDelivery}>
-              <select name="delivery-collection" className={summaryDeliverySelection}>
+            <div className={styles.summaryDelivery}>
+              <select name="delivery-collection" className={styles.summaryDeliverySelection}>
                 <option value="0">Select Collection or Delivery</option>
                 <option value="collection">Collection</option>
                 <option value="first-class">Royal Mail 1st Class</option>
@@ -230,35 +229,35 @@ const Cart = () => {
                 <option value="signed-for">Royal Mail Special Delivery</option>
               </select>
             </div>
-            <div className={summaryTotal}>
-              <div className={totalTitle}>Total</div>
-              <div className={totalValue}>${total.toFixed(2)}</div>
+            <div className={styles.summaryTotal}>
+              <div className={styles.totalTitle}>Total</div>
+              <div className={styles.totalValue}>${total.toFixed(2)}</div>
             </div>
-            <div className={summaryCheckout}>
+            <div className={styles.summaryCheckout}>
               {/* ===== زر Add Manifest ===== */}
               <button 
                 ref={buttonRef}
-                className={`${orderBtn} ${isAnimating ? animate : ''}`}
+                className={`${styles.orderBtn} ${isAnimating ? styles.animate : ''}`}
                 onClick={handleCheckout}
                 disabled={isAnimating}
               >
-                <span className={defaultText}>Add Manifest</span>
-                <span className={successText}>
+                <span className={styles.defaultText}>Add Manifest</span>
+                <span className={styles.successText}>
                   Manifest Added!
                   <svg viewBox="0 0 12 10">
                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                   </svg>
                 </span>
-                <div className={boxOrder}></div>
-                <div className={truckOrder}>
-                  <div className={backOrder}></div>
-                  <div className={frontsOrder}>
-                    <div className={windowOrder}></div>
+                <div className={styles.boxOrder}></div>
+                <div className={styles.truckOrder}>
+                  <div className={styles.backOrder}></div>
+                  <div className={styles.frontsOrder}>
+                    <div className={styles.windowOrder}></div>
                   </div>
-                  <div className={`${lightOrder} ${topOrder}`}></div>
-                  <div className={`${lightOrder} ${bottomOrder}`}></div>
+                  <div className={`${styles.lightOrder} ${styles.topOrder}`}></div>
+                  <div className={`${styles.lightOrder} ${styles.bottomOrder}`}></div>
                 </div>
-                <div className={linesOrder}></div>
+                <div className={styles.linesOrder}></div>
               </button>
             </div>
           </div>

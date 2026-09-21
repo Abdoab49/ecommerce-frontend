@@ -1,6 +1,5 @@
-import styles from './BookStore.module.css';
 import React, { useState, useEffect } from 'react';
-import './BookStore.module.css';
+import styles from './BookStore.module.css';
 
 const BookStore = () => {
   const [books] = useState([
@@ -226,17 +225,17 @@ const BookStore = () => {
   };
 
   return (
-    <div className={container}>
-      <div className={paperTexture}></div>
+    <div className={styles.container}>
+      <div className={styles.paperTexture}></div>
       
-      <div className={header}>
-        <h1 className={logo}>Athenaeum Books</h1>
-        <p className={tagline}>Where timeless tales meet modern margins</p>
+      <div className={styles.header}>
+        <h1 className={styles.logo}>Athenaeum Books</h1>
+        <p className={styles.tagline}>Where timeless tales meet modern margins</p>
       </div>
       
-      <div className={controls}>
+      <div className={styles.controls}>
         <select 
-          className={filterDropdown} 
+          className={styles.filterDropdown} 
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -247,15 +246,15 @@ const BookStore = () => {
           <option value="scifi">Science Fiction</option>
         </select>
         
-        <div className={searchBox}>
+        <div className={styles.searchBox}>
           <input 
-            className={searchInput} 
+            className={styles.searchInput} 
             type="text" 
             placeholder="Search titles..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className={searchButton}>
+          <button className={styles.searchButton}>
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
@@ -263,40 +262,40 @@ const BookStore = () => {
         </div>
       </div>
       
-      <div className={bookGrid}>
+      <div className={styles.bookGrid}>
         {filteredBooks.map(book => (
-          <div key={book.id} className={bookCard}>
-            <div className={cardInner}>
-              <div className={cardFront}>
-                {book.isNew && <div className={`${bookBadge} ${newArrival}`}>New Arrival</div>}
-                <img className={bookImage} src={book.image} alt={book.title} />
-                <div className={bookDetails}>
-                  <h3 className={bookTitle}>{book.title}</h3>
-                  <p className={bookAuthor}>{book.author}</p>
-                  <div className={bookRatings}>
-                    <span className={stars}>{renderStars(book.stars)}</span>
-                    <span className={ratingCount}>({book.ratings.toLocaleString()})</span>
+          <div key={book.id} className={styles.bookCard}>
+            <div className={styles.cardInner}>
+              <div className={styles.cardFront}>
+                {book.isNew && <div className={`${styles.bookBadge} ${styles.newArrival}`}>New Arrival</div>}
+                <img className={styles.bookImage} src={book.image} alt={book.title} />
+                <div className={styles.bookDetails}>
+                  <h3 className={styles.bookTitle}>{book.title}</h3>
+                  <p className={styles.bookAuthor}>{book.author}</p>
+                  <div className={styles.bookRatings}>
+                    <span className={styles.stars}>{renderStars(book.stars)}</span>
+                    <span className={styles.ratingCount}>({book.ratings.toLocaleString()})</span>
                   </div>
-                  <p className={bookPrice}>{book.price}</p>
+                  <p className={styles.bookPrice}>{book.price}</p>
                 </div>
               </div>
-              <div className={cardBack}>
-                <h3 className={bookTitle}>{book.title}</h3>
-                <p className={bookSynopsis}>{book.synopsis}</p>
-                <div className={bookInfoRow}>
-                  <span className={infoLabel}>Pages:</span>
-                  <span className={infoValue}>{book.pages}</span>
+              <div className={styles.cardBack}>
+                <h3 className={styles.bookTitle}>{book.title}</h3>
+                <p className={styles.bookSynopsis}>{book.synopsis}</p>
+                <div className={styles.bookInfoRow}>
+                  <span className={styles.infoLabel}>Pages:</span>
+                  <span className={styles.infoValue}>{book.pages}</span>
                 </div>
-                <div className={bookInfoRow}>
-                  <span className={infoLabel}>Publisher:</span>
-                  <span className={infoValue}>{book.publisher}</span>
+                <div className={styles.bookInfoRow}>
+                  <span className={styles.infoLabel}>Publisher:</span>
+                  <span className={styles.infoValue}>{book.publisher}</span>
                 </div>
-                <div className={bookInfoRow}>
-                  <span className={infoLabel}>Published:</span>
-                  <span className={infoValue}>{book.published}</span>
+                <div className={styles.bookInfoRow}>
+                  <span className={styles.infoLabel}>Published:</span>
+                  <span className={styles.infoValue}>{book.published}</span>
                 </div>
-                <button className={addToCart} onClick={handleButtonClick}>Add to Cart</button>
-                <button className={addToWishlist} onClick={handleButtonClick}>Add to Wishlist</button>
+                <button className={styles.addToCart} onClick={handleButtonClick}>Add to Cart</button>
+                <button className={styles.addToWishlist} onClick={handleButtonClick}>Add to Wishlist</button>
               </div>
             </div>
           </div>

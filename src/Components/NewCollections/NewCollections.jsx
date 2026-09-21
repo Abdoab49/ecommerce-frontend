@@ -1,5 +1,5 @@
 import React from 'react'
-import './NewCollections.module.css'
+import './NewCollections.css'
 import Card from '../Popular/Card'
 
 const NewCollections = () => {

@@ -1,6 +1,5 @@
-import styles from './LogoScroller.module.css';
 import React, { useEffect, useRef } from 'react';
-import './LogoScroller.module.css';
+import styles from './LogoScroller.module.css';
 
 const LogoScroller = () => {
   const scrollerRef = useRef(null);
@@ -31,7 +30,7 @@ const LogoScroller = () => {
 
     doubledLogos.forEach((logoUrl, index) => {
       const logoDiv = document.createElement('div');
-      logoDiv.className = logo;
+      logoDiv.className = styles.logo;
       logoDiv.innerHTML = `<img src="${logoUrl}" alt="Logo ${index + 1}" loading="lazy" />`;
       scroller.appendChild(logoDiv);
     });
@@ -49,8 +48,8 @@ const LogoScroller = () => {
   }, [logos]);
 
   return (
-    <div className={scrollerContainer}>
-      <div className={scroller} ref={scrollerRef}></div>
+    <div className={styles.scrollerContainer}>
+      <div className={styles.scroller} ref={scrollerRef}></div>
     </div>
   );
 };

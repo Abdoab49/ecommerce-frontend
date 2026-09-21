@@ -1,7 +1,5 @@
-import styles from './MarqueeBusiness.module.css';
 import React from 'react';
-import './MarqueeBusiness.module.css';
-
+import styles from './MarqueeBusiness.module.css';
 
 const MarqueeBusiness = () => {
   const businesses = [
@@ -15,19 +13,19 @@ const MarqueeBusiness = () => {
   ];
 
   return (
-    <div className={marquee}>
-      <div className={marqueeGroup}>
+    <div className={styles.marquee}>
+      <div className={styles.marqueeGroup}>
         {businesses.map((business) => (
-          <div key={business.id} className={card}>
+          <div key={business.id} className={styles.card}>
             <img src={business.image} alt={business.name} />
             <h4>{business.name}</h4>
           </div>
         ))}
       </div>
 
-      <div aria-hidden="true" className={marqueeGroup}>
+      <div aria-hidden="true" className={styles.marqueeGroup}>
         {businesses.map((business) => (
-          <div key={`dup-${business.id}`} className={card}>
+          <div key={`dup-${business.id}`} className={styles.card}>
             <img src={business.image} alt={business.name} />
             <h4>{business.name}</h4>
           </div>

@@ -1,6 +1,6 @@
 // src/pages/ShopCategory.jsx
 import React, { useContext } from 'react';
-import './CSS/ShopCategory.module.css';
+import './CSS/ShopCategory.css';
 import { ShopContext } from '../Context/ShopContext';
 import dropdown_icon from '../Components/Assets/dropdown_icon.png';
 import ShoeStoreItem from '../Components/ShoeStoreItem/ShoeStoreItem';

@@ -45,13 +45,8 @@
   color: rgba(255,255,255,0.7);
 }
 
-/* ===== للهواتف ===== */
+/* للهواتف */
 @media (max-width: 768px) {
-  .bannerCard {
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
-  
   .cardImg {
     height: 300px;
   }
@@ -62,79 +57,32 @@
   
   .cardTitle {
     font-size: 1.5rem;
-    margin-bottom: 8px;
   }
   
   .cardText {
     font-size: 0.85rem;
     max-width: 100%;
-    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cardImg {
+    height: 250px;
   }
   
-  .cardTextSmall {
+  .cardImgOverlay {
+    padding: 15px;
+  }
+  
+  .cardTitle {
+    font-size: 1.2rem;
+  }
+  
+  .cardText {
     font-size: 0.75rem;
   }
-}
-
-/* ===== هواتف صغيرة (أقل من 576px) ===== */
-@media (max-width: 576px) {
-  .bannerCard {
-    border-radius: 4px;
-    margin-bottom: 15px;
-  }
   
-  .cardImg {
-    height: 200px;
-  }
-  
-  .cardImgOverlay {
-    padding: 12px 15px;
-  }
-  
-  .cardTitle {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-  }
-  
-  .cardText {
+  .cardTextSmall {
     font-size: 0.7rem;
-    margin-bottom: 4px;
-    max-width: 100%;
-    line-height: 1.3;
-  }
-  
-  .cardTextSmall {
-    font-size: 0.6rem;
-  }
-}
-
-/* ===== هواتف صغيرة جداً (أقل من 400px) ===== */
-@media (max-width: 400px) {
-  .bannerCard {
-    border-radius: 4px;
-    margin-bottom: 12px;
-  }
-  
-  .cardImg {
-    height: 160px;
-  }
-  
-  .cardImgOverlay {
-    padding: 10px 12px;
-  }
-  
-  .cardTitle {
-    font-size: 0.95rem;
-    margin-bottom: 3px;
-  }
-  
-  .cardText {
-    font-size: 0.6rem;
-    margin-bottom: 2px;
-    line-height: 1.2;
-  }
-  
-  .cardTextSmall {
-    font-size: 0.55rem;
   }
 }

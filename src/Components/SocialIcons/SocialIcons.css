@@ -1,0 +1,91 @@
+.social-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    padding: 10px 0;
+}
+
+.social-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 1rem;
+}
+
+.social-icons-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+}
+
+.social-icon-wrapper {
+    position: relative;
+}
+
+.social-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    clip-path: url(#squircleClip);
+}
+
+/* ألوان الخلفيات */
+.social-icon.github {
+    background: linear-gradient(135deg, #374151, #111827);
+    border: 1px solid rgba(75, 85, 99, 0.5);
+}
+
+.social-icon.linkedin {
+    background: linear-gradient(135deg, #2563eb, #1e3a8a);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+}
+
+.social-icon.youtube {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.social-icon.discord {
+    background: linear-gradient(135deg, #4f46e5, #3730a3);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+}
+
+/* تأثير hover */
+.social-icon:hover {
+    transform: scale(1.1) translateY(-0.3rem);
+}
+
+.icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    color: white;
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .social-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    .icon {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+    .social-icons-wrapper {
+        gap: 0.5rem;
+    }
+}
+/* أيقونة Facebook */
+.social-icon.facebook {
+    background: linear-gradient(135deg, #1877f2, #0c4a9e);
+    border: 1px solid rgba(24, 119, 242, 0.5);
+}

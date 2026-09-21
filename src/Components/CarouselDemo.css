@@ -1,0 +1,111 @@
+/* CarouselDemo.css */
+
+.carousel-demo {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.carousel-content {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  transition: transform 0.5s ease;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 8px;
+  overflow: hidden;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  padding: 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background: #3b82f6;
+  transform: scale(1.05);
+}
+
+.carousel-prev {
+  left: 0;
+}
+
+.carousel-next {
+  right: 0;
+}
+
+/* للشاشات المتوسطة */
+@media (min-width: 640px) {
+  .carousel-demo {
+    max-width: 400px;
+  }
+  
+  .number {
+    font-size: 2.5rem;
+  }
+}
+
+/* للشاشات الكبيرة */
+@media (min-width: 1024px) {
+  .carousel-demo {
+    max-width: 480px;
+  }
+  
+  .number {
+    font-size: 3rem;
+  }
+}
+
+/* تأثير hover على البطاقة */
+.card:hover {
+  transform: translateY(-4px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}

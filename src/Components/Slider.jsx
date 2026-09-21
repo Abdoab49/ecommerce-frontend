@@ -1,6 +1,5 @@
-import styles from './Slider.module.css';
 import React, { useState } from 'react';
-import './Slider.module.css';
+import styles from './Slider.module.css';
 
 const Slider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -24,35 +23,35 @@ const Slider = () => {
   };
 
   return (
-    <div className={slider}>
+    <div className={styles.slider}>
       {/* Indicators */}
-      <div className={sliderIndicators}>
+      <div className={styles.sliderIndicators}>
         {slides.map((slide) => (
           <button
             key={slide.id}
-            className={`${indicator} ${activeIndex === slide.id ? active : ''}`}
+            className={`${styles.indicator} ${activeIndex === slide.id ? styles.active : ''}`}
             onClick={() => goToSlide(slide.id)}
           />
         ))}
       </div>
 
       {/* Slider Inner */}
-      <div className={sliderInner}>
+      <div className={styles.sliderInner}>
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className={`${sliderItem} ${activeIndex === slide.id ? active : ''}`}
+            className={`${styles.sliderItem} ${activeIndex === slide.id ? styles.active : ''}`}
           >
-            <img className={sliderImage} src={slide.src} alt={slide.alt} />
+            <img className={styles.sliderImage} src={slide.src} alt={slide.alt} />
           </div>
         ))}
       </div>
 
       {/* Controls */}
-      <button className={`${sliderControl} ${prev}`} onClick={prevSlide}>
+      <button className={`${styles.sliderControl} ${styles.prev}`} onClick={prevSlide}>
         ‹
       </button>
-      <button className={`${sliderControl} ${next}`} onClick={nextSlide}>
+      <button className={`${styles.sliderControl} ${styles.next}`} onClick={nextSlide}>
         ›
       </button>
     </div>

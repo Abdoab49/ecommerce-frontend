@@ -1,5 +1,5 @@
 import React from 'react';
-import './UrbanHeadphone.module.css';
+import './UrbanHeadphone.css';
 
 const UrbanHeadphone = () => {
   return (

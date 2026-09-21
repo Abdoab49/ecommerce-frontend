@@ -1,8 +1,7 @@
-import styles from './Login.module.css';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, registerUser } from '../../api';
-import './Login.module.css';
+import styles from './Login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -49,8 +48,8 @@ const Login = () => {
   };
 
   return (
-    <div className={container}>
-      <div className={card}>
+    <div className={styles.container}>
+      <div className={styles.card}>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         <form onSubmit={handleSubmit}>
           {!isLogin && (
@@ -79,7 +78,7 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          {error && <p className={error}>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
           <button type="submit" disabled={loading}>
             {loading ? 'Loading...' : (isLogin ? 'Login' : 'Register')}
           </button>

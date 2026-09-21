@@ -1,12 +1,11 @@
-import styles from './ScrollingText.module.css';
 import React from 'react';
-import './ScrollingText.module.css';
+import styles from './ScrollingText.module.css';
 
 const ScrollingText = () => {
   return (
-    <div className={scrollContainer}>
-      <span className={scrollingText}>
-        Free delivery across all Moroccan cities for purchases over 500 MAD.
+    <div className={styles.scrollContainer}>
+      <span className={styles.scrollingText}>
+        This is the scrolling text that loops infinitely across the screen.
       </span>
     </div>
   );

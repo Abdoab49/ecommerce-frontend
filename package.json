@@ -2,9 +2,6 @@
   "name": "ecommerce-frontend",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "24.x"
-  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +12,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.17.0",
+    "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
     "splitting": "^1.1.0",
@@ -22,9 +20,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "react-scripts start",
+    "build": "CI=false react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -42,12 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "vite": "^5.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "ajv": "^6.12.6",
-    "ajv-keywords": "^3.5.2",
-    "ajv-formats": "^2.1.1"
   }
 }

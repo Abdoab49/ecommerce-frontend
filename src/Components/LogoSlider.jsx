@@ -1,6 +1,5 @@
-import styles from './LogoSlider.module.css';
 import React from 'react';
-import './LogoSlider.module.css';
+import styles from './LogoSlider.module.css';
 
 const LogoSlider = () => {
   // مصفوفة الصور للشريط الأول (مسار مباشر)
@@ -26,12 +25,12 @@ const LogoSlider = () => {
   return (
     <>
       {/* الشريط الأول */}
-      <div className={slider} style={{ '--items': images.length }}>
-        <div className={sliderTrack}>
+      <div className={styles.slider} style={{ '--items': images.length }}>
+        <div className={styles.sliderTrack}>
           {images.map((img, index) => (
             <div 
               key={index} 
-              className={sliderItem} 
+              className={styles.sliderItem} 
               style={{ '--index': index + 1 }}
             >
               <img src={img} alt="" />
@@ -41,12 +40,12 @@ const LogoSlider = () => {
       </div>
 
       {/* الشريط الثاني (عكسي) */}
-      <div className={slider} style={{ '--items': images2.length }} data-reverse>
-        <div className={sliderTrack}>
+      <div className={styles.slider} style={{ '--items': images2.length }} data-reverse>
+        <div className={styles.sliderTrack}>
           {images2.map((img, index) => (
             <div 
               key={index} 
-              className={sliderItem} 
+              className={styles.sliderItem} 
               style={{ '--index': index + 1 }}
             >
               <img src={img} alt="" />

@@ -1,5 +1,5 @@
 import React from 'react';
-import './BlackTagSlider.module.css';
+import './BlackTagSlider.css';
 
 const BlackTagSlider = () => {
   const rows = [

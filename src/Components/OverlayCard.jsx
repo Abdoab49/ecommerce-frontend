@@ -1,21 +1,20 @@
-import styles from './OverlayCard.module.css';
 import React from 'react';
-import './OverlayCard.module.css';
+import styles from './OverlayCard.module.css';
 
 const OverlayCard = () => {
   return (
-    <div className={`${card} ${bgDark} ${textWhite}`}>
+    <div className={`${styles.card} ${styles.bgDark} ${styles.textWhite}`}>
       <img 
-        className={cardImg} 
+        className={styles.cardImg} 
         src="/Assets/ShoeStore/background1.png" 
         alt="background" 
       />
-      <div className={cardImgOverlay}>
-        <h5 className={cardTitle}>JERSEYS</h5>
-        <p className={cardText}>
+      <div className={styles.cardImgOverlay}>
+        <h5 className={styles.cardTitle}>JERSEYS</h5>
+        <p className={styles.cardText}>
             Welcome to our store, where you can find all the national team jerseys for the 2026 World Cup.
         </p>
-        <p className={cardText}>2026</p>
+        <p className={styles.cardText}>2026</p>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import webSocketService from '../../services/websocket';
-import './WebSocketChat.module.css';
+import './WebSocketChat.css';
 
 const WebSocketChat = () => {
     const [messages, setMessages] = useState([]);

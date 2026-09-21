@@ -13,11 +13,9 @@ import Slider from '../Components/Slider'
 import SimpleCard from '../Components/SimpleCard'
 import BannerCard from '../Components/BannerCard'
 import PromoCard from '../Components/PromoCard'
+import ImageScroller from '../Components/ImageScroller'
 import ScrollingText from '../Components/ScrollingText'
 import LogoScroller from '../Components/LogoScroller'
-import NewOverlayCard from '../Components/NewOverlayCard'
-import NewShoeStore from '../Components/NewShoeStore'
-import ImageCarousel from '../Components/ImageCarousel'
 const Shop = () => {
     return (
         <div>
@@ -31,14 +29,12 @@ const Shop = () => {
             <MarqueeBusiness />
             <ShoeStore />
             <ShoesCard />
-            <NewOverlayCard />            
-            <NewShoeStore />
-            <ImageCarousel />
             <Slider />
             <BannerCard />
             <SimpleCard />
             <PromoCard />
             <Newsletter />
+            <ImageScroller />
             <SocialIcons />
             <LogoScroller />
         </div>

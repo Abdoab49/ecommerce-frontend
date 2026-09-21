@@ -1,0 +1,619 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f7f7f7;
+  font-family: 'PT Sans', sans-serif;
+}
+
+.products-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f7f7;
+}
+
+.products-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 40px 20px;
+}
+
+.second-row {
+  margin-top: 0;
+}
+
+.page-wrapper {
+  display: inline-block;
+  margin: 0;
+}
+
+.page-inner {
+  display: block;
+}
+
+.row {
+  display: block;
+}
+
+.el-wrapper {
+  width: 280px;
+  padding: 15px;
+  margin: 0;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.el-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+.el-wrapper .box-up {
+  width: 100%;
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.el-wrapper .img {
+  width: 100%;
+  padding: 20px 0;
+  transition: all 0.3s ease;
+}
+
+.el-wrapper:hover .img {
+  filter: blur(5px);
+  opacity: 0.4;
+}
+
+.el-wrapper .box-down {
+  width: 100%;
+  height: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.h-bg {
+  transition: all 0.3s ease;
+  width: 660px;
+  height: 100%;
+  background-color: #000000;
+  position: absolute;
+  left: -659px;
+}
+
+.el-wrapper:hover .h-bg {
+  left: 0;
+}
+
+.h-bg .h-bg-inner {
+  width: 50%;
+  height: 100%;
+  background-color: #000000;
+}
+
+.img-info {
+  position: absolute;
+  width: 100%;
+  bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.el-wrapper:hover .img-info {
+  bottom: 155px;
+}
+
+.info-inner {
+  position: absolute;
+  width: 100%;
+  bottom: 25px;
+  transition: all 0.4s ease;
+}
+
+.el-wrapper:hover .info-inner {
+  bottom: 155px;
+}
+
+.info-inner .p-name,
+.info-inner .p-company {
+  display: block;
+}
+
+/* ✅ خط Bebas Neue لأسماء المنتجات */
+.info-inner .p-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 22px;
+  color: #252525;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.info-inner .p-company {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.a-size {
+  transition: all 0.3s ease;
+  position: absolute;
+  width: 100%;
+  bottom: -20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #000000;
+  opacity: 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.el-wrapper:hover .a-size {
+  bottom: 50px;
+  opacity: 1;
+}
+
+.a-size .size {
+  color: #000000;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.offer-text {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.cart {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+}
+
+/* ✅ خط Bebas Neue للأسعار */
+.cart .price {
+  transition: all 0.6s ease;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #000000;
+  letter-spacing: 0.5px;
+}
+
+.el-wrapper:hover .price {
+  left: 20px;
+  transform: translateY(-50%);
+  color: #000000;
+}
+
+.cart .add-to-cart {
+  transition: all 0.6s ease;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 110%;
+  transform: translate(-50%, -50%);
+}
+
+.el-wrapper:hover .add-to-cart {
+  left: 50%;
+}
+
+.cart .add-to-cart .txt {
+  font-size: 12px;
+  color: #fff;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ===== تفاعل الزر عند الضغط ===== */
+.add-to-cart {
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-to-cart:active {
+  transform: scale(0.95);
+}
+
+.add-to-cart:active .txt {
+  color: #ffd700;
+}
+
+.add-to-cart.clicked {
+  animation: buttonPop 0.2s ease;
+}
+
+@keyframes buttonPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.add-to-cart::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.add-to-cart:active::after {
+  width: 100px;
+  height: 100px;
+}
+
+.add-to-cart:active {
+  background-color: #4caf50;
+  border-radius: 20px;
+}
+
+.add-to-cart:active .txt {
+  color: white;
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+@media (max-width: 1200px) {
+  .el-wrapper {
+    width: 260px;
+  }
+}
+
+@media (max-width: 991px) {
+  .el-wrapper {
+    width: 240px;
+  }
+  .products-wrapper {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 20px 15px !important;
+  }
+  
+  .page-wrapper {
+    width: 100%;
+  }
+  
+  .el-wrapper {
+    width: 100% !important;
+    padding: 10px !important;
+  }
+  
+  .el-wrapper .box-up {
+    height: 220px !important;
+  }
+  
+  .el-wrapper .img {
+    padding: 15px 0 !important;
+  }
+  
+  .info-inner .p-name {
+    font-size: 18px !important;
+  }
+  
+  .info-inner .p-company {
+    font-size: 10px !important;
+  }
+  
+  .cart .price {
+    font-size: 16px !important;
+  }
+  
+  .cart .add-to-cart .txt {
+    font-size: 10px !important;
+  }
+  
+  .a-size {
+    font-size: 10px !important;
+  }
+  
+  .offer-text {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .products-wrapper {
+    gap: 8px !important;
+    padding: 15px 10px !important;
+  }
+  
+  .el-wrapper {
+    padding: 6px !important;
+  }
+  
+  .el-wrapper .box-up {
+    height: 180px !important;
+  }
+  
+  .el-wrapper .img {
+    padding: 10px 0 !important;
+  }
+  
+  .info-inner .p-name {
+    font-size: 16px !important;
+  }
+  
+  .info-inner .p-company {
+    font-size: 9px !important;
+  }
+  
+  .cart .price {
+    font-size: 14px !important;
+  }
+  
+  .cart .add-to-cart .txt {
+    font-size: 9px !important;
+  }
+  
+  .a-size {
+    font-size: 9px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .el-wrapper .box-up {
+    height: 150px !important;
+  }
+  
+  .info-inner .p-name {
+    font-size: 14px !important;
+  }
+  
+  .info-inner .p-company {
+    font-size: 8px !important;
+  }
+  
+  .cart .price {
+    font-size: 12px !important;
+  }
+  
+  .cart .add-to-cart .txt {
+    font-size: 8px !important;
+  }
+}
+
+.products-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f7f7;
+}
+
+.second-row {
+  margin-top: 0;
+}
+
+body {
+  background-color: transparent !important;
+  background: none !important;
+}
+
+.products-container {
+  background-color: transparent !important;
+  background: none !important;
+}
+
+.products-wrapper {
+  background-color: transparent !important;
+}
+
+.el-wrapper {
+  background-color: #fff;
+}
+
+/* إشعار الإضافة */
+.cart-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #000000;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-notification {
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 10px 15px;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 550px) {
+  .cart-notification {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .cart-notification {
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+/* ===== ShoeStore للهواتف ===== */
+
+/* للهواتف (أقل من 768px) */
+@media screen and (max-width: 768px) {
+  /* جعل البطاقات في صفين */
+  .products-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  /* تصغير حجم البطاقة */
+  .el-wrapper {
+    width: 100% !important;
+    padding: 8px !important;
+  }
+
+  /* تصغير ارتفاع الصورة */
+  .el-wrapper .box-up {
+    height: 180px !important;
+  }
+
+  /* تصغير حجم الصورة */
+  .el-wrapper .img {
+    padding: 10px 0 !important;
+  }
+
+  /* تصغير اسم المنتج */
+  .info-inner .p-name {
+    font-size: 14px !important;
+  }
+
+  /* تصغير اسم الشركة */
+  .info-inner .p-company {
+    font-size: 10px !important;
+  }
+
+  /* تصغير السعر */
+  .cart .price {
+    font-size: 13px !important;
+  }
+
+  /* تصغير زر الإضافة */
+  .cart .add-to-cart .txt {
+    font-size: 9px !important;
+  }
+
+  /* تصغير المقاسات */
+  .a-size {
+    font-size: 9px !important;
+  }
+
+  /* إخفاء المقاسات في الهواتف الصغيرة */
+  .a-size {
+    display: none !important;
+  }
+}
+
+/* للهواتف الصغيرة (أقل من 480px) */
+@media screen and (max-width: 480px) {
+  .products-wrapper {
+    gap: 6px !important;
+    padding: 5px !important;
+  }
+
+  .el-wrapper {
+    padding: 5px !important;
+  }
+
+  .el-wrapper .box-up {
+    height: 140px !important;
+  }
+
+  .el-wrapper .img {
+    padding: 5px 0 !important;
+  }
+
+  .info-inner .p-name {
+    font-size: 12px !important;
+  }
+
+  .cart .price {
+    font-size: 11px !important;
+  }
+
+  .cart .add-to-cart .txt {
+    font-size: 8px !important;
+  }
+}
+
+/* للهواتف الصغيرة جداً (أقل من 360px) */
+@media screen and (max-width: 360px) {
+  .el-wrapper .box-up {
+    height: 110px !important;
+  }
+
+  .info-inner .p-name {
+    font-size: 10px !important;
+  }
+
+  .cart .price {
+    font-size: 10px !important;
+  }
+
+  .cart .add-to-cart .txt {
+    font-size: 7px !important;
+  }
+}
+
