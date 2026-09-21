@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './SimpleCard.module.css';
+import './SimpleCard.module.css';
 
 // مكون البطاقة الواحدة
 const Card = ({ imageSrc, title, description, price }) => {

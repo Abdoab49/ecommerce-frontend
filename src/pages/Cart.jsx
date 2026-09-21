@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
-import styles from './Cart.module.css';
+import './Cart.module.css';
 
 const Cart = () => {
   const navigate = useNavigate();

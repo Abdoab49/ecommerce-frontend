@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
-import styles from './ProductGrid.module.css';
+import './ProductGrid.module.css';
 
 const ProductGrid = () => {
     const navigate = useNavigate();

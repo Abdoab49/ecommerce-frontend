@@ -1,7 +1,7 @@
 // src/pages/Orders.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Orders.css';
+import './Orders.css';
 
 const Orders = () => {
   const navigate = useNavigate();

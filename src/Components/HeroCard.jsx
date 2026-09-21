@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './OverlayCard.module.css'; // ✅ نفس ملف CSS
+import './OverlayCard.module.css'; // ✅ نفس ملف CSS
 
 const HeroCard = () => {
   return (

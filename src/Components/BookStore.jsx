@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './BookStore.module.css';
+import './BookStore.module.css';
 
 const BookStore = () => {
   const [books] = useState([

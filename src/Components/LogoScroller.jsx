@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './LogoScroller.module.css';
+import './LogoScroller.module.css';
 
 const LogoScroller = () => {
   const scrollerRef = useRef(null);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../api';
-import styles from './Orders.module.css';
+import './Orders.module.css';
 
 const Orders = () => {
   const navigate = useNavigate();

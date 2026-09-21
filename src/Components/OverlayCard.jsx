@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './OverlayCard.module.css';
+import './OverlayCard.module.css';
 
 const OverlayCard = () => {
   return (

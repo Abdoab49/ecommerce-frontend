@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
 import gsap from 'gsap';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
-import styles from './SizeSelection.module.css';
+import './SizeSelection.module.css';
 import ProductGrid from './ProductGrid';
 
 // ✅ تسجيل GSAP Plugins

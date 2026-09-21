@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ScrollingText.module.css';
+import './ScrollingText.module.css';
 
 const ScrollingText = () => {
   return (

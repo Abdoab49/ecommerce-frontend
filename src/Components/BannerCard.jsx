@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './BannerCard.module.css';
+import './BannerCard.module.css';
 
 const BannerCard = () => {
   return (

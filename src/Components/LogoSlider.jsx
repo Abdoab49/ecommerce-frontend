@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './LogoSlider.module.css';
+import './LogoSlider.module.css';
 
 const LogoSlider = () => {
   // مصفوفة الصور للشريط الأول (مسار مباشر)

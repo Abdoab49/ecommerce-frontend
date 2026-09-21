@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './TravelCards.module.css';
+import './TravelCards.module.css';
 
 const TravelCards = () => {
   const cards = [

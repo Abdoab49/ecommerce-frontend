@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MarqueeBusiness.module.css';
+import './MarqueeBusiness.module.css';
 
 
 const MarqueeBusiness = () => {

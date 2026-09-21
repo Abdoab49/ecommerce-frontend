@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './PromoCard.module.css';
+import './PromoCard.module.css';
 
 const PromoCard = () => {
   return (
