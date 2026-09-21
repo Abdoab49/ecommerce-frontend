@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import webSocketService from '../../services/websocket';
-import './NotificationBell.css';
+import './NotificationBell.module.css';
 
 const NotificationBell = () => {
     const [notifications, setNotifications] = useState([]);

@@ -1,3 +1,4 @@
+import styles from './Cart.module.css';
 // src/pages/Cart.jsx
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -190,11 +191,11 @@ const Cart = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className={styles.emptyCart}>
+      <div className={emptyCart}>
         <h2>🛒 Your cart is empty</h2>
         <p>Add some products to your cart to see them here.</p>
         <button 
-          className={styles.shopBtn}
+          className={shopBtn}
           onClick={() => navigate('/')}
         >
           Continue Shopping
@@ -204,29 +205,29 @@ const Cart = () => {
   }
 
   return (
-    <div className={styles.cartContainer}>
-      <main className={styles.main}>
-        <div className={styles.basket}>
-          <div className={styles.basketModule}>
+    <div className={cartContainer}>
+      <main className={main}>
+        <div className={basket}>
+          <div className={basketModule}>
             <label htmlFor="promo-code">Enter a promotional code</label>
             <input
               id="promo-code"
               type="text"
               name="promo-code"
               maxLength="5"
-              className={styles.promoCodeField}
+              className={promoCodeField}
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
             />
-            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
+            <button className={promoCodeCta} onClick={applyPromoCode}>Apply</button>
           </div>
 
-          <div className={styles.basketLabels}>
+          <div className={basketLabels}>
             <ul>
-              <li className={`${styles.item} ${styles.itemHeading}`}>Item</li>
-              <li className={styles.price}>Price</li>
-              <li className={styles.quantity}>Quantity</li>
-              <li className={styles.subtotal}>Subtotal</li>
+              <li className={`${item} ${itemHeading}`}>Item</li>
+              <li className={price}>Price</li>
+              <li className={quantity}>Quantity</li>
+              <li className={subtotal}>Subtotal</li>
             </ul>
           </div>
 
@@ -236,22 +237,22 @@ const Cart = () => {
             const productQty = item.quantity || 1;
             
             return (
-              <div key={index} className={styles.basketProduct}>
-                <div className={styles.item}>
-                  <div className={styles.productImage}>
+              <div key={index} className={basketProduct}>
+                <div className={item}>
+                  <div className={productImage}>
                     <img 
                       src={productImage} 
                       alt={item.name} 
-                      className={styles.productFrame}
+                      className={productFrame}
                       onError={(e) => {
                         e.target.src = '/Assets/ShoeStore/tshirt1.png';
                       }}
                     />
                   </div>
-                  <div className={styles.productDetails}>
+                  <div className={productDetails}>
                     <h1>
                       <strong>
-                        <span className={styles.itemQuantity}>{productQty}</span> x {item.name}
+                        <span className={itemQuantity}>{productQty}</span> x {item.name}
                       </strong>
                     </h1>
                     <p><strong>Category: {item.category || 'T-Shirts'}</strong></p>
@@ -260,11 +261,11 @@ const Cart = () => {
                     {item.brand && <p><strong>Brand: {item.brand}</strong></p>}
                   </div>
                 </div>
-                <div className={styles.price}>{productPrice} DH</div>
-                <div className={styles.quantity}>
-                  <div className={styles.quantityWrapper}>
+                <div className={price}>{productPrice} DH</div>
+                <div className={quantity}>
+                  <div className={quantityWrapper}>
                     <button 
-                      className={styles.qtyBtn}
+                      className={qtyBtn}
                       onClick={() => updateQuantity(index, productQty - 1)}
                       disabled={productQty <= 1}
                     >
@@ -274,19 +275,19 @@ const Cart = () => {
                       type="number"
                       value={productQty}
                       min="1"
-                      className={styles.quantityField}
+                      className={quantityField}
                       onChange={(e) => updateQuantity(index, parseInt(e.target.value) || 1)}
                     />
                     <button 
-                      className={styles.qtyBtn}
+                      className={qtyBtn}
                       onClick={() => updateQuantity(index, productQty + 1)}
                     >
                       +
                     </button>
                   </div>
                 </div>
-                <div className={styles.subtotal}>{productPrice * productQty} DH</div>
-                <div className={styles.remove}>
+                <div className={subtotal}>{productPrice * productQty} DH</div>
+                <div className={remove}>
                   <button onClick={() => removeItem(index)}>Remove</button>
                 </div>
               </div>
@@ -294,49 +295,49 @@ const Cart = () => {
           })}
         </div>
 
-        <aside className={styles.aside}>
-          <div className={styles.summary}>
+        <aside className={aside}>
+          <div className={summary}>
             
-            <div className={styles.shippingForm}>
+            <div className={shippingForm}>
               <h4>📍 Shipping Information</h4>
-              <div className={styles.formGroup}>
+              <div className={formGroup}>
                 <label>Full Name *</label>
                 <input
                   type="text"
-                  className={styles.formInput}
+                  className={formInput}
                   placeholder="Enter your full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
                 />
               </div>
-              <div className={styles.formGroup}>
+              <div className={formGroup}>
                 <label>📱 Phone Number *</label>
                 <input
                   type="text"
-                  className={styles.formInput}
+                  className={formInput}
                   placeholder="Enter your phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
                 />
               </div>
-              <div className={styles.formGroup}>
+              <div className={formGroup}>
                 <label>📍 City *</label>
                 <input
                   type="text"
-                  className={styles.formInput}
+                  className={formInput}
                   placeholder="Enter your city"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   required
                 />
               </div>
-              <div className={styles.formGroup}>
+              <div className={formGroup}>
                 <label>📍 Address *</label>
                 <input
                   type="text"
-                  className={styles.formInput}
+                  className={formInput}
                   placeholder="Enter your address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
@@ -345,46 +346,46 @@ const Cart = () => {
               </div>
             </div>
 
-            <div className={styles.summaryTotalItems}>
-              <span className={styles.totalItems}>{totalItems}</span> Items in your Bag
+            <div className={summaryTotalItems}>
+              <span className={totalItems}>{totalItems}</span> Items in your Bag
             </div>
-            <div className={styles.summarySubtotal}>
-              <div className={styles.subtotalTitle}>Subtotal</div>
-              <div className={styles.subtotalValue}>{subtotal} DH</div>
-              <div className={`${styles.summaryPromo} ${promoPrice === 0 ? styles.hide : ''}`}>
-                <div className={styles.promoTitle}>Promotion</div>
-                <div className={styles.promoValue}>-{promoPrice} DH</div>
+            <div className={summarySubtotal}>
+              <div className={subtotalTitle}>Subtotal</div>
+              <div className={subtotalValue}>{subtotal} DH</div>
+              <div className={`${summaryPromo} ${promoPrice === 0 ? hide : ''}`}>
+                <div className={promoTitle}>Promotion</div>
+                <div className={promoValue}>-{promoPrice} DH</div>
               </div>
             </div>
 
-            <div className={styles.summaryTotal}>
-              <div className={styles.totalTitle}>Total</div>
-              <div className={styles.totalValue}>{total} DH</div>
+            <div className={summaryTotal}>
+              <div className={totalTitle}>Total</div>
+              <div className={totalValue}>{total} DH</div>
             </div>
-            <div className={styles.summaryCheckout}>
+            <div className={summaryCheckout}>
               <button 
                 ref={buttonRef}
-                className={`${styles.orderBtn} ${isAnimating ? styles.animate : ''}`}
+                className={`${orderBtn} ${isAnimating ? animate : ''}`}
                 onClick={handleCheckout}
                 disabled={isAnimating || loading}
               >
-                <span className={styles.defaultText}>{loading ? 'Processing...' : 'Add Manifest'}</span>
-                <span className={styles.successText}>
+                <span className={defaultText}>{loading ? 'Processing...' : 'Add Manifest'}</span>
+                <span className={successText}>
                   Manifest Added!
                   <svg viewBox="0 0 12 10">
                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
                   </svg>
                 </span>
-                <div className={styles.boxOrder}></div>
-                <div className={styles.truckOrder}>
-                  <div className={styles.backOrder}></div>
-                  <div className={styles.frontsOrder}>
-                    <div className={styles.windowOrder}></div>
+                <div className={boxOrder}></div>
+                <div className={truckOrder}>
+                  <div className={backOrder}></div>
+                  <div className={frontsOrder}>
+                    <div className={windowOrder}></div>
                   </div>
-                  <div className={`${styles.lightOrder} ${styles.topOrder}`}></div>
-                  <div className={`${styles.lightOrder} ${styles.bottomOrder}`}></div>
+                  <div className={`${lightOrder} ${topOrder}`}></div>
+                  <div className={`${lightOrder} ${bottomOrder}`}></div>
                 </div>
-                <div className={styles.linesOrder}></div>
+                <div className={linesOrder}></div>
               </button>
             </div>
           </div>

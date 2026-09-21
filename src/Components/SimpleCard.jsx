@@ -1,21 +1,22 @@
+import styles from './SimpleCard.module.css';
 import React from 'react';
 import './SimpleCard.module.css';
 
 // مكون البطاقة الواحدة
 const Card = ({ imageSrc, title, description, price }) => {
   return (
-    <div className={styles.card}>
+    <div className={card}>
       <img 
-        className={styles.cardImgTop} 
+        className={cardImgTop} 
         src={imageSrc} 
         alt={title}
       />
-      <div className={styles.cardBody}>
-        <h5 className={styles.cardTitle}>{title}</h5>
-        <p className={styles.cardText}>{description}</p>
-        <p className={styles.cardPrice}>{price}</p>
+      <div className={cardBody}>
+        <h5 className={cardTitle}>{title}</h5>
+        <p className={cardText}>{description}</p>
+        <p className={cardPrice}>{price}</p>
         <button 
-          className={styles.btn}
+          className={btn}
           onClick={() => console.log(`Added ${title} to cart`)}
           type="button"
         >
@@ -60,8 +61,8 @@ const SimpleCard = () => {
   ];
 
   return (
-    <div className={styles.cardsWrapper}>
-      <div className={styles.cardsContainer}>
+    <div className={cardsWrapper}>
+      <div className={cardsContainer}>
         {cardsData.map((card) => (
           <Card key={card.id} {...card} />
         ))}

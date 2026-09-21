@@ -1,3 +1,4 @@
+import styles from './SizeSelection.module.css';
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
@@ -199,8 +200,8 @@ const SizeSelection = () => {
     }
     localStorage.setItem('cart', JSON.stringify(existingCart));
 
-    const morph = button.querySelector(`.${styles.morph} path`);
-    const shirt = button.querySelectorAll(`.${styles.shirt} svg > path`);
+    const morph = button.querySelector(`.${morph} path`);
+    const shirt = button.querySelectorAll(`.${shirt} svg > path`);
     
     if (morph && shirt.length > 0) {
       try {
@@ -358,24 +359,24 @@ const SizeSelection = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.productWrapper}>
+    <div className={container}>
+      <div className={productWrapper}>
         
         {/* ===== PRODUCT IMAGE ===== */}
-        <div className={styles.imageSection}>
-          <div className={styles.imageFrame}>
+        <div className={imageSection}>
+          <div className={imageFrame}>
             <img 
               src={productData.images[currentImage]} 
               alt={productData.name}
-              className={styles.productImage}
+              className={productImage}
             />
             
             {/* ✅ أزرار التنقل بين الصور */}
             {productData.images.length > 1 && (
               <>
-                <button className={styles.prevBtn} onClick={prevImage}>‹</button>
-                <button className={styles.nextBtn} onClick={nextImage}>›</button>
-                <div className={styles.imageCounter}>
+                <button className={prevBtn} onClick={prevImage}>‹</button>
+                <button className={nextBtn} onClick={nextImage}>›</button>
+                <div className={imageCounter}>
                   {currentImage + 1} / {productData.images.length}
                 </div>
               </>
@@ -383,11 +384,11 @@ const SizeSelection = () => {
           </div>
           
           {/* ===== THUMBNAILS ===== */}
-          <div className={styles.thumbnails}>
+          <div className={thumbnails}>
             {productData.images.slice(0, 6).map((img, index) => (
               <div 
                 key={index}
-                className={`${styles.thumbnail} ${currentImage === index ? styles.active : ''}`}
+                className={`${thumbnail} ${currentImage === index ? active : ''}`}
                 onClick={() => goToImage(index)}
               >
                 <img src={img} alt={`thumb ${index + 1}`} />
@@ -397,25 +398,25 @@ const SizeSelection = () => {
         </div>
 
         {/* ===== PRODUCT INFO ===== */}
-        <div className={styles.infoSection}>
-          <p className={styles.brand}>{productData.brand}</p>
-          <h1 className={styles.title}>{productData.name}</h1>
-          <p className={styles.subtitle}>{productData.name} T-Shirt</p>
+        <div className={infoSection}>
+          <p className={brand}>{productData.brand}</p>
+          <h1 className={title}>{productData.name}</h1>
+          <p className={subtitle}>{productData.name} T-Shirt</p>
           
           {/* ✅ عرض السعر بالدرهم المغربي */}
-          <div className={styles.priceRow}>
-            <span className={styles.currentPrice}>{formatPrice(productData.price)}</span>
+          <div className={priceRow}>
+            <span className={currentPrice}>{formatPrice(productData.price)}</span>
           </div>
-          <p className={styles.taxInfo}>incl. of taxes</p>
-          <p className={styles.dutyInfo}>(Also includes all applicable duties)</p>
+          <p className={taxInfo}>incl. of taxes</p>
+          <p className={dutyInfo}>(Also includes all applicable duties)</p>
 
-          <div className={styles.sizeSection}>
-            <p className={styles.sizeLabel}>Size Select</p>
-            <div className={styles.sizeOptions}>
+          <div className={sizeSection}>
+            <p className={sizeLabel}>Size Select</p>
+            <div className={sizeOptions}>
               {productData.sizes.map((size) => (
                 <button
                   key={size}
-                  className={`${styles.sizeBtn} ${selectedSize === size ? styles.active : ''}`}
+                  className={`${sizeBtn} ${selectedSize === size ? active : ''}`}
                   onClick={() => handleSizeSelect(size)}
                 >
                   {size}
@@ -423,24 +424,24 @@ const SizeSelection = () => {
               ))}
             </div>
             {isSizeRequired && (
-              <p className={styles.errorMsg}>Size selection is required</p>
+              <p className={errorMsg}>Size selection is required</p>
             )}
           </div>
 
           {/* ===== ADD TO CART BUTTON ===== */}
-          <div className={styles.cartRow}>
+          <div className={cartRow}>
             <button 
               ref={buttonRef}
-              className={`${styles.addToCart} ${isAnimating ? styles.active : ''}`}
+              className={`${addToCart} ${isAnimating ? active : ''}`}
               onClick={handleAddToCart}
               disabled={isAnimating}
             >
               <span>Add to cart</span>
-              <svg className={styles.morph} viewBox="0 0 64 13">
+              <svg className={morph} viewBox="0 0 64 13">
                 <path ref={morphRef} d="M0 12C6 12 17 12 32 12C47.9024 12 58 12 64 12V13H0V12Z" />
               </svg>
-              <div className={styles.shirt}>
-                <svg className={styles.first} viewBox="0 0 24 24">
+              <div className={shirt}>
+                <svg className={first} viewBox="0 0 24 24">
                   <path ref={shirtRef} d="M4.99997 3L8.99997 1.5C8.99997 1.5 10.6901 3 12 3C13.3098 3 15 1.5 15 1.5L19 3L22.5 8L19.5 10.5L19 9.5L17.1781 18.6093C17.062 19.1901 16.778 19.7249 16.3351 20.1181C15.4265 20.925 13.7133 22.3147 12 23C10.2868 22.3147 8.57355 20.925 7.66487 20.1181C7.22198 19.7249 6.93798 19.1901 6.82183 18.6093L4.99997 9.5L4.5 10.5L1.5 8L4.99997 3Z" />
                   <g>
                     <path d="M16.3516 9.65383H14.3484V7.83652H14.1742V9.8269H16.5258V7.83652H16.3516V9.65383Z" />
@@ -454,7 +455,7 @@ const SizeSelection = () => {
                     <path d="M15.411 9.30763H15.2891V8.00956H15.411V9.30763ZM15.1149 9.48071H15.5852V7.83648H15.1149V9.48071Z" />
                   </g>
                 </svg>
-                <svg className={styles.second} viewBox="0 0 24 24">
+                <svg className={second} viewBox="0 0 24 24">
                   <path d="M4.99997 3L8.99997 1.5C8.99997 1.5 10.6901 3 12 3C13.3098 3 15 1.5 15 1.5L19 3L22.5 8L19.5 10.5L19 9.5L17.1781 18.6093C17.062 19.1901 16.778 19.7249 16.3351 20.1181C15.4265 20.925 13.7133 22.3147 12 23C10.2868 22.3147 8.57355 20.925 7.66487 20.1181C7.22198 19.7249 6.93798 19.1901 6.82183 18.6093L4.99997 9.5L4.5 10.5L1.5 8L4.99997 3Z" />
                   <g>
                     <path d="M16.3516 9.65383H14.3484V7.83652H14.1742V9.8269H16.5258V7.83652H16.3516V9.65383Z" />
@@ -469,12 +470,12 @@ const SizeSelection = () => {
                   </g>
                 </svg>
               </div>
-              <div className={styles.cart}>
+              <div className={cart}>
                 <svg viewBox="0 0 36 26">
-                  <path d="M1 2.5H6L10 18.5H25.5L28.5 7.5L7.5 7.5" className={styles.shape} />
-                  <path d="M11.5 25C12.6046 25 13.5 24.1046 13.5 23C13.5 21.8954 12.6046 21 11.5 21C10.3954 21 9.5 21.8954 9.5 23C9.5 24.1046 10.3954 25 11.5 25Z" className={styles.wheel} />
-                  <path d="M24 25C25.1046 25 26 24.1046 26 23C26 21.8954 25.1046 21 24 21C22.8954 21 22 21.8954 22 23C22 24.1046 22.8954 25 24 25Z" className={styles.wheel} />
-                  <path d="M14.5 13.5L16.5 15.5L21.5 10.5" className={styles.tick} />
+                  <path d="M1 2.5H6L10 18.5H25.5L28.5 7.5L7.5 7.5" className={shape} />
+                  <path d="M11.5 25C12.6046 25 13.5 24.1046 13.5 23C13.5 21.8954 12.6046 21 11.5 21C10.3954 21 9.5 21.8954 9.5 23C9.5 24.1046 10.3954 25 11.5 25Z" className={wheel} />
+                  <path d="M24 25C25.1046 25 26 24.1046 26 23C26 21.8954 25.1046 21 24 21C22.8954 21 22 21.8954 22 23C22 24.1046 22.8954 25 24 25Z" className={wheel} />
+                  <path d="M14.5 13.5L16.5 15.5L21.5 10.5" className={tick} />
                 </svg>
               </div>
             </button>
@@ -484,23 +485,23 @@ const SizeSelection = () => {
       </div>
 
       {/* ===== RELATED PRODUCTS ===== */}
-      <div className={styles.relatedSection}>
-        <h2 className={styles.relatedTitle}>You Might Also Like</h2>
-        <div className={styles.relatedGrid}>
+      <div className={relatedSection}>
+        <h2 className={relatedTitle}>You Might Also Like</h2>
+        <div className={relatedGrid}>
           {relatedProducts.map((p) => (
             <div 
               key={p.id} 
-              className={styles.relatedCard}
+              className={relatedCard}
               onClick={() => goToProduct(p)}
             >
-              <div className={styles.relatedImage}>
+              <div className={relatedImage}>
                 <img src={p.img} alt={p.name} />
               </div>
-              <div className={styles.relatedInfo}>
-                <h3 className={styles.relatedName}>{p.name}</h3>
-                <p className={styles.relatedBrand}>{p.company}</p>
-                <span className={styles.relatedPrice}>{p.price}</span>
-                <button className={styles.relatedBtn}>View Product</button>
+              <div className={relatedInfo}>
+                <h3 className={relatedName}>{p.name}</h3>
+                <p className={relatedBrand}>{p.company}</p>
+                <span className={relatedPrice}>{p.price}</span>
+                <button className={relatedBtn}>View Product</button>
               </div>
             </div>
           ))}
@@ -508,7 +509,7 @@ const SizeSelection = () => {
       </div>
 
       {/* ===== ✅ إضافة ProductGrid هنا ===== */}
-      <div className={styles.productGridSection}>
+      <div className={productGridSection}>
         <ProductGrid />
       </div>
 

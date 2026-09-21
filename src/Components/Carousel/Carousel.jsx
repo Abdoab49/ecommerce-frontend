@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Carousel.css';
+import './Carousel.module.css';
 
 const textItems = [
     "🔥 NEW COLLECTIONS",

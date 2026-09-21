@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ProductDisplay.css';
+import './ProductDisplay.module.css';
 
 const ProductDisplay = ({ product }) => {
   const navigate = useNavigate();

@@ -1,11 +1,12 @@
+import styles from './MarqueeText.module.css';
 import React from 'react';
 import './MarqueeText.module.css';
 
 const MarqueeText = () => {
   return (
-    <div className={styles.marquee}>
-      <div className={styles.track}>
-        <div className={styles.content}>
+    <div className={marquee}>
+      <div className={track}>
+        <div className={content}>
           &nbsp;"Today's offer: Sports jerseys on sale, limited quantity - hurry!"⚽
         </div>
       </div>

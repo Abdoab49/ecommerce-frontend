@@ -1,3 +1,4 @@
+import styles from './MarqueeIcons.module.css';
 import React from 'react';
 import './MarqueeIcons.module.css';
 
@@ -12,9 +13,9 @@ const MarqueeIcons = () => {
   const allIcons = [...originalIcons, ...duplicateIcons];
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.marquee}>
-        <div className={styles.marqueeGroup}>
+    <div className={wrapper}>
+      <div className={marquee}>
+        <div className={marqueeGroup}>
           {allIcons.map((path, index) => (
             <svg key={index} viewBox="0 0 24 24" fill="currentColor">
               <path d={path} />
@@ -23,8 +24,8 @@ const MarqueeIcons = () => {
         </div>
       </div>
 
-      <div className={styles.marquee}>
-        <div className={styles.marqueeGroup}>
+      <div className={marquee}>
+        <div className={marqueeGroup}>
           {allIcons.map((path, index) => (
             <svg key={index} viewBox="0 0 24 24" fill="currentColor">
               <path d={path} />

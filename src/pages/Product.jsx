@@ -7,7 +7,7 @@ import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
 import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
 import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 import ShoeStore from '../Components/ShoeStore';
-import './Product.css';
+import './Product.module.css';
 
 const Product = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import './NetflixSlider.css';
+import './NetflixSlider.module.css';
 
 const NetflixSlider = () => {
   const scrollRef = useRef(null);

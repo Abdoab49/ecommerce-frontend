@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from './Card'
-import './Popular.css'
+import './Popular.module.css'
 
 const Popular = () => {
   const products = [

@@ -1,5 +1,5 @@
 import React from 'react';
-import './bob.css';
+import './bob.module.css';
 
 const ProductCard = () => {
   return (

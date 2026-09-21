@@ -1,3 +1,4 @@
+import styles from './ImageScroller.module.css';
 import React, { useEffect, useRef } from 'react';
 import './ImageScroller.module.css';
 
@@ -11,7 +12,7 @@ const ImageScroller = () => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       scroller.setAttribute("data-animated", "true");
 
-      const scrollerInner = scroller.querySelector(`.${styles.scrollerInner}`);
+      const scrollerInner = scroller.querySelector(`.${scrollerInner}`);
       if (!scrollerInner) return;
 
       const scrollerContent = Array.from(scrollerInner.children);
@@ -27,11 +28,11 @@ const ImageScroller = () => {
   return (
     <div 
       ref={scrollerRef}
-      className={styles.scroller} 
+      className={scroller} 
       data-direction="right" 
       data-speed="slow"
     >
-      <div className={styles.scrollerInner}>
+      <div className={scrollerInner}>
         <img 
           src="/Assets/ShoeStore/image.scroller1.png" 
           alt="Product 1" 

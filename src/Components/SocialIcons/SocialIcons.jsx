@@ -1,5 +1,5 @@
 import React from 'react';
-import './SocialIcons.css';
+import './SocialIcons.module.css';
 
 const SocialIcons = () => {
   // ✅ روابط حسابات التواصل الاجتماعي

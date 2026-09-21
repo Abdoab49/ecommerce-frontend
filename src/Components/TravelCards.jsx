@@ -1,3 +1,4 @@
+import styles from './TravelCards.module.css';
 import React from 'react';
 import './TravelCards.module.css';
 
@@ -30,14 +31,14 @@ const TravelCards = () => {
   ];
 
   return (
-    <div className={styles.container}>
-      <main className={styles.pageContent}>
+    <div className={container}>
+      <main className={pageContent}>
         {cards.map((card, index) => (
-          <div key={index} className={`${styles.card} ${styles[`card${index}`]}`}>
-            <div className={styles.content}>
-              <h2 className={styles.title}>{card.title}</h2>
-              <p className={styles.copy}>{card.copy}</p>
-              <button className={styles.btn}>{card.button}</button>
+          <div key={index} className={`${card} ${styles[`card${index}`]}`}>
+            <div className={content}>
+              <h2 className={title}>{card.title}</h2>
+              <p className={copy}>{card.copy}</p>
+              <button className={btn}>{card.button}</button>
             </div>
           </div>
         ))}

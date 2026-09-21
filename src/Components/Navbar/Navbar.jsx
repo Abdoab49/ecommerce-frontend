@@ -1,3 +1,4 @@
+import styles from './Navbar.module.css';
 import React, { useContext, useState } from 'react';
 import './Navbar.module.css';
 import logo from '../Assets/logo.png';
@@ -23,28 +24,28 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={styles.navbar}>
-            <div className={styles.navbarContainer}>
+        <nav className={navbar}>
+            <div className={navbarContainer}>
                 {/* زر القائمة (Hamburger) */}
-                <div className={styles.menuToggle} onClick={toggleMenu}>
+                <div className={menuToggle} onClick={toggleMenu}>
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
 
                 {/* LOGO */}
-                <div className={styles.logo}>
+                <div className={logo}>
                     <Link to='/'>
                         <img src={logo} alt="logo" />
                     </Link>
                 </div>
 
                 {/* MENU ITEMS */}
-                <ul className={`${styles.menuItems} ${isMenuOpen ? styles.active : ''}`}>
+                <ul className={`${menuItems} ${isMenuOpen ? active : ''}`}>
                     <li>
                         <Link 
                             to='/' 
-                            className={`${styles.link} ${menu === "shop" ? styles.active : ''}`}
+                            className={`${link} ${menu === "shop" ? active : ''}`}
                             onClick={() => {
                                 setMenu("shop");
                                 closeMenu();
@@ -56,7 +57,7 @@ const Navbar = () => {
                     <li>
                         <Link 
                             to="/mens" 
-                            className={`${styles.link} ${menu === "mens" ? styles.active : ''}`}
+                            className={`${link} ${menu === "mens" ? active : ''}`}
                             onClick={() => {
                                 setMenu("mens");
                                 closeMenu();
@@ -68,7 +69,7 @@ const Navbar = () => {
                     <li>
                         <Link 
                             to="/womens" 
-                            className={`${styles.link} ${menu === "womens" ? styles.active : ''}`}
+                            className={`${link} ${menu === "womens" ? active : ''}`}
                             onClick={() => {
                                 setMenu("womens");
                                 closeMenu();
@@ -80,7 +81,7 @@ const Navbar = () => {
                     <li>
                         <Link 
                             to="/kids" 
-                            className={`${styles.link} ${menu === "kids" ? styles.active : ''}`}
+                            className={`${link} ${menu === "kids" ? active : ''}`}
                             onClick={() => {
                                 setMenu("kids");
                                 closeMenu();
@@ -90,10 +91,10 @@ const Navbar = () => {
                         </Link>
                     </li>
                     {/* زر LOGIN داخل القائمة للهواتف */}
-                    <li className={styles.mobileLogin}>
+                    <li className={mobileLogin}>
                         <Link 
                             to="/login" 
-                            className={styles.link}
+                            className={link}
                             onClick={closeMenu}
                         >
                             LOG IN
@@ -102,17 +103,17 @@ const Navbar = () => {
                 </ul>
 
                 {/* LOGIN + CART للشاشات الكبيرة */}
-                <div className={styles.rightSection}>
-                    <Link to="/login" className={styles.loginBtn}>
+                <div className={rightSection}>
+                    <Link to="/login" className={loginBtn}>
                         LOG IN
                     </Link>
                     
-                    <div className={styles.cart}>
+                    <div className={cart}>
                         <Link to='/cart'>
                             <img src={cart_icon} alt="cart" />
                         </Link>
                         {cartCount > 0 && (
-                            <span className={styles.cartCount}>{cartCount}</span>
+                            <span className={cartCount}>{cartCount}</span>
                         )}
                     </div>
                 </div>

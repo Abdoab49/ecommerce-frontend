@@ -1,3 +1,4 @@
+import styles from './Orders.module.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../api';
@@ -23,12 +24,12 @@ const Orders = () => {
   }, []);
 
   if (loading) {
-    return <div className={styles.loading}>Loading orders...</div>;
+    return <div className={loading}>Loading orders...</div>;
   }
 
   if (orders.length === 0) {
     return (
-      <div className={styles.emptyOrders}>
+      <div className={emptyOrders}>
         <h2>📦 No orders yet</h2>
         <p>Start shopping to place your first order!</p>
         <button onClick={() => navigate('/')}>Continue Shopping</button>
@@ -37,23 +38,23 @@ const Orders = () => {
   }
 
   return (
-    <div className={styles.ordersContainer}>
+    <div className={ordersContainer}>
       <h2>My Orders</h2>
-      <div className={styles.ordersList}>
+      <div className={ordersList}>
         {orders.map((order) => (
-          <div key={order._id} className={styles.orderCard}>
-            <div className={styles.orderHeader}>
-              <span className={styles.orderId}>Order #{order._id.slice(-6)}</span>
-              <span className={`${styles.orderStatus} ${styles[order.status]}`}>
+          <div key={order._id} className={orderCard}>
+            <div className={orderHeader}>
+              <span className={orderId}>Order #{order._id.slice(-6)}</span>
+              <span className={`${orderStatus} ${styles[order.status]}`}>
                 {order.status}
               </span>
-              <span className={styles.orderDate}>
+              <span className={orderDate}>
                 {new Date(order.createdAt).toLocaleDateString()}
               </span>
             </div>
-            <div className={styles.orderItems}>
+            <div className={orderItems}>
               {order.items.map((item, index) => (
-                <div key={index} className={styles.orderItem}>
+                <div key={index} className={orderItem}>
                   <img src={item.image} alt={item.name} />
                   <div>
                     <p><strong>{item.name}</strong></p>
@@ -64,7 +65,7 @@ const Orders = () => {
                 </div>
               ))}
             </div>
-            <div className={styles.orderTotal}>
+            <div className={orderTotal}>
               <strong>Total: ${order.totalAmount.toFixed(2)}</strong>
             </div>
           </div>

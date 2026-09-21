@@ -1,8 +1,9 @@
+import styles from './TVAnimation.module.css';
 import React from 'react'
 
 const TVAnimation = () => {
   return (
-    <div style={styles.mainWrapper}>
+    <div style={mainWrapper}>
       <style>{`
         @keyframes static {
           0% { opacity: 0.1; transform: translate(0%, 0%); }
@@ -81,22 +82,22 @@ const TVAnimation = () => {
         }
       `}</style>
 
-      <div style={styles.main}>
+      <div style={main}>
         {/* الهوائي */}
-        <div style={styles.antenna}>
-          <div style={styles.antennaShadow}></div>
-          <div style={styles.a1}></div>
-          <div style={styles.a1d}></div>
-          <div style={styles.a2}></div>
-          <div style={styles.a2d}></div>
-          <div style={styles.aBase}></div>
+        <div style={antenna}>
+          <div style={antennaShadow}></div>
+          <div style={a1}></div>
+          <div style={a1d}></div>
+          <div style={a2}></div>
+          <div style={a2d}></div>
+          <div style={aBase}></div>
         </div>
 
         {/* التلفزيون */}
-        <div style={styles.tv}>
-          <div style={styles.curve}>
+        <div style={tv}>
+          <div style={curve}>
             <svg
-              style={styles.curveSvg}
+              style={curveSvg}
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -110,43 +111,43 @@ const TVAnimation = () => {
             </svg>
           </div>
 
-          <div style={styles.displayDiv}>
-            <div style={styles.screenOut}>
-              <div style={styles.screenOut1}>
-                <div style={{...styles.screenM, position: 'relative'}} className="tv-screen">
+          <div style={displayDiv}>
+            <div style={screenOut}>
+              <div style={screenOut1}>
+                <div style={{...screenM, position: 'relative'}} className="tv-screen">
                   <div className="static-overlay"></div>
-                  <span style={styles.notfoundText} className="flicker-text">LANADA</span>
+                  <span style={notfoundText} className="flicker-text">LANADA</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div style={styles.lines}>
-            <div style={styles.line1}></div>
-            <div style={styles.line2}></div>
-            <div style={styles.line3}></div>
+          <div style={lines}>
+            <div style={line1}></div>
+            <div style={line2}></div>
+            <div style={line3}></div>
           </div>
 
-          <div style={styles.buttonsDiv}>
-            <div style={styles.b1}><div></div></div>
-            <div style={styles.b2}></div>
-            <div style={styles.speakers}>
-              <div style={styles.g1}>
-                <div style={styles.g11}></div>
-                <div style={styles.g12}></div>
-                <div style={styles.g13}></div>
+          <div style={buttonsDiv}>
+            <div style={b1}><div></div></div>
+            <div style={b2}></div>
+            <div style={speakers}>
+              <div style={g1}>
+                <div style={g11}></div>
+                <div style={g12}></div>
+                <div style={g13}></div>
               </div>
-              <div style={styles.g}></div>
-              <div style={styles.g}></div>
+              <div style={g}></div>
+              <div style={g}></div>
             </div>
           </div>
         </div>
 
         {/* القاعدة */}
-        <div style={styles.bottom}>
-          <div style={styles.base1}></div>
-          <div style={styles.base2}></div>
-          <div style={styles.base3}></div>
+        <div style={bottom}>
+          <div style={base1}></div>
+          <div style={base2}></div>
+          <div style={base3}></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './HotSaleProduct.css'
+import './HotSaleProduct.module.css'
 
 const HotSaleProduct = () => {
   const [currentIndex, setCurrentIndex] = useState(0)

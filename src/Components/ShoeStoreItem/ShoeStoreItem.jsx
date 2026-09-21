@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 import { getProductPrice } from '../../Data/prices';  // ✅ استيراد
-import './ShoeStoreItem.css';
+import './ShoeStoreItem.module.css';
 
 const ShoeStoreItem = (props) => {
     const navigate = useNavigate();

@@ -1,3 +1,4 @@
+import styles from './ImageCarousel.module.css';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './ImageCarousel.module.css';
 
@@ -114,9 +115,9 @@ const ImageCarousel = () => {
   };
 
   return (
-    <div className={styles.main}>
+    <div className={main}>
       <div 
-        className={styles.carousel}
+        className={carousel}
         ref={carouselRef}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
@@ -128,7 +129,7 @@ const ImageCarousel = () => {
           return (
             <div
               key={item.id}
-              className={`${styles.item} ${styles[position]}`}
+              className={`${item} ${styles[position]}`}
               onClick={() => handleItemClick(index)}
             >
               <img src={item.img} alt={`Slide ${item.id}`} />
@@ -137,16 +138,16 @@ const ImageCarousel = () => {
         })}
       </div>
 
-      <div className={styles.buttons}>
-        <button className={styles.btn} onClick={movePrev}>Prev</button>
-        <button className={styles.btn} onClick={moveNext}>Next</button>
+      <div className={buttons}>
+        <button className={btn} onClick={movePrev}>Prev</button>
+        <button className={btn} onClick={moveNext}>Next</button>
       </div>
 
-      <div className={styles.indicators}>
+      <div className={indicators}>
         {items.map((_, index) => (
           <span
             key={index}
-            className={`${styles.dot} ${index === selectedIndex ? styles.active : ''}`}
+            className={`${dot} ${index === selectedIndex ? active : ''}`}
             onClick={() => handleItemClick(index)}
           />
         ))}

@@ -1,7 +1,7 @@
 // src/Components/ShoeCard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ShoeStore.css';
+import './ShoeStore.module.css';
 
 const ShoeCard = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React from 'react';
-import './TagSlider.css'; // سنضيف الـ CSS في ملف منفصل
+import './TagSlider.module.css'; // سنضيف الـ CSS في ملف منفصل
 
 const TagSlider = () => {
   // البيانات المركزية لتسهيل التعديل

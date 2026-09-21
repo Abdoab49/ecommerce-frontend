@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SampleProductCard.css';
+import './SampleProductCard.module.css';
 
 const HotSaleProduct = () => {
   // بيانات 4 منتجات مختلفة

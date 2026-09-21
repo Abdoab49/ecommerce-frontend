@@ -1,3 +1,4 @@
+import styles from './LogoSlider.module.css';
 import React from 'react';
 import './LogoSlider.module.css';
 
@@ -25,12 +26,12 @@ const LogoSlider = () => {
   return (
     <>
       {/* الشريط الأول */}
-      <div className={styles.slider} style={{ '--items': images.length }}>
-        <div className={styles.sliderTrack}>
+      <div className={slider} style={{ '--items': images.length }}>
+        <div className={sliderTrack}>
           {images.map((img, index) => (
             <div 
               key={index} 
-              className={styles.sliderItem} 
+              className={sliderItem} 
               style={{ '--index': index + 1 }}
             >
               <img src={img} alt="" />
@@ -40,12 +41,12 @@ const LogoSlider = () => {
       </div>
 
       {/* الشريط الثاني (عكسي) */}
-      <div className={styles.slider} style={{ '--items': images2.length }} data-reverse>
-        <div className={styles.sliderTrack}>
+      <div className={slider} style={{ '--items': images2.length }} data-reverse>
+        <div className={sliderTrack}>
           {images2.map((img, index) => (
             <div 
               key={index} 
-              className={styles.sliderItem} 
+              className={sliderItem} 
               style={{ '--index': index + 1 }}
             >
               <img src={img} alt="" />

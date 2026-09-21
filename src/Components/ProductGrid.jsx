@@ -1,3 +1,4 @@
+import styles from './ProductGrid.module.css';
 // src/Components/ProductGrid/ProductGrid.jsx
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -124,26 +125,26 @@ const ProductGrid = () => {
     }
 
     return (
-        <div className={styles.productGridWrapper}>
+        <div className={productGridWrapper}>
             {rows.map((row, rowIndex) => (
-                <div key={rowIndex} className={styles.wrapper}>
+                <div key={rowIndex} className={wrapper}>
                     {row.map((product) => (
                         <div 
                             key={product.id} 
-                            className={styles.card}
+                            className={card}
                             onClick={() => handleProductClick(product)}
                             style={{ cursor: 'pointer' }}
                         >
-                            <img src={product.src} className={styles.card__img} alt={product.title} />
-                            <div className={styles.card__body}>
-                                <h2 className={styles.card__title}>{product.title}</h2>
-                                <p className={styles.card__description}>{product.description}</p>
-                                <div className={styles.priceContainer}>
-                                    <span className={styles.oldPrice}>{product.oldPrice} DH</span>
-                                    <span className={styles.currentPrice}>{product.price} DH</span>
+                            <img src={product.src} className={card__img} alt={product.title} />
+                            <div className={card__body}>
+                                <h2 className={card__title}>{product.title}</h2>
+                                <p className={card__description}>{product.description}</p>
+                                <div className={priceContainer}>
+                                    <span className={oldPrice}>{product.oldPrice} DH</span>
+                                    <span className={currentPrice}>{product.price} DH</span>
                                 </div>
                                 <button 
-                                    className={styles.card__btn}
+                                    className={card__btn}
                                     onClick={(e) => handleAddToCart(product, e)}
                                 >
                                     Add to Cart
@@ -155,7 +156,7 @@ const ProductGrid = () => {
             ))}
 
             {notification.show && (
-                <div className={styles.notification}>
+                <div className={notification}>
                     {notification.message}
                 </div>
             )}

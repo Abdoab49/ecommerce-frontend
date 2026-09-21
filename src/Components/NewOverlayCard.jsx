@@ -1,19 +1,20 @@
+import styles from './NewOverlayCard.module.css';
 import React from 'react';
 import './NewOverlayCard.module.css';
 
 const NewOverlayCard = () => {
   return (
-    <div className={`${styles.card} ${styles.bgDark} ${styles.textWhite}`}>
+    <div className={`${card} ${bgDark} ${textWhite}`}>
       <img 
-        className={styles.cardImg} 
+        className={cardImg} 
         src="/Assets/ShoeStore/background7.png" 
         alt="background" 
       />
-      <div className={styles.cardImgOverlay}>
-        <p className={styles.cardText}>
+      <div className={cardImgOverlay}>
+        <p className={cardText}>
             All shorts available right here
         </p>
-        <p className={styles.cardText}>SHORT</p>
+        <p className={cardText}>SHORT</p>
       </div>
     </div>
   );
