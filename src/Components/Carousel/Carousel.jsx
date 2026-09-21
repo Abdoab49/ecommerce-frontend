@@ -3,7 +3,7 @@ import React from 'react';
 import './Carousel.css';
 
 const textItems = [
-    "🔥 NEW COLLECTIONS",
+    "🔥 Raja",
     "✨ LATEST ARRIVALS",
     "🚀 LIMITED OFFER",
     "🌟 FREE SHIPPING",
