@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
 .promoCard {
   position: relative;
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 30px;
+  font-family: "Cinzel", serif;
 }
 
 .cardImg {
@@ -31,6 +34,7 @@
   font-size: 2rem;
   margin-bottom: 10px;
   color: white;
+  font-family: "Cinzel", serif;
 }
 
 .cardText {
@@ -38,11 +42,13 @@
   margin-bottom: 8px;
   color: rgba(255,255,255,0.9);
   max-width: 80%;
+  font-family: "Cinzel", serif;
 }
 
 .cardTextSmall {
   font-size: 0.85rem;
   color: rgba(255,255,255,0.7);
+  font-family: "Cinzel", serif;
 }
 
 /* للهواتف */

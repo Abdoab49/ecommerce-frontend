@@ -10,9 +10,6 @@
     width: 100%;
 }
 
-
-
-
 .social-icons-wrapper {
     position: relative;
     display: flex;
@@ -26,68 +23,33 @@
 
 .social-icon-wrapper {
     position: relative;
+    text-decoration: none;
+    display: block;
 }
 
+/* ✅ الشكل الموحد: خلفية سوداء + شعار أبيض */
 .social-icon {
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 0.75rem;
+    background: #000;              /* ✅ خلفية سوداء */
+    border: 1px solid #333;        /* ✅ حدود خفيفة باش تبان */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease-out;
-    clip-path: url(#squircleClip);
 }
 
-/* ✅ Facebook */
-.social-icon.facebook {
-    background: #1877f2;
-    border: none;
-}
-
-.social-icon.facebook .icon {
-    color: #ffffff;
-}
-
-/* ✅ WhatsApp */
-.social-icon.whatsapp {
-    background: #25d366;
-    border: none;
-}
-
-.social-icon.whatsapp .icon {
-    color: #ffffff;
-}
-
-/* ✅ Instagram */
-.social-icon.instagram {
-    background: #d62976;
-    border: none;
-}
-
-.social-icon.instagram .icon {
-    color: #ffffff;
+.social-icon .icon {
+    color: #ffffff;                /* ✅ شعار أبيض */
 }
 
 /* ✅ تأثير hover */
 .social-icon:hover {
     transform: scale(1.1) translateY(-0.3rem);
-}
-
-.social-icon.facebook:hover {
-    background: #0d6efd;
-    box-shadow: 0 8px 25px rgba(24, 119, 242, 0.5);
-}
-
-.social-icon.whatsapp:hover {
-    background: #20b85a;
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
-}
-
-.social-icon.instagram:hover {
-    background: #e4405f;
-    box-shadow: 0 8px 25px rgba(214, 41, 118, 0.5);
+    background: #1a1a1a;           /* ✅ خلفية أفتح شوية عند الـ hover */
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
 }
 
 .icon {
@@ -95,13 +57,7 @@
     height: 1.8rem;
 }
 
-.social-icon-link {
-    text-decoration: none;
-    display: block;
-}
-
 /* ✅ MEDIA QUERIES */
-
 @media (max-width: 640px) {
     .social-icon {
         width: 2.8rem;

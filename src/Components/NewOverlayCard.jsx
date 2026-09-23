@@ -11,9 +11,9 @@ const NewOverlayCard = () => {
       />
       <div className={styles.cardImgOverlay}>
         <p className={styles.cardText}>
-          All shorts available right here
+          All jackets available right here
         </p>
-        <p className={styles.cardText}>SHORT</p>
+        <p className={styles.cardText}>JACKETS</p>
       </div>
     </div>
   );

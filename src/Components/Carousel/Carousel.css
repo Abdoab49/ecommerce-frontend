@@ -1,62 +1,51 @@
-.ticker-container{
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+.ticker-container {
     width: 100%;
-
     overflow: hidden;
-
     white-space: nowrap;
-
     position: relative;
-
     padding: 20px 0;
 }
 
-.ticker-track{
+.ticker-track {
     display: flex;
-
     align-items: center;
-
     width: max-content;
-
     animation: infiniteScroll 20s linear infinite;
 }
 
-.ticker-item{
+.ticker-item {
     flex-shrink: 0;
-
     margin-right: 20px;
-
     padding: 10px 24px;
-
     border: 1px solid #fffffe;
-
     border-radius: 50px;
-
     color: #ffffff;
-
     font-size: 18px;
     font-weight: 700;
-
     white-space: nowrap;
+
+    /* ✅ الخط ديال Cinzel */
+    font-family: "Cinzel", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
 }
 
-@keyframes infiniteScroll{
-
-    0%{
+@keyframes infiniteScroll {
+    0% {
         transform: translateX(0);
     }
-
-    100%{
+    100% {
         transform: translateX(-50%);
     }
 }
 
-@media(max-width:768px){
-
-    .ticker-item{
+@media (max-width: 768px) {
+    .ticker-item {
         font-size: 12px;
-
         padding: 6px 14px;
-
         margin-right: 10px;
     }
 }

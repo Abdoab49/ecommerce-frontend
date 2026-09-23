@@ -10,12 +10,10 @@ const BannerCard = () => {
         alt="Collection banner"
       />
       <div className={styles.cardImgOverlay}>
-        <h5 className={styles.cardTitle}>Collection Printemps/Été 2026</h5>
+        <h5 className={styles.cardTitle}>High quality caps</h5>
         <p className={styles.cardText}>
-          Découvrez notre nouvelle collection de casquettes tendance. 
-          Styles modernes et confortables pour tous les goûts.
+          CASQUETTE
         </p>
-        <p className={styles.cardTextSmall}>Mis à jour aujourd'hui</p>
       </div>
     </div>
   );

@@ -66,3 +66,60 @@ export const getProductsByCategory = async (category) => {
   const products = await getProducts();
   return products.filter(p => p.category === category);
 };
+
+// ============================================
+// ✅ الدوال الجديدة (تسجيل + دخول)
+// ============================================
+
+// ✅ التحقق من صيغة الإيميل
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// ✅ تسجيل مستخدم جديد
+export const registerUser = async (data) => {
+  // ✅ تحقق محلي
+  if (!data.email || !isValidEmail(data.email)) {
+    return { message: '❌ Please enter a valid email address' };
+  }
+  if (!data.password || data.password.length < 6) {
+    return { message: '❌ Password must be at least 6 characters' };
+  }
+  if (!data.name || data.name.length < 3) {
+    return { message: '❌ Name must be at least 3 characters' };
+  }
+
+  try {
+    const response = await fetch('https://backend-3lyx.onrender.com/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return await response.json();
+  } catch (error) {
+    return { message: '❌ Network error. Please try again.' };
+  }
+};
+
+// ✅ تسجيل الدخول
+export const loginUser = async (data) => {
+  // ✅ تحقق محلي
+  if (!data.email || !isValidEmail(data.email)) {
+    return { message: '❌ Please enter a valid email address' };
+  }
+  if (!data.password || data.password.length < 6) {
+    return { message: '❌ Password must be at least 6 characters' };
+  }
+
+  try {
+    const response = await fetch('https://backend-3lyx.onrender.com/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return await response.json();
+  } catch (error) {
+    return { message: '❌ Network error. Please try again.' };
+  }
+};

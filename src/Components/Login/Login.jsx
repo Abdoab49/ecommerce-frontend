@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, registerUser } from '../../api';
 import styles from './Login.module.css';
@@ -12,15 +12,46 @@ const Login = () => {
     password: ''
   });
   const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  useEffect(() => {
+    if (formData.email.length > 0 && !isValidEmail(formData.email)) {
+      setEmailError('❌ Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  }, [formData.email]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!isValidEmail(formData.email)) {
+      setError('❌ Please enter a valid email address (example: name@domain.com)');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('❌ Password must be at least 6 characters');
+      return;
+    }
+
+    if (!isLogin && formData.name.length < 3) {
+      setError('❌ Name must be at least 3 characters');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -36,6 +67,7 @@ const Login = () => {
       }
 
       if (result && result.token) {
+        localStorage.setItem('token', result.token);
         navigate('/');
       } else {
         setError(result?.message || 'Something went wrong');
@@ -62,14 +94,18 @@ const Login = () => {
               required
             />
           )}
+
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
+            className={emailError ? styles.inputError : ''}
             required
           />
+          {emailError && <p className={styles.fieldError}>{emailError}</p>}
+
           <input
             type="password"
             name="password"
@@ -78,8 +114,10 @@ const Login = () => {
             onChange={handleChange}
             required
           />
+
           {error && <p className={styles.error}>{error}</p>}
-          <button type="submit" disabled={loading}>
+
+          <button type="submit" disabled={loading || emailError}>
             {loading ? 'Loading...' : (isLogin ? 'Login' : 'Register')}
           </button>
         </form>

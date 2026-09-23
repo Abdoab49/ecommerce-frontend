@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
 .container {
   min-height: 100vh;
   display: flex;
@@ -5,6 +7,7 @@
   justify-content: center;
   background: #f8f9fa;
   padding: 20px;
+  font-family: "Cinzel", serif;
 }
 
 .card {
@@ -14,6 +17,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   width: 100%;
   max-width: 400px;
+  font-family: "Cinzel", serif;
 }
 
 .card h2 {
@@ -22,6 +26,7 @@
   color: #1a1a2e;
   margin-bottom: 24px;
   text-align: center;
+  font-family: "Cinzel", serif;
 }
 
 .card input {
@@ -32,6 +37,7 @@
   font-size: 14px;
   margin-bottom: 12px;
   transition: border 0.3s;
+  font-family: "Cinzel", serif;
 }
 
 .card input:focus {
@@ -50,6 +56,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s;
+  font-family: "Cinzel", serif;
 }
 
 .card button:hover:not(:disabled) {
@@ -66,6 +73,7 @@
   margin-top: 16px;
   color: #6c757d;
   cursor: pointer;
+  font-family: "Cinzel", serif;
 }
 
 .card p:hover {
@@ -77,4 +85,19 @@
   font-size: 14px;
   text-align: center;
   margin-bottom: 12px;
+  font-family: "Cinzel", serif;
+}
+
+.inputError {
+  border-color: #e84545 !important;
+  background: #fff5f5;
+}
+
+.fieldError {
+  color: #e84545;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  text-align: left;
+  font-family: "Cinzel", serif;
 }
