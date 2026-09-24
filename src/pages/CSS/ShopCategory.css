@@ -65,6 +65,68 @@
     background: #dcdcdc;
 }
 
+/* ===== SORT DROPDOWN ===== */
+.shopcategory-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #1a1a2e;
+}
+
+.shopcategory-sort label {
+  font-weight: 500;
+}
+
+.sort-select {
+  padding: 8px 32px 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a2e;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.sort-select:hover {
+  border-color: #1a1a2e;
+}
+
+.sort-select:focus {
+  border-color: #1a1a2e;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .shopcategory-sort {
+    font-size: 13px;
+  }
+
+  .sort-select {
+    padding: 6px 28px 6px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shopcategory-sort {
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .sort-select {
+    padding: 6px 24px 6px 8px;
+    font-size: 12px;
+  }
+}
+
 /* ==================== 1280px ==================== */
 
 @media(max-width:1280px){

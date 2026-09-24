@@ -14,7 +14,7 @@ import NotificationBell from './Components/NotificationBell/NotificationBell';
 import Shop from './pages/Shop';
 import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
-import Cart from './pages/Cart';
+import Cart from './Components/Cart/Cart';
 import LoginSignup from './pages/LoginSignup';
 import Orders from './pages/Orders';
 import SizeSelection from './Components/SizeSelection';

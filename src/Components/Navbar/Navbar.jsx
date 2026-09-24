@@ -8,11 +8,7 @@ import { ShopContext } from '../../Context/ShopContext';
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { getTotalCartItems, totalCartItems } = useContext(ShopContext);
-    
-    const cartCount = typeof getTotalCartItems === 'function' 
-        ? getTotalCartItems() 
-        : (totalCartItems || 0);
+    const { cartCount } = useContext(ShopContext);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);

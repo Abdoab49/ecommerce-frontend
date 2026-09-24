@@ -1,39 +1,33 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShopContext } from '../Context/ShopContext';
+import { ShopContext } from '../../Context/ShopContext';
 import styles from './Cart.module.css';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { clearCart } = useContext(ShopContext);
-  
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useContext(ShopContext);
+
   const [promoCode, setPromoCode] = useState('');
   const [promoPercent, setPromoPercent] = useState(0);
+  const [usedPromoCodes, setUsedPromoCodes] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [fullName, setFullName] = useState('');
   const [city, setCity] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('cod');
-  
-  const buttonRef = useRef(null);
+  const [errors, setErrors] = useState({});
 
+  // ✅ تحميل الأكواد المستعملة من localStorage
   useEffect(() => {
-    loadCartItems();
+    const saved = localStorage.getItem('usedPromoCodes');
+    if (saved) {
+      try {
+        setUsedPromoCodes(JSON.parse(saved));
+      } catch (e) {}
+    }
   }, []);
-
-  const loadCartItems = () => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartItems(savedCart);
-  };
-
-  const saveCartItems = (items) => {
-    localStorage.setItem('cart', JSON.stringify(items));
-    setCartItems(items);
-  };
 
   const extractPrice = (price) => {
     if (typeof price === 'number') return price;
@@ -50,32 +44,16 @@ const Cart = () => {
     return '/Assets/ShoeStore/tshirt1.png';
   };
 
-  const getTotal = () => {
-    let total = 0;
-    cartItems.forEach(item => {
-      const price = extractPrice(item.price);
-      const qty = item.quantity || 1;
-      total += price * qty;
-    });
-    return total;
-  };
+  const subtotal = cartItems.reduce((total, item) => {
+    return total + extractPrice(item.price) * (item.quantity || 1);
+  }, 0);
 
-  const subtotal = getTotal();
   const shippingFee = subtotal > 0 ? 20 : 0;
   const promoAmount = (subtotal * promoPercent) / 100;
   const total = subtotal + shippingFee - promoAmount;
-  const totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
-  const updateQuantity = (index, newQuantity) => {
-    if (newQuantity < 1) return;
-    const updatedItems = [...cartItems];
-    updatedItems[index].quantity = newQuantity;
-    saveCartItems(updatedItems);
-  };
 
   const removeItem = (index) => {
-    const updatedItems = cartItems.filter((_, i) => i !== index);
-    saveCartItems(updatedItems);
+    removeFromCart(index);
   };
 
   const applyPromoCode = () => {
@@ -89,13 +67,86 @@ const Cart = () => {
     };
 
     const code = promoCode.toUpperCase();
-    if (promoCodes[code]) {
-      setPromoPercent(promoCodes[code]);
-      alert(`✅ Promo code applied: -${promoCodes[code]}%`);
-    } else {
+
+    if (!promoCodes[code]) {
       alert('❌ Invalid promo code');
       setPromoPercent(0);
+      return;
     }
+
+    // ✅ تحقق واش الكود مستعمل من قبل
+    if (usedPromoCodes.includes(code)) {
+      alert(`❌ You already used this code: ${code}`);
+      setPromoPercent(0);
+      return;
+    }
+
+    setPromoPercent(promoCodes[code]);
+    alert(`✅ Promo code applied: -${promoCodes[code]}%`);
+  };
+
+  // ===== VALIDATION =====
+  const validateField = (name, value) => {
+    let error = '';
+
+    if (name === 'fullName') {
+      if (!value.trim()) {
+        error = 'Full name is required';
+      } else if (value.trim().length < 3) {
+        error = 'Full name must be at least 3 characters';
+      } else if (!/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())) {
+        error = 'Full name contains invalid characters';
+      }
+    }
+
+    if (name === 'phone') {
+      const cleaned = value.replace(/[\s-]/g, '');
+      if (!cleaned) {
+        error = 'Phone number is required';
+      } else if (!/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)) {
+        error = 'Enter a valid Moroccan phone (e.g. 0612345678)';
+      }
+    }
+
+    if (name === 'city') {
+      if (!value.trim()) {
+        error = 'City is required';
+      } else if (value.trim().length < 2) {
+        error = 'City must be at least 2 characters';
+      }
+    }
+
+    if (name === 'address') {
+      if (!value.trim()) {
+        error = 'Address is required';
+      } else if (value.trim().length < 5) {
+        error = 'Address must be at least 5 characters';
+      }
+    }
+
+    return error;
+  };
+
+  const validateAll = () => {
+    const newErrors = {
+      fullName: validateField('fullName', fullName),
+      phone: validateField('phone', phone),
+      city: validateField('city', city),
+      address: validateField('address', address),
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
+
+  const handleFieldChange = (name, value, setter) => {
+    setter(value);
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
+
+  const handleBlur = (name, value) => {
+    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
   };
 
   const handleCheckout = async () => {
@@ -106,8 +157,8 @@ const Cart = () => {
       return;
     }
 
-    if (!fullName || !city || !phone || !address) {
-      alert('Please fill in all shipping information!');
+    if (!validateAll()) {
+      alert('Please fix the errors in the shipping form.');
       return;
     }
 
@@ -133,7 +184,7 @@ const Cart = () => {
           discountPercent: promoPercent,
           discountAmount: promoAmount,
           totalAmount: total,
-          paymentMethod: paymentMethod,
+          paymentMethod: 'cash_on_delivery',
           shippingAddress: {
             fullName: fullName,
             phone: phone,
@@ -147,11 +198,16 @@ const Cart = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert(`✅ Order placed successfully!\nTotal: ${total} DH\nPayment: ${paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Card'}`);
-        
-        localStorage.removeItem('cart');
-        localStorage.removeItem('cartItems');
-        setCartItems([]);
+        alert(`✅ Order placed successfully!\nTotal: ${total.toFixed(2)} DH`);
+
+        // ✅ سجل الكود المستعمل
+        if (promoPercent > 0 && promoCode) {
+          const code = promoCode.toUpperCase();
+          const updated = [...usedPromoCodes, code];
+          setUsedPromoCodes(updated);
+          localStorage.setItem('usedPromoCodes', JSON.stringify(updated));
+        }
+
         clearCart();
         navigate('/');
       } else {
@@ -167,7 +223,7 @@ const Cart = () => {
   if (cartItems.length === 0) {
     return (
       <div className={styles.emptyCart}>
-        <h2>🛒 Your cart is empty</h2>
+        <h2>Your cart is empty</h2>
         <p>Add some products to your cart to see them here.</p>
         <button className={styles.shopBtn} onClick={() => navigate('/')}>
           Continue Shopping
@@ -190,14 +246,14 @@ const Cart = () => {
               onChange={(e) => setPromoCode(e.target.value)}
               placeholder="10OFF, LANADA20..."
             />
-            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Appl</button>
+            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
           </div>
 
           {cartItems.map((item, index) => {
             const productImage = getProductImage(item);
             const productPrice = extractPrice(item.price);
             const productQty = item.quantity || 1;
-            
+
             return (
               <div key={index} className={styles.basketProduct}>
                 <div className={styles.item}>
@@ -207,21 +263,48 @@ const Cart = () => {
                   <div className={styles.productDetails}>
                     <h1><strong>{productQty} x {item.name}</strong></h1>
                     <p><strong>Category: {item.category || 'T-Shirts'}</strong></p>
+                    {item.size && (
+                      <p><strong>Size: {item.size}</strong></p>
+                    )}
                   </div>
                 </div>
+
                 <div className={styles.price}>{productPrice} DH</div>
-                <div className={styles.quantity}>
+
+                <div className={styles.quantityBox}>
+                  <button
+                    type="button"
+                    className={styles.qtyBtn}
+                    onClick={() => updateQuantity(index, productQty - 1)}
+                    disabled={productQty <= 1}
+                  >
+                    −
+                  </button>
                   <input
                     type="number"
                     value={productQty}
                     min="1"
                     className={styles.quantityField}
-                    onChange={(e) => updateQuantity(index, parseInt(e.target.value))}
+                    onChange={(e) => updateQuantity(index, parseInt(e.target.value) || 1)}
                   />
+                  <button
+                    type="button"
+                    className={styles.qtyBtn}
+                    onClick={() => updateQuantity(index, productQty + 1)}
+                  >
+                    +
+                  </button>
                 </div>
+
                 <div className={styles.subtotal}>{productPrice * productQty} DH</div>
+
                 <div className={styles.remove}>
-                  <button onClick={() => removeItem(index)}>Remove</button>
+                  <button
+                    className={styles.removeBtn}
+                    onClick={() => removeItem(index)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             );
@@ -232,22 +315,46 @@ const Cart = () => {
           <div className={styles.summary}>
             <div className={styles.shippingForm}>
               <h4>📍 Shipping Information</h4>
-              <input type="text" placeholder="Full Name *" value={fullName} onChange={(e) => setFullName(e.target.value)} className={styles.formInput} />
-              <input type="text" placeholder="Phone *" value={phone} onChange={(e) => setPhone(e.target.value)} className={styles.formInput} />
-              <input type="text" placeholder="City *" value={city} onChange={(e) => setCity(e.target.value)} className={styles.formInput} />
-              <input type="text" placeholder="Address *" value={address} onChange={(e) => setAddress(e.target.value)} className={styles.formInput} />
-            </div>
 
-            <div className={styles.paymentMethods}>
-              <h4>💳 Payment Method</h4>
-              <label>
-                <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={(e) => setPaymentMethod(e.target.value)} />
-                Cash on Delivery (COD)
-              </label>
-              <label>
-                <input type="radio" name="payment" value="card" checked={paymentMethod === 'card'} onChange={(e) => setPaymentMethod(e.target.value)} />
-                Bank Card
-              </label>
+              <input
+                type="text"
+                placeholder="Full Name *"
+                value={fullName}
+                onChange={(e) => handleFieldChange('fullName', e.target.value, setFullName)}
+                onBlur={() => handleBlur('fullName', fullName)}
+                className={`${styles.formInput} ${errors.fullName ? styles.inputError : ''}`}
+              />
+              {errors.fullName && <p className={styles.fieldError}>{errors.fullName}</p>}
+
+              <input
+                type="tel"
+                placeholder="Phone *"
+                value={phone}
+                onChange={(e) => handleFieldChange('phone', e.target.value, setPhone)}
+                onBlur={() => handleBlur('phone', phone)}
+                className={`${styles.formInput} ${errors.phone ? styles.inputError : ''}`}
+              />
+              {errors.phone && <p className={styles.fieldError}>{errors.phone}</p>}
+
+              <input
+                type="text"
+                placeholder="City *"
+                value={city}
+                onChange={(e) => handleFieldChange('city', e.target.value, setCity)}
+                onBlur={() => handleBlur('city', city)}
+                className={`${styles.formInput} ${errors.city ? styles.inputError : ''}`}
+              />
+              {errors.city && <p className={styles.fieldError}>{errors.city}</p>}
+
+              <input
+                type="text"
+                placeholder="Address *"
+                value={address}
+                onChange={(e) => handleFieldChange('address', e.target.value, setAddress)}
+                onBlur={() => handleBlur('address', address)}
+                className={`${styles.formInput} ${errors.address ? styles.inputError : ''}`}
+              />
+              {errors.address && <p className={styles.fieldError}>{errors.address}</p>}
             </div>
 
             <div className={styles.summarySubtotal}>
@@ -270,7 +377,6 @@ const Cart = () => {
 
             <div className={styles.summaryCheckout}>
               <button
-                ref={buttonRef}
                 className={`${styles.orderBtn} ${isAnimating ? styles.animate : ''}`}
                 onClick={handleCheckout}
                 disabled={isAnimating || loading}

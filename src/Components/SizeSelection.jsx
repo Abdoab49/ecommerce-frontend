@@ -13,7 +13,7 @@ const SizeSelection = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const product = location.state?.product || null;
-  
+
   const { addToCart } = useContext(ShopContext);
 
   const [quantity, setQuantity] = useState(1);
@@ -22,13 +22,16 @@ const SizeSelection = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isAdded, setIsAdded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  
+
   const buttonRef = useRef(null);
   const morphRef = useRef(null);
   const shirtRef = useRef(null);
 
-  // ===== ✅ صور المنتج من ShoeStore =====
+  // ===== ✅ صور المنتج (men + women + kids) =====
   const productImages = {
+    // ==========================================
+    // 👔 MEN (1-8)
+    // ==========================================
     1: [
       '/Assets/ShoeStore/tshirt1.png',
       '/Assets/ShoeStore/tshirt2.png',
@@ -69,7 +72,118 @@ const SizeSelection = () => {
       '/Assets/ShoeStore/tshirt1.png',
       '/Assets/ShoeStore/tshirt2.png'
     ],
-    // ✅ إضافة صور للمنتجات الجديدة (45-52)
+
+    // ==========================================
+    // 👩 WOMEN (9, 10, 13-20)
+    // ==========================================
+    9: [
+      '/Assets/tshirt/tshirt8.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    10: [
+      '/Assets/tshirt/tshirt8.png',
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+    13: [
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+    14: [
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+    15: [
+      '/Assets/tshirt/tshirt3.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    16: [
+      '/Assets/tshirt/tshirt4.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    17: [
+      '/Assets/tshirt/tshirt5.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    18: [
+      '/Assets/tshirt/tshirt6.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    19: [
+      '/Assets/tshirt/tshirt7.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    20: [
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+
+    // ==========================================
+    // 🧒 KIDS (11, 12, 21-28)
+    // ==========================================
+    11: [
+      '/Assets/tshirt/tshirt8.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    12: [
+      '/Assets/tshirt/tshirt8.png',
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+    21: [
+      '/Assets/tshirt/tshirt5.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    22: [
+      '/Assets/tshirt/tshirt6.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    23: [
+      '/Assets/tshirt/tshirt7.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    24: [
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+    25: [
+      '/Assets/tshirt/tshirt2.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt3.png'
+    ],
+    26: [
+      '/Assets/tshirt/tshirt3.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    27: [
+      '/Assets/tshirt/tshirt4.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+    28: [
+      '/Assets/tshirt/tshirt5.png',
+      '/Assets/tshirt/tshirt1.png',
+      '/Assets/tshirt/tshirt2.png'
+    ],
+
+    // ==========================================
+    // 🆕 NEW TSHIRTS (45-52)
+    // ==========================================
     45: [
       '/Assets/tshirt/tshirt1.png',
       '/Assets/tshirt/tshirt1_2.png',
@@ -112,25 +226,49 @@ const SizeSelection = () => {
     ],
   };
 
-  // ===== PRODUCT DATA from ShoeStore =====
-  const productData = {
-    id: product?.id || 1,
-    name: product?.name || 'NIKE',
-    brand: product?.company || 'YEEZY',
-    price: product?.price || '$120',
-    originalPrice: '$180.00',
-    discount: 33,
-    description: product?.description || 'Premium quality t-shirt with modern fit. Designed for comfort and style, perfect for everyday wear.',
-    maxQuantity: Infinity,
-    sizes: ['S', 'M', 'L', 'XL'],
-    category: 'T-Shirts',
-    new_price: typeof product?.price === 'string' 
-      ? parseFloat(product.price.replace(/[^0-9.]/g, '')) 
-      : (typeof product?.price === 'number' ? product.price : 120),
-    image: product?.img || '/Assets/ShoeStore/tshirt1.png',
-    // ✅ صور متعددة للمنتج
-    images: product?.images || productImages[product?.id] || productImages[1]
-  };
+  // ===== PRODUCT DATA with AUTO DISCOUNT =====
+  const productData = (() => {
+    // استخرج new_price
+    const newPrice = typeof product?.price === 'string'
+      ? parseFloat(product.price.replace(/[^0-9.]/g, ''))
+      : (typeof product?.price === 'number' ? product.price : 120);
+
+    // استخرج old_price
+    let oldPrice = null;
+    if (typeof product?.old_price === 'number' && product.old_price > 0) {
+      oldPrice = product.old_price;
+    } else if (typeof product?.old_price === 'string') {
+      const parsed = parseFloat(product.old_price.replace(/[^0-9.]/g, ''));
+      if (!isNaN(parsed) && parsed > 0) oldPrice = parsed;
+    }
+
+    // إلا ما كانتش، استعمل 1.5×
+    if (!oldPrice || oldPrice <= newPrice) {
+      oldPrice = Math.round(newPrice * 1.5);
+    }
+
+    // ✅ حساب النسبة بدقة
+    const discountPercent = oldPrice > newPrice
+      ? Math.round(((oldPrice - newPrice) / oldPrice) * 100)
+      : 0;
+
+    return {
+      id: product?.id || 1,
+      name: product?.name || 'NIKE',
+      brand: product?.company || 'YEEZY',
+      price: `$${newPrice.toFixed(2)}`,
+      originalPrice: `$${oldPrice.toFixed(2)}`,
+      discount: discountPercent,
+      description: product?.description || 'Premium quality t-shirt with modern fit. Designed for comfort and style, perfect for everyday wear.',
+      maxQuantity: Infinity,
+      sizes: ['S', 'M', 'L', 'XL'],
+      category: 'T-Shirts',
+      new_price: newPrice,
+      old_price: oldPrice,
+      image: product?.img || '/Assets/ShoeStore/tshirt1.png',
+      images: product?.images || productImages[product?.id] || productImages[1],
+    };
+  })();
 
   // ===== RELATED PRODUCTS =====
   const relatedProducts = [
@@ -153,32 +291,34 @@ const SizeSelection = () => {
     }
 
     if (isAnimating) return;
-    
+
     setIsAnimating(true);
     setIsAdded(true);
-    
+
     const button = buttonRef.current;
     if (!button) return;
 
     button.classList.add('active');
 
     addToCart(productData.id);
-    
+
     const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingIndex = existingCart.findIndex(item => item.id === productData.id && item.size === selectedSize);
-    
+
     const cartItem = {
       id: productData.id,
       name: productData.name,
       price: productData.price,
       new_price: productData.new_price,
+      old_price: productData.old_price,
       size: selectedSize,
       quantity: quantity,
       image: productData.image,
+      images: productData.images,
       category: productData.category,
       brand: productData.brand
     };
-    
+
     if (existingIndex > -1) {
       existingCart[existingIndex].quantity += quantity;
     } else {
@@ -188,7 +328,7 @@ const SizeSelection = () => {
 
     const morph = button.querySelector(`.${styles.morph} path`);
     const shirt = button.querySelectorAll(`.${styles.shirt} svg > path`);
-    
+
     if (morph && shirt.length > 0) {
       try {
         gsap.to(button, {
@@ -347,16 +487,16 @@ const SizeSelection = () => {
   return (
     <div className={styles.container}>
       <div className={styles.productWrapper}>
-        
+
         {/* ===== PRODUCT IMAGE ===== */}
         <div className={styles.imageSection}>
           <div className={styles.imageFrame}>
-            <img 
-              src={productData.images[currentImage]} 
+            <img
+              src={productData.images[currentImage]}
               alt={productData.name}
               className={styles.productImage}
             />
-            
+
             {/* ✅ أزرار التنقل بين الصور */}
             {productData.images.length > 1 && (
               <>
@@ -368,11 +508,11 @@ const SizeSelection = () => {
               </>
             )}
           </div>
-          
+
           {/* ===== THUMBNAILS ===== */}
           <div className={styles.thumbnails}>
             {productData.images.slice(0, 6).map((img, index) => (
-              <div 
+              <div
                 key={index}
                 className={`${styles.thumbnail} ${currentImage === index ? styles.active : ''}`}
                 onClick={() => goToImage(index)}
@@ -388,11 +528,15 @@ const SizeSelection = () => {
           <p className={styles.brand}>{productData.brand}</p>
           <h1 className={styles.title}>{productData.name}</h1>
           <p className={styles.subtitle}>{productData.name} T-Shirt</p>
-          
+
           <div className={styles.priceRow}>
             <span className={styles.currentPrice}>{productData.price}</span>
-            <span className={styles.originalPrice}>{productData.originalPrice}</span>
-            <span className={styles.discount}>{productData.discount}%</span>
+            {productData.discount > 0 && (
+              <>
+                <span className={styles.originalPrice}>{productData.originalPrice}</span>
+                <span className={styles.discount}>{productData.discount}%</span>
+              </>
+            )}
           </div>
           <p className={styles.taxInfo}>incl. of taxes</p>
           <p className={styles.dutyInfo}>(Also includes all applicable duties)</p>
@@ -417,7 +561,7 @@ const SizeSelection = () => {
 
           {/* ===== ADD TO CART BUTTON ===== */}
           <div className={styles.cartRow}>
-            <button 
+            <button
               ref={buttonRef}
               className={`${styles.addToCart} ${isAnimating ? styles.active : ''}`}
               onClick={handleAddToCart}
@@ -476,8 +620,8 @@ const SizeSelection = () => {
         <h2 className={styles.relatedTitle}>You Might Also Like</h2>
         <div className={styles.relatedGrid}>
           {relatedProducts.map((p) => (
-            <div 
-              key={p.id} 
+            <div
+              key={p.id}
               className={styles.relatedCard}
               onClick={() => goToProduct(p)}
             >

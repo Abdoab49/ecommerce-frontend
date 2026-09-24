@@ -3,7 +3,6 @@ import React, { createContext, useState, useEffect } from 'react';
 
 export const ShopContext = createContext(null);
 
-// ✅ المنتجات المحلية مباشرة (بدون أي استيراد خارجي)
 const LOCAL_PRODUCTS = [
   // ===== Men =====
   { id: 1, name: 'NIKE', category: 'men', image: '/Assets/ShoeStore/tshirt1.png', price: 100, old_price: 150 },
@@ -23,7 +22,7 @@ const LOCAL_PRODUCTS = [
   { id: 51, name: 'ENGLAND', category: 'men', image: '/Assets/tshirt/tshirt7.png', price: 45, old_price: 70 },
   { id: 52, name: 'ITALY', category: 'men', image: '/Assets/tshirt/tshirt8.png', price: 45, old_price: 70 },
 
-  // ===== Women (10 منتجات) =====
+  // ===== Women =====
   { id: 9, name: 'Women Air Max', category: 'women', image: '/Assets/tshirt/tshirt8.png', price: 120, old_price: 160 },
   { id: 10, name: 'Women Court', category: 'women', image: '/Assets/tshirt/tshirt8.png', price: 90, old_price: 130 },
   { id: 13, name: 'Women Sport', category: 'women', image: '/Assets/tshirt/tshirt1.png', price: 150, old_price: 200 },
@@ -35,7 +34,7 @@ const LOCAL_PRODUCTS = [
   { id: 19, name: 'Women Chic', category: 'women', image: '/Assets/tshirt/tshirt7.png', price: 180, old_price: 230 },
   { id: 20, name: 'Women Style', category: 'women', image: '/Assets/tshirt/tshirt1.png', price: 100, old_price: 150 },
 
-  // ===== Kids (10 منتجات) =====
+  // ===== Kids =====
   { id: 11, name: 'Kids Air Max', category: 'kid', image: '/Assets/tshirt/tshirt8.png', price: 60, old_price: 90 },
   { id: 12, name: 'Kids Court', category: 'kid', image: '/Assets/tshirt/tshirt8.png', price: 50, old_price: 75 },
   { id: 21, name: 'Kids Sport', category: 'kid', image: '/Assets/tshirt/tshirt5.png', price: 70, old_price: 100 },
@@ -49,72 +48,91 @@ const LOCAL_PRODUCTS = [
 ];
 
 const ShopContextProvider = ({ children }) => {
-  const [all_product, setAllProduct] = useState(LOCAL_PRODUCTS);
-  const [cartItems, setCartItems] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [all_product] = useState(LOCAL_PRODUCTS);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
-  // ===== تحميل السلة من localStorage =====
+  // ===== تحميل =====
   useEffect(() => {
-    const savedCart = localStorage.getItem('cartItems');
-    if (savedCart) {
+    const saved = localStorage.getItem('cart');
+    if (saved) {
       try {
-        const parsed = JSON.parse(savedCart);
-        setCartItems(parsed);
-        const count = Object.values(parsed).reduce((sum, qty) => sum + qty, 0);
-        setCartCount(count);
-      } catch (error) {
-        console.error('Error loading cart:', error);
+        const parsed = JSON.parse(saved);
+        setCartItems(Array.isArray(parsed) ? parsed : []);
+      } catch (e) {
+        setCartItems([]);
       }
     }
   }, []);
 
-  // ===== إضافة إلى السلة =====
-  const addToCart = (itemId) => {
-    setCartItems((prev) => {
-      const newCart = { ...prev, [itemId]: (prev[itemId] || 0) + 1 };
-      localStorage.setItem('cartItems', JSON.stringify(newCart));
-      const count = Object.values(newCart).reduce((sum, qty) => sum + qty, 0);
-      setCartCount(count);
-      return newCart;
-    });
-  };
+  // ✅ أي تغيير فـ cartItems → حدّث cartCount + localStorage
+  useEffect(() => {
+    const count = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    setCartCount(count);
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
-  // ===== حذف من السلة =====
-  const removeFromCart = (itemId) => {
+  // ===== إضافة =====
+  const addToCart = (itemId, size = 'M') => {
+    const product = all_product.find(p => p.id === itemId);
+    if (!product) return;
+
     setCartItems((prev) => {
-      const newCart = { ...prev };
-      if (newCart[itemId] > 0) {
-        newCart[itemId] -= 1;
-        if (newCart[itemId] === 0) delete newCart[itemId];
+      const index = prev.findIndex(item => item.id === itemId && item.size === size);
+      if (index > -1) {
+        const updated = [...prev];
+        updated[index].quantity += 1;
+        return updated;
       }
-      localStorage.setItem('cartItems', JSON.stringify(newCart));
-      const count = Object.values(newCart).reduce((sum, qty) => sum + qty, 0);
-      setCartCount(count);
-      return newCart;
+      return [...prev, {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        new_price: product.price,
+        old_price: product.old_price,
+        size: size,
+        quantity: 1,
+        image: product.image,
+        images: [product.image],
+        category: product.category,
+      }];
     });
   };
 
-  // ===== تفريغ السلة =====
+  // ===== حذف (بالـ index) =====
+  const removeFromCart = (index) => {
+    setCartItems((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // ===== تحديث الكمية =====
+  const updateQuantity = (index, newQuantity) => {
+    if (newQuantity < 1) return;
+    setCartItems((prev) => {
+      const updated = [...prev];
+      updated[index].quantity = newQuantity;
+      return updated;
+    });
+  };
+
+  // ===== تفريغ =====
   const clearCart = () => {
-    setCartItems({});
+    setCartItems([]);
+    localStorage.removeItem('cart');
     localStorage.removeItem('cartItems');
     setCartCount(0);
   };
 
-  // ===== حساب المجموع الكلي =====
+  // ===== المجموع =====
   const getTotalCartAmount = () => {
-    let total = 0;
-    all_product.forEach((item) => {
-      if (cartItems[item.id] > 0) {
-        total += item.price * cartItems[item.id];
-      }
-    });
-    return total;
+    return cartItems.reduce(
+      (total, item) => total + (item.price || 0) * (item.quantity || 1),
+      0
+    );
   };
 
   const getTotalCartItems = () => {
-    return Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
+    return cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
   };
 
   const contextValue = {
@@ -123,6 +141,7 @@ const ShopContextProvider = ({ children }) => {
     cartCount,
     addToCart,
     removeFromCart,
+    updateQuantity,
     clearCart,
     getTotalCartAmount,
     getTotalCartItems,
