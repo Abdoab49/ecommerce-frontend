@@ -17,10 +17,10 @@ import ScrollingText from '../Components/ScrollingText'
 import LogoScroller from '../Components/LogoScroller'
 import NewOverlayCard from '../Components/NewOverlayCard'
 import NewShoeStore from '../Components/NewShoeStore'
+import NewPromoCard from '../Components/NewPromoCard'
 const Shop = () => {
     return (
         <div>
-
             <Hero />
             <ScrollingText />
             <Carousel />
@@ -36,6 +36,7 @@ const Shop = () => {
             <BannerCard />
             <SimpleCard />
             <PromoCard />
+            <NewPromoCard />
             <Newsletter />
             <SocialIcons />
             <LogoScroller />

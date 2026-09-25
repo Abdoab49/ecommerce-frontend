@@ -1,16 +1,16 @@
 /* ProductGrid.module.css */
 
-/* استيراد الخط Bangers */
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+/* استيراد الخط Fjalla One */
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
 
 /* ===== تطبيق الخط على كل العناصر ===== */
 * {
-  font-family: "Bangers", system-ui, -apple-system, sans-serif;
+  font-family: "Fjalla One", sans-serif;
 }
 
-/* كلاس الخط Bangers */
-.bangers-regular {
-  font-family: "Bangers", system-ui;
+/* كلاس الخط Fjalla One */
+.fjalla-one-regular {
+  font-family: "Fjalla One", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -46,35 +46,35 @@
   line-height: 1.4rem;
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
   letter-spacing: 0.5px;
   font-weight: 400;
   color: #1a1a2e;
-  display: block; /* ✅ ضمان الظهور */
-  visibility: visible; /* ✅ ضمان الظهور */
-  opacity: 1; /* ✅ ضمان الظهور */
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .card__description {
   line-height: 1.2rem;
   color: #000000;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
   letter-spacing: 0.3px;
   font-weight: 400;
-  display: block; /* ✅ ضمان الظهور */
-  visibility: visible; /* ✅ ضمان الظهور */
-  opacity: 1; /* ✅ ضمان الظهور */
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .card__price {
   font-size: 1.4rem;
   margin-top: 0.6rem;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
   letter-spacing: 0.5px;
   font-weight: 400;
-  display: block; /* ✅ ضمان الظهور */
-  visibility: visible; /* ✅ ضمان الظهور */
-  opacity: 1; /* ✅ ضمان الظهور */
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .card__price::before {
@@ -83,14 +83,14 @@
   position: relative;
   top: -0.3rem;
   padding-right: 0.1rem;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
 }
 
 .card__btn {
   border: none;
   border-top: 1px solid #e1e5ee;
   background-color: transparent;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
   font-size: 1rem;
   font-weight: 400;
   color: #1a1a2e;
@@ -100,9 +100,9 @@
   cursor: pointer;
   transition: color 0.2s ease;
   letter-spacing: 0.5px;
-  display: block; /* ✅ ضمان الظهور */
-  visibility: visible; /* ✅ ضمان الظهور */
-  opacity: 1; /* ✅ ضمان الظهور */
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .card__btn:hover {
@@ -123,7 +123,7 @@
   font-size: 0.9rem;
   color: #999;
   text-decoration: line-through;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -133,7 +133,7 @@
   font-size: 1.3rem;
   font-weight: bold;
   color: #000000;
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -328,7 +328,7 @@
   font-size: 14px;
   font-weight: 500;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+  font-family: "Fjalla One", sans-serif !important;
 }
 
 @keyframes slideIn {
@@ -351,6 +351,6 @@
     text-align: center;
     font-size: 12px;
     padding: 10px;
-    font-family: "Bangers", system-ui, -apple-system, sans-serif !important;
+    font-family: "Fjalla One", sans-serif !important;
   }
 }

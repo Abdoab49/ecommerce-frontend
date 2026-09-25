@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProductPrice } from '../Data/prices';
-import './ShoeStore.module.css';
+import './ShoeStore.css';   // ✅ نفس الـ CSS ديال ShoeStore
 
 const NewShoeStore = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const NewShoeStore = () => {
     }, 2000);
   };
 
-  // ✅ ✅ ✅ 20 منتج مع 3 صور لكل منتج
+  // ✅ 20 منتج مع 3 صور لكل منتج
   const products = [
     // ===== الصف الأول (1-4) =====
     { 
@@ -242,8 +242,7 @@ const NewShoeStore = () => {
               onClick={() => goToSizeSelection({
                 ...product,
                 price: price,
-                old_price: oldPrice,
-                images: product.images
+                old_price: oldPrice
               })}
               style={{ cursor: 'pointer' }}
             >
@@ -269,7 +268,12 @@ const NewShoeStore = () => {
                   <span className="price">
                     {price} DH
                     {oldPrice && oldPrice > price && (
-                      <span className="old-price">
+                      <span style={{
+                        fontSize: '12px',
+                        color: '#8c8c8c',
+                        textDecoration: 'line-through',
+                        marginLeft: '8px'
+                      }}>
                         {oldPrice} DH
                       </span>
                     )}

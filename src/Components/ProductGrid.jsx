@@ -27,6 +27,7 @@ const ProductGrid = () => {
             name: product.title,
             company: 'National Team',
             price: product.price,
+            old_price: product.oldPrice,
             img: product.src,
             description: product.description,
             category: 'men',
@@ -35,37 +36,24 @@ const ProductGrid = () => {
         navigate('/size-selection', { state: { product: productData } });
     };
 
-    // ✅ ✅ ✅ إضافة إلى السلة مع اسم صحيح
+    // ✅ ✅ ✅ Add to Cart → دوز لـ Size Selection
     const handleAddToCart = (product, event) => {
         event.stopPropagation();
         
-        addToCart(product.id);
-        
-        const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existingIndex = existingCart.findIndex(item => item.id === product.id);
-        
-        const cartItem = {
+        const productData = {
             id: product.id,
-            name: product.title,        // ✅ MOROCCO, ARGENTINA, ...
-            title: product.title,
+            name: product.title,
+            company: 'National Team',
             price: product.price,
-            quantity: 1,
-            size: 'M',
+            old_price: product.oldPrice,
+            img: product.src,
+            description: product.description,
             category: 'men',
-            image: product.src,
-            brand: 'National Team'
+            images: [product.src]
         };
         
-        if (existingIndex > -1) {
-            existingCart[existingIndex].quantity += 1;
-        } else {
-            existingCart.push(cartItem);
-        }
-        
-        localStorage.setItem('cart', JSON.stringify(existingCart));
-        
-        setNotification({ show: true, message: `✅ ${product.title} added to cart!` });
-        setTimeout(() => setNotification({ show: false, message: '' }), 2000);
+        // ✅ دوز لـ Size Selection بدل ما تزيد مباشرة
+        navigate('/size-selection', { state: { product: productData } });
     };
 
     const firstRow = products.slice(0, 4);

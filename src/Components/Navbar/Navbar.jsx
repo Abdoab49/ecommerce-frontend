@@ -70,7 +70,7 @@ const Navbar = () => {
                                 closeMenu();
                             }}
                         >
-                            WOMEN
+                            JACKETS
                         </Link>
                     </li>
                     <li>
@@ -82,7 +82,20 @@ const Navbar = () => {
                                 closeMenu();
                             }}
                         >
-                            KIDS
+                            CASQUETTE
+                        </Link>
+                    </li>
+                    {/* ✅ جديد — SHOES */}
+                    <li>
+                        <Link 
+                            to="/shoes" 
+                            className={`${styles.link} ${menu === "shoes" ? styles.active : ''}`}
+                            onClick={() => {
+                                setMenu("shoes");
+                                closeMenu();
+                            }}
+                        >
+                            SHOES
                         </Link>
                     </li>
                     {/* زر LOGIN داخل القائمة للهواتف */}

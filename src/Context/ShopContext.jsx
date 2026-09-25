@@ -45,6 +45,16 @@ const LOCAL_PRODUCTS = [
   { id: 26, name: 'Kids Cool', category: 'kid', image: '/Assets/tshirt/tshirt3.png', price: 65, old_price: 95 },
   { id: 27, name: 'Kids Happy', category: 'kid', image: '/Assets/tshirt/tshirt4.png', price: 55, old_price: 85 },
   { id: 28, name: 'Kids Star', category: 'kid', image: '/Assets/tshirt/tshirt5.png', price: 70, old_price: 100 },
+
+  // ===== SHOES ✅ جديد =====
+  { id: 53, name: 'NIKE AIR MAX', category: 'shoes', image: '/Assets/ShoeStore/tshirt1.png', price: 250, old_price: 350 },
+  { id: 54, name: 'ADIDAS ULTRA', category: 'shoes', image: '/Assets/ShoeStore/tshirt2.png', price: 220, old_price: 320 },
+  { id: 55, name: 'PUMA RS-X', category: 'shoes', image: '/Assets/ShoeStore/tshirt3.png', price: 200, old_price: 280 },
+  { id: 56, name: 'NEW BALANCE 550', category: 'shoes', image: '/Assets/ShoeStore/tshirt4.png', price: 240, old_price: 340 },
+  { id: 57, name: 'REEBOK CLASSIC', category: 'shoes', image: '/Assets/ShoeStore/tshirt5.png', price: 180, old_price: 260 },
+  { id: 58, name: 'VANS OLD SKOOL', category: 'shoes', image: '/Assets/ShoeStore/tshirt6.png', price: 190, old_price: 270 },
+  { id: 59, name: 'CONVERSE CHUCK', category: 'shoes', image: '/Assets/ShoeStore/tshirt7.png', price: 170, old_price: 240 },
+  { id: 60, name: 'ASICS GEL', category: 'shoes', image: '/Assets/ShoeStore/tshirt8.png', price: 230, old_price: 330 },
 ];
 
 const ShopContextProvider = ({ children }) => {

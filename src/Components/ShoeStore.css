@@ -65,10 +65,15 @@ body {
   text-align: center;
 }
 
+/* ✅ الصورة كاملة بلا قطع */
 .el-wrapper .img {
   width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
   padding: 20px 0;
   transition: all 0.3s ease;
+  display: block;
 }
 
 .el-wrapper:hover .img {
@@ -330,8 +335,13 @@ body {
     height: 220px !important;
   }
   
+  /* ✅ الصورة كاملة بلا قطع */
   .el-wrapper .img {
     padding: 15px 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
   }
   
   .info-inner .p-name {
@@ -373,8 +383,13 @@ body {
     height: 180px !important;
   }
   
+  /* ✅ الصورة كاملة بلا قطع */
   .el-wrapper .img {
     padding: 10px 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
   }
   
   .info-inner .p-name {
@@ -530,9 +545,13 @@ body {
     height: 180px !important;
   }
 
-  /* تصغير حجم الصورة */
+  /* ✅ الصورة كاملة بلا قطع */
   .el-wrapper .img {
     padding: 10px 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
   }
 
   /* تصغير اسم المنتج */
@@ -558,10 +577,6 @@ body {
   /* تصغير المقاسات */
   .a-size {
     font-size: 9px !important;
-  }
-
-  /* إخفاء المقاسات في الهواتف الصغيرة */
-  .a-size {
     display: none !important;
   }
 }
@@ -581,8 +596,13 @@ body {
     height: 140px !important;
   }
 
+  /* ✅ الصورة كاملة بلا قطع */
   .el-wrapper .img {
     padding: 5px 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
   }
 
   .info-inner .p-name {
@@ -616,4 +636,3 @@ body {
     font-size: 7px !important;
   }
 }
-

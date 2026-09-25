@@ -58,7 +58,7 @@ const Cart = () => {
 
   const applyPromoCode = () => {
     const promoCodes = {
-      '10OFF': 10,
+      '4F334412': 10,
       '20OFF': 20,
       'LANADA15': 15,
       'WELCOME5': 5,
