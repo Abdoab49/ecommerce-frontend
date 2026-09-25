@@ -9,7 +9,7 @@ import {
 /* COMPONENTS */
 import Navbar from './Components/Navbar/Navbar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
-import ScrollToTop from './Components/ScrollToTop/ScrollToTop';   // ✅ جديد
+import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -28,18 +28,17 @@ import kid_banner from './Components/Assets/banner_kids.png';
 /* CONTEXT */
 import ShopContextProvider from './Context/ShopContext';
 
-/* ✅ SHOES BANNER — بعد كل الـ imports */
 const shoes_banner = "/Assets/ShoeStore/background8.png";
 
 function App() {
     return (
         <ShopContextProvider>
             <BrowserRouter>
-                <ScrollToTop />   {/* ✅ كيرجع للفوق ملي كيتبدل الـ Route */}
+                <ScrollToTop />
                 <div className="app-background">
+                    {/* ✅ خلي stars فقط */}
                     <div id="stars"></div>
-                    <div id="stars2"></div>
-                    <div id="stars3"></div>
+                    {/* ❌ حيدنا stars2 و stars3 */}
                     <div className="app-content">
                         <Navbar />
                         <NotificationBell />
@@ -48,10 +47,7 @@ function App() {
                             <Route path='/mens' element={<ShopCategory banner={men_banner} category="men" />} />
                             <Route path='/womens' element={<ShopCategory banner={women_banner} category="women" />} />
                             <Route path='/kids' element={<ShopCategory banner={kid_banner} category="kid" />} />
-
-                            {/* ✅ SHOES */}
                             <Route path='/shoes' element={<ShopCategory banner={shoes_banner} category="shoes" />} />
-
                             <Route path='/product/:productId' element={<Product />} />
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/login' element={<LoginSignup />} />

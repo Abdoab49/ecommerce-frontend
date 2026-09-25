@@ -6,16 +6,16 @@ const ScrollToTop = () => {
   const prevPathname = useRef(pathname);
 
   useEffect(() => {
-    // ✅ غير ملي كيتبدل pathname فعلاً
+    // ✅ إلا كان نفس pathname → ما كيديرش شي حاجة
     if (prevPathname.current === pathname) return;
 
-    // ✅ Shop (/) ما كيرجعش للفوق
+    // ✅ إلا كان Shop → ما كيديرش شي حاجة
     if (pathname === '/') {
       prevPathname.current = pathname;
       return;
     }
 
-    // ✅ scrollTo بلا animation (instant)
+    // ✅ غير فـ الصفحات الأخرى → كيرجع للفوق
     window.scrollTo({
       top: 0,
       left: 0,
