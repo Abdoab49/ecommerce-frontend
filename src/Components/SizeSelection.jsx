@@ -27,6 +27,11 @@ const SizeSelection = () => {
   const morphRef = useRef(null);
   const shirtRef = useRef(null);
 
+  // ✅ رجع للصورة الأولى ملي كيتبدل المنتج
+  useEffect(() => {
+    setCurrentImage(0);
+  }, [product?.id]);
+
   // ===== ✅ صور المنتج (men + women + kids) =====
   const productImages = {
     // ==========================================
