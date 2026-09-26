@@ -9,16 +9,120 @@ const ProductGrid = () => {
     const { addToCart } = useContext(ShopContext);
     const [notification, setNotification] = useState({ show: false, message: '' });
 
-    // ✅ منتجات كأس العالم
+    // ✅ منتجات كأس العالم — مع 4 صور لكل منتج
     const products = [
-        { id: 45, src: "/Assets/tshirt/tshirt1.png", title: "MOROCCO", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 46, src: "/Assets/tshirt/tshirt2.png", title: "ARGENTINA", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 47, src: "/Assets/tshirt/tshirt3.png", title: "BRAZIL", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 48, src: "/Assets/tshirt/tshirt4.png", title: "SPAIN", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 49, src: "/Assets/tshirt/tshirt5.png", title: "FRANCE", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 50, src: "/Assets/tshirt/tshirt6.png", title: "GERMANY", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 51, src: "/Assets/tshirt/tshirt7.png", title: "ENGLAND", description: "National Team Jersey", price: 45, oldPrice: 70 },
-        { id: 52, src: "/Assets/tshirt/tshirt8.png", title: "ITALY", description: "National Team Jersey", price: 45, oldPrice: 70 }
+        { 
+            id: 45, 
+            src: "/Assets/tshirt/tshirt1.png", 
+            title: "MOROCCO", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt1.png",
+                "/Assets/tshirt/tshirt1_2.png",
+                "/Assets/tshirt/tshirt1_3.png",
+                "/Assets/tshirt/tshirt1_4.png"
+            ]
+        },
+        { 
+            id: 46, 
+            src: "/Assets/tshirt/tshirt2.png", 
+            title: "ARGENTINA", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt2.png",
+                "/Assets/tshirt/tshirt2_2.png",
+                "/Assets/tshirt/tshirt2_3.png",
+                "/Assets/tshirt/tshirt2_4.png"
+            ]
+        },
+        { 
+            id: 47, 
+            src: "/Assets/tshirt/tshirt3.png", 
+            title: "BRAZIL", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt3.png",
+                "/Assets/tshirt/tshirt3_2.png",
+                "/Assets/tshirt/tshirt3_3.png",
+                "/Assets/tshirt/tshirt3_4.png"
+            ]
+        },
+        { 
+            id: 48, 
+            src: "/Assets/tshirt/tshirt4.png", 
+            title: "SPAIN", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt4.png",
+                "/Assets/tshirt/tshirt4_2.png",
+                "/Assets/tshirt/tshirt4_3.png",
+                "/Assets/tshirt/tshirt4_4.png"
+            ]
+        },
+        { 
+            id: 49, 
+            src: "/Assets/tshirt/tshirt5.png", 
+            title: "FRANCE", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt5.png",
+                "/Assets/tshirt/tshirt5_2.png",
+                "/Assets/tshirt/tshirt5_3.png",
+                "/Assets/tshirt/tshirt5_4.png"
+            ]
+        },
+        { 
+            id: 50, 
+            src: "/Assets/tshirt/tshirt6.png", 
+            title: "GERMANY", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt6.png",
+                "/Assets/tshirt/tshirt6_2.png",
+                "/Assets/tshirt/tshirt6_3.png",
+                "/Assets/tshirt/tshirt6_4.png"
+            ]
+        },
+        { 
+            id: 51, 
+            src: "/Assets/tshirt/tshirt7.png", 
+            title: "ENGLAND", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt7.png",
+                "/Assets/tshirt/tshirt7_2.png",
+                "/Assets/tshirt/tshirt7_3.png",
+                "/Assets/tshirt/tshirt7_4.png"
+            ]
+        },
+        { 
+            id: 52, 
+            src: "/Assets/tshirt/tshirt8.png", 
+            title: "ITALY", 
+            description: "National Team Jersey", 
+            price: 45, 
+            oldPrice: 70,
+            images: [
+                "/Assets/tshirt/tshirt8.png",
+                "/Assets/tshirt/tshirt8_2.png",
+                "/Assets/tshirt/tshirt8_3.png",
+                "/Assets/tshirt/tshirt8_4.png"
+            ]
+        }
     ];
 
     const handleProductClick = (product) => {
@@ -31,12 +135,11 @@ const ProductGrid = () => {
             img: product.src,
             description: product.description,
             category: 'men',
-            images: [product.src]
+            images: product.images || [product.src]   // ✅ 4 صور
         };
         navigate('/size-selection', { state: { product: productData } });
     };
 
-    // ✅ ✅ ✅ Add to Cart → دوز لـ Size Selection
     const handleAddToCart = (product, event) => {
         event.stopPropagation();
         
@@ -49,10 +152,9 @@ const ProductGrid = () => {
             img: product.src,
             description: product.description,
             category: 'men',
-            images: [product.src]
+            images: product.images || [product.src]   // ✅ 4 صور
         };
         
-        // ✅ دوز لـ Size Selection بدل ما تزيد مباشرة
         navigate('/size-selection', { state: { product: productData } });
     };
 
