@@ -9,7 +9,7 @@ import {
 /* COMPONENTS */
 import Navbar from './Components/Navbar/Navbar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
-// ❌ حيدنا ScrollToTop
+import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -34,7 +34,7 @@ function App() {
     return (
         <ShopContextProvider>
             <BrowserRouter>
-                {/* ❌ حيدنا <ScrollToTop /> */}
+                <ScrollToTop />
                 <div className="app-background">
                     {/* ✅ خلي stars فقط */}
                     <div id="stars"></div>
