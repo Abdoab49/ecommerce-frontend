@@ -256,8 +256,8 @@ const SizeSelection = () => {
       id: product?.id || 1,
       name: product?.name || 'NIKE',
       brand: product?.company || 'YEEZY',
-      price: `$${newPrice.toFixed(2)}`,
-      originalPrice: `$${oldPrice.toFixed(2)}`,
+      price: `${newPrice.toFixed(2)} DH`,
+      originalPrice: `${oldPrice.toFixed(2)} DH`,
       discount: discountPercent,
       description: product?.description || 'Premium quality t-shirt with modern fit. Designed for comfort and style, perfect for everyday wear.',
       maxQuantity: Infinity,
@@ -272,10 +272,10 @@ const SizeSelection = () => {
 
   // ===== RELATED PRODUCTS =====
   const relatedProducts = [
-    { id: 2, name: 'T-shirt football', price: '150dh', img: '/Assets/ShoeStore/tshirt2.png', company: 'YEEZY' },
-    { id: 3, name: 'T-shirt basketball', price: '$120', img: '/Assets/ShoeStore/tshirt3.png', company: 'YEEZY' },
-    { id: 4, name: 'T-shirt football', price: '$120', img: '/Assets/ShoeStore/tshirt4.png', company: 'YEEZY' },
-    { id: 5, name: 'T-shirt football', price: '$120', img: '/Assets/ShoeStore/tshirt5.png', company: 'YEEZY' },
+    { id: 2, name: 'T-shirt football', price: '150 DH', img: '/Assets/ShoeStore/tshirt2.png', company: 'YEEZY' },
+    { id: 3, name: 'T-shirt basketball', price: '120 DH', img: '/Assets/ShoeStore/tshirt3.png', company: 'YEEZY' },
+    { id: 4, name: 'T-shirt football', price: '120 DH', img: '/Assets/ShoeStore/tshirt4.png', company: 'YEEZY' },
+    { id: 5, name: 'T-shirt football', price: '120 DH', img: '/Assets/ShoeStore/tshirt5.png', company: 'YEEZY' },
   ];
 
   const handleSizeSelect = (size) => {
