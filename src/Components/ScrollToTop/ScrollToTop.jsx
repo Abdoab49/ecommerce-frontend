@@ -19,7 +19,7 @@ const ScrollToTop = () => {
       behavior: 'instant'
     });
 
-    // ✅ احتياط: بعض المتصفحات كتحتاج هادشي
+    // ✅ احتياط للمتصفحات
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 

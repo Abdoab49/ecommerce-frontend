@@ -36,9 +36,7 @@ function App() {
             <BrowserRouter>
                 <ScrollToTop />
                 <div className="app-background">
-                    {/* ✅ خلي stars فقط */}
                     <div id="stars"></div>
-                    {/* ❌ حيدنا stars2 و stars3 */}
                     <div className="app-content">
                         <Navbar />
                         <NotificationBell />
