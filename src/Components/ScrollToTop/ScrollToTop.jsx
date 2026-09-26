@@ -1,15 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+  const prevPathname = useRef(pathname);
 
   useEffect(() => {
-    // ✅ كيرجع للفوق غير فـ الصفحات (ماشي Shop)
+    // ✅ ما كيديرش شي حاجة فـ Shop
     if (pathname === '/') return;
 
-    // ✅ بلا animation، فوري
-    window.scrollTo(0, 0);
+    // ✅ ما كيديرش شي حاجة إلا كان نفس pathname
+    if (prevPathname.current === pathname) return;
+
+    // ✅ استعمل requestAnimationFrame — أسرع من setTimeout
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+
+    prevPathname.current = pathname;
   }, [pathname]);
 
   return null;
