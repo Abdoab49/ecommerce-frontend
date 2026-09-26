@@ -1,9 +1,20 @@
 import styles from './NewOverlayCard.module.css';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NewOverlayCard = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/womens');
+  };
+
   return (
-    <div className={`${styles.card} ${styles.bgDark} ${styles.textWhite}`}>
+    <div 
+      className={`${styles.card} ${styles.bgDark} ${styles.textWhite}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
       <img 
         className={styles.cardImg} 
         src="/Assets/ShoeStore/background7.png" 
