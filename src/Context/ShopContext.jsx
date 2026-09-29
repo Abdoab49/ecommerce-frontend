@@ -55,6 +55,18 @@ const LOCAL_PRODUCTS = [
   { id: 58, name: 'VANS OLD SKOOL', category: 'shoes', image: '/Assets/ShoeStore/tshirt6.png', price: 190, old_price: 270 },
   { id: 59, name: 'CONVERSE CHUCK', category: 'shoes', image: '/Assets/ShoeStore/tshirt7.png', price: 170, old_price: 240 },
   { id: 60, name: 'ASICS GEL', category: 'shoes', image: '/Assets/ShoeStore/tshirt8.png', price: 230, old_price: 330 },
+
+  // ===== CASQUETTE =====
+{ id: 61, name: 'Casquette structurée Futura', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 300, old_price: 450 },
+{ id: 62, name: 'Casquette Classic 99', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 150, old_price: 225 },
+{ id: 63, name: 'Casquette Urban Style', category: 'casquette', image: '/Assets/casquette/casquette3.png', price: 200, old_price: 300 },
+{ id: 64, name: 'Casquette Retro Sport', category: 'casquette', image: '/Assets/casquette/casquette4.png', price: 150, old_price: 225 },
+{ id: 65, name: 'Casquette Sport Pro', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 250, old_price: 375 },
+{ id: 66, name: 'Casquette Vintage Wash', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 180, old_price: 270 },
+{ id: 67, name: 'Casquette Streetwear', category: 'casquette', image: '/Assets/casquette/casquette3.png', price: 220, old_price: 330 },
+{ id: 68, name: 'Casquette Snapback', category: 'casquette', image: '/Assets/casquette/casquette4.png', price: 160, old_price: 240 },
+{ id: 69, name: 'Casquette Trucker', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 140, old_price: 210 },
+{ id: 70, name: 'Casquette Luxe', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 280, old_price: 420 },
 ];
 
 const ShopContextProvider = ({ children }) => {

@@ -44,7 +44,7 @@ const ShoeStore = () => {
     { id: 5, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt5.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
     { id: 6, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt6.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
     { id: 7, name: 'T-shirt basketball', price: 200, img: '/Assets/ShoeStore/tshirt7.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 8, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
+    { id: 8, name: 'T-shirt football', price: 100, img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
   ];
 
   const firstRow = products.slice(0, 4);

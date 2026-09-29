@@ -1,7 +1,6 @@
 import React from 'react'
 import Hero from '../Components/Hero/Hero'
 import Carousel from '../Components/Carousel/Carousel'
-import Newsletter from '../Components/NewsLetter/NewsLetter'
 import SocialIcons from '../Components/SocialIcons/SocialIcons'
 import ShoesCard from '../Components/ShoesCard'
 import ShoeStore from '../Components/ShoeStore'
@@ -13,10 +12,10 @@ import SimpleCard from '../Components/SimpleCard'
 import BannerCard from '../Components/BannerCard'
 import PromoCard from '../Components/PromoCard'
 import ScrollingText from '../Components/ScrollingText'
-import LogoScroller from '../Components/LogoScroller'
 import NewOverlayCard from '../Components/NewOverlayCard'
 import NewShoeStore from '../Components/NewShoeStore'
 import NewPromoCard from '../Components/NewPromoCard'
+import Slider from '../Components/Slider'
 const Shop = () => {
     return (
         <div>
@@ -35,9 +34,8 @@ const Shop = () => {
             <SimpleCard />
             <PromoCard />
             <NewPromoCard />
-            <Newsletter />
+            <Slider />
             <SocialIcons />
-            <LogoScroller />
         </div>
     )
 }

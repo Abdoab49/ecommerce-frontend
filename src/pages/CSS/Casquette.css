@@ -1,0 +1,173 @@
+/* ============================================
+   CASQUETTE PAGE
+   ============================================ */
+
+.casquette-page {
+  min-height: 100vh;
+  background: #ffffff;
+  padding-bottom: 60px;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.casquette-header {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
+/* ===== الصورة ===== */
+.casquette-banner {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ===== الكتابة (قريبة من البانر + الكروت) ===== */
+.casquette-overlay {
+  background: #000;
+  padding: 12px 20px 20px;     /* ✅ 12 من فوق، 20 من تحت */
+  text-align: center;
+  color: #fff;
+  margin: 0;
+}
+
+.casquette-overlay h1 {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin: 0 0 4px 0;
+  padding: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  line-height: 1;
+  color: #fff;
+}
+
+.casquette-overlay p {
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-family: 'Bebas Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+/* ============================================
+   CONTENT
+   ============================================ */
+
+.casquette-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12px 20px 0;         /* ✅ 12 من فوق (قريب من الكتابة) */
+}
+
+.casquette-content h2 {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 12px 0;           /* ✅ 12 تحت الـ h2 */
+  color: #1a1a2e;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+}
+
+/* ============================================
+   MEDIA QUERIES
+   ============================================ */
+
+@media (min-width: 1400px) {
+  .casquette-banner { height: 350px; }
+  .casquette-overlay { padding: 16px 20px 24px; }
+  .casquette-overlay h1 { font-size: 68px; }
+  .casquette-overlay p { font-size: 18px; }
+  .casquette-content { max-width: 1600px; padding: 14px 20px 0; }
+  .casquette-content h2 { font-size: 34px; margin-bottom: 14px; }
+}
+
+@media (min-width: 1025px) and (max-width: 1399px) {
+  .casquette-banner { height: 280px; }
+  .casquette-overlay { padding: 14px 20px 22px; }
+  .casquette-overlay h1 { font-size: 54px; }
+  .casquette-overlay p { font-size: 15px; }
+  .casquette-content { max-width: 1300px; padding: 12px 20px 0; }
+  .casquette-content h2 { font-size: 30px; margin-bottom: 12px; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .casquette-banner { height: 240px; }
+  .casquette-overlay { padding: 12px 18px 18px; }
+  .casquette-overlay h1 { font-size: 44px; letter-spacing: 2px; }
+  .casquette-overlay p { font-size: 13px; }
+  .casquette-content { padding: 10px 24px 0; }
+  .casquette-content h2 { font-size: 26px; margin-bottom: 10px; }
+}
+
+@media (max-width: 768px) {
+  .casquette-page { padding-bottom: 40px; }
+  .casquette-banner { height: 200px; }
+  .casquette-overlay { padding: 10px 16px 16px; }
+  .casquette-overlay h1 { font-size: 34px; letter-spacing: 2px; }
+  .casquette-overlay p { font-size: 12px; letter-spacing: 1.5px; }
+  .casquette-content { padding: 10px 16px 0; }
+  .casquette-content h2 { font-size: 22px; margin-bottom: 10px; letter-spacing: 1.5px; }
+}
+
+@media (max-width: 600px) {
+  .casquette-banner { height: 180px; }
+  .casquette-overlay { padding: 8px 14px 14px; }
+  .casquette-overlay h1 { font-size: 28px; letter-spacing: 2px; }
+  .casquette-overlay p { font-size: 11px; letter-spacing: 1px; }
+  .casquette-content { padding: 8px 14px 0; }
+  .casquette-content h2 { font-size: 20px; margin-bottom: 8px; }
+}
+
+@media (max-width: 480px) {
+  .casquette-page { padding-bottom: 30px; }
+  .casquette-banner { height: 160px; }
+  .casquette-overlay { padding: 8px 12px 12px; }
+  .casquette-overlay h1 { font-size: 24px; letter-spacing: 1.5px; }
+  .casquette-overlay p { font-size: 10px; letter-spacing: 1px; }
+  .casquette-content { padding: 8px 12px 0; }
+  .casquette-content h2 { font-size: 18px; margin-bottom: 8px; letter-spacing: 1px; }
+}
+
+@media (max-width: 380px) {
+  .casquette-page { padding-bottom: 20px; }
+  .casquette-banner { height: 140px; }
+  .casquette-overlay { padding: 6px 10px 10px; }
+  .casquette-overlay h1 { font-size: 20px; letter-spacing: 1px; }
+  .casquette-overlay p { font-size: 9px; letter-spacing: 0.5px; }
+  .casquette-content { padding: 6px 10px 0; }
+  .casquette-content h2 { font-size: 16px; margin-bottom: 6px; letter-spacing: 0.5px; }
+}
+
+@media (max-width: 320px) {
+  .casquette-banner { height: 120px; }
+  .casquette-overlay { padding: 5px 8px 8px; }
+  .casquette-overlay h1 { font-size: 18px; }
+  .casquette-overlay p { font-size: 8px; }
+  .casquette-content h2 { font-size: 14px; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .casquette-banner { height: 160px; }
+  .casquette-overlay { padding: 8px 16px 12px; }
+  .casquette-overlay h1 { font-size: 28px; }
+  .casquette-overlay p { font-size: 11px; }
+  .casquette-content h2 { font-size: 20px; margin-bottom: 8px; }
+}

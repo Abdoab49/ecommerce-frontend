@@ -75,10 +75,10 @@ const Navbar = () => {
                     </li>
                     <li>
                         <Link 
-                            to="/kids" 
-                            className={`${styles.link} ${menu === "kids" ? styles.active : ''}`}
+                            to="/casquette" 
+                            className={`${styles.link} ${menu === "casquette" ? styles.active : ''}`}
                             onClick={() => {
-                                setMenu("kids");
+                                setMenu("casquette");
                                 closeMenu();
                             }}
                         >

@@ -81,6 +81,12 @@
   background-color: #008be7;
 }
 
+.btn.clicked {
+  background-color: #16bf78 !important;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
 /* ============================================ */
 /* 💻 المقاسات الكبيرة (Desktop & Laptop) */
 /* 4 بطاقات جنب بعض */

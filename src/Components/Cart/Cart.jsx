@@ -48,7 +48,7 @@ const Cart = () => {
     return total + extractPrice(item.price) * (item.quantity || 1);
   }, 0);
 
-  const shippingFee = subtotal > 0 ? 20 : 0;
+  const shippingFee = subtotal > 500 ? 0 : (subtotal > 0 ? 20 : 0);
   const promoAmount = (subtotal * promoPercent) / 100;
   const total = subtotal + shippingFee - promoAmount;
 

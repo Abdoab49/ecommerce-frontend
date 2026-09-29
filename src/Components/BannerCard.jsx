@@ -6,7 +6,7 @@ const BannerCard = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/kids');   // ← CASQUETTE
+    navigate('/casquette');   // ✅ CASQUETTE
   };
 
   return (
