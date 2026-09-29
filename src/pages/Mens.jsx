@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ShoeStore from '../Components/ShoeStore';
-import ShoesCard from '../Components/ShoesCard';   // ✅ المسار الصحيح
 import './CSS/Mens.css';
 
 const Mens = () => {
+  const [sortOption, setSortOption] = useState('default');
+
   return (
     <div className="mens-page">
       <div className="mens-header">
         <div className="mens-banner">
-          <img 
-            src="/Assets/ShoeStore/background2.png" 
+          <img
+            src="/Assets/ShoeStore/background2.png"
             alt="Men Collection"
             className="banner-img"
           />
@@ -22,13 +23,27 @@ const Mens = () => {
       </div>
 
       <div className="mens-content">
-        <h2>Nos T-Shirts</h2>
-        <ShoeStore />
-      </div>
+        <div className="mens-sort-bar">
+          <p>
+            Showing <span>{/* عدد */}</span> products
+          </p>
+          <div className="mens-sort">
+            <label htmlFor="mens-sort-select">Sort by</label>
+            <select
+              id="mens-sort-select"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="default">Default</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-asc">Name: A → Z</option>
+              <option value="name-desc">Name: Z → A</option>
+            </select>
+          </div>
+        </div>
 
-      {/* ✅ ShoesCard — تحت الكروت */}
-      <div className="mens-shoescard">
-        <ShoesCard />
+        <ShoeStore sortOption={sortOption} />
       </div>
     </div>
   );

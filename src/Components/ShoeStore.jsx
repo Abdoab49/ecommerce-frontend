@@ -1,10 +1,10 @@
-// src/Components/ShoeStore/ShoeStore.jsx
+// src/Components/ShoeStore.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProductPrice } from '../Data/prices';
+import { getProductPrice } from './Data/prices';
 import './ShoeStore.css';
 
-const ShoeStore = () => {
+const ShoeStore = ({ sortOption = 'default' }) => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [notification, setNotification] = useState({ show: false, message: '' });
@@ -14,16 +14,14 @@ const ShoeStore = () => {
     navigate('/size-selection', { state: { product: product } });
   };
 
-  // ✅ ✅ ✅ إضافة إلى السلة مع اسم صحيح
   const addToCart = async (productName, price, productId, e) => {
     e.stopPropagation();
-    
     setClickedButton(productId);
     setTimeout(() => setClickedButton(null), 300);
-    
+
     const newItem = {
       id: productId,
-      name: productName,        // ✅ NIKE, Supreme, ...
+      name: productName,
       title: productName,
       price: price,
       quantity: 1,
@@ -32,7 +30,7 @@ const ShoeStore = () => {
       image: `/Assets/ShoeStore/tshirt${productId}.png`,
       brand: 'ShoeStore'
     };
-    
+
     const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
     const existingIndex = existingCart.findIndex(item => item.id === productId);
     if (existingIndex > -1) {
@@ -42,14 +40,13 @@ const ShoeStore = () => {
     }
     localStorage.setItem('cart', JSON.stringify(existingCart));
     setCartItems(existingCart);
-    
+
     setNotification({ show: true, message: `✅ ${productName} added to cart!` });
-    setTimeout(() => {
-      setNotification({ show: false, message: '' });
-    }, 2000);
+    setTimeout(() => setNotification({ show: false, message: '' }), 2000);
   };
 
-  const products = [
+  // ✅ المنتجات الأصلية
+  let products = [
     { id: 1, name: 'NIKE', img: '/Assets/ShoeStore/tshirt1.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
     { id: 2, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt2.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
     { id: 3, name: 'T-shirt basketball', img: '/Assets/ShoeStore/tshirt3.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
@@ -60,25 +57,37 @@ const ShoeStore = () => {
     { id: 8, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
   ];
 
+  // ✅ زيد الأسعار
+  products = products.map(p => {
+    const priceData = getProductPrice(p.name);
+    return { ...p, price: priceData.new_price, old_price: priceData.old_price };
+  });
+
+  // ✅ ترتيب
+  if (sortOption === 'price-asc') {
+    products = [...products].sort((a, b) => a.price - b.price);
+  } else if (sortOption === 'price-desc') {
+    products = [...products].sort((a, b) => b.price - a.price);
+  } else if (sortOption === 'name-asc') {
+    products = [...products].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortOption === 'name-desc') {
+    products = [...products].sort((a, b) => b.name.localeCompare(a.name));
+  }
+
   const firstRow = products.slice(0, 4);
   const secondRow = products.slice(4, 8);
 
   const ProductCard = ({ product }) => {
-    const priceData = getProductPrice(product.name);
-    const price = priceData.new_price;
-    const oldPrice = priceData.old_price;
+    const price = product.price;
+    const oldPrice = product.old_price;
 
     return (
       <div className="page-wrapper">
         <div className="page-inner">
           <div className="row">
-            <div 
+            <div
               className="el-wrapper"
-              onClick={() => goToSizeSelection({
-                ...product,
-                price: price,
-                old_price: oldPrice
-              })}
+              onClick={() => goToSizeSelection({ ...product, price, old_price: oldPrice })}
               style={{ cursor: 'pointer' }}
             >
               <div className="box-up">
@@ -96,24 +105,17 @@ const ShoeStore = () => {
                 </div>
               </div>
               <div className="box-down">
-                <div className="h-bg">
-                  <div className="h-bg-inner"></div>
-                </div>
+                <div className="h-bg"><div className="h-bg-inner"></div></div>
                 <div className="cart">
                   <span className="price">
                     {price} DH
                     {oldPrice && oldPrice > price && (
-                      <span style={{
-                        fontSize: '12px',
-                        color: '#8c8c8c',
-                        textDecoration: 'line-through',
-                        marginLeft: '8px'
-                      }}>
+                      <span style={{ fontSize: '12px', color: '#8c8c8c', textDecoration: 'line-through', marginLeft: '8px' }}>
                         {oldPrice} DH
                       </span>
                     )}
                   </span>
-                  <div 
+                  <div
                     className={`add-to-cart ${clickedButton === product.id ? 'clicked' : ''}`}
                     onClick={(e) => addToCart(product.name, price, product.id, e)}
                   >
@@ -143,9 +145,7 @@ const ShoeStore = () => {
       </div>
 
       {notification.show && (
-        <div className="cart-notification">
-          ✅ {notification.message}
-        </div>
+        <div className="cart-notification">✅ {notification.message}</div>
       )}
     </div>
   );
