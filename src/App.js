@@ -20,7 +20,8 @@ import LoginSignup from './pages/LoginSignup';
 import Orders from './pages/Orders';
 import SizeSelection from './Components/SizeSelection';
 import Casquette from './pages/Casquette';
-import Mens from './pages/Mens';   // ✅ جديد
+import Mens from './pages/Mens';
+import Jackets from './pages/Jackets';   // ✅ جديد
 
 /* BANNERS */
 import men_banner from './Components/Assets/banner_mens.png';
@@ -44,8 +45,8 @@ function App() {
                         <NotificationBell />
                         <Routes>
                             <Route path='/' element={<Shop />} />
-                            <Route path='/mens' element={<Mens />} />   {/* ✅ بدل ShopCategory */}
-                            <Route path='/womens' element={<ShopCategory banner={women_banner} category="women" />} />
+                            <Route path='/mens' element={<Mens />} />
+                            <Route path='/womens' element={<Jackets />} />   {/* ✅ جديد */}
                             <Route path='/kids' element={<ShopCategory banner={kid_banner} category="kid" />} />
                             <Route path='/shoes' element={<ShopCategory banner={shoes_banner} category="shoes" />} />
                             <Route path='/casquette' element={<Casquette />} />
