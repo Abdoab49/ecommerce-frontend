@@ -1,5 +1,6 @@
 import React from 'react';
-import ShoeStore from '../Components/ShoeStore';   // ✅ المسار الصحيح
+import ShoeStore from '../Components/ShoeStore';
+import ShoesCard from '../Components/ShoesCard';   // ✅ المسار الصحيح
 import './CSS/Mens.css';
 
 const Mens = () => {
@@ -23,6 +24,11 @@ const Mens = () => {
       <div className="mens-content">
         <h2>Nos T-Shirts</h2>
         <ShoeStore />
+      </div>
+
+      {/* ✅ ShoesCard — تحت الكروت */}
+      <div className="mens-shoescard">
+        <ShoesCard />
       </div>
     </div>
   );

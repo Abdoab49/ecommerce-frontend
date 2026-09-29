@@ -4,7 +4,7 @@
 
 .mens-page {
   min-height: 100vh;
-  background: #ffffff;
+  background: transparent;   /* ✅ شفاف */
   padding-bottom: 60px;
 }
 
@@ -64,6 +64,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 12px 20px 0;
+  background: transparent;   /* ✅ شفاف */
 }
 
 .mens-content h2 {
@@ -74,6 +75,27 @@
   color: #1a1a2e;
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 2px;
+}
+
+/* ===== ShoesCard Section ===== */
+.mens-shoescard {
+  width: 100%;
+  margin-top: 40px;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .mens-shoescard {
+    margin-top: 30px;
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mens-shoescard {
+    margin-top: 20px;
+    padding: 0 12px;
+  }
 }
 
 /* Media Queries */
@@ -149,3 +171,4 @@
   .mens-overlay p { font-size: 11px; }
   .mens-content h2 { font-size: 20px; }
 }
+
