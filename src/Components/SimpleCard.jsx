@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ShopContext } from '../Context/ShopContext';
-import { getProductPrice } from './Data/prices';
+import { getProductPrice } from '../Data/prices';
 import styles from './SimpleCard.module.css';
 
 const Card = ({ imageSrc, title, description, price, productId, onAddToCart, isClicked }) => (

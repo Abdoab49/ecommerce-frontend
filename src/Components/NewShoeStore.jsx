@@ -1,7 +1,7 @@
 // src/Components/NewShoeStore.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProductPrice } from './Data/prices';
+import { getProductPrice } from '../Data/prices';
 import './ShoeStore.css';
 
 const NewShoeStore = ({ sortOption = 'default' }) => {
