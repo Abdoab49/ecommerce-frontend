@@ -4,7 +4,7 @@
 
 .mens-page {
   min-height: 100vh;
-  background: transparent;   /* ✅ شفاف */
+  background: transparent;
   padding-bottom: 60px;
 }
 
@@ -32,39 +32,13 @@
   display: block;
 }
 
-.mens-overlay {
-  background: #000;
-  padding: 12px 20px 20px;
-  text-align: center;
-  color: #fff;
-  margin: 0;
-}
-
-.mens-overlay h1 {
-  font-size: 48px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  margin: 0 0 4px 0;
-  padding: 0;
-  font-family: 'Bebas Neue', sans-serif;
-  line-height: 1;
-  color: #fff;
-}
-
-.mens-overlay p {
-  font-size: 14px;
-  letter-spacing: 2px;
-  font-family: 'Bebas Neue', sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #fff;
-}
+/* ✅ حيدنا .mens-overlay kaml */
 
 .mens-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 12px 20px 0;
-  background: transparent;   /* ✅ شفاف */
+  padding: 0 20px;
+  background: transparent;
 }
 
 .mens-content h2 {
@@ -84,19 +58,20 @@
   padding: 0 20px;
 }
 
-/* ✅ Sort Bar */
+/* ✅ Sort Bar — 9rab bzaf bzaf m3a l'banner */
 .mens-sort-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 0;              /* ← 0 kaml */
+  padding-top: 0;         /* ← 0 kaml */
   flex-wrap: wrap;
   gap: 12px;
 }
 
 .mens-sort-bar p {
   font-size: 15px;
-  color: #555;
+  color: #ffffff;
   margin: 0;
 }
 
@@ -105,7 +80,7 @@
   align-items: center;
   gap: 10px;
   font-size: 15px;
-  color: #1a1a2e;
+  color: #ffffff;
 }
 
 .mens-sort label {
@@ -119,7 +94,7 @@
   background: #fff;
   font-size: 14px;
   font-weight: 500;
-  color: #1a1a2e;
+  color: #000000;
   cursor: pointer;
   outline: none;
   transition: border-color 0.2s;
@@ -166,74 +141,49 @@
 /* Media Queries */
 @media (min-width: 1400px) {
   .mens-banner { height: 350px; }
-  .mens-overlay { padding: 16px 20px 24px; }
-  .mens-overlay h1 { font-size: 68px; }
-  .mens-overlay p { font-size: 18px; }
   .mens-content { max-width: 1600px; }
   .mens-content h2 { font-size: 34px; }
 }
 
 @media (min-width: 1025px) and (max-width: 1399px) {
   .mens-banner { height: 280px; }
-  .mens-overlay { padding: 14px 20px 22px; }
-  .mens-overlay h1 { font-size: 54px; }
-  .mens-overlay p { font-size: 15px; }
   .mens-content { max-width: 1300px; }
   .mens-content h2 { font-size: 30px; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .mens-banner { height: 240px; }
-  .mens-overlay { padding: 12px 18px 18px; }
-  .mens-overlay h1 { font-size: 44px; }
-  .mens-overlay p { font-size: 13px; }
-  .mens-content { padding: 10px 24px 0; }
+  .mens-content { padding: 0 24px; }
   .mens-content h2 { font-size: 26px; }
 }
 
 @media (max-width: 768px) {
   .mens-page { padding-bottom: 40px; }
   .mens-banner { height: 200px; }
-  .mens-overlay { padding: 10px 16px 16px; }
-  .mens-overlay h1 { font-size: 34px; }
-  .mens-overlay p { font-size: 12px; }
-  .mens-content { padding: 10px 16px 0; }
+  .mens-content { padding: 0 16px; }
   .mens-content h2 { font-size: 22px; }
 }
 
 @media (max-width: 480px) {
   .mens-page { padding-bottom: 30px; }
   .mens-banner { height: 160px; }
-  .mens-overlay { padding: 8px 12px 12px; }
-  .mens-overlay h1 { font-size: 24px; }
-  .mens-overlay p { font-size: 10px; }
-  .mens-content { padding: 8px 12px 0; }
+  .mens-content { padding: 0 12px; }
   .mens-content h2 { font-size: 18px; }
 }
 
 @media (max-width: 380px) {
   .mens-page { padding-bottom: 20px; }
   .mens-banner { height: 140px; }
-  .mens-overlay { padding: 6px 10px 10px; }
-  .mens-overlay h1 { font-size: 20px; }
-  .mens-overlay p { font-size: 9px; }
-  .mens-content { padding: 6px 10px 0; }
+  .mens-content { padding: 0 10px; }
   .mens-content h2 { font-size: 16px; }
 }
 
 @media (max-width: 320px) {
   .mens-banner { height: 120px; }
-  .mens-overlay { padding: 5px 8px 8px; }
-  .mens-overlay h1 { font-size: 18px; }
-  .mens-overlay p { font-size: 8px; }
   .mens-content h2 { font-size: 14px; }
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
   .mens-banner { height: 160px; }
-  .mens-overlay { padding: 8px 16px 12px; }
-  .mens-overlay h1 { font-size: 28px; }
-  .mens-overlay p { font-size: 11px; }
   .mens-content h2 { font-size: 20px; }
 }
-

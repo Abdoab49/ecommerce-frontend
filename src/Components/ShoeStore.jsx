@@ -45,16 +45,16 @@ const ShoeStore = ({ sortOption = 'default' }) => {
     setTimeout(() => setNotification({ show: false, message: '' }), 2000);
   };
 
-  // ✅ المنتجات الأصلية
+  // ✅ المنتجات — أسماء جديدة
   let products = [
-    { id: 1, name: 'NIKE', img: '/Assets/ShoeStore/tshirt1.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 2, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt2.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 3, name: 'T-shirt basketball', img: '/Assets/ShoeStore/tshirt3.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 4, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt4.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 5, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt5.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 6, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt6.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 7, name: 'T-shirt basketball', img: '/Assets/ShoeStore/tshirt7.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 8, name: 'T-shirt football', img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
+    { id: 1, name: 'T-Shirt Urban Black', img: '/Assets/ShoeStore/tshirt1.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 2, name: 'T-Shirt Football Pro', img: '/Assets/ShoeStore/tshirt2.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 3, name: 'T-Shirt Basketball Elite', img: '/Assets/ShoeStore/tshirt3.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 4, name: 'T-Shirt Football Classic', img: '/Assets/ShoeStore/tshirt4.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 5, name: 'T-Shirt Football Vintage', img: '/Assets/ShoeStore/tshirt5.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 6, name: 'T-Shirt Football Premium', img: '/Assets/ShoeStore/tshirt6.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 7, name: 'T-Shirt Basketball Legend', img: '/Assets/ShoeStore/tshirt7.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 8, name: 'T-Shirt Football Limited', img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
   ];
 
   // ✅ زيد الأسعار

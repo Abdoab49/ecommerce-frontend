@@ -10,15 +10,10 @@ const Jackets = () => {
       <div className="jackets-header">
         <div className="jackets-banner">
           <img
-            src="/Assets/ShoeStore/background3.png"
+            src="/Assets/ShoeStore/background7.png"
             alt="Jackets Collection"
             className="banner-img"
           />
-        </div>
-
-        <div className="jackets-overlay">
-          <h1>JACKETS</h1>
-          <p>Premium Jackets Collection</p>
         </div>
       </div>
 

@@ -32,38 +32,12 @@
   display: block;
 }
 
-.jackets-overlay {
-  background: #000;
-  padding: 12px 20px 20px;
-  text-align: center;
-  color: #fff;
-  margin: 0;
-}
-
-.jackets-overlay h1 {
-  font-size: 48px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  margin: 0 0 4px 0;
-  padding: 0;
-  font-family: 'Bebas Neue', sans-serif;
-  line-height: 1;
-  color: #fff;
-}
-
-.jackets-overlay p {
-  font-size: 14px;
-  letter-spacing: 2px;
-  font-family: 'Bebas Neue', sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #fff;
-}
+/* ✅ حيدنا .jackets-overlay kaml */
 
 .jackets-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 12px 20px 0;
+  padding: 0 20px;
   background: transparent;
 }
 
@@ -83,19 +57,20 @@
   background: transparent !important;
 }
 
-/* ✅ Sort Bar */
+/* ✅ Sort Bar — 9rab bzaf bzaf m3a l'banner */
 .jackets-sort-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 0;              /* ← 0 kaml */
+  padding-top: 0;         /* ← 0 kaml */
   flex-wrap: wrap;
   gap: 12px;
 }
 
 .jackets-sort-bar p {
   font-size: 15px;
-  color: #555;
+  color: #ffffff;
   margin: 0;
 }
 
@@ -104,7 +79,7 @@
   align-items: center;
   gap: 10px;
   font-size: 15px;
-  color: #1a1a2e;
+  color: #ffffff;
 }
 
 .jackets-sort label {
@@ -118,7 +93,7 @@
   background: #fff;
   font-size: 14px;
   font-weight: 500;
-  color: #1a1a2e;
+  color: #000000;
   cursor: pointer;
   outline: none;
   transition: border-color 0.2s;
@@ -132,6 +107,7 @@
   border-color: #1a1a2e;
 }
 
+/* Media Queries */
 @media (max-width: 768px) {
   .jackets-sort-bar {
     flex-direction: column;
@@ -150,26 +126,49 @@
 /* ===== Media Queries ===== */
 @media (min-width: 1400px) {
   .jackets-banner { height: 350px; }
-  .jackets-overlay h1 { font-size: 68px; }
-  .jackets-overlay p { font-size: 18px; }
   .jackets-content { max-width: 1600px; }
   .jackets-content h2 { font-size: 34px; }
 }
 
+@media (min-width: 1025px) and (max-width: 1399px) {
+  .jackets-banner { height: 280px; }
+  .jackets-content { max-width: 1300px; }
+  .jackets-content h2 { font-size: 30px; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .jackets-banner { height: 240px; }
+  .jackets-content { padding: 0 24px; }
+  .jackets-content h2 { font-size: 26px; }
+}
+
 @media (max-width: 768px) {
+  .jackets-page { padding-bottom: 40px; }
   .jackets-banner { height: 200px; }
-  .jackets-overlay { padding: 10px 16px 16px; }
-  .jackets-overlay h1 { font-size: 34px; }
-  .jackets-overlay p { font-size: 12px; }
-  .jackets-content { padding: 10px 16px 0; }
+  .jackets-content { padding: 0 16px; }
   .jackets-content h2 { font-size: 22px; }
 }
 
 @media (max-width: 480px) {
+  .jackets-page { padding-bottom: 30px; }
   .jackets-banner { height: 160px; }
-  .jackets-overlay { padding: 8px 12px 12px; }
-  .jackets-overlay h1 { font-size: 24px; }
-  .jackets-overlay p { font-size: 10px; }
-  .jackets-content { padding: 8px 12px 0; }
+  .jackets-content { padding: 0 12px; }
   .jackets-content h2 { font-size: 18px; }
+}
+
+@media (max-width: 380px) {
+  .jackets-page { padding-bottom: 20px; }
+  .jackets-banner { height: 140px; }
+  .jackets-content { padding: 0 10px; }
+  .jackets-content h2 { font-size: 16px; }
+}
+
+@media (max-width: 320px) {
+  .jackets-banner { height: 120px; }
+  .jackets-content h2 { font-size: 14px; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .jackets-banner { height: 160px; }
+  .jackets-content h2 { font-size: 20px; }
 }

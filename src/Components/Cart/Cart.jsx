@@ -9,7 +9,6 @@ const Cart = () => {
 
   const [promoCode, setPromoCode] = useState('');
   const [promoPercent, setPromoPercent] = useState(0);
-  const [usedPromoCodes, setUsedPromoCodes] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -19,15 +18,30 @@ const Cart = () => {
   const [address, setAddress] = useState('');
   const [errors, setErrors] = useState({});
 
-  // ✅ تحميل الأكواد المستعملة من localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem('usedPromoCodes');
-    if (saved) {
-      try {
-        setUsedPromoCodes(JSON.parse(saved));
-      } catch (e) {}
+  // ============================================
+  // ✅ 7asab user ID (device fingerprint)
+  // ============================================
+  const getUserId = () => {
+    let userId = localStorage.getItem('lanada_user_id');
+    if (userId) return userId;
+
+    const fingerprint = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      new Date().getTimezoneOffset()
+    ].join('|');
+
+    let hash = 5381;
+    for (let i = 0; i < fingerprint.length; i++) {
+      hash = ((hash << 5) + hash) + fingerprint.charCodeAt(i);
+      hash = hash & hash;
     }
-  }, []);
+
+    userId = 'user_' + Math.abs(hash).toString(36);
+    localStorage.setItem('lanada_user_id', userId);
+    return userId;
+  };
 
   const extractPrice = (price) => {
     if (typeof price === 'number') return price;
@@ -56,7 +70,10 @@ const Cart = () => {
     removeFromCart(index);
   };
 
-  const applyPromoCode = () => {
+  // ============================================
+  // ✅ PROMO CODE (jdid — b backend)
+  // ============================================
+  const applyPromoCode = async () => {
     const promoCodes = {
       '4F334412': 10,
       '20OFF': 20,
@@ -68,21 +85,37 @@ const Cart = () => {
 
     const code = promoCode.toUpperCase();
 
+    // ✅ 1. شوف واش الكود كاين
     if (!promoCodes[code]) {
-      alert('❌ Invalid promo code');
+      alert('❌ Code promo ghalat');
       setPromoPercent(0);
       return;
     }
 
-    // ✅ تحقق واش الكود مستعمل من قبل
-    if (usedPromoCodes.includes(code)) {
-      alert(`❌ You already used this code: ${code}`);
-      setPromoPercent(0);
-      return;
-    }
+    // ✅ 2. صيفط للـ backend
+    try {
+      const response = await fetch('https://backend-3lyx.onrender.com/api/promo/check-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: code,
+          userId: getUserId()
+        })
+      });
 
-    setPromoPercent(promoCodes[code]);
-    alert(`✅ Promo code applied: -${promoCodes[code]}%`);
+      const result = await response.json();
+
+      if (result.valid) {
+        setPromoPercent(promoCodes[code]);
+        alert(`✅ Code promo tsayeb: -${promoCodes[code]}%`);
+      } else {
+        alert(`❌ ${result.message || 'Code msta3mel'}`);
+        setPromoPercent(0);
+      }
+    } catch (error) {
+      console.error('Promo error:', error);
+      alert('❌ Mochkil f connection');
+    }
   };
 
   // ===== VALIDATION =====
@@ -199,14 +232,6 @@ const Cart = () => {
 
       if (response.ok) {
         alert(`✅ Order placed successfully!\nTotal: ${total.toFixed(2)} DH`);
-
-        // ✅ سجل الكود المستعمل
-        if (promoPercent > 0 && promoCode) {
-          const code = promoCode.toUpperCase();
-          const updated = [...usedPromoCodes, code];
-          setUsedPromoCodes(updated);
-          localStorage.setItem('usedPromoCodes', JSON.stringify(updated));
-        }
 
         clearCart();
         navigate('/');

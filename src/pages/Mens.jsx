@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ShoeStore from '../Components/ShoeStore';
+import ShoesCard from '../Components/ShoesCard';
 import './CSS/Mens.css';
 
 const Mens = () => {
@@ -10,23 +11,17 @@ const Mens = () => {
       <div className="mens-header">
         <div className="mens-banner">
           <img
-            src="/Assets/ShoeStore/background2.png"
+            src="/Assets/ShoeStore/background6.png"
             alt="Men Collection"
             className="banner-img"
           />
         </div>
-
-        <div className="mens-overlay">
-          <h1>MEN</h1>
-          <p>Premium Men's Collection</p>
-        </div>
       </div>
 
       <div className="mens-content">
+        {/* ===== "Showing products" + Sort by — ghir wa7ed ===== */}
         <div className="mens-sort-bar">
-          <p>
-            Showing <span>{/* عدد */}</span> products
-          </p>
+          <p>Showing products</p>
           <div className="mens-sort">
             <label htmlFor="mens-sort-select">Sort by</label>
             <select
@@ -43,7 +38,9 @@ const Mens = () => {
           </div>
         </div>
 
+        {/* ===== Bjoj kaykhdmo b nafs sortOption ===== */}
         <ShoeStore sortOption={sortOption} />
+        <ShoesCard sortOption={sortOption} />
       </div>
     </div>
   );

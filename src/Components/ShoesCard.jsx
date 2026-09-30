@@ -1,9 +1,10 @@
-// src/Components/ShoeStore.jsx
+// src/Components/ShoesCard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getProductPrice } from '../Data/prices';
 import './ShoeStore.css';
 
-const ShoeStore = () => {
+const ShoesCard = () => {
   const navigate = useNavigate();
   const [notification, setNotification] = useState({ show: false, message: '' });
   const [clickedButton, setClickedButton] = useState(null);
@@ -22,7 +23,7 @@ const ShoeStore = () => {
     const newItem = {
       id: productId,
       name: productName,
-      price: parseFloat(price.replace(/[^0-9.]/g, '')) || 0,
+      price: typeof price === 'number' ? price : parseFloat(String(price).replace(/[^0-9.]/g, '')) || 0,
       quantity: 1,
       size: 'M',
       image: `/Assets/ShoeStore/tshirt${productId}.png`
@@ -36,22 +37,30 @@ const ShoeStore = () => {
     setTimeout(() => setNotification({ show: false, message: '' }), 2000);
   };
 
-  const products = [
-    { id: 1, name: 'NIKE', price: 100, img: '/Assets/ShoeStore/tshirt1.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 2, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt2.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 3, name: 'T-shirt basketball', price: 200, img: '/Assets/ShoeStore/tshirt3.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 4, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt4.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 5, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt5.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 6, name: 'T-shirt football', price: 80, img: '/Assets/ShoeStore/tshirt6.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 7, name: 'T-shirt basketball', price: 200, img: '/Assets/ShoeStore/tshirt7.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
-    { id: 8, name: 'T-shirt football', price: 100, img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
+  // ✅ المنتجات — أسماء جديدة
+  let products = [
+    { id: 1, name: 'T-Shirt Urban White', img: '/Assets/ShoeStore/tshirt1.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 2, name: 'T-Shirt Football Home', img: '/Assets/ShoeStore/tshirt2.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 3, name: 'T-Shirt Basketball Court', img: '/Assets/ShoeStore/tshirt3.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 4, name: 'T-Shirt Football Away', img: '/Assets/ShoeStore/tshirt4.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 5, name: 'T-Shirt Football Third', img: '/Assets/ShoeStore/tshirt5.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 6, name: 'T-Shirt Football Retro', img: '/Assets/ShoeStore/tshirt6.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 7, name: 'T-Shirt Basketball Street', img: '/Assets/ShoeStore/tshirt7.png', sizes: 'S , M , L , XL', company: 'YEEZY' },
+    { id: 8, name: 'T-Shirt Football Gold', img: '/Assets/ShoeStore/tshirt8.png', sizes: 'S , M , L , XL', company: 'YEEZY' }
   ];
+
+  // ✅ زيد الأسعار من prices.js
+  products = products.map(p => {
+    const priceData = getProductPrice(p.name);
+    return { ...p, price: priceData.new_price, old_price: priceData.old_price };
+  });
 
   const firstRow = products.slice(0, 4);
   const secondRow = products.slice(4, 8);
 
   const ProductCard = ({ product }) => {
-    const price = typeof product.price === 'number' ? product.price : 0;
+    const price = product.price;
+    const oldPrice = product.old_price;
     
     return (
       <div className="page-wrapper">
@@ -59,7 +68,7 @@ const ShoeStore = () => {
           <div className="row">
             <div 
               className="el-wrapper"
-              onClick={() => goToSizeSelection(product)}
+              onClick={() => goToSizeSelection({ ...product, price, old_price: oldPrice })}
               style={{ cursor: 'pointer' }}
             >
               <div className="box-up">
@@ -81,7 +90,14 @@ const ShoeStore = () => {
                   <div className="h-bg-inner"></div>
                 </div>
                 <div className="cart">
-                  <span className="price">{price} DH</span>
+                  <span className="price">
+                    {price} DH
+                    {oldPrice && oldPrice > price && (
+                      <span style={{ fontSize: '12px', color: '#8c8c8c', textDecoration: 'line-through', marginLeft: '8px' }}>
+                        {oldPrice} DH
+                      </span>
+                    )}
+                  </span>
                   <div 
                     className={`add-to-cart ${clickedButton === product.id ? 'clicked' : ''}`}
                     onClick={(e) => addToCart(product.name, price, product.id, e)}
@@ -120,4 +136,4 @@ const ShoeStore = () => {
   );
 };
 
-export default ShoeStore;
+export default ShoesCard;

@@ -15,11 +15,6 @@ const Casquette = () => {
             className="banner-img"
           />
         </div>
-
-        <div className="casquette-overlay">
-          <h1>CASQUETTE</h1>
-          <p>Premium Caps Collection</p>
-        </div>
       </div>
 
       <div className="casquette-content">
