@@ -28,7 +28,7 @@ const Cart = () => {
     const fingerprint = [
       navigator.userAgent,
       navigator.language,
-      screen.width + 'x' + screen.height,
+      window.screen.width + 'x' + window.screen.height,   // ✅ window.screen
       new Date().getTimezoneOffset()
     ].join('|');
 
