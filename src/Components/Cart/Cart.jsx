@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 import styles from './Cart.module.css';
@@ -19,27 +19,22 @@ const Cart = () => {
   const [errors, setErrors] = useState({});
 
   // ============================================
-  // ✅ 7asab user ID (device fingerprint)
+  // ✅ userId THABET (ma kaytbeddelch)
   // ============================================
   const getUserId = () => {
+    // ✅ 1. Ila kayn f localStorage — khodou
     let userId = localStorage.getItem('lanada_user_id');
     if (userId) return userId;
 
-    const fingerprint = [
-      navigator.userAgent,
-      navigator.language,
-      window.screen.width + 'x' + window.screen.height,   // ✅ window.screen
-      new Date().getTimezoneOffset()
-    ].join('|');
-
-    let hash = 5381;
-    for (let i = 0; i < fingerprint.length; i++) {
-      hash = ((hash << 5) + hash) + fingerprint.charCodeAt(i);
-      hash = hash & hash;
-    }
-
-    userId = 'user_' + Math.abs(hash).toString(36);
+    // ✅ 2. Ila ma kaynch — صايب wa7ed jdid
+    const randomPart = Math.random().toString(36).substring(2, 15);
+    const timePart = Date.now().toString(36);
+    
+    userId = 'user_' + randomPart + timePart;
+    
+    // ✅ 3. Save f localStorage (permanent)
     localStorage.setItem('lanada_user_id', userId);
+    
     return userId;
   };
 
@@ -71,7 +66,7 @@ const Cart = () => {
   };
 
   // ============================================
-  // ✅ PROMO CODE (jdid — b backend)
+  // ✅ PROMO CODE (b userId thabet)
   // ============================================
   const applyPromoCode = async () => {
     const promoCodes = {
@@ -85,21 +80,19 @@ const Cart = () => {
 
     const code = promoCode.toUpperCase();
 
-    // ✅ 1. شوف واش الكود كاين
     if (!promoCodes[code]) {
       alert('❌ Code promo ghalat');
       setPromoPercent(0);
       return;
     }
 
-    // ✅ 2. صيفط للـ backend
     try {
       const response = await fetch('https://backend-3lyx.onrender.com/api/promo/check-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           code: code,
-          userId: getUserId()
+          userId: getUserId()   // ✅ userId thabet
         })
       });
 
