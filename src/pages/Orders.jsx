@@ -1,17 +1,20 @@
 // src/pages/Orders.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Orders.css';
+import './CSS/Orders.css';
 
 const Orders = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState('order_tab');
+  const [filterPeriod, setFilterPeriod] = useState('30days');
 
+  // ✅ Fetch orders mn backend
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // ✅ ✅ ✅ جلب جميع الطلبات من Backend (Render)
         const response = await fetch('https://backend-3lyx.onrender.com/api/orders');
         const data = await response.json();
         console.log('📦 All Orders:', data);
@@ -25,59 +28,205 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  if (loading) {
-    return <div className={styles.loading}>Loading orders...</div>;
-  }
-
-  if (orders.length === 0) {
+  // ✅ Filter b search
+  const filteredOrders = orders.filter(order => {
+    const search = searchTerm.toLowerCase();
     return (
-      <div className={styles.emptyOrders}>
-        <h2>📦 No orders yet</h2>
-        <p>Start shopping to place your first order!</p>
-        <button onClick={() => navigate('/')}>Continue Shopping</button>
-      </div>
+      order.shippingAddress?.fullName?.toLowerCase().includes(search) ||
+      order.shippingAddress?.phone?.includes(search) ||
+      order.shippingAddress?.city?.toLowerCase().includes(search) ||
+      order._id?.toLowerCase().includes(search)
     );
+  });
+
+  // ✅ Filter b status (tabs)
+  const getOrdersByTab = () => {
+    switch (activeTab) {
+      case 'open_orders':
+        return filteredOrders.filter(o => o.status === 'pending' || o.status === 'processing');
+      case 'cancelled_orders':
+        return filteredOrders.filter(o => o.status === 'cancelled');
+      case 'buy_again':
+        return filteredOrders;
+      default:
+        return filteredOrders;
+    }
+  };
+
+  const currentOrders = getOrdersByTab();
+
+  // ✅ Format date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+
+  // ✅ Format price
+  const formatPrice = (price) => `${price} DH`;
+
+  if (loading) {
+    return <div className="loading-orders">Loading orders...</div>;
   }
 
   return (
-    <div className={styles.ordersContainer}>
-      <h2>📋 All Orders ({orders.length})</h2>
-      <div className={styles.ordersList}>
-        {orders.map((order) => (
-          <div key={order.id} className={styles.orderCard}>
-            <div className={styles.orderHeader}>
-              <span className={styles.orderId}>Order #{order.id.slice(-6).toUpperCase()}</span>
-              <span className={`${styles.orderStatus} ${styles[order.status]}`}>
-                {order.status}
-              </span>
-              <span className={styles.orderDate}>
-                {new Date(order.createdAt).toLocaleDateString()}
-              </span>
+    <div className="container">
+      <div className="customer_details orderList">
+
+        {/* ===== HEADER ===== */}
+        <div className="orderTop">
+          <h2>My Orders</h2>
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search all orders"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button>
+              <i className="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        {/* ===== TABS ===== */}
+        <div className="order_tab">
+          <ul className="tabs">
+            <li
+              className={`tab-link ${activeTab === 'order_tab' ? 'current' : ''}`}
+              onClick={() => setActiveTab('order_tab')}
+            >
+              Orders ({filteredOrders.length})
+            </li>
+            <li
+              className={`tab-link ${activeTab === 'open_orders' ? 'current' : ''}`}
+              onClick={() => setActiveTab('open_orders')}
+            >
+              Open Orders
+            </li>
+            <li
+              className={`tab-link ${activeTab === 'cancelled_orders' ? 'current' : ''}`}
+              onClick={() => setActiveTab('cancelled_orders')}
+            >
+              Cancelled Orders
+            </li>
+          </ul>
+
+          <div className="orderFilter">
+            <label>
+              {currentOrders.length} order{currentOrders.length !== 1 ? 's' : ''}{' '}
+              <span>placed in</span>
+            </label>
+            <select
+              value={filterPeriod}
+              onChange={(e) => setFilterPeriod(e.target.value)}
+            >
+              <option value="30days">Last 30 Days</option>
+              <option value="6months">Past 6 Month</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+        </div>
+
+        {/* ===== ORDERS ===== */}
+        <div className="orderCardWrap">
+          {currentOrders.length === 0 ? (
+            <div className="emptyOrders">
+              <h3>No orders found</h3>
+              <p>You don't have any orders in this category.</p>
             </div>
-            <div className={styles.orderItems}>
-              {order.items.map((item, index) => (
-                <div key={index} className={styles.orderItem}>
-                  <img src={item.image || '/Assets/ShoeStore/tshirt1.png'} alt={item.name} />
-                  <div>
-                    <p><strong>{item.name}</strong></p>
-                    <p>Qty: {item.quantity}</p>
-                    <p>Size: {item.size || 'M'}</p>
-                    <p>${item.price}</p>
+          ) : (
+            currentOrders.map((order) => (
+              <div key={order._id} className="orderCard">
+
+                {/* ===== HEAD ===== */}
+                <div className="orderHead">
+                  <ul className="orderLeft">
+                    <li>
+                      <p>
+                        ORDER PLACED <span>{formatDate(order.createdAt)}</span>
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        TOTAL <span>{formatPrice(order.totalAmount)}</span>
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        SHIP TO{' '}
+                        <span className="customerName">
+                          {order.shippingAddress?.fullName}
+                        </span>
+                        <span className="cstmrInfo">
+                          <strong>{order.shippingAddress?.fullName}</strong>
+                          {order.shippingAddress?.phone}
+                          <br />
+                          {order.shippingAddress?.city}, {order.shippingAddress?.street}
+                        </span>
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        STATUS <span>{order.status}</span>
+                      </p>
+                    </li>
+                  </ul>
+                  <div className="invoiceDetails">
+                    <p>
+                      ORDER # {order._id.slice(-10)}{' '}
+                      <span>
+                        <a href={`/order/${order._id}`}>Order Details</a>
+                      </span>
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className={styles.orderTotal}>
-              <strong>Total: ${(order.totalAmount || 0).toFixed(2)}</strong>
-            </div>
-            <div className={styles.orderShipping}>
-              <p><strong>Customer:</strong> {order.shippingAddress?.fullName}</p>
-              <p><strong>Phone:</strong> {order.shippingAddress?.phone}</p>
-              <p><strong>City:</strong> {order.shippingAddress?.city}</p>
-              <p><strong>Address:</strong> {order.shippingAddress?.street}</p>
-            </div>
-          </div>
-        ))}
+
+                {/* ===== ITEMS ===== */}
+                <div className="itemDetails">
+                  <h3>
+                    {order.status === 'pending' ? 'Processing' : order.status}
+                  </h3>
+                  <p>Payment: {order.paymentMethod}</p>
+
+                  {order.items && order.items.map((item, index) => (
+                    <div key={index} className="itemInfo">
+                      <div className="itemImg">
+                        <img
+                          src={item.image || '/Assets/ShoeStore/tshirt1.png'}
+                          alt={item.name}
+                        />
+                      </div>
+                      <div className="itemDesc">
+                        <h4>{item.name} ({item.quantity}x)</h4>
+                        <p>
+                          Size: <span>{item.size || 'M'}</span>
+                        </p>
+                        <span className="itemPrice">
+                          {formatPrice(item.price * item.quantity)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className="btn_group">
+                    <button className="buy_again">
+                      Return or replace items
+                    </button>
+                    <button className="gift_btn">
+                      Share gift receipt
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            ))
+          )}
+        </div>
+
       </div>
     </div>
   );
