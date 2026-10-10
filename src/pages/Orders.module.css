@@ -719,6 +719,21 @@
   color: #8b73e8;
 }
 
+/* ✅ Zid hadi — bach Logout button ykoun 7da shop button */
+.heroActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 560px) {
+  .heroActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
