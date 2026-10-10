@@ -1,16 +1,18 @@
 // src/Components/Navbar/Navbar.jsx
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import styles from './Navbar.module.css';
 import logo from '../Assets/logo.png';
 import cart_icon from '../Assets/cart_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
-import LogoutButton from '../../pages/LogoutButton';   // ✅ Zid hadi
+import LogoutButton from '../../pages/LogoutButton';
 
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const userMenuRef = useRef(null);
     const { cartCount } = useContext(ShopContext);
     const navigate = useNavigate();
 
@@ -23,6 +25,17 @@ const Navbar = () => {
                 setUser(null);
             }
         }
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setIsUserMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -103,13 +116,33 @@ const Navbar = () => {
 
                 <div className={styles.rightSection}>
                     {user ? (
-                        <div className={styles.userMenu}>
-                            <Link to="/orders" className={styles.userBtn}>
+                        <div className={styles.userMenu} ref={userMenuRef}>
+                            {/* ✅ Button "👤 Name" — kayft7 dropdown */}
+                            <button
+                                className={styles.userBtn}
+                                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                            >
                                 👤 {user.fullName.split(' ')[0]}
-                            </Link>
+                            </button>
 
-                            {/* ✅ LOGOUT BUTTON JDID */}
-                            <LogoutButton />
+                            {/* ✅ Dropdown — FullName + Logout (koulhom mektoubin) */}
+                            {isUserMenuOpen && (
+                                <div className={styles.userDropdown}>
+                                    <Link
+                                        to="/orders"
+                                        className={styles.dropdownItem}
+                                        onClick={() => setIsUserMenuOpen(false)}
+                                    >
+                                        👤 {user.fullName}
+                                    </Link>
+
+                                    <div className={styles.dropdownDivider} />
+
+                                    <div className={styles.dropdownLogout}>
+                                        <LogoutButton />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <Link to="/login" className={styles.loginBtn}>
