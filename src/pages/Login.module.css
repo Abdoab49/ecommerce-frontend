@@ -1,121 +1,462 @@
 /* src/pages/Login.module.css */
 
+/* ============================================
+   PAGE — Background
+   ============================================ */
 .page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
-}
-
-.card {
-  background: #fff;
-  border-radius: 20px;
-  padding: 40px 32px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-
-.icon {
-  font-size: 48px;
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.card h1 {
-  font-size: 26px;
-  font-weight: 800;
-  color: #111827;
-  margin: 0 0 6px;
-  text-align: center;
-}
-
-.card > p {
-  color: #6b7280;
-  font-size: 14px;
-  margin: 0 0 28px;
-  text-align: center;
-}
-
-.field {
-  margin-bottom: 16px;
-}
-
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #374151;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.field input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #212121;
   box-sizing: border-box;
-  font-family: inherit;
 }
 
-.field input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
-}
-
-.error {
-  padding: 12px 14px;
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.submitBtn {
+/* ============================================
+   CONTAINER — Flip 3D
+   ============================================ */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  max-width: 400px;
+  min-height: 480px;
+  perspective: 1000px;   /* ✅ Zid hadi — bach flip ykhdem mzyan */
+}
+
+/* ============================================
+   FORM — Flip container
+   ============================================ */
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  transition: transform 1s ease;   /* ✅ Transition — React State */
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+   FRONT + BACK — Common
+   ============================================ */
+.form_front,
+.form_back {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  backface-visibility: hidden;
+  padding: 65px 45px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background: #212121;
+  box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 1),
+              inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+.form_back {
+  transform: rotateY(-180deg);
+}
+
+/* ============================================
+   TITLE
+   ============================================ */
+.form_details {
+  font-size: 25px;
+  font-weight: 600;
+  padding-bottom: 10px;
   color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 700;
+}
+
+/* ============================================
+   INPUT
+   ============================================ */
+.input {
+  width: 245px;
+  min-height: 45px;
+  color: #fff;
+  outline: none;
+  transition: 0.35s;
+  padding: 0px 7px;
+  background-color: #212121;
+  border-radius: 6px;
+  border: 2px solid #212121;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
+              1px 1px 10px rgba(255, 255, 255, 0.6);
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+.input:focus::placeholder {
+  transition: 0.3s;
+  opacity: 0;
+}
+
+.input:focus {
+  transform: scale(1.05);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
+              1px 1px 10px rgba(255, 255, 255, 0.6),
+              inset 2px 2px 10px rgba(0, 0, 0, 1),
+              inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   BUTTON
+   ============================================ */
+.btn {
+  padding: 10px 35px;
   cursor: pointer;
-  transition: transform 0.2s, opacity 0.2s;
-  margin-top: 8px;
+  background-color: #212121;
+  border-radius: 6px;
+  border: 2px solid #212121;
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
+              1px 1px 10px rgba(255, 255, 255, 0.6);
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.35s;
 }
 
-.submitBtn:hover:not(:disabled) {
-  transform: translateY(-2px);
+.btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
+              1px 1px 10px rgba(255, 255, 255, 0.6),
+              inset 2px 2px 10px rgba(0, 0, 0, 1),
+              inset -1px -1px 5px rgba(255, 255, 255, 0.6);
 }
 
-.submitBtn:disabled {
+.btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
+.btn:focus {
+  transform: scale(1.05);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
+              1px 1px 10px rgba(255, 255, 255, 0.6),
+              inset 2px 2px 10px rgba(0, 0, 0, 1),
+              inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   SWITCH TEXT
+   ============================================ */
 .switch {
-  text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
-  color: #6b7280;
+  font-size: 13px;
+  color: white;
 }
 
-.switch a {
-  color: #667eea;
+.switch .signup_tog {
   font-weight: 700;
-  text-decoration: none;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #a78bfa;
 }
 
-.switch a:hover {
-  text-decoration: underline;
+.switch .signup_tog:hover {
+  color: #c4b5fd;
+}
+
+/* ============================================
+   ERROR MESSAGE
+   ============================================ */
+.error_msg {
+  width: 245px;
+  padding: 8px 10px;
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  border-radius: 5px;
+  color: #fca5a5;
+  font-size: 0.75em;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   MEDIA QUERIES — Responsive
+   ============================================ */
+
+/* Large tablets — 900px */
+@media (max-width: 900px) {
+  .container {
+    max-width: 380px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 55px 35px;
+  }
+
+  .input {
+    width: 230px;
+  }
+
+  .error_msg {
+    width: 230px;
+  }
+}
+
+/* Tablets — 768px */
+@media (max-width: 768px) {
+  .page {
+    padding: 32px 16px;
+  }
+
+  .container {
+    max-width: 360px;
+    min-height: 460px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 50px 30px;
+    gap: 18px;
+  }
+
+  .form_details {
+    font-size: 22px;
+  }
+
+  .input {
+    width: 220px;
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .error_msg {
+    width: 220px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 9px 30px;
+  }
+}
+
+/* Small tablets — 600px */
+@media (max-width: 600px) {
+  .container {
+    max-width: 340px;
+    min-height: 450px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 45px 25px;
+    gap: 16px;
+  }
+
+  .form_details {
+    font-size: 20px;
+  }
+
+  .input {
+    width: 210px;
+    min-height: 40px;
+    font-size: 13px;
+    padding: 0 6px;
+  }
+
+  .error_msg {
+    width: 210px;
+    font-size: 0.7em;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 8px 28px;
+  }
+
+  .switch {
+    font-size: 12px;
+  }
+}
+
+/* Phones — 480px */
+@media (max-width: 480px) {
+  .page {
+    padding: 20px 12px;
+  }
+
+  .container {
+    max-width: 100%;
+    width: 100%;
+    min-height: 440px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 40px 20px;
+    gap: 14px;
+    border-radius: 12px;
+  }
+
+  .form_details {
+    font-size: 19px;
+    padding-bottom: 8px;
+  }
+
+  .input {
+    width: 100%;
+    max-width: 240px;
+    min-height: 40px;
+    font-size: 13px;
+    padding: 0 8px;
+  }
+
+  .error_msg {
+    width: 100%;
+    max-width: 240px;
+    font-size: 0.7em;
+    padding: 6px 8px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 8px 26px;
+  }
+
+  .switch {
+    font-size: 11.5px;
+    text-align: center;
+  }
+}
+
+/* Small phones — 400px */
+@media (max-width: 400px) {
+  .container {
+    min-height: 430px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 35px 16px;
+    gap: 12px;
+  }
+
+  .form_details {
+    font-size: 18px;
+  }
+
+  .input {
+    max-width: 220px;
+    min-height: 38px;
+    font-size: 12.5px;
+  }
+
+  .error_msg {
+    max-width: 220px;
+    font-size: 0.65em;
+  }
+
+  .btn {
+    font-size: 12.5px;
+    padding: 7px 24px;
+  }
+
+  .switch {
+    font-size: 11px;
+  }
+}
+
+/* Very small phones — 320px */
+@media (max-width: 320px) {
+  .page {
+    padding: 12px 8px;
+  }
+
+  .container {
+    min-height: 420px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 28px 12px;
+    gap: 10px;
+    border-radius: 10px;
+  }
+
+  .form_details {
+    font-size: 16px;
+    padding-bottom: 6px;
+  }
+
+  .input {
+    max-width: 200px;
+    min-height: 36px;
+    font-size: 12px;
+    padding: 0 6px;
+  }
+
+  .error_msg {
+    max-width: 200px;
+    font-size: 0.6em;
+    padding: 5px 6px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 6px 20px;
+  }
+
+  .switch {
+    font-size: 10px;
+  }
+}
+
+/* Landscape — height < 500px */
+@media (max-height: 500px) and (orientation: landscape) {
+  .page {
+    padding: 12px;
+    align-items: flex-start;
+  }
+
+  .container {
+    max-width: 360px;
+    min-height: 380px;
+  }
+
+  .form_front,
+  .form_back {
+    padding: 24px 18px;
+    gap: 10px;
+  }
+
+  .form_details {
+    font-size: 16px;
+    padding-bottom: 4px;
+  }
+
+  .input {
+    max-width: 220px;
+    min-height: 34px;
+    font-size: 12px;
+  }
+
+  .error_msg {
+    max-width: 220px;
+    font-size: 0.6em;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 6px 20px;
+  }
+
+  .switch {
+    font-size: 10.5px;
+  }
 }

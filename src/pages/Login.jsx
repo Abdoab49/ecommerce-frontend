@@ -1,9 +1,13 @@
+// src/pages/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styles from './Login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  // ✅ Flip state — Login (false) / Signup (true)
+  const [showSignup, setShowSignup] = useState(false);
 
   // ✅ Login state
   const [loginEmail, setLoginEmail] = useState('');
@@ -110,290 +114,131 @@ const Login = () => {
   // ✅ RENDER
   // ============================================
   return (
-    <StyledWrapper>
-      <div className="container">
-        <input type="checkbox" id="register_toggle" />
-        <div className="slider">
-          {/* ===== LOGIN FORM ===== */}
-          <form className="form" onSubmit={handleLogin}>
-            <span className="title">Login</span>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <form
+          className={styles.form}
+          style={{
+            transform: showSignup ? 'rotateY(-180deg)' : 'rotateY(0deg)'
+          }}
+        >
+          {/* ===== LOGIN (FRONT) ===== */}
+          <div className={styles.form_front}>
+            <div className={styles.form_details}>Login</div>
 
-            <div className="form_control">
-              <input
-                type="email"
-                className="input"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                required
-              />
-              <label className="label">Email</label>
-            </div>
+            <input
+              type="email"
+              className={styles.input}
+              placeholder="Email"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              required
+            />
 
-            <div className="form_control">
-              <input
-                type="password"
-                className="input"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-              />
-              <label className="label">Password</label>
-            </div>
+            <input
+              type="password"
+              className={styles.input}
+              placeholder="Password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              required
+            />
 
-            {loginError && <div className="error_msg">{loginError}</div>}
+            {loginError && <div className={styles.error_msg}>{loginError}</div>}
 
-            <button type="submit" disabled={loginLoading}>
+            <button
+              className={styles.btn}
+              type="button"
+              onClick={handleLogin}
+              disabled={loginLoading}
+            >
               {loginLoading ? 'Connexion...' : 'Login'}
             </button>
 
-            <span className="bottom_text">
+            <span className={styles.switch}>
               Don't have an account?{' '}
-              <label htmlFor="register_toggle" className="swtich">
+              <span
+                className={styles.signup_tog}
+                onClick={() => setShowSignup(true)}
+              >
                 Sign Up
-              </label>
+              </span>
             </span>
-          </form>
+          </div>
 
-          {/* ===== SIGNUP FORM ===== */}
-          <form className="form" onSubmit={handleSignup}>
-            <span className="title">Sign Up</span>
+          {/* ===== SIGNUP (BACK) ===== */}
+          <div className={styles.form_back}>
+            <div className={styles.form_details}>SignUp</div>
 
-            <div className="form_control">
-              <input
-                type="text"
-                className="input"
-                value={signupFullName}
-                onChange={(e) => setSignupFullName(e.target.value)}
-                required
-              />
-              <label className="label">Full Name</label>
-            </div>
+            <input
+              type="text"
+              className={styles.input}
+              placeholder="Full Name"
+              value={signupFullName}
+              onChange={(e) => setSignupFullName(e.target.value)}
+              required
+            />
 
-            <div className="form_control">
-              <input
-                type="email"
-                className="input"
-                value={signupEmail}
-                onChange={(e) => setSignupEmail(e.target.value)}
-                required
-              />
-              <label className="label">Email</label>
-            </div>
+            <input
+              type="email"
+              className={styles.input}
+              placeholder="Email"
+              value={signupEmail}
+              onChange={(e) => setSignupEmail(e.target.value)}
+              required
+            />
 
-            <div className="form_control">
-              <input
-                type="tel"
-                className="input"
-                value={signupPhone}
-                onChange={(e) => setSignupPhone(e.target.value)}
-              />
-              <label className="label">Phone (optionnel)</label>
-            </div>
+            <input
+              type="tel"
+              className={styles.input}
+              placeholder="Phone (optionnel)"
+              value={signupPhone}
+              onChange={(e) => setSignupPhone(e.target.value)}
+            />
 
-            <div className="form_control">
-              <input
-                type="password"
-                className="input"
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
-                required
-              />
-              <label className="label">Password</label>
-            </div>
+            <input
+              type="password"
+              className={styles.input}
+              placeholder="Password"
+              value={signupPassword}
+              onChange={(e) => setSignupPassword(e.target.value)}
+              required
+            />
 
-            <div className="form_control">
-              <input
-                type="password"
-                className="input"
-                value={signupConfirm}
-                onChange={(e) => setSignupConfirm(e.target.value)}
-                required
-              />
-              <label className="label">Confirm Password</label>
-            </div>
+            <input
+              type="password"
+              className={styles.input}
+              placeholder="Confirm Password"
+              value={signupConfirm}
+              onChange={(e) => setSignupConfirm(e.target.value)}
+              required
+            />
 
-            {signupError && <div className="error_msg">{signupError}</div>}
+            {signupError && <div className={styles.error_msg}>{signupError}</div>}
 
-            <button type="submit" disabled={signupLoading}>
-              {signupLoading ? 'Création...' : 'Sign Up'}
+            <button
+              className={styles.btn}
+              type="button"
+              onClick={handleSignup}
+              disabled={signupLoading}
+            >
+              {signupLoading ? 'Création...' : 'Signup'}
             </button>
 
-            <span className="bottom_text">
+            <span className={styles.switch}>
               Already have an account?{' '}
-              <label htmlFor="register_toggle" className="swtich">
+              <span
+                className={styles.signup_tog}
+                onClick={() => setShowSignup(false)}
+              >
                 Sign In
-              </label>
+              </span>
             </span>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
-    </StyledWrapper>
+    </div>
   );
 };
-
-// ============================================
-// ✅ STYLES — Neumorphism dyalek
-// ============================================
-const StyledWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px;
-  background: #1a1a1a;
-
-  .container {
-    width: 320px;
-    position: relative;
-    border-radius: 5px;
-    overflow: hidden;
-    color: white;
-    background: #1a1a1a;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
-  }
-
-  .container .slider {
-    width: 200%;
-    position: relative;
-    transition: transform ease-out 0.3s;
-    display: flex;
-  }
-
-  #register_toggle {
-    display: none;
-  }
-
-  .container #register_toggle:checked + .slider {
-    transform: translateX(-50%);
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    padding: 1.5em 2em;
-    width: 50%;
-  }
-
-  .title {
-    text-align: center;
-    font-weight: 700;
-    font-size: 1.8em;
-    color: #fff;
-  }
-
-  form .form_control {
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-
-  form .form_control .label {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transition: transform ease 0.2s;
-    transform: translate(0%, -50%);
-    font-size: 0.75em;
-    user-select: none;
-    pointer-events: none;
-    color: #b0b0b0;
-  }
-
-  form .form_control .input {
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    padding: 0.5rem;
-    font-size: 0.75rem;
-    border-radius: 5px;
-    transition: box-shadow ease 0.2s;
-    box-sizing: border-box;
-    box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 1.5px 1.5px 3px #0e0e0e, inset -1.5px -1.5px 3px #5f5e5e;
-  }
-
-  form .form_control .input:focus,
-  form .form_control .input:valid {
-    box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 3px 3px 4px #0e0e0e, inset -3px -3px 4px #5f5e5e;
-  }
-
-  form .form_control .input:focus + .label,
-  form .form_control .input:valid + .label {
-    transform: translate(-150%, -50%);
-  }
-
-  form button {
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    padding: 0.6rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: box-shadow ease 0.1s;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
-  }
-
-  form button:hover:not(:disabled) {
-    color: #a78bfa;
-  }
-
-  form button:active {
-    box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 3px 3px 4px #0e0e0e, inset -3px -3px 4px #5f5e5e;
-  }
-
-  form button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  .error_msg {
-    width: 100%;
-    padding: 8px 10px;
-    background: rgba(220, 38, 38, 0.15);
-    border: 1px solid rgba(220, 38, 38, 0.4);
-    border-radius: 5px;
-    color: #fca5a5;
-    font-size: 0.7em;
-    text-align: center;
-  }
-
-  .bottom_text {
-    font-size: 0.7em;
-    color: #b0b0b0;
-  }
-
-  .bottom_text .swtich {
-    font-weight: 700;
-    cursor: pointer;
-    color: #a78bfa;
-  }
-
-  .bottom_text .swtich:hover {
-    text-decoration: underline;
-  }
-
-  @media (max-width: 400px) {
-    .container {
-      width: 280px;
-    }
-
-    .form {
-      padding: 1.2em 1.5em;
-      gap: 14px;
-    }
-
-    .title {
-      font-size: 1.5em;
-    }
-  }
-`;
 
 export default Login;
