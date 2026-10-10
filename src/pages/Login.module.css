@@ -185,6 +185,14 @@
   box-sizing: border-box;
 }
 
+.hint {
+  margin-top: 6px;
+  font-size: 0.9em;
+  opacity: 0.85;
+  font-style: italic;
+  color: #fbbf24;
+}
+
 /* ============================================
    MEDIA QUERIES — Responsive
    ============================================ */

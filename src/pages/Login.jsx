@@ -6,7 +6,7 @@ import styles from './Login.module.css';
 const Login = () => {
   const navigate = useNavigate();
 
-  // ✅ Flip state — Login (false) / Signup (true)
+  // ✅ Flip state
   const [showSignup, setShowSignup] = useState(false);
 
   // ✅ Login state
@@ -59,7 +59,7 @@ const Login = () => {
   };
 
   // ============================================
-  // ✅ SIGNUP
+  // ✅ SIGNUP — b Auto-Switch
   // ============================================
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -102,6 +102,15 @@ const Login = () => {
         navigate('/orders');
       } else {
         setSignupError(data.message || 'Mochkil f signup');
+
+        // ✅ Ila email deja msta3mel — auto-switch l Login
+        if (data.message && data.message.includes('deja msta3mel')) {
+          setTimeout(() => {
+            setLoginEmail(signupEmail);
+            setShowSignup(false);
+            setSignupError('');
+          }, 2000);
+        }
       }
     } catch (err) {
       setSignupError('Mochkil f connection. 3awd jrreb.');
@@ -214,7 +223,16 @@ const Login = () => {
               required
             />
 
-            {signupError && <div className={styles.error_msg}>{signupError}</div>}
+            {signupError && (
+              <div className={styles.error_msg}>
+                {signupError}
+                {signupError.includes('deja msta3mel') && (
+                  <div className={styles.hint}>
+                    Ghadi n3awdouk l Login...
+                  </div>
+                )}
+              </div>
+            )}
 
             <button
               className={styles.btn}
