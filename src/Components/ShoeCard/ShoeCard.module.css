@@ -1,0 +1,633 @@
+/* ============================================
+   SHOE CARD — B VIDEO BACKGROUND
+   Cards f l'weset dyal video
+   ============================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* ✅ WRAPPER — video + overlay + cards */
+.wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;              /* ✅ Flex */
+  align-items: center;        /* ✅ Vertical center */
+  justify-content: center;    /* ✅ Horizontal center */
+  padding: 40px 20px;
+}
+
+/* ✅ VIDEO BACKGROUND — 100% × 100% */
+.backgroundVideo {
+  position: absolute;
+  top: 50%;                   /* ✅ Center vertical */
+  left: 50%;                  /* ✅ Center horizontal */
+  transform: translate(-50%, -50%);   /* ✅ Center */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* ✅ T3ammer l'écran kamel */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ✅ OVERLAY — dark layer */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);   /* ✅ 50% dark */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== CONTAINER — f l'weset dyal video ===== */
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;                 /* ✅ Bla padding — wrapper 3ndo padding */
+  justify-items: center;
+  transform-style: preserve-3d;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== BOX — kifma kan ===== */
+.container .box {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 400px;
+  margin: 0;
+  background: #232323;
+  border-radius: 20px;
+  transform-style: preserve-3d;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.container .box.active {
+  transform: scale(1.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.container .box:before {
+  content: "NIKE";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 6em;
+  font-weight: 900;
+  font-style: italic;
+  color: #fff;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.container .box:after {
+  content: "SHOES";
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 5em;
+  font-weight: 900;
+  font-style: italic;
+  color: #fff;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.container .box:hover:before,
+.container .box:hover:after {
+  opacity: 0.04;
+}
+
+.container .box .name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 75px);
+  transition: 0.5s;
+  opacity: 0;
+  z-index: 10;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.container .box:hover .name {
+  top: 40px;
+  opacity: 1;
+}
+
+.container .box .buy {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform: translate3d(-50%, 0, 75px);
+  color: #fff;
+  background: #333;
+  padding: 10px 25px;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: 0.5s;
+  opacity: 0;
+  z-index: 10;
+}
+
+.container .box:hover .buy {
+  bottom: 30px;
+  opacity: 1;
+}
+
+.container .box .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.5s;
+  transform-style: preserve-3d;
+  z-index: 10;
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.container .box .product {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 300px;
+  transition: 0.5s;
+  z-index: 11;
+  transform-style: preserve-3d;
+  transform: translate3d(-50%, -50%, 0) rotate(-15deg);
+}
+
+.container .box:hover .product {
+  transform: translate3d(-50%, -50%, 100px) rotate(-15deg);
+}
+
+/* ✅ Colors mkhtalfa */
+.container .box:nth-child(1) .circle,
+.container .box:nth-child(1) .buy {
+  background: #379bf7;
+}
+
+.container .box:nth-child(2) .circle,
+.container .box:nth-child(2) .buy {
+  background: #9bdc28;
+}
+
+.container .box:nth-child(3) .circle,
+.container .box:nth-child(3) .buy {
+  background: #fb4b4f;
+}
+
+.container .box:nth-child(4) .circle,
+.container .box:nth-child(4) .buy {
+  background: #ffb800;
+}
+
+/* ============================================
+   ✅ MEDIA QUERIES — KOUL L'AHJAMA
+   ============================================ */
+
+/* ===== 1. Ultra Wide (2560px+) ===== */
+@media (min-width: 2560px) {
+  .container {
+    max-width: 1200px;
+    gap: 50px;
+  }
+
+  .container .box {
+    max-width: 400px;
+    height: 520px;
+  }
+
+  .container .box:before {
+    font-size: 7em;
+  }
+
+  .container .box:after {
+    font-size: 6em;
+  }
+
+  .container .box .circle {
+    width: 260px;
+    height: 260px;
+  }
+
+  .container .box .product {
+    max-width: 380px;
+  }
+
+  .container .box .name {
+    font-size: 1.4rem;
+  }
+
+  .container .box .buy {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== 2. Large Desktop (1920px – 2559px) ===== */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .container {
+    max-width: 1000px;
+    gap: 40px;
+  }
+
+  .container .box {
+    max-width: 350px;
+    height: 450px;
+  }
+
+  .container .box:before {
+    font-size: 6.5em;
+  }
+
+  .container .box:after {
+    font-size: 5.5em;
+  }
+
+  .container .box .circle {
+    width: 230px;
+    height: 230px;
+  }
+
+  .container .box .product {
+    max-width: 330px;
+  }
+
+  .container .box .name {
+    font-size: 1.3rem;
+  }
+}
+
+/* ===== 3. Desktop / Laptop (1440px – 1919px) ===== */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .container {
+    max-width: 900px;
+    gap: 30px;
+  }
+
+  .container .box {
+    max-width: 300px;
+    height: 400px;
+  }
+}
+
+/* ===== 4. Small Laptop (1025px – 1439px) ===== */
+@media (min-width: 1025px) and (max-width: 1439px) {
+  .container {
+    max-width: 850px;
+    gap: 25px;
+  }
+
+  .container .box {
+    max-width: 280px;
+    height: 380px;
+  }
+
+  .container .box .circle {
+    width: 180px;
+    height: 180px;
+  }
+
+  .container .box .product {
+    max-width: 270px;
+  }
+
+  .container .box .name {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== 5. Tablet Large (769px – 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .wrapper {
+    padding: 30px 16px;
+  }
+
+  .container {
+    max-width: 720px;
+    gap: 20px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 350px;
+  }
+
+  .container .box:before {
+    font-size: 4.5em;
+  }
+
+  .container .box:after {
+    font-size: 4em;
+  }
+
+  .container .box .circle {
+    width: 160px;
+    height: 160px;
+  }
+
+  .container .box .product {
+    max-width: 220px;
+  }
+
+  .container .box .name {
+    font-size: 1rem;
+  }
+
+  .container .box .buy {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== 6. Tablet Portrait (601px – 768px) ===== */
+@media (min-width: 601px) and (max-width: 768px) {
+  .wrapper {
+    padding: 25px 14px;
+  }
+
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 320px;
+  }
+
+  .container .box:before {
+    font-size: 4em;
+  }
+
+  .container .box:after {
+    font-size: 3.5em;
+  }
+
+  .container .box .circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .container .box .product {
+    max-width: 190px;
+  }
+
+  .container .box .name {
+    font-size: 0.95rem;
+  }
+}
+
+/* ===== 7. Mobile Large (481px – 600px) ===== */
+@media (min-width: 481px) and (max-width: 600px) {
+  .wrapper {
+    padding: 20px 12px;
+  }
+
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 280px;
+  }
+
+  .container .box:before {
+    font-size: 3em;
+  }
+
+  .container .box:after {
+    font-size: 2.5em;
+  }
+
+  .container .box .circle {
+    width: 110px;
+    height: 110px;
+  }
+
+  .container .box .product {
+    max-width: 150px;
+  }
+
+  .container .box .name {
+    font-size: 0.85rem;
+  }
+
+  .container .box .buy {
+    padding: 6px 16px;
+    font-size: 0.75rem;
+  }
+}
+
+/* ===== 8. Mobile (401px – 480px) ===== */
+@media (min-width: 401px) and (max-width: 480px) {
+  .wrapper {
+    padding: 18px 10px;
+  }
+
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 250px;
+  }
+
+  .container .box:before {
+    font-size: 2.5em;
+  }
+
+  .container .box:after {
+    font-size: 2em;
+  }
+
+  .container .box .circle {
+    width: 95px;
+    height: 95px;
+  }
+
+  .container .box .product {
+    max-width: 130px;
+  }
+
+  .container .box .name {
+    font-size: 0.8rem;
+  }
+
+  .container .box .buy {
+    padding: 5px 14px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ===== 9. Mobile Small (376px – 400px) ===== */
+@media (min-width: 376px) and (max-width: 400px) {
+  .wrapper {
+    padding: 16px 10px;
+  }
+
+  .container {
+    gap: 10px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 230px;
+  }
+
+  .container .box:before {
+    font-size: 2.2em;
+  }
+
+  .container .box:after {
+    font-size: 1.8em;
+  }
+
+  .container .box .circle {
+    width: 85px;
+    height: 85px;
+  }
+
+  .container .box .product {
+    max-width: 120px;
+  }
+
+  .container .box .name {
+    font-size: 0.75rem;
+  }
+}
+
+/* ===== 10. Mobile Very Small (320px – 375px) ===== */
+@media (min-width: 320px) and (max-width: 375px) {
+  .wrapper {
+    padding: 14px 8px;
+  }
+
+  .container {
+    gap: 8px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 210px;
+  }
+
+  .container .box:before {
+    font-size: 2em;
+  }
+
+  .container .box:after {
+    font-size: 1.6em;
+  }
+
+  .container .box .circle {
+    width: 75px;
+    height: 75px;
+  }
+
+  .container .box .product {
+    max-width: 105px;
+  }
+
+  .container .box .name {
+    font-size: 0.7rem;
+  }
+
+  .container .box .buy {
+    padding: 4px 12px;
+    font-size: 0.65rem;
+  }
+}
+
+/* ===== 11. Mobile Very Very Small (max 320px) ===== */
+@media (max-width: 320px) {
+  .wrapper {
+    padding: 12px 6px;
+  }
+
+  .container {
+    gap: 6px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 190px;
+  }
+
+  .container .box:before {
+    font-size: 1.8em;
+  }
+
+  .container .box:after {
+    font-size: 1.4em;
+  }
+
+  .container .box .circle {
+    width: 65px;
+    height: 65px;
+  }
+
+  .container .box .product {
+    max-width: 90px;
+  }
+
+  .container .box .name {
+    font-size: 0.65rem;
+  }
+
+  .container .box .buy {
+    padding: 3px 10px;
+    font-size: 0.6rem;
+  }
+}
+
+/* ===== 12. Landscape Mode ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .wrapper {
+    padding: 15px 10px;
+  }
+
+  .container {
+    gap: 10px;
+  }
+
+  .container .box {
+    max-width: 100%;
+    height: 220px;
+  }
+
+  .container .box .circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .container .box .product {
+    max-width: 120px;
+  }
+}

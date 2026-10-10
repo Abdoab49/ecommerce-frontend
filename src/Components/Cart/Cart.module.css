@@ -556,6 +556,116 @@
 }
 
 /* ============================================
+   ✅ SUCCESS MESSAGE
+   ============================================ */
+
+.successContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  /* ✅ Bla background */
+}
+
+.successCard {
+  background: #fff;
+  border-radius: 24px;
+  padding: 60px 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  animation: successPop 0.5s ease;
+}
+
+@keyframes successPop {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ❌ Hayedna .successIcon */
+
+.successTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 16px;
+}
+
+.successText {
+  font-size: 16px;
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+
+.continueShoppingBtn {
+  padding: 16px 48px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.continueShoppingBtn:hover {
+  background: #2B3044;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .successCard {
+    padding: 40px 24px;
+  }
+
+  .successTitle {
+    font-size: 24px;
+  }
+
+  .successText {
+    font-size: 14px;
+  }
+
+  .continueShoppingBtn {
+    padding: 14px 32px;
+    font-size: 14px;
+    width: 100%;
+  }
+}
+
+/* ===== SELECT (dropdown) ===== */
+select.formInput {
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 36px;
+}
+
+select.formInput:focus {
+  outline: none;
+  border-color: #000;
+}
+
+select.formInput.inputError {
+  border-color: #e84545 !important;
+  background-color: #fff5f5 !important;
+}
+
+/* ============================================
    ✅ MEDIA QUERIES — ALL SCREEN SIZES
    ============================================ */
 

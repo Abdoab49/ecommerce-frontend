@@ -1,0 +1,150 @@
+/* ============================================
+   BANNER VIDEO — CAROUSEL (3 vidéos 1080×1350)
+   Swipe only — bla boutons + bla dots
+   ============================================ */
+
+.bannerContainer {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.bannerCarousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1080 / 1350;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin: 0 auto;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;         /* ✅ Khass bach swipe ykhdem */
+}
+
+.bannerCarousel:active {
+  cursor: grabbing;
+}
+
+.bannerItem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  pointer-events: none;
+}
+
+.bannerItem.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ✅ Vidéo KAMLA (bla m9atta) */
+.bannerVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000;
+  pointer-events: none;      /* ✅ Bach touch ykhdem */
+}
+
+/* ============================================
+   ✅ MEDIA QUERIES — KOUL L'AHJAM
+   ============================================ */
+
+@media (min-width: 1400px) {
+  .bannerContainer {
+    max-width: 1080px;
+    padding: 50px 30px;
+  }
+
+  .bannerCarousel {
+    max-width: 1080px;
+    border-radius: 18px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1399px) {
+  .bannerContainer {
+    max-width: 1080px;
+    padding: 40px 20px;
+  }
+
+  .bannerCarousel {
+    max-width: 1080px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bannerContainer {
+    max-width: 90%;
+    padding: 30px 16px;
+  }
+
+  .bannerCarousel {
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bannerContainer {
+    max-width: 95%;
+    padding: 24px 16px;
+  }
+
+  .bannerCarousel {
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bannerContainer {
+    max-width: 100%;
+    padding: 20px 12px;
+  }
+
+  .bannerCarousel {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .bannerContainer {
+    max-width: 100%;
+    padding: 16px 10px;
+  }
+
+  .bannerCarousel {
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .bannerContainer {
+    padding: 12px 8px;
+  }
+
+  .bannerCarousel {
+    border-radius: 8px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .bannerContainer {
+    padding: 16px 12px;
+    max-width: 500px;
+  }
+
+  .bannerCarousel {
+    aspect-ratio: 1080 / 1350;
+    border-radius: 12px;
+  }
+}

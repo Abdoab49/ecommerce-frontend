@@ -16,6 +16,8 @@ import NewOverlayCard from '../Components/NewOverlayCard'
 import NewShoeStore from '../Components/NewShoeStore'
 import NewPromoCard from '../Components/NewPromoCard'
 import Slider from '../Components/Slider'
+import ShoeCard from '../Components/ShoeCard/ShoeCard';
+import BannerVideo from '../Components/BannerVideo/BannerVideo';
 const Shop = () => {
     return (
         <div>
@@ -34,7 +36,9 @@ const Shop = () => {
             <SimpleCard />
             <PromoCard />
             <NewPromoCard />
+            <ShoeCard />
             <Slider />
+            <BannerVideo />
             <SocialIcons />
         </div>
     )

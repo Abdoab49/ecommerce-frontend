@@ -1,6 +1,5 @@
 // frontend/api/order.js
 export default async function handler(req, res) {
-  // ✅ السماح للجميع بإرسال الطلبات
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -9,7 +8,6 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // ✅ GET: جلب جميع الطلبات
   if (req.method === 'GET') {
     try {
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -23,12 +21,10 @@ export default async function handler(req, res) {
     }
   }
 
-  // ✅ POST: إنشاء طلب جديد
   if (req.method === 'POST') {
     try {
       const { items, totalAmount, shippingAddress, paymentMethod } = req.body;
 
-      // ✅ التحقق من وجود العناصر
       if (!items || items.length === 0) {
         return res.status(400).json({
           success: false,
@@ -36,7 +32,6 @@ export default async function handler(req, res) {
         });
       }
 
-      // ✅ إنشاء الطلب
       const order = {
         id: Date.now().toString(),
         items: items || [],
@@ -45,6 +40,7 @@ export default async function handler(req, res) {
           fullName: shippingAddress?.fullName || '',
           phone: shippingAddress?.phone || '',
           city: shippingAddress?.city || '',
+          region: shippingAddress?.region || '',     // ✅ Zid hadi
           street: shippingAddress?.street || '',
           state: shippingAddress?.state || 'Casablanca-Settat',
           zipCode: shippingAddress?.zipCode || '20000',
@@ -55,7 +51,6 @@ export default async function handler(req, res) {
         createdAt: new Date().toISOString()
       };
 
-      // ✅ حفظ في localStorage
       const orders = JSON.parse(localStorage.getItem('orders') || '[]');
       orders.push(order);
       localStorage.setItem('orders', JSON.stringify(orders));
@@ -79,7 +74,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // ✅ أي طريقة أخرى غير مدعومة
   return res.status(405).json({ 
     success: false,
     message: 'Method not allowed' 

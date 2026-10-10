@@ -46,7 +46,7 @@ const LOCAL_PRODUCTS = [
   { id: 27, name: 'Kids Happy', category: 'kid', image: '/Assets/tshirt/tshirt4.png', price: 55, old_price: 85 },
   { id: 28, name: 'Kids Star', category: 'kid', image: '/Assets/tshirt/tshirt5.png', price: 70, old_price: 100 },
 
-  // ===== SHOES ✅ جديد =====
+  // ===== SHOES =====
   { id: 53, name: 'NIKE AIR MAX', category: 'shoes', image: '/Assets/ShoeStore/tshirt1.png', price: 250, old_price: 350 },
   { id: 54, name: 'ADIDAS ULTRA', category: 'shoes', image: '/Assets/ShoeStore/tshirt2.png', price: 220, old_price: 320 },
   { id: 55, name: 'PUMA RS-X', category: 'shoes', image: '/Assets/ShoeStore/tshirt3.png', price: 200, old_price: 280 },
@@ -57,16 +57,16 @@ const LOCAL_PRODUCTS = [
   { id: 60, name: 'ASICS GEL', category: 'shoes', image: '/Assets/ShoeStore/tshirt8.png', price: 230, old_price: 330 },
 
   // ===== CASQUETTE =====
-{ id: 61, name: 'Casquette structurée Futura', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 300, old_price: 450 },
-{ id: 62, name: 'Casquette Classic 99', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 150, old_price: 225 },
-{ id: 63, name: 'Casquette Urban Style', category: 'casquette', image: '/Assets/casquette/casquette3.png', price: 200, old_price: 300 },
-{ id: 64, name: 'Casquette Retro Sport', category: 'casquette', image: '/Assets/casquette/casquette4.png', price: 150, old_price: 225 },
-{ id: 65, name: 'Casquette Sport Pro', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 250, old_price: 375 },
-{ id: 66, name: 'Casquette Vintage Wash', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 180, old_price: 270 },
-{ id: 67, name: 'Casquette Streetwear', category: 'casquette', image: '/Assets/casquette/casquette3.png', price: 220, old_price: 330 },
-{ id: 68, name: 'Casquette Snapback', category: 'casquette', image: '/Assets/casquette/casquette4.png', price: 160, old_price: 240 },
-{ id: 69, name: 'Casquette Trucker', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 140, old_price: 210 },
-{ id: 70, name: 'Casquette Luxe', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 280, old_price: 420 },
+  { id: 61, name: 'Casquette structurée Futura', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 300, old_price: 450 },
+  { id: 62, name: 'Casquette Classic 99', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 150, old_price: 225 },
+  { id: 63, name: 'Casquette Urban Style', category: 'casquette', image: '/Assets/casquette/casquette3.png', price: 200, old_price: 300 },
+  { id: 64, name: 'Casquette Retro Sport', category: 'casquette', image: '/Assets/casquette/casquette4.png', price: 150, old_price: 225 },
+  { id: 65, name: 'Casquette Sport Pro', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 250, old_price: 375 },
+  { id: 66, name: 'Casquette Vintage Wash', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 180, old_price: 270 },
+  { id: 67, name: 'Casquette Streetwear', category: 'casquette', image: '/Assets/casquette/casquette3.png', price: 220, old_price: 330 },
+  { id: 68, name: 'Casquette Snapback', category: 'casquette', image: '/Assets/casquette/casquette4.png', price: 160, old_price: 240 },
+  { id: 69, name: 'Casquette Trucker', category: 'casquette', image: '/Assets/casquette/casquette1.png', price: 140, old_price: 210 },
+  { id: 70, name: 'Casquette Luxe', category: 'casquette', image: '/Assets/casquette/casquette2.png', price: 280, old_price: 420 },
 ];
 
 const ShopContextProvider = ({ children }) => {
@@ -95,9 +95,14 @@ const ShopContextProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // ===== إضافة =====
-  const addToCart = (itemId, size = 'M') => {
-    const product = all_product.find(p => p.id === itemId);
+  // ===== إضافة — b productData (shoes, newshoestore, ...) =====
+  const addToCart = (itemId, size = 'M', productData = null) => {
+    // ✅ Ila productData kayn → st3mlo (shoes, newshoestore, ...)
+    // Ila ma kaynch → 9elleb f all_product (T-shirts, casquette, ...)
+    let product = productData;
+    if (!product) {
+      product = all_product.find(p => p.id === itemId);
+    }
     if (!product) return;
 
     setCartItems((prev) => {
@@ -111,13 +116,14 @@ const ShopContextProvider = ({ children }) => {
         id: product.id,
         name: product.name,
         price: product.price,
-        new_price: product.price,
+        new_price: product.new_price || product.price,
         old_price: product.old_price,
         size: size,
         quantity: 1,
-        image: product.image,
-        images: [product.image],
+        image: product.image || product.img,
+        images: product.images || [product.image || product.img],
         category: product.category,
+        brand: product.brand || product.company,
       }];
     });
   };

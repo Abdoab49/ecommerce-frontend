@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
+import TruckButton from '../TruckButton/TruckButton';
+import { cities, getRegionsByCity } from '../../Data/moroccoCities';
 import styles from './Cart.module.css';
 
 const Cart = () => {
@@ -9,32 +11,31 @@ const Cart = () => {
 
   const [promoCode, setPromoCode] = useState('');
   const [promoPercent, setPromoPercent] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const [fullName, setFullName] = useState('');
   const [city, setCity] = useState('');
+  const [region, setRegion] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [errors, setErrors] = useState({});
 
   // ============================================
-  // ✅ userId THABET (ma kaytbeddelch)
+  // ✅ userId THABET
   // ============================================
   const getUserId = () => {
-    // ✅ 1. Ila kayn f localStorage — khodou
     let userId = localStorage.getItem('lanada_user_id');
     if (userId) return userId;
 
-    // ✅ 2. Ila ma kaynch — صايب wa7ed jdid
     const randomPart = Math.random().toString(36).substring(2, 15);
     const timePart = Date.now().toString(36);
-    
+
     userId = 'user_' + randomPart + timePart;
-    
-    // ✅ 3. Save f localStorage (permanent)
+
     localStorage.setItem('lanada_user_id', userId);
-    
+
     return userId;
   };
 
@@ -65,9 +66,7 @@ const Cart = () => {
     removeFromCart(index);
   };
 
-  // ============================================
-  // ✅ PROMO CODE (b userId thabet)
-  // ============================================
+  // ===== PROMO CODE =====
   const applyPromoCode = async () => {
     const promoCodes = {
       '4F334412': 10,
@@ -92,7 +91,7 @@ const Cart = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           code: code,
-          userId: getUserId()   // ✅ userId thabet
+          userId: getUserId()
         })
       });
 
@@ -137,8 +136,12 @@ const Cart = () => {
     if (name === 'city') {
       if (!value.trim()) {
         error = 'City is required';
-      } else if (value.trim().length < 2) {
-        error = 'City must be at least 2 characters';
+      }
+    }
+
+    if (name === 'region') {
+      if (!value.trim()) {
+        error = 'Region is required';
       }
     }
 
@@ -158,6 +161,7 @@ const Cart = () => {
       fullName: validateField('fullName', fullName),
       phone: validateField('phone', phone),
       city: validateField('city', city),
+      region: validateField('region', region),
       address: validateField('address', address),
     };
     setErrors(newErrors);
@@ -175,8 +179,11 @@ const Cart = () => {
     setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
   };
 
+  // ============================================
+  // ✅ HANDLE CHECKOUT — b userId
+  // ============================================
   const handleCheckout = async () => {
-    if (isAnimating || loading) return;
+    if (loading) return;
 
     if (cartItems.length === 0) {
       alert('Your cart is empty!');
@@ -204,6 +211,7 @@ const Cart = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          userId: getUserId(),   // ✅ Zid hadi
           items: orderItems,
           subtotal: subtotal,
           shipping: shippingFee,
@@ -215,6 +223,7 @@ const Cart = () => {
             fullName: fullName,
             phone: phone,
             city: city,
+            region: region,
             street: address,
             country: 'Morocco'
           }
@@ -224,10 +233,7 @@ const Cart = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert(`✅ Order placed successfully!\nTotal: ${total.toFixed(2)} DH`);
-
-        clearCart();
-        navigate('/');
+        setOrderSuccess(true);
       } else {
         alert('❌ Failed to place order: ' + (result.message || 'Unknown error'));
       }
@@ -237,6 +243,36 @@ const Cart = () => {
       setLoading(false);
     }
   };
+
+  // ============================================
+  // ✅ ANIMATION COMPLETE → Cart takhwa + Message
+  // ============================================
+  const handleAnimationComplete = () => {
+    clearCart();
+    setShowSuccessMessage(true);
+  };
+
+  // ============================================
+  // ✅ SUCCESS MESSAGE
+  // ============================================
+  if (showSuccessMessage) {
+    return (
+      <div className={styles.successContainer}>
+        <div className={styles.successCard}>
+          <h2 className={styles.successTitle}>Commande passée!</h2>
+          <p className={styles.successText}>
+            Merci pour votre commande. Nous vous contacterons bientôt.
+          </p>
+          <button
+            className={styles.continueShoppingBtn}
+            onClick={() => navigate('/shop')}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -284,10 +320,11 @@ const Cart = () => {
                     {item.size && (
                       <p><strong>Size: {item.size}</strong></p>
                     )}
+                    <p className={styles.priceInline}>
+                      <strong>Price: {productPrice} DH</strong>
+                    </p>
                   </div>
                 </div>
-
-                <div className={styles.price}>{productPrice} DH</div>
 
                 <div className={styles.quantityBox}>
                   <button
@@ -313,8 +350,6 @@ const Cart = () => {
                     +
                   </button>
                 </div>
-
-                <div className={styles.subtotal}>{productPrice * productQty} DH</div>
 
                 <div className={styles.remove}>
                   <button
@@ -354,15 +389,40 @@ const Cart = () => {
               />
               {errors.phone && <p className={styles.fieldError}>{errors.phone}</p>}
 
-              <input
-                type="text"
-                placeholder="City *"
+              {/* ✅ City dropdown */}
+              <select
                 value={city}
-                onChange={(e) => handleFieldChange('city', e.target.value, setCity)}
+                onChange={(e) => {
+                  handleFieldChange('city', e.target.value, setCity);
+                  setRegion('');
+                }}
                 onBlur={() => handleBlur('city', city)}
                 className={`${styles.formInput} ${errors.city ? styles.inputError : ''}`}
-              />
+              >
+                <option value="">-- Select City * --</option>
+                {cities.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
               {errors.city && <p className={styles.fieldError}>{errors.city}</p>}
+
+              {/* ✅ Region dropdown — kayban ghir melli city mkhtara */}
+              {city && (
+                <>
+                  <select
+                    value={region}
+                    onChange={(e) => handleFieldChange('region', e.target.value, setRegion)}
+                    onBlur={() => handleBlur('region', region)}
+                    className={`${styles.formInput} ${errors.region ? styles.inputError : ''}`}
+                  >
+                    <option value="">-- Select Region * --</option>
+                    {getRegionsByCity(city).map((r) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </select>
+                  {errors.region && <p className={styles.fieldError}>{errors.region}</p>}
+                </>
+              )}
 
               <input
                 type="text"
@@ -394,15 +454,14 @@ const Cart = () => {
             </div>
 
             <div className={styles.summaryCheckout}>
-              <button
-                className={`${styles.orderBtn} ${isAnimating ? styles.animate : ''}`}
+              <TruckButton
+                defaultText="Place Order"
+                successText="Order Placed"
                 onClick={handleCheckout}
-                disabled={isAnimating || loading}
-              >
-                <span className={styles.defaultText}>
-                  {loading ? 'Processing...' : 'Place Order'}
-                </span>
-              </button>
+                trigger={orderSuccess}
+                onComplete={handleAnimationComplete}
+                disabled={loading}
+              />
             </div>
           </div>
         </aside>

@@ -18,10 +18,12 @@ import Product from './pages/Product';
 import Cart from './Components/Cart/Cart';
 import LoginSignup from './pages/LoginSignup';
 import Orders from './pages/Orders';
+import Admin from './pages/Admin';   // ✅ Zid hadi
 import SizeSelection from './Components/SizeSelection';
 import Casquette from './pages/Casquette';
 import Mens from './pages/Mens';
-import Jackets from './pages/Jackets';   // ✅ جديد
+import Jackets from './pages/Jackets';
+import Shoes from './pages/Shoes';
 
 /* BANNERS */
 import men_banner from './Components/Assets/banner_mens.png';
@@ -45,16 +47,18 @@ function App() {
                         <NotificationBell />
                         <Routes>
                             <Route path='/' element={<Shop />} />
+                            <Route path='/shop' element={<Shop />} />
                             <Route path='/mens' element={<Mens />} />
-                            <Route path='/womens' element={<Jackets />} />   {/* ✅ جديد */}
+                            <Route path='/womens' element={<Jackets />} />
                             <Route path='/kids' element={<ShopCategory banner={kid_banner} category="kid" />} />
-                            <Route path='/shoes' element={<ShopCategory banner={shoes_banner} category="shoes" />} />
+                            <Route path='/shoes' element={<Shoes />} />
                             <Route path='/casquette' element={<Casquette />} />
                             <Route path='/product/:productId' element={<Product />} />
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/login' element={<LoginSignup />} />
                             <Route path='/size-selection' element={<SizeSelection />} />
                             <Route path='/orders' element={<Orders />} />
+                            <Route path='/admin' element={<Admin />} />   {/* ✅ Zid hadi */}
                         </Routes>
                     </div>
                 </div>

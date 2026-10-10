@@ -266,8 +266,14 @@ const SizeSelection = () => {
       discount: discountPercent,
       description: product?.description || 'Premium quality t-shirt with modern fit. Designed for comfort and style, perfect for everyday wear.',
       maxQuantity: Infinity,
-      sizes: ['S', 'M', 'L', 'XL'],
-      category: 'T-Shirts',
+      // ✅ sizes — kat7ewel string l array automatique
+      sizes: Array.isArray(product?.sizes)
+        ? product.sizes
+        : (typeof product?.sizes === 'string'
+            ? product.sizes.split(',').map(s => s.trim())
+            : ['S', 'M', 'L', 'XL']),
+      // ✅ category — mn product
+      category: product?.category || 'T-Shirts',
       new_price: newPrice,
       old_price: oldPrice,
       image: product?.img || '/Assets/ShoeStore/tshirt1.png',
@@ -305,31 +311,8 @@ const SizeSelection = () => {
 
     button.classList.add('active');
 
-    addToCart(productData.id);
-
-    const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingIndex = existingCart.findIndex(item => item.id === productData.id && item.size === selectedSize);
-
-    const cartItem = {
-      id: productData.id,
-      name: productData.name,
-      price: productData.price,
-      new_price: productData.new_price,
-      old_price: productData.old_price,
-      size: selectedSize,
-      quantity: quantity,
-      image: productData.image,
-      images: productData.images,
-      category: productData.category,
-      brand: productData.brand
-    };
-
-    if (existingIndex > -1) {
-      existingCart[existingIndex].quantity += quantity;
-    } else {
-      existingCart.push(cartItem);
-    }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    // ✅ Ghir hadi — ShopContext kaydir localStorage automatique
+    addToCart(productData.id, selectedSize, productData);
 
     const morph = button.querySelector(`.${styles.morph} path`);
     const shirt = button.querySelectorAll(`.${styles.shirt} svg > path`);

@@ -1,0 +1,313 @@
+/* ============================================
+   ANIMATED TEXT — Afdal Ma9asat (koul jihaz)
+   Breakpoints: 1536, 1280, 1024, 768, 640, 480, 375, 320
+   ============================================ */
+
+/* ============================================
+   WRAPPER
+   ============================================ */
+
+.wrapper {
+  /* ✅ Mobile First — base */
+  width: 100%;
+  height: 250px;              /* ✅ Mobile sghir */
+  margin: 0 auto;
+  padding: 20px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* ❌ HAYEDNA: background: #090d00; */
+  background: transparent;    /* ✅ Bla background */
+
+  color: rgba(255, 255, 255, 0.25);
+  text-align: center;
+  font: 400 0.875em/1.5 "Neuton";
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================
+   PARAGRAPH
+   ============================================ */
+
+.paragraph {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;     /* ✅ Sghar f mobile */
+  display: inline-block;
+  border: 3px double rgba(255, 255, 255, 0.25);
+  border-width: 3px 0;
+  padding: 0.8em 0;
+  position: relative;
+  width: 100%;
+  max-width: 90%;
+  margin: 0;
+}
+
+/* ============================================
+   SPAN — Animated Text Fill
+   ============================================ */
+
+.span {
+  font: 700 1.5em/1 "Oswald", sans-serif;   /* ✅ Sghar f mobile */
+  letter-spacing: 0;
+  padding: 0.25em 0 0.325em;
+  display: block;
+  margin: 0 auto;
+  text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
+
+  background: url(https://i.ibb.co/RDTnNrT/animated-text-fill.png) repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  -webkit-animation: aitf 80s linear infinite;
+  animation: aitf 80s linear infinite;
+
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+}
+
+/* ============================================
+   ANIMATION
+   ============================================ */
+
+@-webkit-keyframes aitf {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes aitf {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ============================================
+   ✅ AFDAL MA9ASAT — KOUL JIHAZ
+   ============================================ */
+
+/* ===== 1. Mobile Very Small (max 320px) ===== */
+@media (max-width: 320px) {
+  .wrapper {
+    height: 200px;
+    padding: 16px 12px;
+    font-size: 0.75em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.1em;
+    padding: 0.6em 0;
+    border-width: 2px 0;
+  }
+
+  .span {
+    font-size: 1.2em;
+    padding: 0.2em 0 0.25em;
+  }
+}
+
+/* ===== 2. Mobile Small (321px – 375px) ===== */
+@media (min-width: 321px) and (max-width: 375px) {
+  .wrapper {
+    height: 220px;
+    padding: 18px 14px;
+    font-size: 0.8em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.12em;
+    padding: 0.7em 0;
+  }
+
+  .span {
+    font-size: 1.4em;
+  }
+}
+
+/* ===== 3. Mobile (376px – 480px) ===== */
+@media (min-width: 376px) and (max-width: 480px) {
+  .wrapper {
+    height: 250px;
+    padding: 20px 16px;
+    font-size: 0.875em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.15em;
+    padding: 0.8em 0;
+  }
+
+  .span {
+    font-size: 1.5em;
+  }
+}
+
+/* ===== 4. Tablet Small (481px – 640px) ===== */
+@media (min-width: 481px) and (max-width: 640px) {
+  .wrapper {
+    height: 280px;
+    padding: 24px 20px;
+    font-size: 0.9em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.2em;
+    padding: 0.9em 0;
+  }
+
+  .span {
+    font-size: 1.8em;
+  }
+}
+
+/* ===== 5. Tablet (641px – 768px) ===== */
+@media (min-width: 641px) and (max-width: 768px) {
+  .wrapper {
+    height: 320px;
+    padding: 28px 24px;
+    font-size: 1em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.25em;
+    padding: 1em 0;
+    max-width: 85%;
+  }
+
+  .span {
+    font-size: 2.2em;
+    padding: 0.25em 0 0.3em;
+  }
+}
+
+/* ===== 6. Tablet Large (769px – 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .wrapper {
+    height: 360px;
+    padding: 32px 28px;
+    font-size: 1em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.3em;
+    padding: 1.2em 0;
+    max-width: 80%;
+  }
+
+  .span {
+    font-size: 2.8em;
+  }
+}
+
+/* ===== 7. Desktop Small (1025px – 1280px) ===== */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .wrapper {
+    height: 380px;
+    padding: 36px 32px;
+    font-size: 1em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.35em;
+    padding: 1.3em 0;
+    max-width: 70%;
+  }
+
+  .span {
+    font-size: 3.2em;
+  }
+}
+
+/* ===== 8. Desktop (1281px – 1536px) ===== */
+@media (min-width: 1281px) and (max-width: 1536px) {
+  .wrapper {
+    height: 400px;
+    padding: 40px 40px;
+    font-size: 1em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.4em;
+    padding: 1.4em 0;
+    max-width: 60%;
+  }
+
+  .span {
+    font-size: 3.6em;
+  }
+}
+
+/* ===== 9. Large Desktop (1537px – 1919px) ===== */
+@media (min-width: 1537px) and (max-width: 1919px) {
+  .wrapper {
+    height: 400px;
+    padding: 40px 40px;
+    font-size: 1em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.45em;
+    padding: 1.5em 0;
+    max-width: 55%;
+  }
+
+  .span {
+    font-size: 3.8em;
+  }
+}
+
+/* ===== 10. Very Large Desktop (1920px+) ===== */
+@media (min-width: 1920px) {
+  .wrapper {
+    width: 1920px;
+    height: 400px;
+    padding: 40px 40px;
+    font-size: 1em;
+  }
+
+  .paragraph {
+    letter-spacing: 0.5em;
+    padding: 1.5em 0;
+    width: 40em;
+    max-width: 100%;
+  }
+
+  .span {
+    font-size: 4em;
+    padding: 0.25em 0 0.325em;
+  }
+}
+
+/* ===== 11. Landscape Mode (melli tqleb telephone) ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .wrapper {
+    height: 100vh;
+    min-height: 250px;
+    padding: 16px 20px;
+  }
+
+  .paragraph {
+    padding: 0.6em 0;
+    letter-spacing: 0.2em;
+  }
+
+  .span {
+    font-size: 2em;
+  }
+}
+
+/* ===== 12. Ultra Wide (2560px+) ===== */
+@media (min-width: 2560px) {
+  .wrapper {
+    width: 1920px;
+    height: 400px;
+  }
+
+  .span {
+    font-size: 4em;
+  }
+}

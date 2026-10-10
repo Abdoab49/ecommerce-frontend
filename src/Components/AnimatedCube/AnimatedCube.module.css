@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* ✅ Container kbar f koulchi */
+.container {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: brightness 200s linear infinite;
+}
+
+.containerFull {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: zoomIn 200s linear infinite;
+}
+
+/* ✅ Images — 100% */
+.backgroundImage,
+.boyImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+}
+.backgroundImage { z-index: 1; }
+.boyImage { z-index: 2; animation: blur 200s linear infinite; }
+
+/* ✅ Cube — KABIR f koulchi */
+.cube {
+  position: relative;
+  width: 870px;
+  height: 190px;
+  transform-style: preserve-3d;
+  perspective: 480px;
+  perspective-origin: 51% 70%;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+.bottom, .top { width: 870px; height: 870px; }
+
+.front { transform: translateZ(435px); display: none; }
+.back { transform: translateZ(-435px) rotateY(180deg) scaleX(-1); }
+.left { transform: translateX(-435px) rotateY(-90deg) scaleX(-1); }
+.right { transform: translateX(435px) rotateY(90deg) scaleX(-1); }
+.top { transform: translateY(-435px) rotateX(90deg) scaleY(-1); }
+.bottom { transform: translateY(-245px) rotateX(-90deg) scaleY(-1); }
+
+p {
+  white-space: nowrap;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: calc(6em + (190px / 10) * 0.7);
+  padding-top: 20px;
+  color: #fff;
+}
+span { color: red; }
+
+.left p { margin-left: 480px; animation: left 200s linear infinite; }
+.back p { margin-left: -390px; animation: back 200s linear infinite; }
+.right p { margin-left: -1260px; animation: right 200s linear infinite; }
+
+@keyframes left { 100% { margin-left: -54000px; } }
+@keyframes back { 100% { margin-left: -54870px; } }
+@keyframes right { 100% { margin-left: -55740px; } }
+
+.hue {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  mix-blend-mode: overlay;
+  background: radial-gradient(ellipse at center, #1e5799 0, #7db9e8 100%);
+}
+.hue.animated { animation: filterAnimation 8s infinite; }
+
+.containerReflect {
+  position: absolute;
+  margin-top: 380px;
+  filter: blur(10px);
+  pointer-events: none;
+}
+.containerReflect .back { transform: translateZ(-435px) rotateY(180deg) scaleX(-1) scaleY(-1); }
+.containerReflect .left { transform: translateX(-435px) rotateY(-90deg) scaleX(-1) scaleY(-1); }
+.containerReflect .right { transform: translateX(435px) rotateY(90deg) scaleX(-1) scaleY(-1); }
+.containerReflect p { transform: scaleY(70%); }
+
+@keyframes filterAnimation { 0%,100% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(100deg); } }
+@keyframes zoomIn { 0% { transform: scale(1); } 100% { transform: scale(2.5); } }
+@keyframes blur { 0% { filter: blur(0); } 100% { filter: blur(3px); } }
+@keyframes brightness { 0% { filter: brightness(1) contrast(1); } 100% { filter: brightness(0.8) contrast(1.3); } }
+
+/* ✅ HAWATEF — kbar */
+@media (max-width: 768px) {
+  .cube, .face { width: 95vw; height: 21vw; max-height: 190px; }
+  .bottom, .top { width: 95vw; height: 95vw; }
+  .front { transform: translateZ(47.5vw); }
+  .back { transform: translateZ(-47.5vw) rotateY(180deg) scaleX(-1); }
+  .left { transform: translateX(-47.5vw) rotateY(-90deg) scaleX(-1); }
+  .right { transform: translateX(47.5vw) rotateY(90deg) scaleX(-1); }
+  .top { transform: translateY(-47.5vw) rotateX(90deg) scaleY(-1); }
+  .bottom { transform: translateY(-27vw) rotateX(-90deg) scaleY(-1); }
+  p { font-size: 15vw; padding-top: 2vw; }
+  .containerReflect { margin-top: 42vw; filter: blur(1.5vw); }
+}
