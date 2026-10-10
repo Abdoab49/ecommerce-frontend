@@ -22,21 +22,8 @@ const Cart = () => {
   const [address, setAddress] = useState('');
   const [errors, setErrors] = useState({});
 
-  // ============================================
-  // ✅ userId THABET
-  // ============================================
   const getUserId = () => {
-    let userId = localStorage.getItem('lanada_user_id');
-    if (userId) return userId;
-
-    const randomPart = Math.random().toString(36).substring(2, 15);
-    const timePart = Date.now().toString(36);
-
-    userId = 'user_' + randomPart + timePart;
-
-    localStorage.setItem('lanada_user_id', userId);
-
-    return userId;
+    return localStorage.getItem('lanada_user_id');
   };
 
   const extractPrice = (price) => {
@@ -66,7 +53,6 @@ const Cart = () => {
     removeFromCart(index);
   };
 
-  // ===== PROMO CODE =====
   const applyPromoCode = async () => {
     const promoCodes = {
       '4F334412': 10,
@@ -85,14 +71,18 @@ const Cart = () => {
       return;
     }
 
+    const userId = getUserId();
+    if (!userId) {
+      alert('⚠️ Khass tdkhol l compte dyalek qbel');
+      navigate('/login');
+      return;
+    }
+
     try {
       const response = await fetch('https://backend-3lyx.onrender.com/api/promo/check-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          code: code,
-          userId: getUserId()
-        })
+        body: JSON.stringify({ code, userId })
       });
 
       const result = await response.json();
@@ -110,47 +100,27 @@ const Cart = () => {
     }
   };
 
-  // ===== VALIDATION =====
   const validateField = (name, value) => {
     let error = '';
 
     if (name === 'fullName') {
-      if (!value.trim()) {
-        error = 'Full name is required';
-      } else if (value.trim().length < 3) {
-        error = 'Full name must be at least 3 characters';
-      } else if (!/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())) {
-        error = 'Full name contains invalid characters';
-      }
+      if (!value.trim()) error = 'Full name is required';
+      else if (value.trim().length < 3) error = 'Full name must be at least 3 characters';
+      else if (!/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())) error = 'Full name contains invalid characters';
     }
 
     if (name === 'phone') {
       const cleaned = value.replace(/[\s-]/g, '');
-      if (!cleaned) {
-        error = 'Phone number is required';
-      } else if (!/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)) {
-        error = 'Enter a valid Moroccan phone (e.g. 0612345678)';
-      }
+      if (!cleaned) error = 'Phone number is required';
+      else if (!/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)) error = 'Enter a valid Moroccan phone (e.g. 0612345678)';
     }
 
-    if (name === 'city') {
-      if (!value.trim()) {
-        error = 'City is required';
-      }
-    }
-
-    if (name === 'region') {
-      if (!value.trim()) {
-        error = 'Region is required';
-      }
-    }
+    if (name === 'city' && !value.trim()) error = 'City is required';
+    if (name === 'region' && !value.trim()) error = 'Region is required';
 
     if (name === 'address') {
-      if (!value.trim()) {
-        error = 'Address is required';
-      } else if (value.trim().length < 5) {
-        error = 'Address must be at least 5 characters';
-      }
+      if (!value.trim()) error = 'Address is required';
+      else if (value.trim().length < 5) error = 'Address must be at least 5 characters';
     }
 
     return error;
@@ -179,11 +149,16 @@ const Cart = () => {
     setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
   };
 
-  // ============================================
-  // ✅ HANDLE CHECKOUT — b userId
-  // ============================================
   const handleCheckout = async () => {
     if (loading) return;
+
+    // ✅ Check wach mconnecté
+    const userId = getUserId();
+    if (!userId) {
+      alert('⚠️ Khass tdkhol l compte dyalek qbel ma t3ammer order');
+      navigate('/login');
+      return;
+    }
 
     if (cartItems.length === 0) {
       alert('Your cart is empty!');
@@ -211,7 +186,7 @@ const Cart = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: getUserId(),   // ✅ Zid hadi
+          userId: userId,
           items: orderItems,
           subtotal: subtotal,
           shipping: shippingFee,
@@ -244,17 +219,11 @@ const Cart = () => {
     }
   };
 
-  // ============================================
-  // ✅ ANIMATION COMPLETE → Cart takhwa + Message
-  // ============================================
   const handleAnimationComplete = () => {
     clearCart();
     setShowSuccessMessage(true);
   };
 
-  // ============================================
-  // ✅ SUCCESS MESSAGE
-  // ============================================
   if (showSuccessMessage) {
     return (
       <div className={styles.successContainer}>
@@ -389,7 +358,6 @@ const Cart = () => {
               />
               {errors.phone && <p className={styles.fieldError}>{errors.phone}</p>}
 
-              {/* ✅ City dropdown */}
               <select
                 value={city}
                 onChange={(e) => {
@@ -406,7 +374,6 @@ const Cart = () => {
               </select>
               {errors.city && <p className={styles.fieldError}>{errors.city}</p>}
 
-              {/* ✅ Region dropdown — kayban ghir melli city mkhtara */}
               {city && (
                 <>
                   <select

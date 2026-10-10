@@ -43,11 +43,16 @@ const Orders = () => {
   const [sortOrder, setSortOrder] = useState("newest");
 
   useEffect(() => {
+    // ✅ Check wach user mconnecté
+    const userId = localStorage.getItem("lanada_user_id");
+
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
     const fetchOrders = async () => {
       try {
-        // ✅ Khod userId mn localStorage
-        const userId = localStorage.getItem("lanada_user_id") || "anonymous";
-
         const response = await fetch(
           `https://backend-3lyx.onrender.com/api/orders?userId=${userId}`
         );
@@ -67,7 +72,7 @@ const Orders = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [navigate]);
 
   const stats = useMemo(() => {
     const result = {

@@ -130,6 +130,43 @@
     justify-content: center;
 }
 
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userBtn {
+  padding: 8px 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.userBtn:hover {
+  transform: translateY(-2px);
+}
+
+.logoutBtn {
+  padding: 8px 14px;
+  color: #dc2626;
+  background: #fee2e2;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logoutBtn:hover {
+  background: #fecaca;
+}
+
 /* ===== MEDIA QUERIES ===== */
 @media (max-width: 768px) {
     .navbar {

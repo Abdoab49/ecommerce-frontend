@@ -16,9 +16,10 @@ import Shop from './pages/Shop';
 import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
 import Cart from './Components/Cart/Cart';
-import LoginSignup from './pages/LoginSignup';
+import Login from './pages/Login';        // ✅ Bdel
+import Signup from './pages/Signup';      // ✅ Zid
 import Orders from './pages/Orders';
-import Admin from './pages/Admin';   // ✅ Zid hadi
+import Admin from './pages/Admin';
 import SizeSelection from './Components/SizeSelection';
 import Casquette from './pages/Casquette';
 import Mens from './pages/Mens';
@@ -55,10 +56,11 @@ function App() {
                             <Route path='/casquette' element={<Casquette />} />
                             <Route path='/product/:productId' element={<Product />} />
                             <Route path='/cart' element={<Cart />} />
-                            <Route path='/login' element={<LoginSignup />} />
+                            <Route path='/login' element={<Login />} />        {/* ✅ Bdel */}
+                            <Route path='/signup' element={<Signup />} />      {/* ✅ Zid */}
                             <Route path='/size-selection' element={<SizeSelection />} />
                             <Route path='/orders' element={<Orders />} />
-                            <Route path='/admin' element={<Admin />} />   {/* ✅ Zid hadi */}
+                            <Route path='/admin' element={<Admin />} />
                         </Routes>
                     </div>
                 </div>
