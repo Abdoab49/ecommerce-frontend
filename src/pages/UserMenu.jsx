@@ -28,7 +28,7 @@ const UserMenu = ({ user }) => {
 
   return (
     <StyledWrapper ref={menuRef}>
-      {/* ✅ Ghir text — bla button */}
+      {/* ✅ Ghir text "abdo" — mektoub — bhal link */}
       <span
         className="userText"
         onClick={() => setIsOpen(!isOpen)}
@@ -36,9 +36,9 @@ const UserMenu = ({ user }) => {
         {user.fullName.split(' ')[0]}
       </span>
 
-      {/* ✅ Dropdown */}
       {isOpen && (
         <div className="dropdown">
+          {/* ✅ FullName mektoub */}
           <Link
             to="/orders"
             className="dropdownItem"
@@ -49,6 +49,7 @@ const UserMenu = ({ user }) => {
 
           <div className="divider" />
 
+          {/* ✅ Logout mektoub */}
           <button className="logoutText" onClick={handleLogout}>
             Logout
           </button>
@@ -63,16 +64,19 @@ const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
 
-  /* ===== User Text — Ghir text ===== */
+  /* ✅ Ghir text — bla background — bla border — bla padding */
   .userText {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
     color: #111827;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     transition: color 0.2s;
     user-select: none;
-    padding: 8px 0;
   }
 
   .userText:hover {
@@ -85,7 +89,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    min-width: 220px;
+    min-width: 200px;
     padding: 8px;
     background: #fff;
     border-radius: 12px;
@@ -109,9 +113,6 @@ const StyledWrapper = styled.div`
   }
 
   .dropdownItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     padding: 12px 14px;
     color: #111827;
     background: transparent;
@@ -134,7 +135,6 @@ const StyledWrapper = styled.div`
     margin: 4px 0;
   }
 
-  /* ===== Logout — Ghir text ===== */
   .logoutText {
     background: none;
     border: none;
@@ -159,78 +159,37 @@ const StyledWrapper = styled.div`
   /* ===== MEDIA QUERIES ===== */
 
   @media (max-width: 900px) {
-    .userText {
-      font-size: 13.5px;
-    }
-    .dropdownItem,
-    .logoutText {
-      font-size: 13.5px;
-    }
+    .userText { font-size: 14px; }
+    .dropdownItem, .logoutText { font-size: 13.5px; }
   }
 
   @media (max-width: 768px) {
-    .userText {
-      font-size: 13px;
-    }
-    .dropdown {
-      min-width: 200px;
-    }
-    .dropdownItem,
-    .logoutText {
-      font-size: 13px;
-    }
+    .userText { font-size: 13.5px; }
+    .dropdown { min-width: 180px; }
+    .dropdownItem, .logoutText { font-size: 13px; }
   }
 
   @media (max-width: 600px) {
-    .userText {
-      font-size: 12.5px;
-    }
-    .dropdownItem,
-    .logoutText {
-      font-size: 12.5px;
-    }
+    .userText { font-size: 13px; }
+    .dropdownItem, .logoutText { font-size: 12.5px; }
   }
 
   @media (max-width: 480px) {
-    .userText {
-      font-size: 12px;
-    }
-    .dropdown {
-      min-width: 180px;
-    }
-    .dropdownItem,
-    .logoutText {
-      font-size: 12px;
-      padding: 10px 12px;
-    }
+    .userText { font-size: 12.5px; }
+    .dropdown { min-width: 170px; }
+    .dropdownItem, .logoutText { font-size: 12px; padding: 10px 12px; }
   }
 
   @media (max-width: 400px) {
-    .userText {
-      font-size: 11.5px;
-    }
-    .dropdown {
-      min-width: 160px;
-    }
-    .dropdownItem,
-    .logoutText {
-      font-size: 11.5px;
-    }
+    .userText { font-size: 12px; }
+    .dropdown { min-width: 160px; }
+    .dropdownItem, .logoutText { font-size: 11.5px; }
   }
 
   @media (max-width: 320px) {
-    .userText {
-      font-size: 11px;
-    }
-    .dropdown {
-      min-width: 150px;
-      padding: 6px;
-    }
-    .dropdownItem,
-    .logoutText {
-      font-size: 11px;
-      padding: 8px 10px;
-    }
+    .userText { font-size: 11.5px; }
+    .dropdown { min-width: 150px; padding: 6px; }
+    .dropdownItem, .logoutText { font-size: 11px; padding: 8px 10px; }
   }
 `;
 

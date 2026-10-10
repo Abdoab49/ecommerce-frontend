@@ -100,7 +100,7 @@ const Navbar = () => {
                         {user ? (
                             <>
                                 <Link to="/orders" className={styles.link} onClick={closeMenu}>
-                                    👤 {user.fullName}
+                                    {user.fullName}
                                 </Link>
                                 <button onClick={handleLogout} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
                                     LOG OUT
@@ -117,15 +117,15 @@ const Navbar = () => {
                 <div className={styles.rightSection}>
                     {user ? (
                         <div className={styles.userMenu} ref={userMenuRef}>
-                            {/* ✅ Button "👤 Name" — kayft7 dropdown */}
-                            <button
-                                className={styles.userBtn}
+                            {/* ✅ Ghir TEXT — bla button — bla icon */}
+                            <span
+                                className={styles.userText}
                                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                             >
-                                👤 {user.fullName.split(' ')[0]}
-                            </button>
+                                {user.fullName.split(' ')[0]}
+                            </span>
 
-                            {/* ✅ Dropdown — FullName + Logout (koulhom mektoubin) */}
+                            {/* ✅ Dropdown */}
                             {isUserMenuOpen && (
                                 <div className={styles.userDropdown}>
                                     <Link
@@ -133,7 +133,7 @@ const Navbar = () => {
                                         className={styles.dropdownItem}
                                         onClick={() => setIsUserMenuOpen(false)}
                                     >
-                                        👤 {user.fullName}
+                                        {user.fullName}
                                     </Link>
 
                                     <div className={styles.dropdownDivider} />

@@ -48,42 +48,28 @@ const StyledWrapper = styled.div`
     transform: translate(1px, 1px);
   }
 
-  /* ===== MEDIA QUERIES ===== */
-
   @media (max-width: 900px) {
-    .logoutText {
-      font-size: 13.5px;
-    }
+    .logoutText { font-size: 13.5px; }
   }
 
   @media (max-width: 768px) {
-    .logoutText {
-      font-size: 13px;
-    }
+    .logoutText { font-size: 13px; }
   }
 
   @media (max-width: 600px) {
-    .logoutText {
-      font-size: 12.5px;
-    }
+    .logoutText { font-size: 12.5px; }
   }
 
   @media (max-width: 480px) {
-    .logoutText {
-      font-size: 12px;
-    }
+    .logoutText { font-size: 12px; }
   }
 
   @media (max-width: 400px) {
-    .logoutText {
-      font-size: 11.5px;
-    }
+    .logoutText { font-size: 11.5px; }
   }
 
   @media (max-width: 320px) {
-    .logoutText {
-      font-size: 11px;
-    }
+    .logoutText { font-size: 11px; }
   }
 `;
 
