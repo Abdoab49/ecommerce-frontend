@@ -5,7 +5,6 @@ import logo from '../Assets/logo.png';
 import cart_icon from '../Assets/cart_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
-import LogoutButton from '../../pages/LogoutButton';
 
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
@@ -47,6 +46,7 @@ const Navbar = () => {
         setUser(null);
         closeMenu();
         navigate('/login');
+        window.location.reload();
     };
 
     return (
@@ -96,6 +96,7 @@ const Navbar = () => {
                         </Link>
                     </li>
 
+                    {/* Mobile Login — f menu */}
                     <li className={styles.mobileLogin}>
                         {user ? (
                             <>
@@ -103,7 +104,7 @@ const Navbar = () => {
                                     {user.fullName}
                                 </Link>
                                 <button onClick={handleLogout} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
-                                    LOG OUT
+                                    Logout
                                 </button>
                             </>
                         ) : (
@@ -115,32 +116,34 @@ const Navbar = () => {
                 </ul>
 
                 <div className={styles.rightSection}>
+                    {/* ✅ Ghir icon 👤 — bla text */}
                     {user ? (
                         <div className={styles.userMenu} ref={userMenuRef}>
-                            {/* ✅ Ghir TEXT — bla button — bla icon */}
-                            <span
-                                className={styles.userText}
+                            {/* ✅ Icon 👤 — kliki 3liha bach tft7 dropdown */}
+                            <button
+                                className={styles.userIconBtn}
                                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                title="Compte"
+                                aria-label="Compte"
                             >
-                                {user.fullName.split(' ')[0]}
-                            </span>
+                                👤
+                            </button>
 
                             {/* ✅ Dropdown */}
                             {isUserMenuOpen && (
                                 <div className={styles.userDropdown}>
-                                    <Link
-                                        to="/orders"
-                                        className={styles.dropdownItem}
-                                        onClick={() => setIsUserMenuOpen(false)}
-                                    >
+                                    <div className={styles.dropdownName}>
                                         {user.fullName}
-                                    </Link>
+                                    </div>
 
                                     <div className={styles.dropdownDivider} />
 
-                                    <div className={styles.dropdownLogout}>
-                                        <LogoutButton />
-                                    </div>
+                                    <button
+                                        className={styles.dropdownLogout}
+                                        onClick={handleLogout}
+                                    >
+                                        Logout
+                                    </button>
                                 </div>
                             )}
                         </div>
