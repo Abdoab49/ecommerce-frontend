@@ -2,7 +2,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Orders.module.css";
-import LogoutButton from "./LogoutButton";
 
 const STATUS_LABELS = {
   pending: "في الانتظار",
@@ -179,7 +178,6 @@ const Orders = () => {
   return (
     <main className={styles.page} dir="rtl">
       <div className={styles.container}>
-        {/* ✅ HERO + Logout Button Jdid */}
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}>
@@ -190,17 +188,13 @@ const Orders = () => {
             <p>كل مشترياتك وتتبع الطلبات ديالك، فبلاصة وحدة.</p>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-            <button
-              className={styles.shopButton}
-              onClick={() => navigate("/")}
-            >
-              <span>＋</span>
-              كمل التسوق
-            </button>
-
-            <LogoutButton />
-          </div>
+          <button
+            className={styles.shopButton}
+            onClick={() => navigate("/")}
+          >
+            <span>＋</span>
+            كمل التسوق
+          </button>
         </section>
 
         <section className={styles.statsGrid} aria-label="إحصائيات الطلبات">

@@ -7,12 +7,10 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // ✅ Msa7 localStorage
     localStorage.removeItem('lanada_user_id');
     localStorage.removeItem('lanada_user');
-
-    // ✅ Redirect l /login
     navigate('/login');
+    window.location.reload();
   };
 
   return (
@@ -30,33 +28,28 @@ const LogoutButton = () => {
 };
 
 const StyledWrapper = styled.div`
+  /* ============================================
+     BASE — Desktop
+     ============================================ */
   .Btn {
-    --black: #000000;
-    --ch-black: #141414;
-    --eer-black: #1b1b1b;
-    --night-rider: #2e2e2e;
-    --white: #ffffff;
-    --af-white: #f3f3f3;
-    --ch-white: #e1e1e1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 45px;
     height: 45px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-    background-color: var(--af-white);
+    background-color: white;
   }
 
-  /* plus sign */
   .sign {
     width: 100%;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,45 +60,246 @@ const StyledWrapper = styled.div`
   }
 
   .sign svg path {
-    fill: var(--night-rider);
+    fill: black;
   }
 
-  /* text */
   .text {
     position: absolute;
     right: 0%;
     width: 0%;
     opacity: 0;
-    color: var(--night-rider);
+    color: white;
     font-size: 1.2em;
     font-weight: 600;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
   }
 
-  /* hover effect on button width */
   .Btn:hover {
+    background-color: black;
     width: 125px;
-    border-radius: 5px;
-    transition-duration: .3s;
+    border-radius: 40px;
+    transition-duration: 0.3s;
   }
 
   .Btn:hover .sign {
     width: 30%;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
     padding-left: 20px;
   }
 
-  /* hover effect button's text */
+  .Btn:hover .sign svg path {
+    fill: white;
+  }
+
   .Btn:hover .text {
     opacity: 1;
     width: 70%;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
     padding-right: 10px;
   }
 
-  /* button click effect */
   .Btn:active {
     transform: translate(2px, 2px);
+  }
+
+  /* ============================================
+     MEDIA QUERIES — Responsive
+     ============================================ */
+
+  @media (max-width: 900px) {
+    .Btn {
+      width: 42px;
+      height: 42px;
+    }
+
+    .sign svg {
+      width: 16px;
+    }
+
+    .Btn:hover {
+      width: 115px;
+    }
+
+    .text {
+      font-size: 1.1em;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .Btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .sign svg {
+      width: 15px;
+    }
+
+    .Btn:hover {
+      width: 110px;
+    }
+
+    .Btn:hover .sign {
+      padding-left: 16px;
+    }
+
+    .text {
+      font-size: 1em;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .Btn {
+      width: 38px;
+      height: 38px;
+    }
+
+    .sign svg {
+      width: 14px;
+    }
+
+    .Btn:hover {
+      width: 105px;
+      border-radius: 30px;
+    }
+
+    .Btn:hover .sign {
+      padding-left: 14px;
+    }
+
+    .text {
+      font-size: 0.9em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .Btn {
+      width: 36px;
+      height: 36px;
+    }
+
+    .sign svg {
+      width: 13px;
+    }
+
+    .Btn:hover {
+      width: 100px;
+      border-radius: 25px;
+    }
+
+    .Btn:hover .sign {
+      padding-left: 12px;
+    }
+
+    .Btn:hover .text {
+      padding-right: 8px;
+    }
+
+    .text {
+      font-size: 0.85em;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .Btn {
+      width: 34px;
+      height: 34px;
+    }
+
+    .sign svg {
+      width: 12px;
+    }
+
+    .Btn:hover {
+      width: 90px;
+      border-radius: 20px;
+    }
+
+    .Btn:hover .sign {
+      padding-left: 10px;
+    }
+
+    .Btn:hover .text {
+      padding-right: 6px;
+    }
+
+    .text {
+      font-size: 0.8em;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .Btn {
+      width: 32px;
+      height: 32px;
+      box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .sign svg {
+      width: 11px;
+    }
+
+    .Btn:hover {
+      width: 85px;
+      border-radius: 16px;
+    }
+
+    .Btn:hover .sign {
+      padding-left: 8px;
+    }
+
+    .Btn:hover .text {
+      padding-right: 5px;
+    }
+
+    .text {
+      font-size: 0.75em;
+    }
+  }
+
+  /* Landscape */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .Btn {
+      width: 36px;
+      height: 36px;
+    }
+
+    .sign svg {
+      width: 13px;
+    }
+
+    .Btn:hover {
+      width: 100px;
+    }
+
+    .text {
+      font-size: 0.85em;
+    }
+  }
+
+  /* Touch devices */
+  @media (hover: none) {
+    .Btn:active {
+      background-color: black;
+      width: 110px;
+      border-radius: 40px;
+      transition-duration: 0.3s;
+    }
+
+    .Btn:active .sign {
+      width: 30%;
+      padding-left: 16px;
+    }
+
+    .Btn:active .sign svg path {
+      fill: white;
+    }
+
+    .Btn:active .text {
+      opacity: 1;
+      width: 70%;
+      padding-right: 8px;
+    }
   }
 `;
 

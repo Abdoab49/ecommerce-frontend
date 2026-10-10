@@ -1,9 +1,11 @@
+// src/Components/Navbar/Navbar.jsx
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import logo from '../Assets/logo.png';
 import cart_icon from '../Assets/cart_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
+import LogoutButton from '../../pages/LogoutButton';   // ✅ Zid hadi
 
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
@@ -105,9 +107,9 @@ const Navbar = () => {
                             <Link to="/orders" className={styles.userBtn}>
                                 👤 {user.fullName.split(' ')[0]}
                             </Link>
-                            <button onClick={handleLogout} className={styles.logoutBtn}>
-                                Logout
-                            </button>
+
+                            {/* ✅ LOGOUT BUTTON JDID */}
+                            <LogoutButton />
                         </div>
                     ) : (
                         <Link to="/login" className={styles.loginBtn}>
