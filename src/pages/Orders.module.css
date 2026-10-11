@@ -1,40 +1,7 @@
 /* src/pages/Orders.module.css */
 
 /* ============================================
-   CONTAINER — kifma .container pb-5 mb-sm-4
-   ============================================ */
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  padding-bottom: 3rem;
-  margin-bottom: 1.5rem;
-}
-
-@media (min-width: 576px) {
-  .container { max-width: 540px; }
-}
-
-@media (min-width: 768px) {
-  .container { max-width: 720px; }
-}
-
-@media (min-width: 992px) {
-  .container { max-width: 960px; }
-}
-
-@media (min-width: 1200px) {
-  .container { max-width: 1140px; }
-}
-
-body {
-  margin-top: 20px;
-}
-
-/* ============================================
-   STEPS
+   STEPS — kifma design dyalek
    ============================================ */
 .steps {
   border: 1px solid #e7e7e7;
@@ -148,7 +115,9 @@ body {
   height: 0.875rem;
 }
 
-/* ===== Media 575.98px ===== */
+/* ============================================
+   MEDIA 575.98px
+   ============================================ */
 @media (max-width: 575.98px) {
   .stepsHeader {
     display: none;
@@ -167,8 +136,15 @@ body {
 }
 
 /* ============================================
-   BG SECONDARY — kifma .bg-secondary
+   BG SECONDARY — bach Bootstrap class ykhdem
    ============================================ */
-.bgSecondary {
+:global(.bg-secondary) {
   background-color: #f7f7f7 !important;
+}
+
+/* ============================================
+   BODY
+   ============================================ */
+:global(body) {
+  margin-top: 20px;
 }
