@@ -39,13 +39,9 @@ const Orders = () => {
 
   if (loading) {
     return (
-      <div className={styles.page}>
-        <div className="container h-50 px-4 py-5 mx-auto">
-          <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
-            <div className="container text-center">
-              <p className="h3 text-success mb-3">Loading orders...</p>
-            </div>
-          </div>
+      <div className="container padding-bottom-3x mb-1">
+        <div className="text-center py-5" style={{ color: '#606975' }}>
+          Loading orders...
         </div>
       </div>
     );
@@ -53,20 +49,16 @@ const Orders = () => {
 
   if (error) {
     return (
-      <div className={styles.page}>
-        <div className="container h-50 px-4 py-5 mx-auto">
-          <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
-            <div className="container text-center">
-              <p className="h3 text-danger mb-3">Something went wrong</p>
-              <p className="text-dark">{error}</p>
-              <button
-                className="btn bg-success text-white"
-                onClick={() => window.location.reload()}
-              >
-                Try again
-              </button>
-            </div>
-          </div>
+      <div className="container padding-bottom-3x mb-1">
+        <div className="text-center py-5">
+          <h3>Something went wrong</h3>
+          <p style={{ color: '#606975' }}>{error}</p>
+          <button
+            className="btn btn-outline-primary btn-rounded btn-sm"
+            onClick={() => window.location.reload()}
+          >
+            Try again
+          </button>
         </div>
       </div>
     );
@@ -74,176 +66,278 @@ const Orders = () => {
 
   if (orders.length === 0) {
     return (
-      <div className={styles.page}>
-        <div className="container h-50 px-4 py-5 mx-auto">
-          <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
-            <div className="container text-center">
-              <p className="h3 text-success mb-3">No orders</p>
-              <p className="text-dark">Start shopping to place your first order!</p>
-              <button
-                className="btn bg-success text-white"
-                onClick={() => navigate('/')}
-              >
-                Continue shopping
-              </button>
-            </div>
-          </div>
+      <div className="container padding-bottom-3x mb-1">
+        <div className="text-center py-5">
+          <h3>No orders</h3>
+          <p style={{ color: '#606975' }}>Start shopping to place your first order!</p>
+          <button
+            className="btn btn-outline-primary btn-rounded btn-sm"
+            onClick={() => navigate('/')}
+          >
+            Continue shopping
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.page}>
+    <div className="container padding-bottom-3x mb-1">
       {orders.map((order) => {
         const orderId = String(order._id || order.id || '');
         const status = String(order.status || 'pending').toLowerCase();
+        const items = Array.isArray(order.items) ? order.items : [];
+        const shipping = order.shippingAddress || {};
 
+        // ✅ Status → Step index
         const statusMap = {
           pending: 0,
           processing: 1,
-          shipped: 2,
-          delivered: 3,
+          quality_check: 2,
+          shipped: 3,
+          delivered: 4,
         };
         const currentIdx = statusMap[status] ?? 0;
 
+        // ✅ Status label
+        const statusLabels = {
+          pending: 'Checking Quality',
+          processing: 'Processing',
+          quality_check: 'Checking Quality',
+          shipped: 'Product Dispatched',
+          delivered: 'Product Delivered',
+          cancelled: 'Cancelled',
+        };
+
+        // ✅ Date
         const dateStr = order.createdAt
-          ? new Date(order.createdAt).toLocaleDateString('en-US', {
-              month: '2-digit',
-              day: '2-digit',
-              year: 'numeric',
-            })
-          : '—';
-
-        // ✅ Steps (4)
-        const steps = [
-          { title: 'Order Confirmed', icon: 'fa-check', idx: 0 },
-          { title: 'Order Shipped', icon: 'fa-check', idx: 1 },
-          { title: 'Out for delivery', icon: 'fa-check', idx: 2 },
-          { title: 'Order Delivered', icon: 'fa-check', idx: 3 },
-        ];
-
-        // ✅ Bottom icons
-        const bottomSteps = [
-          { title: 'Order Confirmed', icon: 'fa-clipboard-check', color: 'text-primary' },
-          { title: 'Order Shipped', icon: 'fa-boxes-packing', color: 'text-warning' },
-          { title: 'Out for Delivery', icon: 'fa-truck-arrow-right', color: 'text-info' },
-          { title: 'Order Delivered', icon: 'fa-house-chimney', color: 'text-success' },
-        ];
+          ? new Date(order.createdAt)
+              .toLocaleDateString('en-US', {
+                month: 'short',
+                day: '2-digit',
+                year: 'numeric',
+              })
+              .toUpperCase()
+          : 'SEP 09, 2017';
 
         return (
-          <div key={orderId} className="container h-50 px-4 py-5 mx-auto">
-            <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
-
+          <div key={orderId} className={styles.orderBlock}>
+            {/* ===== Card ===== */}
+            <div className="card mb-3">
               {/* ===== Header ===== */}
-              <div className="row d-flex justify-content-between mx-5 pt-3 my-3">
-                <div className="container text-center">
-                  <p className="h3 text-success mb-3">LANADA</p>
+              <div className="p-4 text-center text-white text-lg bg-dark rounded-top">
+                <span className="text-uppercase">Tracking Order No - </span>
+                <span className="text-medium">
+                  {orderId.slice(-10).toUpperCase() || '------'}
+                </span>
+              </div>
+
+              {/* ===== Details Row ===== */}
+              <div className="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                <div className="w-100 text-center py-1 px-2">
+                  <span className="text-medium">Shipped Via:</span> Cash on Delivery
                 </div>
-                <div className="d-flex">
-                  <p className="h5 text-dark">
-                    <i className="text-primary fa-solid fa-cart-shopping fa-lg mr-1"></i>
-                    Order ID :{' '}
-                    <span className="text-success font-weight-bold">
-                      <i className="text-secondary fa-solid fa-hashtag mr-1"></i>
-                      {orderId.slice(-8).toUpperCase() || '------'}
-                    </span>
-                  </p>
+                <div className="w-100 text-center py-1 px-2">
+                  <span className="text-medium">Status:</span>{' '}
+                  {statusLabels[status] || status}
                 </div>
-                <div className="d-flex flex-column text-sm-right h5">
-                  <p className="mb-0 font-weight-bolder text-monospace">
-                    Expected Arrival{' '}
-                    <span className="badge badge-pill badge-primary border border-secondary text-light font-weight-bold px-2 py-2 shadow">
-                      {dateStr}
-                    </span>
-                  </p>
-                  <p className="font-weight-bold text-monospace pt-3 ml-5">
-                    Tracking ID{' '}
-                    <span className="badge badge-pill badge-danger border border-secondary text-light font-weight-bold mx-1 px-2 py-2 shadow">
-                      {orderId.slice(-8).toUpperCase() || '------'}
-                    </span>
-                  </p>
+                <div className="w-100 text-center py-1 px-2">
+                  <span className="text-medium">Expected Date:</span> {dateStr}
                 </div>
               </div>
 
-              {/* ===== Progress steps ===== */}
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="container-fluid p-2 align-items-center">
-                      <div className="d-flex justify-content-around">
-                        {/* Step 1 */}
-                        <button
-                          className={`btn rounded-circle ${
-                            currentIdx >= 0 ? 'bg-success text-white' : 'bg-secondary text-white'
-                          }`}
-                          title="Order Confirmed"
-                        >
-                          <i className="fa-solid fa-check"></i>
-                        </button>
-                        <span className={`w-50 p-1 mx-n1 rounded mt-auto mb-auto ${
-                          currentIdx > 0 ? 'bg-success' : 'bg-secondary'
-                        }`}></span>
-
-                        {/* Step 2 */}
-                        <button
-                          className={`btn rounded-circle ${
-                            currentIdx >= 1 ? 'bg-success text-white' : 'bg-secondary text-white'
-                          }`}
-                          title="Order Shipped"
-                        >
-                          <i className="fa-solid fa-check"></i>
-                        </button>
-                        <span className={`w-50 p-1 mx-n1 rounded mt-auto mb-auto ${
-                          currentIdx > 1 ? 'bg-success' : 'bg-secondary'
-                        }`}></span>
-
-                        {/* Step 3 */}
-                        <button
-                          className={`btn rounded-circle ${
-                            currentIdx >= 2 ? 'bg-success text-white' : 'bg-secondary text-white'
-                          }`}
-                          title="Out for delivery"
-                          style={{ zIndex: 1 }}
-                        >
-                          <i className="fa-solid fa-check"></i>
-                        </button>
-                        <span className={`w-50 p-1 mx-n1 rounded mt-auto mb-auto ${
-                          currentIdx > 2 ? 'bg-success' : 'bg-secondary'
-                        }`}></span>
-
-                        {/* Step 4 */}
-                        <button
-                          className={`btn rounded-circle ${
-                            currentIdx >= 3 ? 'bg-success text-white' : 'bg-secondary text-white'
-                          }`}
-                          title="Order Delivered"
-                        >
-                          <i className="fa-solid fa-check"></i>
-                        </button>
+              {/* ===== Steps ===== */}
+              <div className="card-body">
+                <div className="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                  {/* Step 1: Confirmed */}
+                  <div
+                    className={`step ${
+                      status !== 'cancelled' && currentIdx >= 0
+                        ? 'completed'
+                        : ''
+                    }`}
+                  >
+                    <div className="step-icon-wrap">
+                      <div className="step-icon">
+                        <i className="pe-7s-cart"></i>
                       </div>
                     </div>
+                    <h4 className="step-title">Confirmed Order</h4>
+                  </div>
+
+                  {/* Step 2: Processing */}
+                  <div
+                    className={`step ${
+                      status !== 'cancelled' && currentIdx >= 1
+                        ? 'completed'
+                        : ''
+                    }`}
+                  >
+                    <div className="step-icon-wrap">
+                      <div className="step-icon">
+                        <i className="pe-7s-config"></i>
+                      </div>
+                    </div>
+                    <h4 className="step-title">Processing Order</h4>
+                  </div>
+
+                  {/* Step 3: Quality Check */}
+                  <div
+                    className={`step ${
+                      status !== 'cancelled' && currentIdx >= 2
+                        ? 'completed'
+                        : ''
+                    }`}
+                  >
+                    <div className="step-icon-wrap">
+                      <div className="step-icon">
+                        <i className="pe-7s-medal"></i>
+                      </div>
+                    </div>
+                    <h4 className="step-title">Quality Check</h4>
+                  </div>
+
+                  {/* Step 4: Dispatched */}
+                  <div
+                    className={`step ${
+                      status !== 'cancelled' && currentIdx >= 3
+                        ? 'completed'
+                        : ''
+                    }`}
+                  >
+                    <div className="step-icon-wrap">
+                      <div className="step-icon">
+                        <i className="pe-7s-car"></i>
+                      </div>
+                    </div>
+                    <h4 className="step-title">Product Dispatched</h4>
+                  </div>
+
+                  {/* Step 5: Delivered */}
+                  <div
+                    className={`step ${
+                      status !== 'cancelled' && currentIdx >= 4
+                        ? 'completed'
+                        : ''
+                    }`}
+                  >
+                    <div className="step-icon-wrap">
+                      <div className="step-icon">
+                        <i className="pe-7s-home"></i>
+                      </div>
+                    </div>
+                    <h4 className="step-title">Product Delivered</h4>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* ===== Bottom icons ===== */}
-              <div className="row d-inline-flex justify-content-around my-3 py-4 mx-n2">
-                {bottomSteps.map((step, i) => (
+            {/* ===== Footer ===== */}
+            <div className="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center mb-5">
+              <div className="custom-control custom-checkbox mr-3">
+                <input
+                  className="custom-control-input"
+                  type="checkbox"
+                  id={`notify-${orderId}`}
+                  defaultChecked
+                />
+                <label
+                  className="custom-control-label"
+                  htmlFor={`notify-${orderId}`}
+                >
+                  Notify me when order is delivered
+                </label>
+              </div>
+              <div className="text-left text-sm-right">
+                <button
+                  className="btn btn-outline-primary btn-rounded btn-sm"
+                  type="button"
+                >
+                  View Order Details
+                </button>
+              </div>
+            </div>
+
+            {/* ===== Client Info ===== */}
+            <div className="row mb-3">
+              <div className="col-md-6 mb-2">
+                <div className="bg-secondary p-3 rounded">
+                  <h6 className="text-uppercase text-muted mb-2">Client</h6>
+                  <p className="mb-1 font-weight-bold">
+                    {shipping.fullName || '—'}
+                  </p>
+                  <p className="mb-1 text-muted small">
+                    {shipping.phone || '—'}
+                  </p>
+                </div>
+              </div>
+              <div className="col-md-6 mb-2">
+                <div className="bg-secondary p-3 rounded">
+                  <h6 className="text-uppercase text-muted mb-2">
+                    Shipping Address
+                  </h6>
+                  <p className="mb-1 font-weight-bold">
+                    {shipping.street || '—'}
+                  </p>
+                  <p className="mb-1 text-muted small">
+                    {shipping.city || '—'}
+                    {shipping.region ? ` — ${shipping.region}` : ''}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ===== Products ===== */}
+            <div className="mb-4">
+              <h6 className="text-uppercase text-muted mb-2">
+                Products ({items.reduce((s, i) => s + Number(i.quantity || 1), 0)})
+              </h6>
+              <div className="bg-secondary p-3 rounded">
+                {items.map((item, idx) => (
                   <div
-                    key={i}
-                    className="row d-inline-flex align-items-center"
+                    key={idx}
+                    className={`d-flex align-items-center ${
+                      idx < items.length - 1 ? 'mb-2 pb-2 border-bottom' : ''
+                    }`}
                   >
-                    <i className={`${step.color} fa-solid ${step.icon} fa-2xl mx-4 mb-3`}></i>
-                    <p className="text-dark font-weight-bolder py-1 px-1 mx-n2">
-                      {step.title.split(' ')[0]}
-                      <br />
-                      {step.title.split(' ').slice(1).join(' ')}
-                    </p>
+                    <img
+                      src={item.image || '/Assets/ShoeStore/tshirt1.png'}
+                      alt={item.name}
+                      style={{
+                        width: '50px',
+                        height: '50px',
+                        objectFit: 'contain',
+                        background: '#fff',
+                        borderRadius: '6px',
+                        padding: '4px',
+                        marginRight: '12px',
+                      }}
+                    />
+                    <div className="flex-grow-1">
+                      <div className="font-weight-bold">
+                        {item.name || 'Product'}
+                      </div>
+                      <div className="text-muted small">
+                        Qty: {item.quantity || 1}
+                        {item.size ? ` • Size: ${item.size}` : ''}
+                      </div>
+                    </div>
+                    <div className="font-weight-bold">
+                      {item.price} DH
+                    </div>
                   </div>
                 ))}
               </div>
+            </div>
 
+            {/* ===== Total ===== */}
+            <div className="d-flex justify-content-between align-items-center bg-secondary p-3 rounded mb-5">
+              <span className="text-uppercase text-muted font-weight-bold">
+                Total
+              </span>
+              <span className="h5 mb-0 font-weight-bold">
+                {order.totalAmount} DH
+              </span>
             </div>
           </div>
         );

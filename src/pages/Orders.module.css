@@ -1,40 +1,126 @@
 /* src/pages/Orders.module.css */
 
 /* ============================================
-   PAGE — Bootstrap bg-success
+   PAGE
    ============================================ */
-.page {
-  min-height: 100vh;
-  background-color: #28a745;   /* bg-success */
-  color: #343a40;              /* text-dark */
-  padding: 20px 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-/* Override Bootstrap default */
-.page :global(.card) {
-  border-radius: 0.5rem;
-}
-
-.page :global(.fa-2xl) {
-  font-size: 2em;
-}
-
-.page :global(.fa-lg) {
-  font-size: 1.33em;
+:global(body) {
+  margin-top: 20px;
 }
 
 /* ============================================
-   Responsive
+   STEPS
    ============================================ */
-@media (max-width: 768px) {
-  .page :global(.card) {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
+.steps .step {
+  display: block;
+  width: 100%;
+  margin-bottom: 35px;
+  text-align: center;
+}
 
-  .page :global(.row.mx-5) {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+.steps .step .step-icon-wrap {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 80px;
+  text-align: center;
+}
+
+.steps .step .step-icon-wrap::before,
+.steps .step .step-icon-wrap::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  height: 3px;
+  margin-top: -1px;
+  background-color: #e1e7ec;
+  content: '';
+  z-index: 1;
+}
+
+.steps .step .step-icon-wrap::before {
+  left: 0;
+}
+
+.steps .step .step-icon-wrap::after {
+  right: 0;
+}
+
+.steps .step .step-icon {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 1px solid #e1e7ec;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  color: #374250;
+  font-size: 38px;
+  line-height: 81px;
+  z-index: 5;
+}
+
+.steps .step .step-title {
+  margin-top: 16px;
+  margin-bottom: 0;
+  color: #606975;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.steps .step:first-child .step-icon-wrap::before {
+  display: none;
+}
+
+.steps .step:last-child .step-icon-wrap::after {
+  display: none;
+}
+
+.steps .step.completed .step-icon-wrap::before,
+.steps .step.completed .step-icon-wrap::after {
+  background-color: #0da9ef;
+}
+
+.steps .step.completed .step-icon {
+  border-color: #0da9ef;
+  background-color: #0da9ef;
+  color: #fff;
+}
+
+/* ============================================
+   BG SECONDARY
+   ============================================ */
+:global(.bg-secondary) {
+  background-color: #f5f5f5 !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 576px) {
+  .steps .step .step-icon-wrap::before,
+  .steps .step .step-icon-wrap::after {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .steps .step .step-icon-wrap::before,
+  .steps .step .step-icon-wrap::after {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .steps .step .step-icon-wrap::before,
+  .steps .step .step-icon-wrap::after {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .steps .step .step-icon-wrap::before,
+  .steps .step .step-icon-wrap::after {
+    display: none;
   }
 }
