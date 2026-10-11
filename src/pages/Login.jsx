@@ -222,7 +222,7 @@ const Login = () => {
                   shape="pill"
                   theme="outline"
                   size="large"
-                  width="100%"
+                  width={350}
                 />
               </div>
             </div>

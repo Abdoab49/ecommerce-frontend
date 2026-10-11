@@ -7,7 +7,8 @@ import ShopContextProvider from './Context/ShopContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // ✅ Google Client ID — Bdel b dyalek
-const GOOGLE_CLIENT_ID = 'HNA_LSAQ_CLIENT_ID_DYALEK.apps.googleusercontent.com';
+// ⚠️ MITHAL: '1234567890-abcdefghijklmnopqrst.apps.googleusercontent.com'
+const GOOGLE_CLIENT_ID = 'HNA_HNA_CLIENT_ID_HNAQIQI.apps.googleusercontent.com';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
