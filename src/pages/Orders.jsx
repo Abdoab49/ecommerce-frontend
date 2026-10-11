@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Orders.module.css';
 
 const STATUS_STEPS = [
-  { key: 'pending', label: 'Confirmed Order', icon: 'pe-7s-cart' },
-  { key: 'processing', label: 'Processing Order', icon: 'pe-7s-config' },
-  { key: 'quality_check', label: 'Quality Check', icon: 'pe-7s-medal' },
-  { key: 'shipped', label: 'Product Dispatched', icon: 'pe-7s-car' },
-  { key: 'delivered', label: 'Product Delivered', icon: 'pe-7s-home' },
+  { key: 'pending', label: 'Order confirmed', icon: 'check-circle' },
+  { key: 'processing', label: 'Processing order', icon: 'settings' },
+  { key: 'quality_check', label: 'Quality check', icon: 'award' },
+  { key: 'shipped', label: 'Product dispatched', icon: 'truck' },
+  { key: 'delivered', label: 'Product delivered', icon: 'home' },
 ];
 
 const STATUS_LABELS = {
   pending: 'Pending',
   processing: 'Processing',
-  quality_check: 'Checking Quality',
+  quality_check: 'Quality check',
   shipped: 'Shipped',
   delivered: 'Delivered',
   cancelled: 'Cancelled',
@@ -35,69 +35,70 @@ const formatDate = (date) => {
   if (!date) return '—';
   const parsedDate = new Date(date);
   if (Number.isNaN(parsedDate.getTime())) return '—';
-  return parsedDate
-    .toLocaleDateString('en-US', {
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric',
-    })
-    .toUpperCase();
+  return parsedDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
 };
 
 // ============================================
-// ✅ SVG Icons
+// ✅ SVG Icons — kifma design
 // ============================================
-const IconUser = ({ size = 16 }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
+const IconCheck = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+    <polyline points="20 6 9 17 4 12"></polyline>
   </svg>
 );
 
-const IconHome = ({ size = 16 }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-    <polyline points="9 22 9 12 15 12 15 22" />
+const IconCheckCircle = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check-circle">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+    <polyline points="22 4 12 14.01 9 11.01"></polyline>
   </svg>
 );
 
-const IconCart = ({ size = 16 }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="9" cy="21" r="1" />
-    <circle cx="20" cy="21" r="1" />
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+const IconSettings = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-settings">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
   </svg>
 );
+
+const IconAward = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-award">
+    <circle cx="12" cy="8" r="7"></circle>
+    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+  </svg>
+);
+
+const IconTruck = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-truck">
+    <rect x="1" y="3" width="15" height="13"></rect>
+    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+  </svg>
+);
+
+const IconHome = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-home">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+  </svg>
+);
+
+const StepIcon = ({ name }) => {
+  const icons = {
+    'check': <IconCheck />,
+    'check-circle': <IconCheckCircle />,
+    'settings': <IconSettings />,
+    'award': <IconAward />,
+    'truck': <IconTruck />,
+    'home': <IconHome />,
+  };
+  return icons[name] || null;
+};
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -148,7 +149,7 @@ const Orders = () => {
           <h3>Something went wrong</h3>
           <p>{error}</p>
           <button
-            className={styles.btnOutline}
+            className={styles.btnPrimary}
             onClick={() => window.location.reload()}
           >
             Try again
@@ -165,7 +166,7 @@ const Orders = () => {
           <h3>No orders</h3>
           <p>Start shopping to place your first order!</p>
           <button
-            className={styles.btnOutline}
+            className={styles.btnPrimary}
             onClick={() => navigate('/')}
           >
             Continue shopping
@@ -185,89 +186,117 @@ const Orders = () => {
 
         const currentIdx = STATUS_MAP[status] ?? 0;
 
+        // ✅ Progress bar width
+        const progressPercent =
+          status === 'cancelled'
+            ? 0
+            : (currentIdx / (STATUS_STEPS.length - 1)) * 100;
+
+        const totalItems = items.reduce(
+          (sum, i) => sum + Number(i.quantity || 1),
+          0
+        );
+
         return (
-          <div key={orderId} className={styles.card}>
-            {/* ===== Tracking Header ===== */}
-            <div className={styles.cardHeader}>
-              <span className={styles.headerLabel}>Tracking Order No - </span>
-              <span className={styles.headerValue}>
-                {orderId.slice(-10).toUpperCase() || '------'}
-              </span>
-            </div>
-
-            {/* ===== Details Row ===== */}
+          <div key={orderId}>
+            {/* ===== Details ===== */}
             <div className={styles.detailsRow}>
-              <div className={styles.detailBox}>
-                <span className={styles.detailLabel}>Shipped Via:</span>
-                <span className={styles.detailValue}>Cash on Delivery</span>
+              <div className={styles.detailCol}>
+                <div className={styles.detailBox}>
+                  <span className={styles.detailLabel}>Shipped via:</span>
+                  Cash on Delivery
+                </div>
               </div>
-              <div className={styles.detailBox}>
-                <span className={styles.detailLabel}>Status:</span>
-                <span className={styles.detailValue}>
+              <div className={styles.detailCol}>
+                <div className={styles.detailBox}>
+                  <span className={styles.detailLabel}>Status:</span>
                   {STATUS_LABELS[status] || status}
-                </span>
+                </div>
               </div>
-              <div className={styles.detailBox}>
-                <span className={styles.detailLabel}>Order Date:</span>
-                <span className={styles.detailValue}>
+              <div className={styles.detailCol}>
+                <div className={styles.detailBox}>
+                  <span className={styles.detailLabel}>Expected date:</span>
                   {formatDate(order.createdAt)}
-                </span>
+                </div>
               </div>
             </div>
 
-            {/* ===== Steps ===== */}
-            <div className={styles.cardBody}>
-              <div className={styles.steps}>
+            {/* ===== Progress ===== */}
+            <div className={styles.steps}>
+              <div className={styles.stepsHeader}>
+                <div className={styles.progress}>
+                  <div
+                    className={styles.progressBar}
+                    role="progressbar"
+                    style={{ width: `${progressPercent}%` }}
+                    aria-valuenow={progressPercent}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+              <div className={styles.stepsBody}>
                 {STATUS_STEPS.map((step, index) => {
-                  const isCompleted = status !== 'cancelled' && index <= currentIdx;
+                  let stepClass = styles.step;
+                  if (status !== 'cancelled') {
+                    if (index < currentIdx) {
+                      stepClass += ` ${styles.stepCompleted}`;
+                    } else if (index === currentIdx) {
+                      stepClass += ` ${styles.stepActive}`;
+                    }
+                  }
+
                   return (
-                    <div
-                      key={step.key}
-                      className={`${styles.step} ${isCompleted ? styles.completed : ''}`}
-                    >
-                      <div className={styles.stepIconWrap}>
-                        <div className={styles.stepIcon}>
-                          <i className={step.icon}></i>
-                        </div>
-                      </div>
-                      <h4 className={styles.stepTitle}>{step.label}</h4>
+                    <div className={stepClass} key={step.key}>
+                      {index < currentIdx && status !== 'cancelled' && (
+                        <span className={styles.stepIndicator}>
+                          <StepIcon name="check" />
+                        </span>
+                      )}
+                      <span className={styles.stepIcon}>
+                        <StepIcon name={step.icon} />
+                      </span>
+                      {step.label}
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* ===== Client Info ===== */}
-            <div className={styles.clientInfo}>
-              <div className={styles.infoBox}>
-                <div className={styles.infoLabel}>
-                  <IconUser size={16} />
-                  <span>Client</span>
-                </div>
-                <div className={styles.infoValue}>{shipping.fullName || '—'}</div>
-                <div className={styles.infoSmall}>{shipping.phone || '—'}</div>
+            {/* ===== Order Info ===== */}
+            <div className={styles.orderInfo}>
+              <div className={styles.orderInfoRow}>
+                <span className={styles.orderInfoLabel}>Order ID:</span>
+                <span className={styles.orderInfoValue}>
+                  #{orderId.slice(-10).toUpperCase() || '------'}
+                </span>
               </div>
-              <div className={styles.infoBox}>
-                <div className={styles.infoLabel}>
-                  <IconHome size={16} />
-                  <span>Shipping Address</span>
-                </div>
-                <div className={styles.infoValue}>{shipping.street || '—'}</div>
-                <div className={styles.infoSmall}>
-                  {shipping.city || '—'}
-                  {shipping.region ? ` — ${shipping.region}` : ''}
-                </div>
+              <div className={styles.orderInfoRow}>
+                <span className={styles.orderInfoLabel}>Client:</span>
+                <span className={styles.orderInfoValue}>
+                  {shipping.fullName || '—'}
+                </span>
+              </div>
+              <div className={styles.orderInfoRow}>
+                <span className={styles.orderInfoLabel}>Phone:</span>
+                <span className={styles.orderInfoValue}>
+                  {shipping.phone || '—'}
+                </span>
+              </div>
+              <div className={styles.orderInfoRow}>
+                <span className={styles.orderInfoLabel}>Address:</span>
+                <span className={styles.orderInfoValue}>
+                  {shipping.street || '—'}
+                  {shipping.city ? `, ${shipping.city}` : ''}
+                  {shipping.region ? `, ${shipping.region}` : ''}
+                </span>
               </div>
             </div>
 
             {/* ===== Products ===== */}
             <div className={styles.productsSection}>
               <div className={styles.productsTitle}>
-                <IconCart size={18} />
-                <span>
-                  Products (
-                  {items.reduce((s, i) => s + Number(i.quantity || 1), 0)})
-                </span>
+                Products ({totalItems})
               </div>
               <div className={styles.productsBox}>
                 {items.map((item, idx) => (
@@ -301,7 +330,7 @@ const Orders = () => {
               </div>
             </div>
 
-            {/* ===== Total + Footer ===== */}
+            {/* ===== Total ===== */}
             <div className={styles.totalBox}>
               <span className={styles.totalLabel}>Total</span>
               <span className={styles.totalValue}>
@@ -309,6 +338,7 @@ const Orders = () => {
               </span>
             </div>
 
+            {/* ===== Footer ===== */}
             <div className={styles.footerRow}>
               <div className={styles.checkboxWrap}>
                 <input
@@ -325,12 +355,14 @@ const Orders = () => {
                 </label>
               </div>
               <button
-                className={styles.btnOutlinePrimary}
+                className={styles.btnPrimary}
                 onClick={() => {}}
               >
                 View Order Details
               </button>
             </div>
+
+            <div style={{ height: '40px' }}></div>
           </div>
         );
       })}
