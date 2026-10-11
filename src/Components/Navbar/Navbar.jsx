@@ -52,6 +52,7 @@ const Navbar = () => {
                 </div>
 
                 <ul className={`${styles.menuItems} ${isMenuOpen ? styles.active : ''}`}>
+                    {/* ===== LINKS — kifhom koulhom ===== */}
                     <li>
                         <Link to='/' className={`${styles.link} ${menu === "shop" ? styles.active : ''}`}
                             onClick={() => { setMenu("shop"); closeMenu(); }}>
@@ -83,33 +84,28 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* ✅ ABDO — <li> mokhtalef */}
-                    {user && (
-                        <li>
-                            <Link
-                                to="/orders"
-                                className={styles.link}
-                                onClick={closeMenu}
-                            >
-                                {user.fullName.split(' ')[0]}
-                            </Link>
-                        </li>
-                    )}
-
-                    {/* ✅ LOGOUT — <li> mokhtalef */}
-                    {user && (
-                        <li>
-                            <button
-                                onClick={handleLogout}
-                                className={styles.link}
-                            >
-                                LOGOUT
-                            </button>
-                        </li>
-                    )}
-
-                    {/* ✅ LOG IN — <li> mokhtalef */}
-                    {!user && (
+                    {/* ===== USER + LOGOUT — nafs STYLE — kifhom kif SHOES ===== */}
+                    {user ? (
+                        <>
+                            <li>
+                                <Link
+                                    to="/orders"
+                                    className={styles.link}
+                                    onClick={closeMenu}
+                                >
+                                    {user.fullName.split(' ')[0]}
+                                </Link>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={handleLogout}
+                                    className={styles.link}
+                                >
+                                    LOGOUT
+                                </button>
+                            </li>
+                        </>
+                    ) : (
                         <li>
                             <Link to="/login" className={styles.link} onClick={closeMenu}>
                                 LOG IN
