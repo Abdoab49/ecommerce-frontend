@@ -1,5 +1,5 @@
 // src/Components/Navbar/Navbar.jsx
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import logo from '../Assets/logo.png';
 import cart_icon from '../Assets/cart_icon.png';
@@ -10,8 +10,6 @@ const Navbar = () => {
     const [menu, setMenu] = useState("shop");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const userMenuRef = useRef(null);
     const { cartCount } = useContext(ShopContext);
     const navigate = useNavigate();
 
@@ -24,17 +22,6 @@ const Navbar = () => {
                 setUser(null);
             }
         }
-    }, []);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-                setIsUserMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -65,6 +52,7 @@ const Navbar = () => {
                 </div>
 
                 <ul className={`${styles.menuItems} ${isMenuOpen ? styles.active : ''}`}>
+                    {/* ===== LINKS — kifhom koulhom ===== */}
                     <li>
                         <Link to='/' className={`${styles.link} ${menu === "shop" ? styles.active : ''}`}
                             onClick={() => { setMenu("shop"); closeMenu(); }}>
@@ -96,63 +84,37 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* Mobile Login — f menu */}
-                    <li className={styles.mobileLogin}>
-                        {user ? (
-                            <>
-                                <Link to="/orders" className={styles.link} onClick={closeMenu}>
-                                    {user.fullName}
+                    {/* ===== USER + LOGOUT — nafs STYLE — kifhom kif SHOES ===== */}
+                    {user ? (
+                        <>
+                            <li>
+                                <Link
+                                    to="/orders"
+                                    className={styles.link}
+                                    onClick={closeMenu}
+                                >
+                                    {user.fullName.split(' ')[0]}
                                 </Link>
-                                <button onClick={handleLogout} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
-                                    Logout
+                            </li>
+                            <li>
+                                <button
+                                    onClick={handleLogout}
+                                    className={styles.link}
+                                >
+                                    LOGOUT
                                 </button>
-                            </>
-                        ) : (
+                            </li>
+                        </>
+                    ) : (
+                        <li>
                             <Link to="/login" className={styles.link} onClick={closeMenu}>
                                 LOG IN
                             </Link>
-                        )}
-                    </li>
+                        </li>
+                    )}
                 </ul>
 
                 <div className={styles.rightSection}>
-                    {/* ✅ Ghir icon 👤 — bla text */}
-                    {user ? (
-                        <div className={styles.userMenu} ref={userMenuRef}>
-                            {/* ✅ Icon 👤 — kliki 3liha bach tft7 dropdown */}
-                            <button
-                                className={styles.userIconBtn}
-                                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                title="Compte"
-                                aria-label="Compte"
-                            >
-                                👤
-                            </button>
-
-                            {/* ✅ Dropdown */}
-                            {isUserMenuOpen && (
-                                <div className={styles.userDropdown}>
-                                    <div className={styles.dropdownName}>
-                                        {user.fullName}
-                                    </div>
-
-                                    <div className={styles.dropdownDivider} />
-
-                                    <button
-                                        className={styles.dropdownLogout}
-                                        onClick={handleLogout}
-                                    >
-                                        Logout
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <Link to="/login" className={styles.loginBtn}>
-                            LOG IN
-                        </Link>
-                    )}
-
                     <div className={styles.cart}>
                         <Link to='/cart'>
                             <img src={cart_icon} alt="cart" />
