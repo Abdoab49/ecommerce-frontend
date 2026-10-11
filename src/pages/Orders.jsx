@@ -1,460 +1,254 @@
 // src/pages/Orders.jsx
-import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./Orders.module.css";
-
-const STATUS_LABELS = {
-  pending: "في الانتظار",
-  processing: "قيد المعالجة",
-  shipped: "تم الشحن",
-  delivered: "تم التوصيل",
-  cancelled: "ملغى",
-};
-
-const STATUS_KEYS = [
-  "pending",
-  "processing",
-  "shipped",
-  "delivered",
-  "cancelled",
-];
-
-const formatMoney = (amount) =>
-  `${Number(amount || 0).toLocaleString("fr-FR")} DH`;
-
-const formatDate = (date) => {
-  if (!date) return "تاريخ غير متوفر";
-  const parsedDate = new Date(date);
-  if (Number.isNaN(parsedDate.getTime())) return "تاريخ غير متوفر";
-  return parsedDate.toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-};
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './Orders.module.css';
 
 const Orders = () => {
   const navigate = useNavigate();
-
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [sortOrder, setSortOrder] = useState("newest");
+  const [error, setError] = useState('');
 
   useEffect(() => {
+    const userId = localStorage.getItem('lanada_user_id');
+    if (!userId) {
+      navigate('/login');
+      return;
+    }
+
     const fetchOrders = async () => {
       try {
-        const userId = localStorage.getItem("lanada_user_id") || "anonymous";
-
         const response = await fetch(
           `https://backend-3lyx.onrender.com/api/orders?userId=${userId}`
         );
 
-        if (!response.ok) {
-          throw new Error("تعذر تحميل الطلبات");
-        }
+        if (!response.ok) throw new Error('Failed to fetch');
 
         const data = await response.json();
         setOrders(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error("Error fetching orders:", err);
-        setError("وقع مشكل أثناء تحميل الطلبات. عاود المحاولة من بعد.");
+        console.error('Error:', err);
+        setError('Something went wrong. Please try again.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
-
-  const stats = useMemo(() => {
-    const result = {
-      total: orders.length,
-      spent: 0,
-      units: 0,
-      pending: 0,
-      processing: 0,
-      shipped: 0,
-      delivered: 0,
-      cancelled: 0,
-    };
-
-    orders.forEach((order) => {
-      const status = String(order.status || "").toLowerCase();
-      if (Object.prototype.hasOwnProperty.call(result, status)) {
-        result[status] += 1;
-      }
-      result.spent += Number(order.totalAmount || 0);
-      const items = Array.isArray(order.items) ? order.items : [];
-      items.forEach((item) => {
-        result.units += Number(item.quantity || 0);
-      });
-    });
-
-    return result;
-  }, [orders]);
-
-  const filteredOrders = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    return orders
-      .filter((order) => {
-        const orderId = String(order._id || order.id || "").toLowerCase();
-        const customerName = String(
-          order.shippingAddress?.fullName || ""
-        ).toLowerCase();
-        const status = String(order.status || "").toLowerCase();
-
-        const matchesSearch =
-          !query || orderId.includes(query) || customerName.includes(query);
-
-        const matchesStatus =
-          statusFilter === "all" || status === statusFilter;
-
-        return matchesSearch && matchesStatus;
-      })
-      .sort((a, b) => {
-        const dateA = new Date(a.createdAt || 0).getTime();
-        const dateB = new Date(b.createdAt || 0).getTime();
-
-        return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-      });
-  }, [orders, search, statusFilter, sortOrder]);
-
-  const clearFilters = () => {
-    setSearch("");
-    setStatusFilter("all");
-    setSortOrder("newest");
-  };
+  }, [navigate]);
 
   if (loading) {
     return (
-      <div className={styles.state}>
-        <span className={styles.spinner} />
-        <p>كنوجدو ليك الطلبات ديالك...</p>
+      <div className={styles.page}>
+        <div className="container h-50 px-4 py-5 mx-auto">
+          <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
+            <div className="container text-center">
+              <p className="h3 text-success mb-3">Loading orders...</p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={styles.state}>
-        <div className={styles.stateIcon}>!</div>
-        <h2>ما قدرناش نجيبو الطلبات</h2>
-        <p>{error}</p>
-        <button
-          className={styles.primaryButton}
-          onClick={() => window.location.reload()}
-        >
-          عاود المحاولة
-        </button>
+      <div className={styles.page}>
+        <div className="container h-50 px-4 py-5 mx-auto">
+          <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
+            <div className="container text-center">
+              <p className="h3 text-danger mb-3">Something went wrong</p>
+              <p className="text-dark">{error}</p>
+              <button
+                className="btn bg-success text-white"
+                onClick={() => window.location.reload()}
+              >
+                Try again
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (orders.length === 0) {
     return (
-      <div className={styles.state}>
-        <div className={styles.stateIcon}>🛍️</div>
-        <h2>ما عندك حتى طلب دابا</h2>
-        <p>ملي تدير أول طلب، غادي تلقى التفاصيل ديالو هنا.</p>
-        <button
-          className={styles.primaryButton}
-          onClick={() => navigate("/")}
-        >
-          اكتشف المنتجات
-        </button>
+      <div className={styles.page}>
+        <div className="container h-50 px-4 py-5 mx-auto">
+          <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
+            <div className="container text-center">
+              <p className="h3 text-success mb-3">No orders</p>
+              <p className="text-dark">Start shopping to place your first order!</p>
+              <button
+                className="btn bg-success text-white"
+                onClick={() => navigate('/')}
+              >
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <main className={styles.page} dir="rtl">
-      <div className={styles.container}>
-        <section className={styles.hero}>
-          <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>
-              <span className={styles.eyebrowDot} />
-              مساحة الزبون
-            </span>
-            <h1>طلباتي</h1>
-            <p>كل مشترياتك وتتبع الطلبات ديالك، فبلاصة وحدة.</p>
-          </div>
+    <div className={styles.page}>
+      {orders.map((order) => {
+        const orderId = String(order._id || order.id || '');
+        const status = String(order.status || 'pending').toLowerCase();
 
-          <button
-            className={styles.shopButton}
-            onClick={() => navigate("/")}
-          >
-            <span>＋</span>
-            كمل التسوق
-          </button>
-        </section>
+        const statusMap = {
+          pending: 0,
+          processing: 1,
+          shipped: 2,
+          delivered: 3,
+        };
+        const currentIdx = statusMap[status] ?? 0;
 
-        <section className={styles.statsGrid} aria-label="إحصائيات الطلبات">
-          <article className={`${styles.statCard} ${styles.statViolet}`}>
-            <div className={styles.statTop}>
-              <span className={styles.statIcon}>▤</span>
-              <span className={styles.statCaption}>المجموع</span>
-            </div>
-            <strong className={styles.statValue}>{stats.total}</strong>
-            <span className={styles.statLabel}>طلب مسجل</span>
-            <span className={styles.statOrb} />
-          </article>
+        const dateStr = order.createdAt
+          ? new Date(order.createdAt).toLocaleDateString('en-US', {
+              month: '2-digit',
+              day: '2-digit',
+              year: 'numeric',
+            })
+          : '—';
 
-          <article className={`${styles.statCard} ${styles.statTeal}`}>
-            <div className={styles.statTop}>
-              <span className={styles.statIcon}>DH</span>
-              <span className={styles.statCaption}>المشتريات</span>
-            </div>
-            <strong className={styles.statValue}>
-              {formatMoney(stats.spent)}
-            </strong>
-            <span className={styles.statLabel}>مجموع الطلبات</span>
-            <span className={styles.statOrb} />
-          </article>
+        // ✅ Steps (4)
+        const steps = [
+          { title: 'Order Confirmed', icon: 'fa-check', idx: 0 },
+          { title: 'Order Shipped', icon: 'fa-check', idx: 1 },
+          { title: 'Out for delivery', icon: 'fa-check', idx: 2 },
+          { title: 'Order Delivered', icon: 'fa-check', idx: 3 },
+        ];
 
-          <article className={`${styles.statCard} ${styles.statAmber}`}>
-            <div className={styles.statTop}>
-              <span className={styles.statIcon}>□</span>
-              <span className={styles.statCaption}>المنتجات</span>
-            </div>
-            <strong className={styles.statValue}>{stats.units}</strong>
-            <span className={styles.statLabel}>قطعة مطلوبة</span>
-            <span className={styles.statOrb} />
-          </article>
+        // ✅ Bottom icons
+        const bottomSteps = [
+          { title: 'Order Confirmed', icon: 'fa-clipboard-check', color: 'text-primary' },
+          { title: 'Order Shipped', icon: 'fa-boxes-packing', color: 'text-warning' },
+          { title: 'Out for Delivery', icon: 'fa-truck-arrow-right', color: 'text-info' },
+          { title: 'Order Delivered', icon: 'fa-house-chimney', color: 'text-success' },
+        ];
 
-          <article className={`${styles.statCard} ${styles.statBlue}`}>
-            <div className={styles.statTop}>
-              <span className={styles.statIcon}>✓</span>
-              <span className={styles.statCaption}>تم التوصيل</span>
-            </div>
-            <strong className={styles.statValue}>{stats.delivered}</strong>
-            <span className={styles.statLabel}>طلب وصل بنجاح</span>
-            <span className={styles.statOrb} />
-          </article>
-        </section>
+        return (
+          <div key={orderId} className="container h-50 px-4 py-5 mx-auto">
+            <div className="card bg-light shadow-lg border border-dark rounded-lg py-3 px-5 my-5">
 
-        <section className={styles.overview}>
-          <div className={styles.sectionHeading}>
-            <div>
-              <span className={styles.sectionEyebrow}>ملخص الطلبات</span>
-              <h2>الحالة ديال طلباتك</h2>
-              <p>نظرة سريعة على فين وصل كل طلب.</p>
-            </div>
-            <span className={styles.orderCount}>
-              {orders.length} طلب
-            </span>
-          </div>
+              {/* ===== Header ===== */}
+              <div className="row d-flex justify-content-between mx-5 pt-3 my-3">
+                <div className="container text-center">
+                  <p className="h3 text-success mb-3">LANADA</p>
+                </div>
+                <div className="d-flex">
+                  <p className="h5 text-dark">
+                    <i className="text-primary fa-solid fa-cart-shopping fa-lg mr-1"></i>
+                    Order ID :{' '}
+                    <span className="text-success font-weight-bold">
+                      <i className="text-secondary fa-solid fa-hashtag mr-1"></i>
+                      {orderId.slice(-8).toUpperCase() || '------'}
+                    </span>
+                  </p>
+                </div>
+                <div className="d-flex flex-column text-sm-right h5">
+                  <p className="mb-0 font-weight-bolder text-monospace">
+                    Expected Arrival{' '}
+                    <span className="badge badge-pill badge-primary border border-secondary text-light font-weight-bold px-2 py-2 shadow">
+                      {dateStr}
+                    </span>
+                  </p>
+                  <p className="font-weight-bold text-monospace pt-3 ml-5">
+                    Tracking ID{' '}
+                    <span className="badge badge-pill badge-danger border border-secondary text-light font-weight-bold mx-1 px-2 py-2 shadow">
+                      {orderId.slice(-8).toUpperCase() || '------'}
+                    </span>
+                  </p>
+                </div>
+              </div>
 
-          <div className={styles.statusList}>
-            {STATUS_KEYS.map((status) => {
-              const count = stats[status] || 0;
-              const percentage = orders.length
-                ? Math.round((count / orders.length) * 100)
-                : 0;
+              {/* ===== Progress steps ===== */}
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="container-fluid p-2 align-items-center">
+                      <div className="d-flex justify-content-around">
+                        {/* Step 1 */}
+                        <button
+                          className={`btn rounded-circle ${
+                            currentIdx >= 0 ? 'bg-success text-white' : 'bg-secondary text-white'
+                          }`}
+                          title="Order Confirmed"
+                        >
+                          <i className="fa-solid fa-check"></i>
+                        </button>
+                        <span className={`w-50 p-1 mx-n1 rounded mt-auto mb-auto ${
+                          currentIdx > 0 ? 'bg-success' : 'bg-secondary'
+                        }`}></span>
 
-              return (
-                <div className={styles.statusRow} key={status}>
-                  <div className={styles.statusLabel}>
-                    <span
-                      className={`${styles.dot} ${styles[`dot_${status}`]}`}
-                    />
-                    <span>{STATUS_LABELS[status]}</span>
-                    <strong>{count}</strong>
-                  </div>
+                        {/* Step 2 */}
+                        <button
+                          className={`btn rounded-circle ${
+                            currentIdx >= 1 ? 'bg-success text-white' : 'bg-secondary text-white'
+                          }`}
+                          title="Order Shipped"
+                        >
+                          <i className="fa-solid fa-check"></i>
+                        </button>
+                        <span className={`w-50 p-1 mx-n1 rounded mt-auto mb-auto ${
+                          currentIdx > 1 ? 'bg-success' : 'bg-secondary'
+                        }`}></span>
 
-                  <div className={styles.progressTrack}>
-                    <span
-                      className={`${styles.progressBar} ${
-                        styles[`bar_${status}`]
-                      }`}
-                      style={{ width: `${percentage}%` }}
-                    />
+                        {/* Step 3 */}
+                        <button
+                          className={`btn rounded-circle ${
+                            currentIdx >= 2 ? 'bg-success text-white' : 'bg-secondary text-white'
+                          }`}
+                          title="Out for delivery"
+                          style={{ zIndex: 1 }}
+                        >
+                          <i className="fa-solid fa-check"></i>
+                        </button>
+                        <span className={`w-50 p-1 mx-n1 rounded mt-auto mb-auto ${
+                          currentIdx > 2 ? 'bg-success' : 'bg-secondary'
+                        }`}></span>
+
+                        {/* Step 4 */}
+                        <button
+                          className={`btn rounded-circle ${
+                            currentIdx >= 3 ? 'bg-success text-white' : 'bg-secondary text-white'
+                          }`}
+                          title="Order Delivered"
+                        >
+                          <i className="fa-solid fa-check"></i>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </section>
+              </div>
 
-        <section className={styles.ordersSection}>
-          <div className={styles.sectionHeading}>
-            <div>
-              <span className={styles.sectionEyebrow}>سجل الشراء</span>
-              <h2>جميع الطلبات</h2>
-              <p>قلب على طلب معين أو اختار الحالة اللي بغيتي.</p>
-            </div>
-          </div>
-
-          <div className={styles.filters}>
-            <label className={styles.searchBox}>
-              <span className={styles.searchIcon}>⌕</span>
-              <input
-                type="search"
-                placeholder="قلب برقم الطلب أو الاسم..."
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                aria-label="البحث في الطلبات"
-              />
-            </label>
-
-            <select
-              className={styles.filterSelect}
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value)}
-              aria-label="فلترة حسب الحالة"
-            >
-              <option value="all">جميع الحالات</option>
-              {STATUS_KEYS.map((status) => (
-                <option value={status} key={status}>
-                  {STATUS_LABELS[status]}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className={styles.filterSelect}
-              value={sortOrder}
-              onChange={(event) => setSortOrder(event.target.value)}
-              aria-label="ترتيب الطلبات"
-            >
-              <option value="newest">الأحدث أولا</option>
-              <option value="oldest">الأقدم أولا</option>
-            </select>
-          </div>
-
-          <div className={styles.resultsInfo}>
-            كيبانو <strong>{filteredOrders.length}</strong> من{" "}
-            <strong>{orders.length}</strong> طلب
-          </div>
-
-          {filteredOrders.length === 0 ? (
-            <div className={styles.noResults}>
-              <span className={styles.noResultsIcon}>⌕</span>
-              <strong>ما لقينا حتى طلب</strong>
-              <p>جرّب تبدل كلمة البحث أو تختار حالة أخرى.</p>
-              <button className={styles.clearButton} onClick={clearFilters}>
-                مسح البحث والفلترة
-              </button>
-            </div>
-          ) : (
-            <div className={styles.ordersList}>
-              {filteredOrders.map((order, index) => {
-                const orderId = String(order._id || order.id || "");
-                const status = String(
-                  order.status || "pending"
-                ).toLowerCase();
-                const items = Array.isArray(order.items) ? order.items : [];
-
-                return (
-                  <article
-                    className={styles.card}
-                    key={orderId || `order-${index}`}
+              {/* ===== Bottom icons ===== */}
+              <div className="row d-inline-flex justify-content-around my-3 py-4 mx-n2">
+                {bottomSteps.map((step, i) => (
+                  <div
+                    key={i}
+                    className="row d-inline-flex align-items-center"
                   >
-                    <header className={styles.cardHeader}>
-                      <div className={styles.orderIdentity}>
-                        <span className={styles.orderNumber}>رقم الطلب</span>
-                        <strong className={styles.id}>
-                          #{orderId.slice(-6).toUpperCase() || "------"}
-                        </strong>
-                      </div>
+                    <i className={`${step.color} fa-solid ${step.icon} fa-2xl mx-4 mb-3`}></i>
+                    <p className="text-dark font-weight-bolder py-1 px-1 mx-n2">
+                      {step.title.split(' ')[0]}
+                      <br />
+                      {step.title.split(' ').slice(1).join(' ')}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
-                      <span
-                        className={`${styles.status} ${
-                          styles[`status_${status}`] || styles.statusUnknown
-                        }`}
-                      >
-                        <span className={styles.statusDot} />
-                        {STATUS_LABELS[status] || order.status || "غير محدد"}
-                      </span>
-
-                      <time className={styles.date}>
-                        {formatDate(order.createdAt)}
-                      </time>
-                    </header>
-
-                    <div className={styles.shipping}>
-                      <span className={styles.shippingIcon}>⌖</span>
-                      <div>
-                        <span className={styles.shippingLabel}>
-                          عنوان التوصيل
-                        </span>
-                        <strong>
-                          {order.shippingAddress?.fullName ||
-                            "الاسم غير متوفر"}
-                        </strong>
-                        <p>
-                          {[
-                            order.shippingAddress?.street,
-                            order.shippingAddress?.city,
-                            order.shippingAddress?.region,
-                          ]
-                            .filter(Boolean)
-                            .join("، ") || "العنوان غير متوفر"}
-                        </p>
-                        {order.shippingAddress?.phone && (
-                          <p>{order.shippingAddress.phone}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className={styles.items}>
-                      {items.length > 0 ? (
-                        items.map((item, itemIndex) => (
-                          <div
-                            className={styles.item}
-                            key={item._id || itemIndex}
-                          >
-                            <img
-                              src={
-                                item.image ||
-                                "/Assets/ShoeStore/tshirt1.png"
-                              }
-                              alt={item.name || "منتج"}
-                              loading="lazy"
-                            />
-
-                            <div className={styles.itemInfo}>
-                              <p className={styles.itemName}>
-                                {item.name || "منتج"}
-                              </p>
-                              <span className={styles.itemMeta}>
-                                الكمية: {item.quantity || 1}
-                                {item.size ? ` · القياس: ${item.size}` : ""}
-                              </span>
-                            </div>
-
-                            <strong className={styles.itemPrice}>
-                              {formatMoney(item.price)}
-                            </strong>
-                          </div>
-                        ))
-                      ) : (
-                        <p className={styles.noItems}>
-                          تفاصيل المنتجات غير متوفرة.
-                        </p>
-                      )}
-                    </div>
-
-                    <footer className={styles.cardFooter}>
-                      <span>المجموع ديال الطلب</span>
-                      <strong>{formatMoney(order.totalAmount)}</strong>
-                    </footer>
-                  </article>
-                );
-              })}
             </div>
-          )}
-        </section>
-
-        <footer className={styles.pageFooter}>
-          <span className={styles.footerSparkle}>✦</span>
-          شكرا على الثقة ديالك، وفرجة ممتعة فالتسوق!
-        </footer>
-      </div>
-    </main>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
