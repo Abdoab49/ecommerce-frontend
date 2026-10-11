@@ -86,10 +86,8 @@ const Orders = () => {
       {orders.map((order) => {
         const orderId = String(order._id || order.id || '');
         const status = String(order.status || 'pending').toLowerCase();
-        const items = Array.isArray(order.items) ? order.items : [];
-        const shipping = order.shippingAddress || {};
 
-        // ✅ Status → Step index
+        // ✅ Status → index
         const statusMap = {
           pending: 0,
           processing: 1,
@@ -98,34 +96,48 @@ const Orders = () => {
         };
         const currentIdx = statusMap[status] ?? 0;
 
-        // ✅ Progress bar
+        // ✅ Progress %
         const progressPercent =
           status === 'cancelled' ? 0 : (currentIdx / 3) * 100;
+
+        // ✅ Status labels
+        const statusLabels = {
+          pending: 'Pending',
+          processing: 'Processing',
+          shipped: 'Shipped',
+          delivered: 'Delivered',
+          cancelled: 'Cancelled',
+        };
+
+        // ✅ Date
+        const dateStr = order.createdAt
+          ? new Date(order.createdAt).toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            })
+          : 'June 17, 2019';
 
         return (
           <div key={orderId} style={{ marginBottom: '40px' }}>
             {/* ===== Details ===== */}
             <div className="row mb-3">
               <div className="col-sm-4 mb-2">
-                <div className="bg-secondary p-4 text-dark text-center">
+                <div className={styles.bgSecondary + ' p-4 text-dark text-center'}>
                   <span className="font-weight-semibold mr-2">Shipped via:</span>
                   Cash on Delivery
                 </div>
               </div>
               <div className="col-sm-4 mb-2">
-                <div className="bg-secondary p-4 text-dark text-center">
+                <div className={styles.bgSecondary + ' p-4 text-dark text-center'}>
                   <span className="font-weight-semibold mr-2">Status:</span>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                  {statusLabels[status] || status}
                 </div>
               </div>
               <div className="col-sm-4 mb-2">
-                <div className="bg-secondary p-4 text-dark text-center">
+                <div className={styles.bgSecondary + ' p-4 text-dark text-center'}>
                   <span className="font-weight-semibold mr-2">Expected date:</span>
-                  {new Date(order.createdAt).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
+                  {dateStr}
                 </div>
               </div>
             </div>
@@ -145,66 +157,128 @@ const Orders = () => {
                 </div>
               </div>
               <div className={styles.stepsBody}>
-                {[
-                  { key: 'pending', label: 'Order confirmed', icon: 'check-circle' },
-                  { key: 'processing', label: 'Processing order', icon: 'settings' },
-                  { key: 'shipped', label: 'Product dispatched', icon: 'truck' },
-                  { key: 'delivered', label: 'Product delivered', icon: 'home' },
-                ].map((step, index) => {
-                  let stepClass = styles.step;
-                  if (status !== 'cancelled') {
-                    if (index < currentIdx) {
-                      stepClass += ` ${styles.stepCompleted}`;
-                    } else if (index === currentIdx) {
-                      stepClass += ` ${styles.stepActive}`;
-                    }
-                  }
+                {/* Step 1 */}
+                <div
+                  className={`${styles.step} ${
+                    currentIdx >= 0 && status !== 'cancelled'
+                      ? currentIdx > 0
+                        ? styles.stepCompleted
+                        : styles.stepActive
+                      : ''
+                  }`}
+                >
+                  {currentIdx > 0 && status !== 'cancelled' && (
+                    <span className={styles.stepIndicator}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
+                  )}
+                  <span className={styles.stepIcon}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check-circle">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </span>
+                  Order confirmed
+                </div>
 
-                  const icons = {
-                    'check-circle': (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check-circle">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                {/* Step 2 */}
+                <div
+                  className={`${styles.step} ${
+                    currentIdx >= 1 && status !== 'cancelled'
+                      ? currentIdx > 1
+                        ? styles.stepCompleted
+                        : styles.stepActive
+                      : ''
+                  }`}
+                >
+                  {currentIdx > 1 && status !== 'cancelled' && (
+                    <span className={styles.stepIndicator}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+                        <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                    ),
-                    'settings': (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-settings">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                      </svg>
-                    ),
-                    'truck': (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-truck">
-                        <rect x="1" y="3" width="15" height="13"></rect>
-                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                      </svg>
-                    ),
-                    'home': (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-home">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                      </svg>
-                    ),
-                  };
+                    </span>
+                  )}
+                  <span className={styles.stepIcon}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-settings">
+                      <circle cx="12" cy="12" r="3"></circle>
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                  </span>
+                  Processing order
+                </div>
 
-                  return (
-                    <div className={stepClass} key={step.key}>
-                      {index < currentIdx && status !== 'cancelled' && (
-                        <span className={styles.stepIndicator}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                        </span>
-                      )}
-                      <span className={styles.stepIcon}>
-                        {icons[step.icon]}
-                      </span>
-                      {step.label}
-                    </div>
-                  );
-                })}
+                {/* Step 3 */}
+                <div
+                  className={`${styles.step} ${
+                    currentIdx >= 2 && status !== 'cancelled'
+                      ? currentIdx > 2
+                        ? styles.stepCompleted
+                        : styles.stepActive
+                      : ''
+                  }`}
+                >
+                  {currentIdx > 2 && status !== 'cancelled' && (
+                    <span className={styles.stepIndicator}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
+                  )}
+                  <span className={styles.stepIcon}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-award">
+                      <circle cx="12" cy="8" r="7"></circle>
+                      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                    </svg>
+                  </span>
+                  Quality check
+                </div>
+
+                {/* Step 4 */}
+                <div
+                  className={`${styles.step} ${
+                    currentIdx >= 3 && status !== 'cancelled'
+                      ? currentIdx > 3
+                        ? styles.stepCompleted
+                        : styles.stepActive
+                      : ''
+                  }`}
+                >
+                  {currentIdx > 3 && status !== 'cancelled' && (
+                    <span className={styles.stepIndicator}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
+                  )}
+                  <span className={styles.stepIcon}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-truck">
+                      <rect x="1" y="3" width="15" height="13"></rect>
+                      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                      <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                      <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                  </span>
+                  Product dispatched
+                </div>
+
+                {/* Step 5 */}
+                <div
+                  className={`${styles.step} ${
+                    currentIdx >= 3 && status !== 'cancelled'
+                      ? styles.stepCompleted
+                      : ''
+                  }`}
+                >
+                  <span className={styles.stepIcon}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-home">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                  </span>
+                  Product delivered
+                </div>
               </div>
             </div>
 

@@ -11,35 +11,30 @@
   margin-left: auto;
   padding-bottom: 3rem;
   margin-bottom: 1.5rem;
-  margin-top: 20px;
 }
 
 @media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
+  .container { max-width: 540px; }
 }
 
 @media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
+  .container { max-width: 720px; }
 }
 
 @media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
+  .container { max-width: 960px; }
 }
 
 @media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
+  .container { max-width: 1140px; }
+}
+
+body {
+  margin-top: 20px;
 }
 
 /* ============================================
-   STEPS — kifma .steps
+   STEPS
    ============================================ */
 .steps {
   border: 1px solid #e7e7e7;
@@ -48,6 +43,10 @@
 .stepsHeader {
   padding: 0.375rem;
   border-bottom: 1px solid #e7e7e7;
+}
+
+.stepsHeader .progress {
+  height: 0.25rem;
 }
 
 .stepsBody {
@@ -149,7 +148,7 @@
   height: 0.875rem;
 }
 
-/* ===== Media Query 575.98px ===== */
+/* ===== Media 575.98px ===== */
 @media (max-width: 575.98px) {
   .stepsHeader {
     display: none;
@@ -170,6 +169,6 @@
 /* ============================================
    BG SECONDARY — kifma .bg-secondary
    ============================================ */
-:global(.bg-secondary) {
+.bgSecondary {
   background-color: #f7f7f7 !important;
 }
