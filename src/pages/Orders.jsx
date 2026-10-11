@@ -44,6 +44,61 @@ const formatDate = (date) => {
     .toUpperCase();
 };
 
+// ============================================
+// ✅ SVG Icons
+// ============================================
+const IconUser = ({ size = 16 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+
+const IconHome = ({ size = 16 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+    <polyline points="9 22 9 12 15 12 15 22" />
+  </svg>
+);
+
+const IconCart = ({ size = 16 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="9" cy="21" r="1" />
+    <circle cx="20" cy="21" r="1" />
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+  </svg>
+);
+
 const Orders = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
@@ -185,12 +240,18 @@ const Orders = () => {
             {/* ===== Client Info ===== */}
             <div className={styles.clientInfo}>
               <div className={styles.infoBox}>
-                <div className={styles.infoLabel}>👤 Client</div>
+                <div className={styles.infoLabel}>
+                  <IconUser size={16} />
+                  <span>Client</span>
+                </div>
                 <div className={styles.infoValue}>{shipping.fullName || '—'}</div>
                 <div className={styles.infoSmall}>{shipping.phone || '—'}</div>
               </div>
               <div className={styles.infoBox}>
-                <div className={styles.infoLabel}>🏠 Shipping Address</div>
+                <div className={styles.infoLabel}>
+                  <IconHome size={16} />
+                  <span>Shipping Address</span>
+                </div>
                 <div className={styles.infoValue}>{shipping.street || '—'}</div>
                 <div className={styles.infoSmall}>
                   {shipping.city || '—'}
@@ -202,7 +263,11 @@ const Orders = () => {
             {/* ===== Products ===== */}
             <div className={styles.productsSection}>
               <div className={styles.productsTitle}>
-                🛒 Products ({items.reduce((s, i) => s + Number(i.quantity || 1), 0)})
+                <IconCart size={18} />
+                <span>
+                  Products (
+                  {items.reduce((s, i) => s + Number(i.quantity || 1), 0)})
+                </span>
               </div>
               <div className={styles.productsBox}>
                 {items.map((item, idx) => (

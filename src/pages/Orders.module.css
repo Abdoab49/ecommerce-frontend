@@ -354,6 +354,27 @@
 }
 
 /* ============================================
+   ICON + LABEL — Flex
+   ============================================ */
+.infoLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374250;
+}
+
+.productsTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #374250;
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (min-width: 576px) {
