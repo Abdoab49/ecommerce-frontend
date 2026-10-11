@@ -4,17 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ShopContextProvider from './Context/ShopContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+// ✅ Google Client ID — Bdel b dyalek
+const GOOGLE_CLIENT_ID = 'HNA_LSAQ_CLIENT_ID_DYALEK.apps.googleusercontent.com';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ShopContextProvider>
-      <App />
-  </ShopContextProvider>
-    
-  
+  <React.StrictMode>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <ShopContextProvider>
+        <App />
+      </ShopContextProvider>
+    </GoogleOAuthProvider>
+  </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

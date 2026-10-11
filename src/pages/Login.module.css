@@ -223,6 +223,21 @@
   margin-bottom: 1px;
 }
 
+.googleLoginWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.googleLoginWrapper > div {
+  width: 100%;
+}
+
+.googleLoginWrapper iframe {
+  width: 100% !important;
+  border-radius: 20px !important;
+}
+
 /* ============================================
    MEDIA QUERIES
    ============================================ */
