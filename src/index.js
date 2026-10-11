@@ -8,7 +8,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // ✅ Google Client ID — Bdel b dyalek
 // ⚠️ MITHAL: '1234567890-abcdefghijklmnopqrst.apps.googleusercontent.com'
-const GOOGLE_CLIENT_ID = 'HNA_HNA_CLIENT_ID_HNAQIQI.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '881331675616-redhhrg7pnhb2edad6m1b9i91ir2h9do.apps.googleusercontent.com';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
