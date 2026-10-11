@@ -1,6 +1,6 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';   // ✅ Zid Link
 import { GoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css';
 
@@ -177,8 +177,11 @@ const Login = () => {
                 required
               />
 
+              {/* ✅ Forgot Password — Link */}
               <p className={styles.pageLink}>
-                <span className={styles.pageLinkLabel}>Forgot Password?</span>
+                <Link to="/forgot-password" className={styles.pageLinkLabel}>
+                  Forgot Password?
+                </Link>
               </p>
 
               {loginError && <div className={styles.errorMsg}>{loginError}</div>}

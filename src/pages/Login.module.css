@@ -238,6 +238,18 @@
   border-radius: 20px !important;
 }
 
+.successMsg {
+  padding: 8px 12px;
+  background: #d1fae5;
+  border: 1px solid #6ee7b7;
+  border-radius: 8px;
+  color: #065f46;
+  font-size: 11px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
 /* ============================================
    MEDIA QUERIES
    ============================================ */

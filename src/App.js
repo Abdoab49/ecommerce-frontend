@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from 'react';
 import './App.css';
 import {
@@ -16,8 +17,10 @@ import Shop from './pages/Shop';
 import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
 import Cart from './Components/Cart/Cart';
-import Login from './pages/Login';        // ✅ Bdel
-import Signup from './pages/Signup';      // ✅ Zid
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';     // ✅ JDID
+import ResetPassword from './pages/ResetPassword';       // ✅ JDID
 import Orders from './pages/Orders';
 import Admin from './pages/Admin';
 import SizeSelection from './Components/SizeSelection';
@@ -56,8 +59,10 @@ function App() {
                             <Route path='/casquette' element={<Casquette />} />
                             <Route path='/product/:productId' element={<Product />} />
                             <Route path='/cart' element={<Cart />} />
-                            <Route path='/login' element={<Login />} />        {/* ✅ Bdel */}
-                            <Route path='/signup' element={<Signup />} />      {/* ✅ Zid */}
+                            <Route path='/login' element={<Login />} />
+                            <Route path='/signup' element={<Signup />} />
+                            <Route path='/forgot-password' element={<ForgotPassword />} />           {/* ✅ JDID */}
+                            <Route path='/reset-password/:token' element={<ResetPassword />} />     {/* ✅ JDID */}
                             <Route path='/size-selection' element={<SizeSelection />} />
                             <Route path='/orders' element={<Orders />} />
                             <Route path='/admin' element={<Admin />} />
