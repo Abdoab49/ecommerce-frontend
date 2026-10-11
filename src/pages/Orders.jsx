@@ -1,276 +1,460 @@
 // src/pages/Orders.jsx
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './Orders.module.css';
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Orders.module.css";
+
+const STATUS_LABELS = {
+  pending: "في الانتظار",
+  processing: "قيد المعالجة",
+  shipped: "تم الشحن",
+  delivered: "تم التوصيل",
+  cancelled: "ملغى",
+};
+
+const STATUS_KEYS = [
+  "pending",
+  "processing",
+  "shipped",
+  "delivered",
+  "cancelled",
+];
+
+const formatMoney = (amount) =>
+  `${Number(amount || 0).toLocaleString("fr-FR")} DH`;
+
+const formatDate = (date) => {
+  if (!date) return "تاريخ غير متوفر";
+  const parsedDate = new Date(date);
+  if (Number.isNaN(parsedDate.getTime())) return "تاريخ غير متوفر";
+  return parsedDate.toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
 
 const Orders = () => {
   const navigate = useNavigate();
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
 
   useEffect(() => {
-    const userId = localStorage.getItem('lanada_user_id');
-    if (!userId) {
-      navigate('/login');
-      return;
-    }
-
     const fetchOrders = async () => {
       try {
+        const userId = localStorage.getItem("lanada_user_id") || "anonymous";
+
         const response = await fetch(
           `https://backend-3lyx.onrender.com/api/orders?userId=${userId}`
         );
 
-        if (!response.ok) throw new Error('Failed to fetch');
+        if (!response.ok) {
+          throw new Error("تعذر تحميل الطلبات");
+        }
 
         const data = await response.json();
         setOrders(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error:', err);
-        setError('Something went wrong. Please try again.');
+        console.error("Error fetching orders:", err);
+        setError("وقع مشكل أثناء تحميل الطلبات. عاود المحاولة من بعد.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, [navigate]);
+  }, []);
+
+  const stats = useMemo(() => {
+    const result = {
+      total: orders.length,
+      spent: 0,
+      units: 0,
+      pending: 0,
+      processing: 0,
+      shipped: 0,
+      delivered: 0,
+      cancelled: 0,
+    };
+
+    orders.forEach((order) => {
+      const status = String(order.status || "").toLowerCase();
+      if (Object.prototype.hasOwnProperty.call(result, status)) {
+        result[status] += 1;
+      }
+      result.spent += Number(order.totalAmount || 0);
+      const items = Array.isArray(order.items) ? order.items : [];
+      items.forEach((item) => {
+        result.units += Number(item.quantity || 0);
+      });
+    });
+
+    return result;
+  }, [orders]);
+
+  const filteredOrders = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
+    return orders
+      .filter((order) => {
+        const orderId = String(order._id || order.id || "").toLowerCase();
+        const customerName = String(
+          order.shippingAddress?.fullName || ""
+        ).toLowerCase();
+        const status = String(order.status || "").toLowerCase();
+
+        const matchesSearch =
+          !query || orderId.includes(query) || customerName.includes(query);
+
+        const matchesStatus =
+          statusFilter === "all" || status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+
+        return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+      });
+  }, [orders, search, statusFilter, sortOrder]);
+
+  const clearFilters = () => {
+    setSearch("");
+    setStatusFilter("all");
+    setSortOrder("newest");
+  };
 
   if (loading) {
     return (
-      <div className="container pb-5 mb-sm-4">
-        <div style={{ textAlign: 'center', padding: '80px 20px', color: '#6b7280' }}>
-          Loading orders...
-        </div>
+      <div className={styles.state}>
+        <span className={styles.spinner} />
+        <p>كنوجدو ليك الطلبات ديالك...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container pb-5 mb-sm-4">
-        <div style={{ textAlign: 'center', padding: '80px 20px' }}>
-          <h3>Something went wrong</h3>
-          <p style={{ color: '#6b7280' }}>{error}</p>
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => window.location.reload()}
-          >
-            Try again
-          </button>
-        </div>
+      <div className={styles.state}>
+        <div className={styles.stateIcon}>!</div>
+        <h2>ما قدرناش نجيبو الطلبات</h2>
+        <p>{error}</p>
+        <button
+          className={styles.primaryButton}
+          onClick={() => window.location.reload()}
+        >
+          عاود المحاولة
+        </button>
       </div>
     );
   }
 
   if (orders.length === 0) {
     return (
-      <div className="container pb-5 mb-sm-4">
-        <div style={{ textAlign: 'center', padding: '80px 20px' }}>
-          <h3>No orders</h3>
-          <p style={{ color: '#6b7280' }}>Start shopping to place your first order!</p>
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => navigate('/')}
-          >
-            Continue shopping
-          </button>
-        </div>
+      <div className={styles.state}>
+        <div className={styles.stateIcon}>🛍️</div>
+        <h2>ما عندك حتى طلب دابا</h2>
+        <p>ملي تدير أول طلب، غادي تلقى التفاصيل ديالو هنا.</p>
+        <button
+          className={styles.primaryButton}
+          onClick={() => navigate("/")}
+        >
+          اكتشف المنتجات
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="container pb-5 mb-sm-4">
-      {orders.map((order) => {
-        const orderId = String(order._id || order.id || '');
-        const status = String(order.status || 'pending').toLowerCase();
+    <main className={styles.page} dir="rtl">
+      <div className={styles.container}>
+        <section className={styles.hero}>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>
+              <span className={styles.eyebrowDot} />
+              مساحة الزبون
+            </span>
+            <h1>طلباتي</h1>
+            <p>كل مشترياتك وتتبع الطلبات ديالك، فبلاصة وحدة.</p>
+          </div>
 
-        const statusMap = {
-          pending: 0,
-          processing: 1,
-          shipped: 2,
-          delivered: 3,
-        };
-        const currentIdx = statusMap[status] ?? 0;
+          <button
+            className={styles.shopButton}
+            onClick={() => navigate("/")}
+          >
+            <span>＋</span>
+            كمل التسوق
+          </button>
+        </section>
 
-        const progressPercent =
-          status === 'cancelled' ? 0 : ((currentIdx + 1) / 4) * 100;
-
-        const statusLabels = {
-          pending: 'Pending',
-          processing: 'Processing',
-          shipped: 'Shipped',
-          delivered: 'Delivered',
-          cancelled: 'Cancelled',
-        };
-
-        const dateStr = order.createdAt
-          ? new Date(order.createdAt).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
-            })
-          : '—';
-
-        const getStepClass = (idx) => {
-          if (status === 'cancelled') return styles.step;
-          if (idx < currentIdx) return `${styles.step} ${styles.stepCompleted}`;
-          if (idx === currentIdx) return `${styles.step} ${styles.stepActive}`;
-          return styles.step;
-        };
-
-        return (
-          <div key={orderId} style={{ marginBottom: '40px' }}>
-            {/* ===== Details ===== */}
-            <div className="row mb-3">
-              <div className="col-sm-4 mb-2">
-                <div className="bg-secondary p-4 text-dark text-center">
-                  <span className="font-weight-semibold mr-2">Shipped via:</span>
-                  Cash on Delivery
-                </div>
-              </div>
-              <div className="col-sm-4 mb-2">
-                <div className="bg-secondary p-4 text-dark text-center">
-                  <span className="font-weight-semibold mr-2">Status:</span>
-                  {statusLabels[status] || status}
-                </div>
-              </div>
-              <div className="col-sm-4 mb-2">
-                <div className="bg-secondary p-4 text-dark text-center">
-                  <span className="font-weight-semibold mr-2">Expected date:</span>
-                  {dateStr}
-                </div>
-              </div>
+        <section className={styles.statsGrid} aria-label="إحصائيات الطلبات">
+          <article className={`${styles.statCard} ${styles.statViolet}`}>
+            <div className={styles.statTop}>
+              <span className={styles.statIcon}>▤</span>
+              <span className={styles.statCaption}>المجموع</span>
             </div>
+            <strong className={styles.statValue}>{stats.total}</strong>
+            <span className={styles.statLabel}>طلب مسجل</span>
+            <span className={styles.statOrb} />
+          </article>
 
-            {/* ===== Progress ===== */}
-            <div className={styles.steps}>
-              <div className={styles.stepsHeader}>
-                <div className="progress">
-                  <div
-                    className="progress-bar"
-                    role="progressbar"
-                    style={{ width: `${progressPercent}%` }}
-                    aria-valuenow={progressPercent}
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-              <div className={styles.stepsBody}>
-                {/* Step 1 */}
-                <div className={getStepClass(0)}>
-                  {currentIdx > 0 && status !== 'cancelled' && (
-                    <span className={styles.stepIndicator}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                  )}
-                  <span className={styles.stepIcon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                  </span>
-                  Order confirmed
-                </div>
-
-                {/* Step 2 */}
-                <div className={getStepClass(1)}>
-                  {currentIdx > 1 && status !== 'cancelled' && (
-                    <span className={styles.stepIndicator}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                  )}
-                  <span className={styles.stepIcon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="3"></circle>
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                  </span>
-                  Processing order
-                </div>
-
-                {/* Step 3 */}
-                <div className={getStepClass(2)}>
-                  {currentIdx > 2 && status !== 'cancelled' && (
-                    <span className={styles.stepIndicator}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                  )}
-                  <span className={styles.stepIcon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="8" r="7"></circle>
-                      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                    </svg>
-                  </span>
-                  Quality check
-                </div>
-
-                {/* Step 4 */}
-                <div className={getStepClass(3)}>
-                  {currentIdx > 3 && status !== 'cancelled' && (
-                    <span className={styles.stepIndicator}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                  )}
-                  <span className={styles.stepIcon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="1" y="3" width="15" height="13"></rect>
-                      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                      <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                      <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                    </svg>
-                  </span>
-                  Product dispatched
-                </div>
-
-                {/* Step 5 */}
-                <div className={`${styles.step} ${status === 'delivered' ? styles.stepCompleted : ''}`}>
-                  <span className={styles.stepIcon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                  </span>
-                  Product delivered
-                </div>
-              </div>
+          <article className={`${styles.statCard} ${styles.statTeal}`}>
+            <div className={styles.statTop}>
+              <span className={styles.statIcon}>DH</span>
+              <span className={styles.statCaption}>المشتريات</span>
             </div>
+            <strong className={styles.statValue}>
+              {formatMoney(stats.spent)}
+            </strong>
+            <span className={styles.statLabel}>مجموع الطلبات</span>
+            <span className={styles.statOrb} />
+          </article>
 
-            {/* ===== Footer ===== */}
-            <div className="d-sm-flex flex-wrap justify-content-between align-items-center text-center pt-4">
-              <div className="custom-control custom-checkbox mt-2 mr-3">
-                <input
-                  className="custom-control-input"
-                  type="checkbox"
-                  id={`notify-${orderId}`}
-                  defaultChecked
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor={`notify-${orderId}`}
-                >
-                  Notify me when order is delivered
-                </label>
-              </div>
-              <button className="btn btn-primary btn-sm mt-2">
-                View Order Details
-              </button>
+          <article className={`${styles.statCard} ${styles.statAmber}`}>
+            <div className={styles.statTop}>
+              <span className={styles.statIcon}>□</span>
+              <span className={styles.statCaption}>المنتجات</span>
+            </div>
+            <strong className={styles.statValue}>{stats.units}</strong>
+            <span className={styles.statLabel}>قطعة مطلوبة</span>
+            <span className={styles.statOrb} />
+          </article>
+
+          <article className={`${styles.statCard} ${styles.statBlue}`}>
+            <div className={styles.statTop}>
+              <span className={styles.statIcon}>✓</span>
+              <span className={styles.statCaption}>تم التوصيل</span>
+            </div>
+            <strong className={styles.statValue}>{stats.delivered}</strong>
+            <span className={styles.statLabel}>طلب وصل بنجاح</span>
+            <span className={styles.statOrb} />
+          </article>
+        </section>
+
+        <section className={styles.overview}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.sectionEyebrow}>ملخص الطلبات</span>
+              <h2>الحالة ديال طلباتك</h2>
+              <p>نظرة سريعة على فين وصل كل طلب.</p>
+            </div>
+            <span className={styles.orderCount}>
+              {orders.length} طلب
+            </span>
+          </div>
+
+          <div className={styles.statusList}>
+            {STATUS_KEYS.map((status) => {
+              const count = stats[status] || 0;
+              const percentage = orders.length
+                ? Math.round((count / orders.length) * 100)
+                : 0;
+
+              return (
+                <div className={styles.statusRow} key={status}>
+                  <div className={styles.statusLabel}>
+                    <span
+                      className={`${styles.dot} ${styles[`dot_${status}`]}`}
+                    />
+                    <span>{STATUS_LABELS[status]}</span>
+                    <strong>{count}</strong>
+                  </div>
+
+                  <div className={styles.progressTrack}>
+                    <span
+                      className={`${styles.progressBar} ${
+                        styles[`bar_${status}`]
+                      }`}
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className={styles.ordersSection}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.sectionEyebrow}>سجل الشراء</span>
+              <h2>جميع الطلبات</h2>
+              <p>قلب على طلب معين أو اختار الحالة اللي بغيتي.</p>
             </div>
           </div>
-        );
-      })}
-    </div>
+
+          <div className={styles.filters}>
+            <label className={styles.searchBox}>
+              <span className={styles.searchIcon}>⌕</span>
+              <input
+                type="search"
+                placeholder="قلب برقم الطلب أو الاسم..."
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                aria-label="البحث في الطلبات"
+              />
+            </label>
+
+            <select
+              className={styles.filterSelect}
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              aria-label="فلترة حسب الحالة"
+            >
+              <option value="all">جميع الحالات</option>
+              {STATUS_KEYS.map((status) => (
+                <option value={status} key={status}>
+                  {STATUS_LABELS[status]}
+                </option>
+              ))}
+            </select>
+
+            <select
+              className={styles.filterSelect}
+              value={sortOrder}
+              onChange={(event) => setSortOrder(event.target.value)}
+              aria-label="ترتيب الطلبات"
+            >
+              <option value="newest">الأحدث أولا</option>
+              <option value="oldest">الأقدم أولا</option>
+            </select>
+          </div>
+
+          <div className={styles.resultsInfo}>
+            كيبانو <strong>{filteredOrders.length}</strong> من{" "}
+            <strong>{orders.length}</strong> طلب
+          </div>
+
+          {filteredOrders.length === 0 ? (
+            <div className={styles.noResults}>
+              <span className={styles.noResultsIcon}>⌕</span>
+              <strong>ما لقينا حتى طلب</strong>
+              <p>جرّب تبدل كلمة البحث أو تختار حالة أخرى.</p>
+              <button className={styles.clearButton} onClick={clearFilters}>
+                مسح البحث والفلترة
+              </button>
+            </div>
+          ) : (
+            <div className={styles.ordersList}>
+              {filteredOrders.map((order, index) => {
+                const orderId = String(order._id || order.id || "");
+                const status = String(
+                  order.status || "pending"
+                ).toLowerCase();
+                const items = Array.isArray(order.items) ? order.items : [];
+
+                return (
+                  <article
+                    className={styles.card}
+                    key={orderId || `order-${index}`}
+                  >
+                    <header className={styles.cardHeader}>
+                      <div className={styles.orderIdentity}>
+                        <span className={styles.orderNumber}>رقم الطلب</span>
+                        <strong className={styles.id}>
+                          #{orderId.slice(-6).toUpperCase() || "------"}
+                        </strong>
+                      </div>
+
+                      <span
+                        className={`${styles.status} ${
+                          styles[`status_${status}`] || styles.statusUnknown
+                        }`}
+                      >
+                        <span className={styles.statusDot} />
+                        {STATUS_LABELS[status] || order.status || "غير محدد"}
+                      </span>
+
+                      <time className={styles.date}>
+                        {formatDate(order.createdAt)}
+                      </time>
+                    </header>
+
+                    <div className={styles.shipping}>
+                      <span className={styles.shippingIcon}>⌖</span>
+                      <div>
+                        <span className={styles.shippingLabel}>
+                          عنوان التوصيل
+                        </span>
+                        <strong>
+                          {order.shippingAddress?.fullName ||
+                            "الاسم غير متوفر"}
+                        </strong>
+                        <p>
+                          {[
+                            order.shippingAddress?.street,
+                            order.shippingAddress?.city,
+                            order.shippingAddress?.region,
+                          ]
+                            .filter(Boolean)
+                            .join("، ") || "العنوان غير متوفر"}
+                        </p>
+                        {order.shippingAddress?.phone && (
+                          <p>{order.shippingAddress.phone}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className={styles.items}>
+                      {items.length > 0 ? (
+                        items.map((item, itemIndex) => (
+                          <div
+                            className={styles.item}
+                            key={item._id || itemIndex}
+                          >
+                            <img
+                              src={
+                                item.image ||
+                                "/Assets/ShoeStore/tshirt1.png"
+                              }
+                              alt={item.name || "منتج"}
+                              loading="lazy"
+                            />
+
+                            <div className={styles.itemInfo}>
+                              <p className={styles.itemName}>
+                                {item.name || "منتج"}
+                              </p>
+                              <span className={styles.itemMeta}>
+                                الكمية: {item.quantity || 1}
+                                {item.size ? ` · القياس: ${item.size}` : ""}
+                              </span>
+                            </div>
+
+                            <strong className={styles.itemPrice}>
+                              {formatMoney(item.price)}
+                            </strong>
+                          </div>
+                        ))
+                      ) : (
+                        <p className={styles.noItems}>
+                          تفاصيل المنتجات غير متوفرة.
+                        </p>
+                      )}
+                    </div>
+
+                    <footer className={styles.cardFooter}>
+                      <span>المجموع ديال الطلب</span>
+                      <strong>{formatMoney(order.totalAmount)}</strong>
+                    </footer>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
+        <footer className={styles.pageFooter}>
+          <span className={styles.footerSparkle}>✦</span>
+          شكرا على الثقة ديالك، وفرجة ممتعة فالتسوق!
+        </footer>
+      </div>
+    </main>
   );
 };
 
