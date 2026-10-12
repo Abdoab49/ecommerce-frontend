@@ -4,8 +4,8 @@
    VARIABLES
    ============================================ */
 :root {
-  --primary: #1a1a1a;
-  --primaryHover: #000000;
+  --primary: #27aa80;
+  --primaryHover: #1f8a67;
   --secondary: #6c757d;
   --success: #28a745;
   --info: #17a2b8;
@@ -70,13 +70,13 @@
 }
 
 .passwordInput:focus {
-  border-color: #1a1a1a;
+  border-color: #27aa80;
 }
 
 .loginBtn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #1a1a1a, #000000);
+  background: linear-gradient(135deg, #27aa80, #1f8a67);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -172,7 +172,7 @@
 
 .sidebarNav a i {
   font-size: 1.1rem;
-  margin-right: 12px;
+  margin-right: 15px;
   width: 20px;
   text-align: center;
 }
@@ -181,7 +181,7 @@
 .sidebarNav a.active {
   color: #fff;
   background: rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #1a1a1a;
+  border-left: 4px solid #27aa80;
   padding-left: 16px;
 }
 
@@ -291,10 +291,6 @@
   background: #991b1b;
 }
 
-.logoutBtnTop i {
-  margin-right: 4px;
-}
-
 /* ============================================
    DASHBOARD PAGES
    ============================================ */
@@ -341,7 +337,7 @@
 }
 
 .bgPrimary {
-  background: linear-gradient(135deg, #1a1a1a, #000000);
+  background: linear-gradient(135deg, #27aa80, #1f8a67);
 }
 
 .bgSuccess {
@@ -426,22 +422,21 @@
   vertical-align: middle;
   text-align: left;
   border-bottom: 1px solid #eee;
-  color: #343a40;
 }
 
 .table thead th {
   background: #f8f9fa;
   color: #343a40;
   font-weight: 600;
-  border-bottom: 2px solid #1a1a1a;
+  border-bottom: 2px solid #27aa80;
 }
 
 .table tbody tr:hover {
-  background: rgba(26, 26, 26, 0.05);
+  background: rgba(39, 170, 128, 0.05);
 }
 
 /* ============================================
-   FILTERS — NOIR
+   FILTERS
    ============================================ */
 .filters {
   display: flex;
@@ -463,18 +458,14 @@
 }
 
 .filterBtn:hover {
-  border-color: #1a1a1a;
-  color: #1a1a1a;
+  border-color: #27aa80;
+  color: #27aa80;
 }
 
 .filterBtn.active {
-  background: #1a1a1a;
+  background: #27aa80;
   color: #fff;
-  border-color: #1a1a1a;
-}
-
-.filterBtn i {
-  margin-right: 6px;
+  border-color: #27aa80;
 }
 
 /* ============================================
@@ -518,11 +509,11 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.orderCard.status_pending { border-left-color: #1a1a1a; }
-.orderCard.status_processing { border-left-color: #1a1a1a; }
-.orderCard.status_shipped { border-left-color: #1a1a1a; }
-.orderCard.status_delivered { border-left-color: #1a1a1a; }
-.orderCard.status_cancelled { border-left-color: #1a1a1a; }
+.orderCard.status_pending { border-left-color: #f59e0b; }
+.orderCard.status_processing { border-left-color: #27aa80; }
+.orderCard.status_shipped { border-left-color: #8b5cf6; }
+.orderCard.status_delivered { border-left-color: #10b981; }
+.orderCard.status_cancelled { border-left-color: #ef4444; }
 
 .orderHeader {
   display: flex;
@@ -547,16 +538,11 @@
   font-weight: 700;
 }
 
-/* ===== STATUS — KOULHOM NOIR ===== */
-.orderStatus.status_pending { background: #1a1a1a; color: #ffffff; }
-.orderStatus.status_processing { background: #1a1a1a; color: #ffffff; }
-.orderStatus.status_shipped { background: #1a1a1a; color: #ffffff; }
-.orderStatus.status_delivered { background: #1a1a1a; color: #ffffff; }
-.orderStatus.status_cancelled { background: #1a1a1a; color: #ffffff; }
-
-.orderStatus i {
-  margin-right: 4px;
-}
+.orderStatus.status_pending { background: #fef3c7; color: #92400e; }
+.orderStatus.status_processing { background: #d1fae5; color: #065f46; }
+.orderStatus.status_shipped { background: #ede9fe; color: #5b21b6; }
+.orderStatus.status_delivered { background: #d1fae5; color: #065f46; }
+.orderStatus.status_cancelled { background: #fee2e2; color: #991b1b; }
 
 .orderDate {
   font-size: 13px;
@@ -580,21 +566,10 @@
   letter-spacing: 0.5px;
 }
 
-.orderClient h3 i {
-  margin-right: 6px;
-}
-
 .orderClient p {
   margin: 4px 0;
   font-size: 14px;
   color: #374151;
-}
-
-.orderClient p i {
-  margin-right: 6px;
-  color: #6b7280;
-  width: 14px;
-  text-align: center;
 }
 
 .userId {
@@ -615,10 +590,6 @@
   text-transform: uppercase;
   margin: 0 0 8px;
   letter-spacing: 0.5px;
-}
-
-.orderItems h3 i {
-  margin-right: 6px;
 }
 
 .orderItem {
@@ -654,7 +625,7 @@
 .orderItem span {
   font-size: 14px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #27aa80;
   flex-shrink: 0;
 }
 
@@ -673,7 +644,7 @@
 .orderTotal strong {
   font-size: 20px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #27aa80;
 }
 
 /* ===== Actions ===== */
@@ -699,71 +670,54 @@
   transform: translateY(-2px);
 }
 
-.btn i {
-  margin-right: 6px;
-}
-
 .btnConfirm {
-  background: #1a1a1a;
+  background: #27aa80;
   color: #fff;
 }
 
 .btnConfirm:hover {
-  background: #000000;
+  background: #1f8a67;
 }
 
 .btnReject {
-  background: #1a1a1a;
+  background: #ef4444;
   color: #fff;
 }
 
 .btnReject:hover {
-  background: #000000;
+  background: #dc2626;
 }
 
 .btnShip {
-  background: #1a1a1a;
+  background: #8b5cf6;
   color: #fff;
 }
 
 .btnShip:hover {
-  background: #000000;
+  background: #7c3aed;
 }
 
 .btnDeliver {
-  background: #1a1a1a;
+  background: #3b82f6;
   color: #fff;
 }
 
 .btnDeliver:hover {
-  background: #000000;
+  background: #2563eb;
 }
 
 .done {
   padding: 10px 20px;
-  color: #1a1a1a;
+  color: #27aa80;
   font-weight: 700;
   font-size: 14px;
-}
-
-.done i {
-  margin-right: 4px;
 }
 
 .cancelled {
   padding: 10px 20px;
-  color: #1a1a1a;
+  color: #dc2626;
   font-weight: 700;
   font-size: 14px;
-}
-
-.cancelled i {
-  margin-right: 4px;
-}
-
-.loginIcon i {
-  font-size: 48px;
-  color: #1a1a1a;
 }
 
 /* ============================================
@@ -898,4 +852,51 @@
   .statCardValue {
     font-size: 1.8rem;
   }
+}
+
+/* ============================================
+   ICONS — MARGIN
+   ============================================ */
+.sidebarNav a i {
+  margin-right: 12px;
+  width: 20px;
+  text-align: center;
+}
+
+.filterBtn i {
+  margin-right: 6px;
+}
+
+.btn i {
+  margin-right: 6px;
+}
+
+.logoutBtnTop i {
+  margin-right: 4px;
+}
+
+.orderClient h3 i,
+.orderItems h3 i {
+  margin-right: 6px;
+}
+
+.orderClient p i {
+  margin-right: 6px;
+  color: #6b7280;
+  width: 14px;
+  text-align: center;
+}
+
+.orderStatus i {
+  margin-right: 4px;
+}
+
+.done i,
+.cancelled i {
+  margin-right: 4px;
+}
+
+.loginIcon i {
+  font-size: 48px;
+  color: #27aa80;
 }
