@@ -240,7 +240,7 @@ const Admin = () => {
           <div className={styles.navbarRight}>
             <div className={styles.navbarUser}>
               <img
-                src="https://via.placeholder.com/30/27aa80/ffffff?text=A"
+                src="https://via.placeholder.com/30/1a1a1a/ffffff?text=A"
                 className={styles.avatar}
                 alt="Admin"
               />
@@ -327,35 +327,35 @@ const Admin = () => {
                     <tbody>
                       <tr>
                         <td>
-                          <i className="fas fa-clock" style={{ marginRight: '8px', color: '#f59e0b' }}></i>
+                          <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
                           Pending
                         </td>
                         <td>{stats.pending}</td>
                       </tr>
                       <tr>
                         <td>
-                          <i className="fas fa-cog" style={{ marginRight: '8px', color: '#27aa80' }}></i>
+                          <i className="fas fa-cog" style={{ marginRight: '8px' }}></i>
                           Processing
                         </td>
                         <td>{stats.processing}</td>
                       </tr>
                       <tr>
                         <td>
-                          <i className="fas fa-truck" style={{ marginRight: '8px', color: '#8b5cf6' }}></i>
+                          <i className="fas fa-truck" style={{ marginRight: '8px' }}></i>
                           Shipped
                         </td>
                         <td>{stats.shipped}</td>
                       </tr>
                       <tr>
                         <td>
-                          <i className="fas fa-check-circle" style={{ marginRight: '8px', color: '#10b981' }}></i>
+                          <i className="fas fa-check-circle" style={{ marginRight: '8px' }}></i>
                           Delivered
                         </td>
                         <td>{stats.delivered}</td>
                       </tr>
                       <tr>
                         <td>
-                          <i className="fas fa-times-circle" style={{ marginRight: '8px', color: '#ef4444' }}></i>
+                          <i className="fas fa-times-circle" style={{ marginRight: '8px' }}></i>
                           Cancelled
                         </td>
                         <td>{stats.cancelled}</td>

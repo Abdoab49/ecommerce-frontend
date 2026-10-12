@@ -177,9 +177,9 @@ const Orders = () => {
     activeHover: '#1f8a67',   // Zre9 darker — Hover
     pending: '#404040',       // Gray — Pending
     iconActive: '#ffffff',    // Byed — Icon active
-    iconPending: '#94a3b8',   // Gray — Icon pending
+    iconPending: '#f8fafc',   // byad — Icon pending
     textActive: '#27aa80',    // Zre9 — Text active
-    textPending: '#94a3b8',   // Gray — Text pending
+    textPending: '#f8fafc',   // byad — Text pending
     textPrimary: '#f8fafc',   // Byed — Titles
     textSecondary: '#94a3b8', // Gray — Subtitles
     textValue: '#cbd5e1',     // Gray light — Values
