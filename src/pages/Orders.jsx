@@ -114,52 +114,29 @@ const Orders = () => {
   ];
 
   // ============================================
-  // SVG ICONS — koul step b SVG dyalou
+  // ✅ ICONS — Font Awesome
   // ============================================
   const StepIcon = ({ stepKey, isPending }) => {
-    const colorClass = isPending ? 'fill-slate-400' : 'fill-white';
-    const sizeClass = 'w-3.5 h-3.5';
+    const colorClass = isPending ? 'text-slate-400' : 'text-white';
 
     const ICONS = {
       pending: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`${sizeClass} ${colorClass}`}
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" />
-        </svg>
+        <i className={`fa-solid fa-check text-sm ${colorClass}`}></i>
       ),
       processing: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`${sizeClass} ${colorClass}`}
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path d="M21 8.5 12 3 3 8.5v7L12 21l9-5.5v-7zm-9-3.34 6.29 3.84L12 12.84 5.71 9 12 5.16zM5 10.32v4.87l6 3.66v-4.87l-6-3.66zm8 8.53 6-3.66v-4.87l-6 3.66v4.87z" />
-        </svg>
+        <i
+          className={`fa-solid fa-box-magnifying-glass text-sm ${colorClass}`}
+        ></i>
       ),
       shipped: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`${sizeClass} ${colorClass}`}
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path d="M3 4h13v10H3zM17 8h3l3 3v4h-6zM6.5 17.5A1.5 1.5 0 1 1 5 16a1.5 1.5 0 0 1 1.5 1.5zm12 0A1.5 1.5 0 1 1 17 16a1.5 1.5 0 0 1 1.5 1.5z" />
-        </svg>
+        <i
+          className={`fa-regular fa-truck-fast text-sm ${colorClass}`}
+        ></i>
       ),
       delivered: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`${sizeClass} ${colorClass}`}
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3zm0 2.84 5 4.5V18h-2v-6H9v6H7v-7.66z" />
-        </svg>
+        <i
+          className={`fa-regular fa-house-circle-check text-sm ${colorClass}`}
+        ></i>
       ),
     };
 
@@ -275,7 +252,7 @@ const Orders = () => {
                               Step {idx + 1}: {step.label}
                             </span>
 
-                            {/* ✅ Koul step — SVG dyalou — b lawn 3la 7sab status */}
+                            {/* ✅ Font Awesome icon */}
                             <StepIcon
                               stepKey={step.key}
                               isPending={isPending}
