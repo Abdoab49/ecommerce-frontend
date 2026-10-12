@@ -1,7 +1,7 @@
 // src/pages/Admin.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Admin.css';
+import styles from './Admin.css';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -11,8 +11,13 @@ const Admin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [activePage, setActivePage] = useState('dashboard');
 
-  // ✅ Login
+  // ============================================
+  // ✅ LOGIN
+  // ============================================
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -41,7 +46,9 @@ const Admin = () => {
     }
   };
 
-  // ✅ Logout
+  // ============================================
+  // ✅ LOGOUT
+  // ============================================
   const handleLogout = () => {
     setToken('');
     localStorage.removeItem('admin_token');
@@ -49,7 +56,9 @@ const Admin = () => {
     navigate('/');
   };
 
-  // ✅ Fetch koul orders
+  // ============================================
+  // ✅ FETCH ORDERS
+  // ============================================
   useEffect(() => {
     if (!token) return;
 
@@ -84,7 +93,9 @@ const Admin = () => {
     fetchOrders();
   }, [token]);
 
-  // ✅ Bdel status
+  // ============================================
+  // ✅ UPDATE STATUS
+  // ============================================
   const updateStatus = async (orderId, newStatus) => {
     try {
       const response = await fetch(
@@ -111,17 +122,34 @@ const Admin = () => {
     }
   };
 
-  // ✅ Filtre
+  // ============================================
+  // ✅ FILTER
+  // ============================================
   const filteredOrders = filter === 'all'
     ? orders
     : orders.filter(o => o.status === filter);
 
-  // ===== LOGIN PAGE =====
+  // ============================================
+  // ✅ STATS
+  // ============================================
+  const stats = {
+    total: orders.length,
+    pending: orders.filter(o => o.status === 'pending').length,
+    processing: orders.filter(o => o.status === 'processing').length,
+    shipped: orders.filter(o => o.status === 'shipped').length,
+    delivered: orders.filter(o => o.status === 'delivered').length,
+    cancelled: orders.filter(o => o.status === 'cancelled').length,
+    revenue: orders.reduce((sum, o) => sum + Number(o.totalAmount || 0), 0),
+  };
+
+  // ============================================
+  // ✅ LOGIN PAGE
+  // ============================================
   if (!token) {
     return (
-      <div className="admin-login">
-        <div className="admin-login-card">
-          <div className="admin-login-icon">🔐</div>
+      <div className={styles.loginWrapper}>
+        <div className={styles.loginCard}>
+          <div className={styles.loginIcon}>🔐</div>
           <h1>Admin Login</h1>
           <p>Dkhel password dyalek</p>
 
@@ -131,180 +159,351 @@ const Admin = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="admin-password-input"
+              className={styles.passwordInput}
               autoFocus
             />
             <button
               type="submit"
-              className="admin-login-btn"
+              className={styles.loginBtn}
               disabled={loading}
             >
               {loading ? 'Connexion...' : 'Se connecter'}
             </button>
           </form>
 
-          {error && <p className="admin-error">{error}</p>}
+          {error && <p className={styles.errorMsg}>{error}</p>}
         </div>
       </div>
     );
   }
 
-  // ===== ADMIN DASHBOARD =====
+  // ============================================
+  // ✅ ADMIN DASHBOARD
+  // ============================================
   return (
-    <div className="admin-page">
-      <header className="admin-header">
-        <h1>🔐 Admin — Koul Orders</h1>
-        <div className="admin-header-actions">
-          <span className="admin-total">{orders.length} orders</span>
-          <button className="admin-logout-btn" onClick={handleLogout}>
-            Déconnexion
+    <div className={`${styles.dashboardWrapper} ${sidebarCollapsed ? styles.sidebarCollapsed : ''} ${mobileSidebarOpen ? styles.sidebarToggled : ''}`}>
+
+      {/* ===== SIDEBAR ===== */}
+      <aside className={styles.sidebar}>
+        <div className={styles.sidebarHeader}>
+          <h2>Admin Panel</h2>
+          <button
+            className={styles.toggleSidebar}
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          >
+            <i className="fas fa-bars"></i>
           </button>
         </div>
-      </header>
 
-      <div className="admin-filters">
-        <button
-          className={`admin-filter-btn ${filter === 'all' ? 'active' : ''}`}
-          onClick={() => setFilter('all')}
-        >
-          Tous ({orders.length})
-        </button>
-        <button
-          className={`admin-filter-btn ${filter === 'pending' ? 'active' : ''}`}
-          onClick={() => setFilter('pending')}
-        >
-          ⏳ En attente ({orders.filter(o => o.status === 'pending').length})
-        </button>
-        <button
-          className={`admin-filter-btn ${filter === 'processing' ? 'active' : ''}`}
-          onClick={() => setFilter('processing')}
-        >
-          ⚙️ En cours ({orders.filter(o => o.status === 'processing').length})
-        </button>
-        <button
-          className={`admin-filter-btn ${filter === 'shipped' ? 'active' : ''}`}
-          onClick={() => setFilter('shipped')}
-        >
-          🚚 Expédiées ({orders.filter(o => o.status === 'shipped').length})
-        </button>
-        <button
-          className={`admin-filter-btn ${filter === 'delivered' ? 'active' : ''}`}
-          onClick={() => setFilter('delivered')}
-        >
-          ✅ Livrées ({orders.filter(o => o.status === 'delivered').length})
-        </button>
-        <button
-          className={`admin-filter-btn ${filter === 'cancelled' ? 'active' : ''}`}
-          onClick={() => setFilter('cancelled')}
-        >
-          ❌ Annulées ({orders.filter(o => o.status === 'cancelled').length})
-        </button>
-      </div>
+        <ul className={styles.sidebarNav}>
+          <li>
+            <a
+              href="#"
+              className={activePage === 'dashboard' ? styles.active : ''}
+              onClick={(e) => { e.preventDefault(); setActivePage('dashboard'); setMobileSidebarOpen(false); }}
+            >
+              <i className="fas fa-home"></i> Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={activePage === 'orders' ? styles.active : ''}
+              onClick={(e) => { e.preventDefault(); setActivePage('orders'); setMobileSidebarOpen(false); }}
+            >
+              <i className="fas fa-shopping-cart"></i> Orders
+            </a>
+          </li>
+          <li>
+            <a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </aside>
 
-      {loading && <div className="admin-loading">Chargement...</div>}
-
-      {error && <div className="admin-error-msg">{error}</div>}
-
-      {filteredOrders.length === 0 && !loading && (
-        <div className="admin-empty">Ma kaynch orders</div>
-      )}
-
-      <div className="admin-orders-list">
-        {filteredOrders.map((order) => (
-          <div key={order._id} className={`admin-order-card status-${order.status}`}>
-
-            <div className="admin-order-header">
-              <span className="admin-order-id">
-                #{(order._id || '').slice(-6).toUpperCase()}
-              </span>
-              <span className={`admin-order-status status-${order.status}`}>
-                {order.status === 'pending' && '⏳ En attente'}
-                {order.status === 'processing' && '⚙️ En cours'}
-                {order.status === 'shipped' && '🚚 Expédiée'}
-                {order.status === 'delivered' && '✅ Livrée'}
-                {order.status === 'cancelled' && '❌ Annulée'}
-              </span>
-              <span className="admin-order-date">
-                {new Date(order.createdAt).toLocaleDateString('fr-FR')}
-              </span>
+      {/* ===== MAIN CONTENT ===== */}
+      <div className={styles.mainContent}>
+        {/* ===== TOPBAR ===== */}
+        <nav className={styles.mainNavbar}>
+          <button
+            className={styles.mobileSidebarToggle}
+            onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+          >
+            <i className="fas fa-bars"></i>
+          </button>
+          <a className={styles.navbarBrand} href="#">
+            {activePage === 'dashboard' ? 'Dashboard Overview' : 'Orders Management'}
+          </a>
+          <div className={styles.navbarRight}>
+            <div className={styles.navbarUser}>
+              <img
+                src="https://via.placeholder.com/30/27aa80/ffffff?text=A"
+                className={styles.avatar}
+                alt="Admin"
+              />
+              <span>Admin</span>
             </div>
-
-            <div className="admin-order-client">
-              <h3>👤 Client</h3>
-              <p><strong>{order.shippingAddress?.fullName || '-'}</strong></p>
-              <p>📞 {order.shippingAddress?.phone || '-'}</p>
-              <p>🏙️ {order.shippingAddress?.city || '-'} — {order.shippingAddress?.region || '-'}</p>
-              <p>🏠 {order.shippingAddress?.street || '-'}</p>
-              <p className="admin-user-id">🆔 {order.userId || '-'}</p>
-            </div>
-
-            <div className="admin-order-items">
-              <h3>🛒 Produits ({order.items?.length || 0})</h3>
-              {order.items?.map((item, i) => (
-                <div key={i} className="admin-order-item">
-                  <img src={item.image || '/Assets/ShoeStore/tshirt1.png'} alt={item.name} />
-                  <div>
-                    <p><strong>{item.name}</strong></p>
-                    <p>Qté: {item.quantity} • Taille: {item.size || 'M'}</p>
-                  </div>
-                  <span>{item.price} DH</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="admin-order-total">
-              <span>Total</span>
-              <strong>{order.totalAmount || 0} DH</strong>
-            </div>
-
-            {/* ✅ BUTTONS — Admin actions */}
-            <div className="admin-order-actions">
-              {order.status === 'pending' && (
-                <>
-                  <button
-                    className="admin-btn admin-btn-confirm"
-                    onClick={() => updateStatus(order._id, 'processing')}
-                  >
-                    ✅ Confirmer
-                  </button>
-                  <button
-                    className="admin-btn admin-btn-reject"
-                    onClick={() => updateStatus(order._id, 'cancelled')}
-                  >
-                    ❌ Annuler
-                  </button>
-                </>
-              )}
-
-              {order.status === 'processing' && (
-                <button
-                  className="admin-btn admin-btn-ship"
-                  onClick={() => updateStatus(order._id, 'shipped')}
-                >
-                  🚚 Expédier
-                </button>
-              )}
-
-              {order.status === 'shipped' && (
-                <button
-                  className="admin-btn admin-btn-deliver"
-                  onClick={() => updateStatus(order._id, 'delivered')}
-                >
-                  ✅ Marquer livrée
-                </button>
-              )}
-
-              {order.status === 'delivered' && (
-                <span className="admin-done">✅ Terminée</span>
-              )}
-
-              {order.status === 'cancelled' && (
-                <span className="admin-cancelled">❌ Annulée</span>
-              )}
-            </div>
-
+            <button className={styles.logoutBtnTop} onClick={handleLogout}>
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </button>
           </div>
-        ))}
+        </nav>
+
+        {/* ===== CONTENT ===== */}
+        <div className={styles.dashboardPages}>
+
+          {/* ===== DASHBOARD PAGE ===== */}
+          {activePage === 'dashboard' && (
+            <div className={styles.dashboardPage}>
+              <h1 className={styles.pageTitle}>Welcome to the Admin Dashboard</h1>
+
+              <div className={styles.statsGrid}>
+                <div className={styles.statCardWrapper}>
+                  <div className={`${styles.statCard} ${styles.bgPrimary}`}>
+                    <div className={styles.statCardBody}>
+                      <div className={styles.statCardTop}>
+                        <h2>Total Orders</h2>
+                        <i className="fas fa-shopping-cart fa-3x"></i>
+                      </div>
+                      <p className={styles.statCardValue}>{stats.total}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.statCardWrapper}>
+                  <div className={`${styles.statCard} ${styles.bgSuccess}`}>
+                    <div className={styles.statCardBody}>
+                      <div className={styles.statCardTop}>
+                        <h2>Delivered</h2>
+                        <i className="fas fa-check-circle fa-3x"></i>
+                      </div>
+                      <p className={styles.statCardValue}>{stats.delivered}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.statCardWrapper}>
+                  <div className={`${styles.statCard} ${styles.bgInfo}`}>
+                    <div className={styles.statCardBody}>
+                      <div className={styles.statCardTop}>
+                        <h2>Pending</h2>
+                        <i className="fas fa-clock fa-3x"></i>
+                      </div>
+                      <p className={styles.statCardValue}>{stats.pending}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.statCardWrapper}>
+                  <div className={`${styles.statCard} ${styles.bgWarning}`}>
+                    <div className={styles.statCardBody}>
+                      <div className={styles.statCardTop}>
+                        <h2>Revenue</h2>
+                        <i className="fas fa-dollar-sign fa-3x"></i>
+                      </div>
+                      <p className={styles.statCardValue}>{stats.revenue.toFixed(0)} DH</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ===== STATS TABLE ===== */}
+              <div className={styles.card}>
+                <div className={styles.cardHeader}>
+                  Orders by Status
+                </div>
+                <div className={styles.cardBody}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>⏳ Pending</td>
+                        <td>{stats.pending}</td>
+                      </tr>
+                      <tr>
+                        <td>⚙️ Processing</td>
+                        <td>{stats.processing}</td>
+                      </tr>
+                      <tr>
+                        <td>🚚 Shipped</td>
+                        <td>{stats.shipped}</td>
+                      </tr>
+                      <tr>
+                        <td>✅ Delivered</td>
+                        <td>{stats.delivered}</td>
+                      </tr>
+                      <tr>
+                        <td>❌ Cancelled</td>
+                        <td>{stats.cancelled}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ===== ORDERS PAGE ===== */}
+          {activePage === 'orders' && (
+            <div className={styles.dashboardPage}>
+              <h1 className={styles.pageTitle}>Orders Management</h1>
+
+              {/* Filters */}
+              <div className={styles.filters}>
+                <button
+                  className={`${styles.filterBtn} ${filter === 'all' ? styles.active : ''}`}
+                  onClick={() => setFilter('all')}
+                >
+                  Tous ({orders.length})
+                </button>
+                <button
+                  className={`${styles.filterBtn} ${filter === 'pending' ? styles.active : ''}`}
+                  onClick={() => setFilter('pending')}
+                >
+                  ⏳ En attente ({stats.pending})
+                </button>
+                <button
+                  className={`${styles.filterBtn} ${filter === 'processing' ? styles.active : ''}`}
+                  onClick={() => setFilter('processing')}
+                >
+                  ⚙️ En cours ({stats.processing})
+                </button>
+                <button
+                  className={`${styles.filterBtn} ${filter === 'shipped' ? styles.active : ''}`}
+                  onClick={() => setFilter('shipped')}
+                >
+                  🚚 Expédiées ({stats.shipped})
+                </button>
+                <button
+                  className={`${styles.filterBtn} ${filter === 'delivered' ? styles.active : ''}`}
+                  onClick={() => setFilter('delivered')}
+                >
+                  ✅ Livrées ({stats.delivered})
+                </button>
+                <button
+                  className={`${styles.filterBtn} ${filter === 'cancelled' ? styles.active : ''}`}
+                  onClick={() => setFilter('cancelled')}
+                >
+                  ❌ Annulées ({stats.cancelled})
+                </button>
+              </div>
+
+              {loading && <div className={styles.adminLoading}>Chargement...</div>}
+
+              {error && <div className={styles.adminErrorMsg}>{error}</div>}
+
+              {filteredOrders.length === 0 && !loading && (
+                <div className={styles.adminEmpty}>Ma kaynch orders</div>
+              )}
+
+              {/* Orders List */}
+              <div className={styles.ordersList}>
+                {filteredOrders.map((order) => (
+                  <div key={order._id} className={`${styles.orderCard} ${styles[`status_${order.status}`]}`}>
+
+                    <div className={styles.orderHeader}>
+                      <span className={styles.orderId}>
+                        #{(order._id || '').slice(-6).toUpperCase()}
+                      </span>
+                      <span className={`${styles.orderStatus} ${styles[`status_${order.status}`]}`}>
+                        {order.status === 'pending' && '⏳ En attente'}
+                        {order.status === 'processing' && '⚙️ En cours'}
+                        {order.status === 'shipped' && '🚚 Expédiée'}
+                        {order.status === 'delivered' && '✅ Livrée'}
+                        {order.status === 'cancelled' && '❌ Annulée'}
+                      </span>
+                      <span className={styles.orderDate}>
+                        {new Date(order.createdAt).toLocaleDateString('fr-FR')}
+                      </span>
+                    </div>
+
+                    <div className={styles.orderClient}>
+                      <h3>👤 Client</h3>
+                      <p><strong>{order.shippingAddress?.fullName || '-'}</strong></p>
+                      <p>📞 {order.shippingAddress?.phone || '-'}</p>
+                      <p>🏙️ {order.shippingAddress?.city || '-'} — {order.shippingAddress?.region || '-'}</p>
+                      <p>🏠 {order.shippingAddress?.street || '-'}</p>
+                      <p className={styles.userId}>🆔 {order.userId || '-'}</p>
+                    </div>
+
+                    <div className={styles.orderItems}>
+                      <h3>🛒 Produits ({order.items?.length || 0})</h3>
+                      {order.items?.map((item, i) => (
+                        <div key={i} className={styles.orderItem}>
+                          <img src={item.image || '/Assets/ShoeStore/tshirt1.png'} alt={item.name} />
+                          <div>
+                            <p><strong>{item.name}</strong></p>
+                            <p>Qté: {item.quantity} • Taille: {item.size || 'M'}</p>
+                          </div>
+                          <span>{item.price} DH</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className={styles.orderTotal}>
+                      <span>Total</span>
+                      <strong>{order.totalAmount || 0} DH</strong>
+                    </div>
+
+                    {/* Actions */}
+                    <div className={styles.orderActions}>
+                      {order.status === 'pending' && (
+                        <>
+                          <button
+                            className={`${styles.btn} ${styles.btnConfirm}`}
+                            onClick={() => updateStatus(order._id, 'processing')}
+                          >
+                            ✅ Confirmer
+                          </button>
+                          <button
+                            className={`${styles.btn} ${styles.btnReject}`}
+                            onClick={() => updateStatus(order._id, 'cancelled')}
+                          >
+                            ❌ Annuler
+                          </button>
+                        </>
+                      )}
+
+                      {order.status === 'processing' && (
+                        <button
+                          className={`${styles.btn} ${styles.btnShip}`}
+                          onClick={() => updateStatus(order._id, 'shipped')}
+                        >
+                          🚚 Expédier
+                        </button>
+                      )}
+
+                      {order.status === 'shipped' && (
+                        <button
+                          className={`${styles.btn} ${styles.btnDeliver}`}
+                          onClick={() => updateStatus(order._id, 'delivered')}
+                        >
+                          ✅ Marquer livrée
+                        </button>
+                      )}
+
+                      {order.status === 'delivered' && (
+                        <span className={styles.done}>✅ Terminée</span>
+                      )}
+
+                      {order.status === 'cancelled' && (
+                        <span className={styles.cancelled}>❌ Annulée</span>
+                      )}
+                    </div>
+
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
       </div>
     </div>
   );
