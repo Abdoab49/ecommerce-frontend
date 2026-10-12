@@ -357,7 +357,7 @@ const Orders = () => {
                       <li key={idx}>
                         <div className="grid sm:grid-cols-3 items-center gap-4">
                           <div className="col-span-2 flex items-center gap-4">
-                            <div className="w-20 h-20 shrink-0 bg-neutral-800 p-2 rounded-md">
+                            <div className="w-20 h-20 shrink-0 bg-white p-2 rounded-md">
                               <img
                                 src={
                                   item.image ||
