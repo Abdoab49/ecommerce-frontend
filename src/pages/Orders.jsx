@@ -200,6 +200,54 @@ const Orders = () => {
                     const lineClass =
                       idx < currentIdx ? 'bg-blue-600' : 'bg-neutral-700';
 
+                    // ✅ Kol step — SVG dyalou
+                    const STEP_ICONS = {
+                      pending: (
+                        // ✅ Check — Order placed
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-3.5 h-3.5 fill-white"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" />
+                        </svg>
+                      ),
+                      processing: (
+                        // ✅ Box — Arrived at warehouse
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-3.5 h-3.5 fill-white"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M21 8.5 12 3 3 8.5v7L12 21l9-5.5v-7zm-9-3.34 6.29 3.84L12 12.84 5.71 9 12 5.16zM5 10.32v4.87l6 3.66v-4.87l-6-3.66zm8 8.53 6-3.66v-4.87l-6 3.66v4.87z" />
+                        </svg>
+                      ),
+                      shipped: (
+                        // ✅ Truck — Out for delivery
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-3.5 h-3.5 fill-white"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M3 4h13v10H3zM17 8h3l3 3v4h-6zM6.5 17.5A1.5 1.5 0 1 1 5 16a1.5 1.5 0 0 1 1.5 1.5zm12 0A1.5 1.5 0 1 1 17 16a1.5 1.5 0 0 1 1.5 1.5z" />
+                        </svg>
+                      ),
+                      delivered: (
+                        // ✅ Home — Products delivered
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-3.5 h-3.5 fill-white"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3zm0 2.84 5 4.5V18h-2v-6H9v6H7v-7.66z" />
+                        </svg>
+                      ),
+                    };
+
                     return (
                       <li
                         key={step.key}
@@ -222,33 +270,23 @@ const Orders = () => {
                               Step {idx + 1}: {step.label}
                             </span>
 
-                            {/* ✅ Check icon — ila completed wla active */}
-                            {(isCompleted || isActive) && (
+                            {/* ✅ Ila completed wla active → SVG dyal step */}
+                            {(isCompleted || isActive) && STEP_ICONS[step.key]}
+
+                            {/* ✅ Ila pending → Check icon (gray) */}
+                            {isPending && (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="w-3.5 h-3.5 fill-white"
+                                className="w-3.5 h-3.5 fill-slate-400"
                                 viewBox="0 0 24 24"
                                 aria-hidden="true"
                               >
                                 <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" />
                               </svg>
                             )}
-
-                            {/* ✅ Pending icon */}
-                            {isPending && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4 fill-slate-400"
-                                viewBox="0 0 512 512"
-                                aria-hidden="true"
-                              >
-                                <path d="M426 495.983H86c-25.364 0-46-20.635-46-46v-242.02c0-8.836 7.163-16 16-16s16 7.164 16 16v242.02c0 7.72 6.28 14 14 14h340c7.72 0 14-6.28 14-14v-242.02c0-8.836 7.163-16 16-16s16 7.164 16 16v242.02c0 25.364-20.635 46-46 46z" />
-                                <path d="M496 263.958a15.945 15.945 0 0 1-11.313-4.687L285.698 60.284c-16.375-16.376-43.02-16.376-59.396 0L27.314 259.272c-6.248 6.249-16.379 6.249-22.627 0-6.249-6.248-6.249-16.379 0-22.627L203.675 37.656c28.852-28.852 75.799-28.852 104.65 0l198.988 198.988c6.249 6.249 6.249 16.379 0 22.627A15.943 15.943 0 0 1 496 263.958zM320 495.983H192c-8.837 0-16-7.164-16-16v-142c0-27.57 22.43-50 50-50h60c27.57 0 50 22.43 50 50v142c0 8.836-7.163 16-16 16zm-112-32h96v-126c0-9.925-8.075-18-18-18h-60c-9.925 0-18 8.075-18 18z" />
-                              </svg>
-                            )}
                           </div>
 
-                          {/* ✅ Horizontal line — flex-1 (msawi) */}
+                          {/* Horizontal line (desktop) — flex-1 (msawi) */}
                           {idx < STEPS.length - 1 && (
                             <div
                               className={`hidden lg:block flex-1 h-0.5 mx-4 rounded-md ${lineClass}`}
