@@ -1,7 +1,7 @@
 // src/pages/Orders.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Orders.module.css';
+import './Bootdey.css';
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -81,6 +81,24 @@ const Orders = () => {
     );
   }
 
+  // ✅ Status labels + mapping
+  const statusMap = {
+    pending: 0,
+    processing: 1,
+    quality_check: 2,
+    shipped: 3,
+    delivered: 4,
+  };
+
+  const statusLabels = {
+    pending: 'Checking Quality',
+    processing: 'Processing',
+    quality_check: 'Checking Quality',
+    shipped: 'Product Dispatched',
+    delivered: 'Product Delivered',
+    cancelled: 'Cancelled',
+  };
+
   return (
     <div className="container padding-bottom-3x mb-1">
       {orders.map((order) => {
@@ -89,27 +107,8 @@ const Orders = () => {
         const items = Array.isArray(order.items) ? order.items : [];
         const shipping = order.shippingAddress || {};
 
-        // ✅ Status → Step index
-        const statusMap = {
-          pending: 0,
-          processing: 1,
-          quality_check: 2,
-          shipped: 3,
-          delivered: 4,
-        };
         const currentIdx = statusMap[status] ?? 0;
 
-        // ✅ Status label
-        const statusLabels = {
-          pending: 'Checking Quality',
-          processing: 'Processing',
-          quality_check: 'Checking Quality',
-          shipped: 'Product Dispatched',
-          delivered: 'Product Delivered',
-          cancelled: 'Cancelled',
-        };
-
-        // ✅ Date
         const dateStr = order.createdAt
           ? new Date(order.createdAt)
               .toLocaleDateString('en-US', {
@@ -121,10 +120,10 @@ const Orders = () => {
           : 'SEP 09, 2017';
 
         return (
-          <div key={orderId} className={styles.orderBlock}>
-            {/* ===== Card ===== */}
+          <div key={orderId} className="mb-5">
+            {/* ===== Card — Design Bootdey ===== */}
             <div className="card mb-3">
-              {/* ===== Header ===== */}
+              {/* Header */}
               <div className="p-4 text-center text-white text-lg bg-dark rounded-top">
                 <span className="text-uppercase">Tracking Order No - </span>
                 <span className="text-medium">
@@ -132,7 +131,7 @@ const Orders = () => {
                 </span>
               </div>
 
-              {/* ===== Details Row ===== */}
+              {/* Details Row */}
               <div className="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                 <div className="w-100 text-center py-1 px-2">
                   <span className="text-medium">Shipped Via:</span> Cash on Delivery
@@ -146,15 +145,13 @@ const Orders = () => {
                 </div>
               </div>
 
-              {/* ===== Steps ===== */}
+              {/* Steps */}
               <div className="card-body">
                 <div className="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                  {/* Step 1: Confirmed */}
+                  {/* Step 1 */}
                   <div
                     className={`step ${
-                      status !== 'cancelled' && currentIdx >= 0
-                        ? 'completed'
-                        : ''
+                      status !== 'cancelled' && currentIdx >= 0 ? 'completed' : ''
                     }`}
                   >
                     <div className="step-icon-wrap">
@@ -165,12 +162,10 @@ const Orders = () => {
                     <h4 className="step-title">Confirmed Order</h4>
                   </div>
 
-                  {/* Step 2: Processing */}
+                  {/* Step 2 */}
                   <div
                     className={`step ${
-                      status !== 'cancelled' && currentIdx >= 1
-                        ? 'completed'
-                        : ''
+                      status !== 'cancelled' && currentIdx >= 1 ? 'completed' : ''
                     }`}
                   >
                     <div className="step-icon-wrap">
@@ -181,12 +176,10 @@ const Orders = () => {
                     <h4 className="step-title">Processing Order</h4>
                   </div>
 
-                  {/* Step 3: Quality Check */}
+                  {/* Step 3 */}
                   <div
                     className={`step ${
-                      status !== 'cancelled' && currentIdx >= 2
-                        ? 'completed'
-                        : ''
+                      status !== 'cancelled' && currentIdx >= 2 ? 'completed' : ''
                     }`}
                   >
                     <div className="step-icon-wrap">
@@ -197,12 +190,10 @@ const Orders = () => {
                     <h4 className="step-title">Quality Check</h4>
                   </div>
 
-                  {/* Step 4: Dispatched */}
+                  {/* Step 4 */}
                   <div
                     className={`step ${
-                      status !== 'cancelled' && currentIdx >= 3
-                        ? 'completed'
-                        : ''
+                      status !== 'cancelled' && currentIdx >= 3 ? 'completed' : ''
                     }`}
                   >
                     <div className="step-icon-wrap">
@@ -213,12 +204,10 @@ const Orders = () => {
                     <h4 className="step-title">Product Dispatched</h4>
                   </div>
 
-                  {/* Step 5: Delivered */}
+                  {/* Step 5 */}
                   <div
                     className={`step ${
-                      status !== 'cancelled' && currentIdx >= 4
-                        ? 'completed'
-                        : ''
+                      status !== 'cancelled' && currentIdx >= 4 ? 'completed' : ''
                     }`}
                   >
                     <div className="step-icon-wrap">
@@ -233,7 +222,7 @@ const Orders = () => {
             </div>
 
             {/* ===== Footer ===== */}
-            <div className="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center mb-5">
+            <div className="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center mb-4">
               <div className="custom-control custom-checkbox mr-3">
                 <input
                   className="custom-control-input"
@@ -331,7 +320,7 @@ const Orders = () => {
             </div>
 
             {/* ===== Total ===== */}
-            <div className="d-flex justify-content-between align-items-center bg-secondary p-3 rounded mb-5">
+            <div className="d-flex justify-content-between align-items-center bg-secondary p-3 rounded">
               <span className="text-uppercase text-muted font-weight-bold">
                 Total
               </span>
