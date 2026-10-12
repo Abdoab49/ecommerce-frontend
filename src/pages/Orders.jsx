@@ -69,7 +69,19 @@ const Orders = () => {
           <p className="text-slate-400 mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700"
+            className="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2"
+            style={{
+              backgroundColor: '#27aa80',
+              border: '1px solid #27aa80',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#1f8a67';
+              e.currentTarget.style.borderColor = '#1f8a67';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#27aa80';
+              e.currentTarget.style.borderColor = '#27aa80';
+            }}
           >
             Try again
           </button>
@@ -91,7 +103,19 @@ const Orders = () => {
           </p>
           <button
             onClick={() => navigate('/')}
-            className="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700"
+            className="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2"
+            style={{
+              backgroundColor: '#27aa80',
+              border: '1px solid #27aa80',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#1f8a67';
+              e.currentTarget.style.borderColor = '#1f8a67';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#27aa80';
+              e.currentTarget.style.borderColor = '#27aa80';
+            }}
           >
             Continue shopping
           </button>
@@ -196,7 +220,19 @@ const Orders = () => {
 
                 <button
                   type="button"
-                  className="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer transition-colors focus:outline-none focus-visible:ring-2"
+                  style={{
+                    backgroundColor: '#27aa80',
+                    border: '1px solid #27aa80',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1f8a67';
+                    e.currentTarget.style.borderColor = '#1f8a67';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#27aa80';
+                    e.currentTarget.style.borderColor = '#27aa80';
+                  }}
                 >
                   Download invoice
                 </button>
@@ -215,13 +251,8 @@ const Orders = () => {
                     const isPending =
                       status !== 'cancelled' && idx > currentIdx;
 
-                    const circleClass =
-                      isCompleted || isActive
-                        ? 'bg-blue-600'
-                        : 'bg-neutral-700';
-
-                    const lineClass =
-                      idx < currentIdx ? 'bg-blue-600' : 'bg-neutral-700';
+                    // ✅ Lawn dyalek #27aa80
+                    const activeColor = '#27aa80';
 
                     return (
                       <li
@@ -232,30 +263,43 @@ const Orders = () => {
                         {/* Vertical line (mobile) */}
                         {idx < STEPS.length - 1 && (
                           <div
-                            className={`absolute left-3 top-6 -bottom-10 w-0.5 lg:hidden ${lineClass}`}
+                            className="absolute left-3 top-6 -bottom-10 w-0.5 lg:hidden"
+                            style={{
+                              backgroundColor:
+                                idx < currentIdx ? activeColor : '#404040',
+                            }}
                           ></div>
                         )}
 
                         <div className="flex items-center w-max lg:w-full">
                           {/* Circle */}
                           <div
-                            className={`z-10 w-6 h-6 shrink-0 ${circleClass} flex items-center justify-center rounded-full md:w-7 md:h-7`}
+                            className="z-10 w-6 h-6 shrink-0 flex items-center justify-center rounded-full md:w-7 md:h-7"
+                            style={{
+                              backgroundColor:
+                                isCompleted || isActive
+                                  ? activeColor
+                                  : '#404040',
+                            }}
                           >
                             <span className="sr-only">
                               Step {idx + 1}: {step.label}
                             </span>
 
-                            {/* ✅ @mdi/react icon */}
                             <StepIcon
                               stepKey={step.key}
                               isPending={isPending}
                             />
                           </div>
 
-                          {/* Horizontal line (desktop) — flex-1 (msawi) */}
+                          {/* Horizontal line (desktop) */}
                           {idx < STEPS.length - 1 && (
                             <div
-                              className={`hidden lg:block flex-1 h-0.5 mx-4 rounded-md ${lineClass}`}
+                              className="hidden lg:block flex-1 h-0.5 mx-4 rounded-md"
+                              style={{
+                                backgroundColor:
+                                  idx < currentIdx ? activeColor : '#404040',
+                              }}
                             ></div>
                           )}
                         </div>
@@ -263,11 +307,13 @@ const Orders = () => {
                         {/* Text */}
                         <div className="ml-4 lg:ml-0 lg:mt-3 lg:mr-4">
                           <p
-                            className={`text-sm font-semibold ${
-                              isCompleted || isActive
-                                ? 'text-blue-500'
-                                : 'text-slate-400'
-                            }`}
+                            className="text-sm font-semibold"
+                            style={{
+                              color:
+                                isCompleted || isActive
+                                  ? activeColor
+                                  : '#94a3b8',
+                            }}
                           >
                             {step.label}
                           </p>
