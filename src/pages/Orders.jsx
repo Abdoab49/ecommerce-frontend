@@ -203,7 +203,7 @@ const Orders = () => {
                     return (
                       <li
                         key={step.key}
-                        className="relative flex flex-row lg:flex-col items-start w-full"
+                        className="relative flex flex-row lg:flex-col items-start flex-1"
                         aria-current={isActive ? 'step' : undefined}
                       >
                         {/* Vertical line (mobile) */}
@@ -248,10 +248,10 @@ const Orders = () => {
                             )}
                           </div>
 
-                          {/* Horizontal line (desktop) */}
+                          {/* ✅ Horizontal line — flex-1 (msawi) */}
                           {idx < STEPS.length - 1 && (
                             <div
-                              className={`hidden lg:block w-full h-0.5 mx-4 rounded-md ${lineClass}`}
+                              className={`hidden lg:block flex-1 h-0.5 mx-4 rounded-md ${lineClass}`}
                             ></div>
                           )}
                         </div>
