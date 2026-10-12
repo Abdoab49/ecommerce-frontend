@@ -538,11 +538,11 @@
   font-weight: 700;
 }
 
-.orderStatus.status_pending { background: #fef3c7; color: #92400e; }
-.orderStatus.status_processing { background: #d1fae5; color: #065f46; }
-.orderStatus.status_shipped { background: #ede9fe; color: #5b21b6; }
-.orderStatus.status_delivered { background: #d1fae5; color: #065f46; }
-.orderStatus.status_cancelled { background: #fee2e2; color: #991b1b; }
+.orderStatus.status_pending { background: #000000; color: #92400e; }
+.orderStatus.status_processing { background: #000000; color: #065f46; }
+.orderStatus.status_shipped { background: #000000; color: #5b21b6; }
+.orderStatus.status_delivered { background: #000000; color: #065f46; }
+.orderStatus.status_cancelled { background: #000000; color: #991b1b; }
 
 .orderDate {
   font-size: 13px;
