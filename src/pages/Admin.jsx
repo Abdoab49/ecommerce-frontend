@@ -118,7 +118,7 @@ const Admin = () => {
       }
     } catch (err) {
       console.error('Error updating status:', err);
-      alert('❌ Mochkil f update');
+      alert('Mochkil f update');
     }
   };
 
@@ -149,7 +149,9 @@ const Admin = () => {
     return (
       <div className={styles.loginWrapper}>
         <div className={styles.loginCard}>
-          <div className={styles.loginIcon}>🔐</div>
+          <div className={styles.loginIcon}>
+            <i className="fas fa-lock"></i>
+          </div>
           <h1>Admin Login</h1>
           <p>Dkhel password dyalek</p>
 
@@ -245,7 +247,8 @@ const Admin = () => {
               <span>Admin</span>
             </div>
             <button className={styles.logoutBtnTop} onClick={handleLogout}>
-              <i className="fas fa-sign-out-alt"></i> Logout
+              <i className="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
             </button>
           </div>
         </nav>
@@ -323,23 +326,38 @@ const Admin = () => {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>⏳ Pending</td>
+                        <td>
+                          <i className="fas fa-clock" style={{ marginRight: '8px', color: '#f59e0b' }}></i>
+                          Pending
+                        </td>
                         <td>{stats.pending}</td>
                       </tr>
                       <tr>
-                        <td>⚙️ Processing</td>
+                        <td>
+                          <i className="fas fa-cog" style={{ marginRight: '8px', color: '#27aa80' }}></i>
+                          Processing
+                        </td>
                         <td>{stats.processing}</td>
                       </tr>
                       <tr>
-                        <td>🚚 Shipped</td>
+                        <td>
+                          <i className="fas fa-truck" style={{ marginRight: '8px', color: '#8b5cf6' }}></i>
+                          Shipped
+                        </td>
                         <td>{stats.shipped}</td>
                       </tr>
                       <tr>
-                        <td>✅ Delivered</td>
+                        <td>
+                          <i className="fas fa-check-circle" style={{ marginRight: '8px', color: '#10b981' }}></i>
+                          Delivered
+                        </td>
                         <td>{stats.delivered}</td>
                       </tr>
                       <tr>
-                        <td>❌ Cancelled</td>
+                        <td>
+                          <i className="fas fa-times-circle" style={{ marginRight: '8px', color: '#ef4444' }}></i>
+                          Cancelled
+                        </td>
                         <td>{stats.cancelled}</td>
                       </tr>
                     </tbody>
@@ -360,37 +378,43 @@ const Admin = () => {
                   className={`${styles.filterBtn} ${filter === 'all' ? styles.active : ''}`}
                   onClick={() => setFilter('all')}
                 >
+                  <i className="fas fa-list"></i>
                   Tous ({orders.length})
                 </button>
                 <button
                   className={`${styles.filterBtn} ${filter === 'pending' ? styles.active : ''}`}
                   onClick={() => setFilter('pending')}
                 >
-                  ⏳ En attente ({stats.pending})
+                  <i className="fas fa-clock"></i>
+                  En attente ({stats.pending})
                 </button>
                 <button
                   className={`${styles.filterBtn} ${filter === 'processing' ? styles.active : ''}`}
                   onClick={() => setFilter('processing')}
                 >
-                  ⚙️ En cours ({stats.processing})
+                  <i className="fas fa-cog"></i>
+                  En cours ({stats.processing})
                 </button>
                 <button
                   className={`${styles.filterBtn} ${filter === 'shipped' ? styles.active : ''}`}
                   onClick={() => setFilter('shipped')}
                 >
-                  🚚 Expédiées ({stats.shipped})
+                  <i className="fas fa-truck"></i>
+                  Expédiées ({stats.shipped})
                 </button>
                 <button
                   className={`${styles.filterBtn} ${filter === 'delivered' ? styles.active : ''}`}
                   onClick={() => setFilter('delivered')}
                 >
-                  ✅ Livrées ({stats.delivered})
+                  <i className="fas fa-check-circle"></i>
+                  Livrées ({stats.delivered})
                 </button>
                 <button
                   className={`${styles.filterBtn} ${filter === 'cancelled' ? styles.active : ''}`}
                   onClick={() => setFilter('cancelled')}
                 >
-                  ❌ Annulées ({stats.cancelled})
+                  <i className="fas fa-times-circle"></i>
+                  Annulées ({stats.cancelled})
                 </button>
               </div>
 
@@ -412,11 +436,31 @@ const Admin = () => {
                         #{(order._id || '').slice(-6).toUpperCase()}
                       </span>
                       <span className={`${styles.orderStatus} ${styles[`status_${order.status}`]}`}>
-                        {order.status === 'pending' && '⏳ En attente'}
-                        {order.status === 'processing' && '⚙️ En cours'}
-                        {order.status === 'shipped' && '🚚 Expédiée'}
-                        {order.status === 'delivered' && '✅ Livrée'}
-                        {order.status === 'cancelled' && '❌ Annulée'}
+                        {order.status === 'pending' && (
+                          <>
+                            <i className="fas fa-clock"></i> En attente
+                          </>
+                        )}
+                        {order.status === 'processing' && (
+                          <>
+                            <i className="fas fa-cog"></i> En cours
+                          </>
+                        )}
+                        {order.status === 'shipped' && (
+                          <>
+                            <i className="fas fa-truck"></i> Expédiée
+                          </>
+                        )}
+                        {order.status === 'delivered' && (
+                          <>
+                            <i className="fas fa-check-circle"></i> Livrée
+                          </>
+                        )}
+                        {order.status === 'cancelled' && (
+                          <>
+                            <i className="fas fa-times-circle"></i> Annulée
+                          </>
+                        )}
                       </span>
                       <span className={styles.orderDate}>
                         {new Date(order.createdAt).toLocaleDateString('fr-FR')}
@@ -424,16 +468,31 @@ const Admin = () => {
                     </div>
 
                     <div className={styles.orderClient}>
-                      <h3>👤 Client</h3>
+                      <h3>
+                        <i className="fas fa-user"></i> Client
+                      </h3>
                       <p><strong>{order.shippingAddress?.fullName || '-'}</strong></p>
-                      <p>📞 {order.shippingAddress?.phone || '-'}</p>
-                      <p>🏙️ {order.shippingAddress?.city || '-'} — {order.shippingAddress?.region || '-'}</p>
-                      <p>🏠 {order.shippingAddress?.street || '-'}</p>
-                      <p className={styles.userId}>🆔 {order.userId || '-'}</p>
+                      <p>
+                        <i className="fas fa-phone"></i>{' '}
+                        {order.shippingAddress?.phone || '-'}
+                      </p>
+                      <p>
+                        <i className="fas fa-city"></i>{' '}
+                        {order.shippingAddress?.city || '-'} — {order.shippingAddress?.region || '-'}
+                      </p>
+                      <p>
+                        <i className="fas fa-map-marker-alt"></i>{' '}
+                        {order.shippingAddress?.street || '-'}
+                      </p>
+                      <p className={styles.userId}>
+                        <i className="fas fa-id-badge"></i> {order.userId || '-'}
+                      </p>
                     </div>
 
                     <div className={styles.orderItems}>
-                      <h3>🛒 Produits ({order.items?.length || 0})</h3>
+                      <h3>
+                        <i className="fas fa-shopping-bag"></i> Produits ({order.items?.length || 0})
+                      </h3>
                       {order.items?.map((item, i) => (
                         <div key={i} className={styles.orderItem}>
                           <img src={item.image || '/Assets/ShoeStore/tshirt1.png'} alt={item.name} />
@@ -459,13 +518,15 @@ const Admin = () => {
                             className={`${styles.btn} ${styles.btnConfirm}`}
                             onClick={() => updateStatus(order._id, 'processing')}
                           >
-                            ✅ Confirmer
+                            <i className="fas fa-check"></i>
+                            Confirmer
                           </button>
                           <button
                             className={`${styles.btn} ${styles.btnReject}`}
                             onClick={() => updateStatus(order._id, 'cancelled')}
                           >
-                            ❌ Annuler
+                            <i className="fas fa-times"></i>
+                            Annuler
                           </button>
                         </>
                       )}
@@ -475,7 +536,8 @@ const Admin = () => {
                           className={`${styles.btn} ${styles.btnShip}`}
                           onClick={() => updateStatus(order._id, 'shipped')}
                         >
-                          🚚 Expédier
+                          <i className="fas fa-truck"></i>
+                          Expédier
                         </button>
                       )}
 
@@ -484,16 +546,21 @@ const Admin = () => {
                           className={`${styles.btn} ${styles.btnDeliver}`}
                           onClick={() => updateStatus(order._id, 'delivered')}
                         >
-                          ✅ Marquer livrée
+                          <i className="fas fa-check-circle"></i>
+                          Marquer livrée
                         </button>
                       )}
 
                       {order.status === 'delivered' && (
-                        <span className={styles.done}>✅ Terminée</span>
+                        <span className={styles.done}>
+                          <i className="fas fa-check-circle"></i> Terminée
+                        </span>
                       )}
 
                       {order.status === 'cancelled' && (
-                        <span className={styles.cancelled}>❌ Annulée</span>
+                        <span className={styles.cancelled}>
+                          <i className="fas fa-times-circle"></i> Annulée
+                        </span>
                       )}
                     </div>
 
