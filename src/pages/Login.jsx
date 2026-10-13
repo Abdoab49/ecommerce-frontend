@@ -161,12 +161,12 @@ const Login = () => {
   };
 
   // ============================================
-  // ✅ LOADING — Spinner
+  // ✅ LOADING — Spinner (Byed)
   // ============================================
   if (loginLoading || signupLoading) {
     return (
       <div className="loader-wrapper">
-        <div className="spin light"></div>
+        <div className="spin"></div>
         <p>Loading...</p>
       </div>
     );
