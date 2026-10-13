@@ -261,9 +261,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   color: #ffffff;
   background: transparent;
   border: none;
@@ -273,9 +270,7 @@
 }
 
 .iconLink:hover {
-  background: rgba(255, 255, 255, 0.1);
   color: #808080;
-  transform: scale(1.05);
 }
 
 .userIcon {
@@ -287,8 +282,6 @@
 /* Mobile */
 @media (max-width: 768px) {
   .iconLink {
-    width: 36px;
-    height: 36px;
   }
 
   .userIcon {
@@ -300,8 +293,6 @@
 
 @media (max-width: 480px) {
   .iconLink {
-    width: 32px;
-    height: 32px;
   }
 
   .userIcon {
@@ -318,9 +309,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   color: #ffffff;
   background: transparent;
   border: none;
@@ -330,9 +318,7 @@
 }
 
 .iconLink:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #27aa80;
-  transform: scale(1.05);
+  color:#808080;
 }
 
 .userIcon {
@@ -373,8 +359,6 @@
 
 @media (max-width: 480px) {
   .iconLink {
-    width: 32px;
-    height: 32px;
   }
 
   .userIcon {
@@ -386,4 +370,17 @@
   .rightSection {
     gap: 6px;
   }
+}
+
+/* ============================================
+   MOBILE ONLY — Kayban ghir f mobile
+   ============================================ */
+.mobileOnly {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobileOnly {
+        display: block;
+    }
 }

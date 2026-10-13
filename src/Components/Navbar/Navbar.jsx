@@ -9,6 +9,7 @@ import { ShopContext } from '../../Context/ShopContext';
 // ✅ Font Awesome — Import direct
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
@@ -87,10 +88,10 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* ✅ User + Logout — ghir ila mconnecté (f menu mobile) */}
+                    {/* ✅ User + Logout — f menu (ghir f MOBILE) */}
                     {user && (
                         <>
-                            <li>
+                            <li className={styles.mobileOnly}>
                                 <Link
                                     to="/orders"
                                     className={styles.link}
@@ -99,7 +100,7 @@ const Navbar = () => {
                                     {user.fullName.split(' ')[0]}
                                 </Link>
                             </li>
-                            <li>
+                            <li className={styles.mobileOnly}>
                                 <button
                                     onClick={handleLogout}
                                     className={styles.link}
@@ -112,8 +113,21 @@ const Navbar = () => {
                 </ul>
 
                 <div className={styles.rightSection}>
-                    {/* ✅ Icon 👤 — 7da Cart — F DESKTOP W F MOBILE */}
-                    {!user && (
+                    {/* ✅ Icon f nafs blasa — Login wla Logout */}
+                    {user ? (
+                        // ✅ Ba3d ma ydkhol — icon Logout
+                        <button
+                            onClick={handleLogout}
+                            className={styles.iconLink}
+                            title="Logout"
+                        >
+                            <FontAwesomeIcon
+                                icon={faRightFromBracket}
+                                className={styles.userIcon}
+                            />
+                        </button>
+                    ) : (
+                        // ✅ 9bel ma ydkhol — icon Login
                         <Link
                             to="/login"
                             className={styles.iconLink}
