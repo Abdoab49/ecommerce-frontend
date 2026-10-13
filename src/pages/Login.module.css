@@ -1,355 +1,299 @@
 /* src/pages/Login.module.css */
 
 /* ============================================
-   PAGE
+   WRAPPER
    ============================================ */
-.page {
+.so {
+  --so-ink: #1a1d24;
+  --so-muted: #6b7285;
+  --so-line: #8b93a1;
+
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
-  background: #000000;
-  box-sizing: border-box;
+  padding: 24px;
+  background: linear-gradient(180deg, #fafafa, #eef1f6);
+  color: var(--so-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
-/* ============================================
-   FORM CONTAINER
-   ============================================ */
-.formContainer {
-  width: 350px;
-  min-height: 500px;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  padding: 20px 30px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ============================================
-   TITLE
-   ============================================ */
-.title {
-  text-align: center;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  margin: 10px 0 30px 0;
-  font-size: 28px;
-  font-weight: 800;
-  color: #000;
-}
-
-/* ============================================
-   FORM
-   ============================================ */
-.form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-bottom: 15px;
-}
-
-/* ============================================
-   INPUT
-   ============================================ */
-.input {
-  border-radius: 20px;
-  border: 1px solid #c0c0c0;
-  outline: 0 !important;
-  box-sizing: border-box;
-  padding: 12px 15px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 13px;
-  color: #000;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  border-color: rgb(0, 0, 0);
-}
-
-.input::placeholder {
-  color: #999;
-}
-
-/* ============================================
-   PAGE LINK (Forgot Password)
-   ============================================ */
-.pageLink {
-  text-decoration: underline;
+.so h1,
+.so p {
   margin: 0;
-  text-align: end;
-  color: #747474;
-  text-decoration-color: #747474;
 }
 
-.pageLinkLabel {
-  cursor: pointer;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 9px;
+/* ============================================
+   BOX
+   ============================================ */
+.soBox {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #e7e9ef;
+  border-radius: 18px;
+  padding: 42px 38px;
+  box-shadow: 0 20px 45px -18px rgba(23, 25, 35, 0.18);
+  box-sizing: border-box;
+}
+
+.soTitle {
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  text-align: center;
   font-weight: 700;
 }
 
-.pageLinkLabel:hover {
-  color: #000;
+.soSub {
+  text-align: center;
+  color: #70768a;
+  font-size: 0.92rem;
+  margin: 6px 0 28px !important;
 }
 
 /* ============================================
-   FORM BUTTON
+   SOCIAL BUTTONS
    ============================================ */
-.formBtn {
-  padding: 10px 15px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  border-radius: 20px;
-  border: 0 !important;
-  outline: 0 !important;
-  background: rgb(0, 0, 0);
-  color: white;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  font-size: 14px;
+.soSocial {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.soSocial button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 11px;
+  border: 1px solid #dcdfe8;
+  background: #fff;
+  color: var(--so-ink);
+  font: inherit;
+  font-size: 0.92rem;
   font-weight: 600;
-  transition: opacity 0.2s;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
 }
 
-.formBtn:active {
-  box-shadow: none;
+.soSocial button:hover {
+  background: #f6f7fa;
+  border-color: #c4c9d6;
 }
 
-.formBtn:disabled {
+.soSocial svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+/* ✅ Google Login wrapper */
+.soGoogleWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.soGoogleWrapper > div {
+  width: 100% !important;
+}
+
+.soGoogleWrapper iframe {
+  width: 100% !important;
+  border-radius: 11px !important;
+}
+
+/* ============================================
+   DIVIDER
+   ============================================ */
+.soDivider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px 0;
+  color: var(--so-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.soDivider::before,
+.soDivider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e7e9ef;
+}
+
+/* ============================================
+   LABEL + INPUT
+   ============================================ */
+.soLabel {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.soInput {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--so-line);
+  border-radius: 11px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: inherit;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.soInput::placeholder {
+  color: var(--so-muted);
+}
+
+.soInput:focus {
+  outline: none;
+  border-color: var(--so-ink);
+  box-shadow: 0 0 0 3px rgba(26, 29, 36, 0.14);
+}
+
+/* ============================================
+   FORGOT PASSWORD
+   ============================================ */
+.soForgot {
+  text-align: right;
+  margin-top: 8px;
+}
+
+.soForgotLink {
+  color: var(--so-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.soForgotLink:hover {
+  color: var(--so-ink);
+  text-decoration: underline;
+}
+
+/* ============================================
+   GO BUTTON
+   ============================================ */
+.soGo {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--so-ink);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.94rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.soGo:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.soGo:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* ============================================
-   SIGN UP LABEL
+   FINE PRINT
    ============================================ */
-.signUpLabel {
-  margin: 0;
-  font-size: 10px;
-  color: #747474;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+.soFine {
+  margin-top: 22px !important;
   text-align: center;
-  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--so-muted);
+  line-height: 1.55;
 }
 
-.signUpLink {
-  margin-left: 3px;
-  font-size: 11px;
+.soFine a {
+  color: var(--so-ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 3px;
+}
+
+.soFine a:hover {
   text-decoration: underline;
-  text-decoration-color: rgb(0, 0, 0);
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  font-weight: 800;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-.signUpLink:hover {
-  color: #000000;
+.soLink {
+  color: var(--so-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.soLink:hover {
+  text-decoration: underline;
 }
 
 /* ============================================
-   ERROR MESSAGE
+   ERROR
    ============================================ */
-.errorMsg {
-  padding: 8px 12px;
+.soError {
+  margin-top: 16px;
+  padding: 10px 14px;
   background: #fee2e2;
   border: 1px solid #fca5a5;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #991b1b;
-  font-size: 11px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 0.85rem;
   text-align: center;
 }
 
 /* ============================================
-   BUTTONS CONTAINER (Apple + Google)
+   FOCUS VISIBLE
    ============================================ */
-.buttonsContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-top: 20px;
-  gap: 15px;
-}
-
-.appleLoginButton,
-.googleLoginButton {
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 10px 15px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 11px;
-  gap: 5px;
-  transition: transform 0.2s;
-}
-
-.appleLoginButton:hover,
-.googleLoginButton:hover {
-  transform: translateY(-2px);
-}
-
-.appleLoginButton {
-  background-color: #000;
-  color: #fff;
-  border: 2px solid #000;
-}
-
-.googleLoginButton {
-  border: 2px solid #747474;
-  color: #000;
-}
-
-.appleIcon,
-.googleIcon {
-  font-size: 18px;
-  margin-bottom: 1px;
-}
-
-.googleLoginWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.googleLoginWrapper > div {
-  width: 100%;
-}
-
-.googleLoginWrapper iframe {
-  width: 100% !important;
-  border-radius: 20px !important;
-}
-
-.successMsg {
-  padding: 8px 12px;
-  background: #d1fae5;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  color: #000000;
-  font-size: 11px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  text-align: center;
+.so a:focus-visible,
+.soSocial button:focus-visible,
+.soGo:focus-visible {
+  outline: 2px solid var(--so-ink);
+  outline-offset: 2px;
 }
 
 /* ============================================
-   MEDIA QUERIES
+   REDUCED MOTION
    ============================================ */
-
-@media (max-width: 900px) {
-  .formContainer {
-    width: 340px;
+@media (prefers-reduced-motion: reduce) {
+  .soSocial button,
+  .soInput,
+  .soGo {
+    transition: none;
   }
 }
 
-@media (max-width: 768px) {
-  .page {
-    padding: 30px 16px;
-  }
-
-  .formContainer {
-    width: 100%;
-    max-width: 360px;
-  }
-}
-
-@media (max-width: 600px) {
-  .formContainer {
-    max-width: 340px;
-    padding: 20px 25px;
-  }
-
-  .title {
-    font-size: 26px;
-  }
-}
-
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 @media (max-width: 480px) {
-  .page {
-    padding: 20px 12px;
+  .so {
+    padding: 16px;
   }
 
-  .formContainer {
-    max-width: 100%;
-    padding: 20px 20px;
-    border-radius: 12px;
+  .soBox {
+    padding: 32px 24px;
+    border-radius: 16px;
   }
 
-  .title {
-    font-size: 24px;
+  .soTitle {
+    font-size: 1.3rem;
   }
 
-  .input {
-    font-size: 14px;
-    padding: 11px 14px;
-  }
-
-  .formBtn {
-    font-size: 13px;
-    padding: 10px 14px;
-  }
-
-  .appleLoginButton,
-  .googleLoginButton {
-    font-size: 11px;
-    padding: 10px 12px;
-  }
-}
-
-@media (max-width: 400px) {
-  .formContainer {
-    padding: 18px 16px;
-  }
-
-  .title {
-    font-size: 22px;
-    margin: 8px 0 20px 0;
-  }
-
-  .form {
-    gap: 14px;
-  }
-}
-
-@media (max-width: 320px) {
-  .formContainer {
-    padding: 16px 14px;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .input {
-    font-size: 13px;
-    padding: 10px 12px;
-  }
-
-  .formBtn {
-    font-size: 12px;
-  }
-
-  .appleLoginButton,
-  .googleLoginButton {
-    font-size: 10px;
-    padding: 8px 10px;
+  .soSub {
+    font-size: 0.85rem;
   }
 }

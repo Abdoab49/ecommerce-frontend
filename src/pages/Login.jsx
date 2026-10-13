@@ -1,6 +1,6 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';   // ✅ Zid Link
+import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css';
 
@@ -150,51 +150,103 @@ const Login = () => {
   // ✅ RENDER
   // ============================================
   return (
-    <div className={styles.page}>
-      <div className={styles.formContainer}>
+    <div className={styles.so}>
+      <form className={styles.soBox} onSubmit={mode === 'login' ? handleLogin : handleSignup}>
 
         {/* ===== LOGIN MODE ===== */}
         {mode === 'login' && (
           <>
-            <p className={styles.title}>Welcome back</p>
+            <h1 className={styles.soTitle}>Log in to LANADA</h1>
+            <p className={styles.soSub}>Choose how you want to continue.</p>
 
-            <form className={styles.form} onSubmit={handleLogin}>
-              <input
-                type="email"
-                className={styles.input}
-                placeholder="Email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                required
-              />
+            {/* ✅ Social buttons */}
+            <div className={styles.soSocial}>
+              {/* ✅ Google — REAL */}
+              <div className={styles.soGoogleWrapper}>
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  text="continue_with"
+                  shape="pill"
+                  theme="outline"
+                  size="large"
+                  width="100%"
+                />
+              </div>
 
-              <input
-                type="password"
-                className={styles.input}
-                placeholder="Password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-              />
-
-              {/* ✅ Forgot Password — Link */}
-              <p className={styles.pageLink}>
-                <Link to="/forgot-password" className={styles.pageLinkLabel}>
-                  Forgot Password?
-                </Link>
-              </p>
-
-              {loginError && <div className={styles.errorMsg}>{loginError}</div>}
-
-              <button type="submit" className={styles.formBtn} disabled={loginLoading}>
-                {loginLoading ? 'Connexion...' : 'Log in'}
+              {/* ❌ GitHub — ghir design */}
+              <button type="button" onClick={() => alert('GitHub login — mazal ma khddamch')}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="#1a1d24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4 18.3 4.3 18.3 4.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z" />
+                </svg>
+                Continue with GitHub
               </button>
-            </form>
 
-            <p className={styles.signUpLabel}>
+              {/* ❌ Apple — ghir design */}
+              <button type="button" onClick={() => alert('Apple login — mazal ma khddamch')}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="#1a1d24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M16.36 12.76c.03 3.26 2.86 4.35 2.89 4.36-.02.08-.45 1.55-1.49 3.07-.9 1.31-1.83 2.62-3.3 2.65-1.44.03-1.91-.86-3.56-.86-1.65 0-2.17.83-3.54.88-1.42.05-2.5-1.42-3.4-2.72C2.1 17.47.68 12.6 2.57 9.39a5.25 5.25 0 0 1 4.44-2.7c1.39-.02 2.7.94 3.56.94.85 0 2.45-1.16 4.13-.99.7.03 2.68.29 3.94 2.13-.1.06-2.35 1.38-2.28 3.99zM13.6 3.9c.75-.91 1.26-2.18 1.12-3.44-1.08.04-2.39.72-3.17 1.63-.7.8-1.31 2.09-1.14 3.32 1.2.1 2.44-.61 3.19-1.51z" />
+                </svg>
+                Continue with Apple
+              </button>
+            </div>
+
+            {/* ✅ Divider */}
+            <div className={styles.soDivider}>OR</div>
+
+            {/* ✅ Email + Password */}
+            <label className={styles.soLabel} htmlFor="so-email">Email address</label>
+            <input
+              className={styles.soInput}
+              type="email"
+              id="so-email"
+              placeholder="you@example.com"
+              autoComplete="username"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              required
+            />
+
+            <label className={styles.soLabel} htmlFor="so-password" style={{ marginTop: '12px' }}>Password</label>
+            <input
+              className={styles.soInput}
+              type="password"
+              id="so-password"
+              placeholder="••••••••"
+              autoComplete="current-password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              required
+            />
+
+            {/* ✅ Forgot Password */}
+            <div className={styles.soForgot}>
+              <Link to="/forgot-password" className={styles.soForgotLink}>
+                Forgot Password?
+              </Link>
+            </div>
+
+            {loginError && <p className={styles.soError}>{loginError}</p>}
+
+            <button className={styles.soGo} type="submit" disabled={loginLoading}>
+              {loginLoading ? 'Loading...' : 'Log in'}
+            </button>
+
+            {/* ✅ Sign up link */}
+            <p className={styles.soFine}>
               Don't have an account?{' '}
               <span
-                className={styles.signUpLink}
+                className={styles.soLink}
                 onClick={() => {
                   setMode('signup');
                   setLoginError('');
@@ -204,92 +256,83 @@ const Login = () => {
               </span>
             </p>
 
-            {/* ✅ Apple + Google */}
-            <div className={styles.buttonsContainer}>
-              <div className={styles.appleLoginButton}>
-                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" className={styles.appleIcon} viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M747.4 535.7c-.4-68.2 30.5-119.6 92.9-157.5-34.9-50-87.7-77.5-157.3-82.8-65.9-5.2-138 38.4-164.4 38.4-27.9 0-91.7-36.6-141.9-36.6C273.1 298.8 163 379.8 163 544.6c0 48.7 8.9 99 26.7 150.8 23.8 68.2 109.6 235.3 199.1 232.6 46.8-1.1 79.9-33.2 140.8-33.2 59.1 0 89.7 33.2 141.9 33.2 90.3-1.3 167.9-153.2 190.5-221.6-121.1-57.1-114.6-167.2-114.6-170.7zm-105.1-305c50.7-60.2 46.1-115 44.6-134.7-44.8 2.6-96.6 30.5-126.1 64.8-32.5 36.8-51.6 82.3-47.5 133.6 48.4 3.7 92.6-21.2 129-63.7z"></path>
-                </svg>
-                <span>Log in with Apple</span>
-              </div>
-
-              {/* ✅ Google Login — REAL */}
-              <div className={styles.googleLoginWrapper}>
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleError}
-                  text="continue_with"
-                  shape="pill"
-                  theme="outline"
-                  size="large"
-                  width={350}
-                />
-              </div>
-            </div>
+            <p className={styles.soFine}>
+              By continuing you agree to our <a href="#">Terms</a> and{' '}
+              <a href="#">Privacy Policy</a>.
+            </p>
           </>
         )}
 
         {/* ===== SIGNUP MODE ===== */}
         {mode === 'signup' && (
           <>
-            <p className={styles.title}>Create account</p>
+            <h1 className={styles.soTitle}>Create your account</h1>
+            <p className={styles.soSub}>Join LANADA in seconds.</p>
 
-            <form className={styles.form} onSubmit={handleSignup}>
-              <input
-                type="text"
-                className={styles.input}
-                placeholder="Full Name"
-                value={signupFullName}
-                onChange={(e) => setSignupFullName(e.target.value)}
-                required
-              />
+            <label className={styles.soLabel} htmlFor="so-fullname">Full Name</label>
+            <input
+              className={styles.soInput}
+              type="text"
+              id="so-fullname"
+              placeholder="Samir El Idrissi"
+              value={signupFullName}
+              onChange={(e) => setSignupFullName(e.target.value)}
+              required
+            />
 
-              <input
-                type="email"
-                className={styles.input}
-                placeholder="Email"
-                value={signupEmail}
-                onChange={(e) => setSignupEmail(e.target.value)}
-                required
-              />
+            <label className={styles.soLabel} htmlFor="so-signup-email" style={{ marginTop: '12px' }}>Email</label>
+            <input
+              className={styles.soInput}
+              type="email"
+              id="so-signup-email"
+              placeholder="you@example.com"
+              value={signupEmail}
+              onChange={(e) => setSignupEmail(e.target.value)}
+              required
+            />
 
-              <input
-                type="tel"
-                className={styles.input}
-                placeholder="Phone (optional)"
-                value={signupPhone}
-                onChange={(e) => setSignupPhone(e.target.value)}
-              />
+            <label className={styles.soLabel} htmlFor="so-phone" style={{ marginTop: '12px' }}>Phone (optional)</label>
+            <input
+              className={styles.soInput}
+              type="tel"
+              id="so-phone"
+              placeholder="0612345678"
+              value={signupPhone}
+              onChange={(e) => setSignupPhone(e.target.value)}
+            />
 
-              <input
-                type="password"
-                className={styles.input}
-                placeholder="Password"
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
-                required
-              />
+            <label className={styles.soLabel} htmlFor="so-signup-password" style={{ marginTop: '12px' }}>Password</label>
+            <input
+              className={styles.soInput}
+              type="password"
+              id="so-signup-password"
+              placeholder="•••••••• (min 6)"
+              value={signupPassword}
+              onChange={(e) => setSignupPassword(e.target.value)}
+              required
+            />
 
-              <input
-                type="password"
-                className={styles.input}
-                placeholder="Confirm Password"
-                value={signupConfirm}
-                onChange={(e) => setSignupConfirm(e.target.value)}
-                required
-              />
+            <label className={styles.soLabel} htmlFor="so-confirm" style={{ marginTop: '12px' }}>Confirm Password</label>
+            <input
+              className={styles.soInput}
+              type="password"
+              id="so-confirm"
+              placeholder="••••••••"
+              value={signupConfirm}
+              onChange={(e) => setSignupConfirm(e.target.value)}
+              required
+            />
 
-              {signupError && <div className={styles.errorMsg}>{signupError}</div>}
+            {signupError && <p className={styles.soError}>{signupError}</p>}
 
-              <button type="submit" className={styles.formBtn} disabled={signupLoading}>
-                {signupLoading ? 'Création...' : 'Sign up'}
-              </button>
-            </form>
+            <button className={styles.soGo} type="submit" disabled={signupLoading}>
+              {signupLoading ? 'Création...' : 'Create account'}
+            </button>
 
-            <p className={styles.signUpLabel}>
+            <p className={styles.soFine}>
               Already have an account?{' '}
               <span
-                className={styles.signUpLink}
+                className={styles.soLink}
                 onClick={() => {
                   setMode('login');
                   setSignupError('');
@@ -300,7 +343,8 @@ const Login = () => {
             </p>
           </>
         )}
-      </div>
+
+      </form>
     </div>
   );
 };
