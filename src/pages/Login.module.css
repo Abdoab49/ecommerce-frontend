@@ -53,7 +53,7 @@
 }
 
 /* ============================================
-   SOCIAL BUTTONS
+   SOCIAL BUTTONS — KOULHOM NAFS DESIGN
    ============================================ */
 .soSocial {
   display: flex;
@@ -88,22 +88,6 @@
   width: 18px;
   height: 18px;
   flex: none;
-}
-
-/* ✅ Google Login wrapper */
-.soGoogleWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.soGoogleWrapper > div {
-  width: 100% !important;
-}
-
-.soGoogleWrapper iframe {
-  width: 100% !important;
-  border-radius: 11px !important;
 }
 
 /* ============================================

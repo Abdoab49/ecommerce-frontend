@@ -1,7 +1,7 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -23,6 +23,44 @@ const Login = () => {
   const [signupConfirm, setSignupConfirm] = useState('');
   const [signupLoading, setSignupLoading] = useState(false);
   const [signupError, setSignupError] = useState('');
+
+  // ============================================
+  // ✅ GOOGLE LOGIN — Hook (bla iframe)
+  // ============================================
+  const loginWithGoogle = useGoogleLogin({
+    flow: 'implicit',
+    onSuccess: async (tokenResponse) => {
+      setLoginError('');
+      setLoginLoading(true);
+
+      try {
+        const response = await fetch('https://backend-3lyx.onrender.com/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            credential: tokenResponse.id_token || tokenResponse.access_token
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          localStorage.setItem('lanada_user_id', data.userId);
+          localStorage.setItem('lanada_user', JSON.stringify(data.user));
+          navigate('/orders');
+        } else {
+          setLoginError(data.message || 'Google login failed');
+        }
+      } catch (err) {
+        setLoginError('Mochkil f connection. 3awd jrreb.');
+      } finally {
+        setLoginLoading(false);
+      }
+    },
+    onError: () => {
+      setLoginError('Google login cancelled wla failed');
+    }
+  });
 
   // ============================================
   // ✅ LOGIN
@@ -111,47 +149,14 @@ const Login = () => {
   };
 
   // ============================================
-  // ✅ GOOGLE LOGIN
-  // ============================================
-  const handleGoogleSuccess = async (credentialResponse) => {
-    setLoginError('');
-    setLoginLoading(true);
-
-    try {
-      const response = await fetch('https://backend-3lyx.onrender.com/api/auth/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          credential: credentialResponse.credential
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.setItem('lanada_user_id', data.userId);
-        localStorage.setItem('lanada_user', JSON.stringify(data.user));
-        navigate('/orders');
-      } else {
-        setLoginError(data.message || 'Google login failed');
-      }
-    } catch (err) {
-      setLoginError('Mochkil f connection. 3awd jrreb.');
-    } finally {
-      setLoginLoading(false);
-    }
-  };
-
-  const handleGoogleError = () => {
-    setLoginError('Google login cancelled wla failed');
-  };
-
-  // ============================================
   // ✅ RENDER
   // ============================================
   return (
     <div className={styles.so}>
-      <form className={styles.soBox} onSubmit={mode === 'login' ? handleLogin : handleSignup}>
+      <form
+        className={styles.soBox}
+        onSubmit={mode === 'login' ? handleLogin : handleSignup}
+      >
 
         {/* ===== LOGIN MODE ===== */}
         {mode === 'login' && (
@@ -159,20 +164,22 @@ const Login = () => {
             <h1 className={styles.soTitle}>Log in to LANADA</h1>
             <p className={styles.soSub}>Choose how you want to continue.</p>
 
-            {/* ✅ Social buttons */}
+            {/* ✅ Social buttons — KOULHOM NAFS DESIGN */}
             <div className={styles.soSocial}>
-              {/* ✅ Google — REAL */}
-              <div className={styles.soGoogleWrapper}>
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleError}
-                  text="continue_with"
-                  shape="pill"
-                  theme="outline"
-                  size="large"
-                  width="100%"
-                />
-              </div>
+              {/* ✅ Google — Button 3adi (bhal Apple w GitHub) */}
+              <button type="button" onClick={() => loginWithGoogle()}>
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A11 11 0 0 0 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                </svg>
+                Continue with Google
+              </button>
 
               {/* ❌ GitHub — ghir design */}
               <button type="button" onClick={() => alert('GitHub login — mazal ma khddamch')}>
@@ -205,7 +212,9 @@ const Login = () => {
             <div className={styles.soDivider}>OR</div>
 
             {/* ✅ Email + Password */}
-            <label className={styles.soLabel} htmlFor="so-email">Email address</label>
+            <label className={styles.soLabel} htmlFor="so-email">
+              Email address
+            </label>
             <input
               className={styles.soInput}
               type="email"
@@ -217,7 +226,13 @@ const Login = () => {
               required
             />
 
-            <label className={styles.soLabel} htmlFor="so-password" style={{ marginTop: '12px' }}>Password</label>
+            <label
+              className={styles.soLabel}
+              htmlFor="so-password"
+              style={{ marginTop: '12px' }}
+            >
+              Password
+            </label>
             <input
               className={styles.soInput}
               type="password"
@@ -269,7 +284,9 @@ const Login = () => {
             <h1 className={styles.soTitle}>Create your account</h1>
             <p className={styles.soSub}>Join LANADA in seconds.</p>
 
-            <label className={styles.soLabel} htmlFor="so-fullname">Full Name</label>
+            <label className={styles.soLabel} htmlFor="so-fullname">
+              Full Name
+            </label>
             <input
               className={styles.soInput}
               type="text"
@@ -280,7 +297,13 @@ const Login = () => {
               required
             />
 
-            <label className={styles.soLabel} htmlFor="so-signup-email" style={{ marginTop: '12px' }}>Email</label>
+            <label
+              className={styles.soLabel}
+              htmlFor="so-signup-email"
+              style={{ marginTop: '12px' }}
+            >
+              Email
+            </label>
             <input
               className={styles.soInput}
               type="email"
@@ -291,7 +314,13 @@ const Login = () => {
               required
             />
 
-            <label className={styles.soLabel} htmlFor="so-phone" style={{ marginTop: '12px' }}>Phone (optional)</label>
+            <label
+              className={styles.soLabel}
+              htmlFor="so-phone"
+              style={{ marginTop: '12px' }}
+            >
+              Phone (optional)
+            </label>
             <input
               className={styles.soInput}
               type="tel"
@@ -301,7 +330,13 @@ const Login = () => {
               onChange={(e) => setSignupPhone(e.target.value)}
             />
 
-            <label className={styles.soLabel} htmlFor="so-signup-password" style={{ marginTop: '12px' }}>Password</label>
+            <label
+              className={styles.soLabel}
+              htmlFor="so-signup-password"
+              style={{ marginTop: '12px' }}
+            >
+              Password
+            </label>
             <input
               className={styles.soInput}
               type="password"
@@ -312,7 +347,13 @@ const Login = () => {
               required
             />
 
-            <label className={styles.soLabel} htmlFor="so-confirm" style={{ marginTop: '12px' }}>Confirm Password</label>
+            <label
+              className={styles.soLabel}
+              htmlFor="so-confirm"
+              style={{ marginTop: '12px' }}
+            >
+              Confirm Password
+            </label>
             <input
               className={styles.soInput}
               type="password"
