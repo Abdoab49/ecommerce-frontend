@@ -161,6 +161,18 @@ const Login = () => {
   };
 
   // ============================================
+  // ✅ LOADING — Spinner
+  // ============================================
+  if (loginLoading || signupLoading) {
+    return (
+      <div className="loader-wrapper">
+        <div className="spin light"></div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // ============================================
   // ✅ RENDER
   // ============================================
   return (
