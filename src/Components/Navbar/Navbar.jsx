@@ -6,6 +6,10 @@ import cart_icon from '../Assets/cart_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 
+// ✅ Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { byPrefixAndName } from '@fortawesome/fontawesome-svg-core';
+
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -107,8 +111,17 @@ const Navbar = () => {
                         </>
                     ) : (
                         <li>
-                            <Link to="/login" className={styles.link} onClick={closeMenu}>
-                                LOG IN
+                            {/* ✅ Icon 👤 — blaset LOG IN */}
+                            <Link
+                                to="/login"
+                                className={styles.iconLink}
+                                onClick={closeMenu}
+                                title="Login"
+                            >
+                                <FontAwesomeIcon
+                                    icon={byPrefixAndName.fal['user']}
+                                    className={styles.userIcon}
+                                />
                             </Link>
                         </li>
                     )}
