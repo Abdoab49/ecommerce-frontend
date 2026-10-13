@@ -87,9 +87,10 @@ const Navbar = () => {
                         </Link>
                     </li>
 
+                    {/* ✅ User + Logout — f menu (ghir f MOBILE) */}
                     {user ? (
                         <>
-                            <li>
+                            <li className={styles.mobileOnly}>
                                 <Link
                                     to="/orders"
                                     className={styles.link}
@@ -98,7 +99,7 @@ const Navbar = () => {
                                     {user.fullName.split(' ')[0]}
                                 </Link>
                             </li>
-                            <li>
+                            <li className={styles.mobileOnly}>
                                 <button
                                     onClick={handleLogout}
                                     className={styles.link}
@@ -108,24 +109,39 @@ const Navbar = () => {
                             </li>
                         </>
                     ) : (
-                        <li>
-                            {/* ✅ Icon 👤 — blaset LOG IN */}
-                            <Link
-                                to="/login"
-                                className={styles.iconLink}
-                                onClick={closeMenu}
-                                title="Login"
-                            >
-                                <FontAwesomeIcon
-                                    icon={faUser}
-                                    className={styles.userIcon}
-                                />
+                        <li className={styles.mobileOnly}>
+                            <Link to="/login" className={styles.link} onClick={closeMenu}>
+                                LOG IN
                             </Link>
                         </li>
                     )}
                 </ul>
 
                 <div className={styles.rightSection}>
+                    {/* ✅ Icon 👤 — 7da Cart */}
+                    {user ? (
+                        <div className={styles.userMenu}>
+                            <Link to="/orders" className={styles.userText}>
+                                {user.fullName.split(' ')[0]}
+                            </Link>
+                            <button onClick={handleLogout} className={styles.link}>
+                                LOGOUT
+                            </button>
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className={styles.iconLink}
+                            title="Login"
+                        >
+                            <FontAwesomeIcon
+                                icon={faUser}
+                                className={styles.userIcon}
+                            />
+                        </Link>
+                    )}
+
+                    {/* ✅ Cart */}
                     <div className={styles.cart}>
                         <Link to='/cart'>
                             <img src={cart_icon} alt="cart" />

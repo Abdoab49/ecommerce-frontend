@@ -310,3 +310,106 @@
     height: 16px;
   }
 }
+
+/* ============================================
+   ICON LINK — Login (7da Cart)
+   ============================================ */
+.iconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+
+.iconLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #27aa80;
+  transform: scale(1.05);
+}
+
+.userIcon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================
+   USER MENU — Desktop (7da Cart)
+   ============================================ */
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userText {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.userText:hover {
+  color: #27aa80;
+}
+
+/* ============================================
+   MOBILE ONLY — kayban ghir f mobile
+   ============================================ */
+.mobileOnly {
+  display: none;
+}
+
+/* ============================================
+   MEDIA QUERIES
+   ============================================ */
+@media (max-width: 768px) {
+  /* F mobile — user + logout kaybano f menu */
+  .mobileOnly {
+    display: block;
+  }
+
+  /* F mobile — iconLink makhfi */
+  .iconLink {
+    display: none;
+  }
+
+  /* F mobile — userText w logout makhfi */
+  .userMenu {
+    display: none;
+  }
+
+  .iconLink {
+    width: 36px;
+    height: 36px;
+  }
+
+  .userIcon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconLink {
+    width: 32px;
+    height: 32px;
+  }
+
+  .userIcon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
