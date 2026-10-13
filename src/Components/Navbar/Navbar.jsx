@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import logo from '../Assets/logo.png';
 import cart_icon from '../Assets/cart_icon.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 
 // ✅ Font Awesome — Import direct
@@ -17,7 +17,9 @@ const Navbar = () => {
     const [user, setUser] = useState(null);
     const { cartCount } = useContext(ShopContext);
     const navigate = useNavigate();
+    const location = useLocation();   // ✅ Zid hadi
 
+    // ✅ Check user — 3la koul route change
     useEffect(() => {
         const userData = localStorage.getItem('lanada_user');
         if (userData) {
@@ -26,7 +28,35 @@ const Navbar = () => {
             } catch (e) {
                 setUser(null);
             }
+        } else {
+            setUser(null);
         }
+    }, [location.pathname]);   // ✅ Kaykhdem melli route kaytbdel
+
+    // ✅ Listener l storage changes (mn tabs akhrin)
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const userData = localStorage.getItem('lanada_user');
+            if (userData) {
+                try {
+                    setUser(JSON.parse(userData));
+                } catch (e) {
+                    setUser(null);
+                }
+            } else {
+                setUser(null);
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // ✅ Custom event — melli login f nafs tab
+        window.addEventListener('userChanged', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('userChanged', handleStorageChange);
+        };
     }, []);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -37,8 +67,11 @@ const Navbar = () => {
         localStorage.removeItem('lanada_user');
         setUser(null);
         closeMenu();
+
+        // ✅ Notify koul components
+        window.dispatchEvent(new Event('userChanged'));
+
         navigate('/login');
-        window.location.reload();
     };
 
     return (
@@ -88,10 +121,10 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* ✅ User + Logout — f menu (ghir f MOBILE) */}
+                    {/* ✅ User + Logout — ghir ila mconnecté (f menu mobile) */}
                     {user && (
                         <>
-                            <li className={styles.mobileOnly}>
+                            <li>
                                 <Link
                                     to="/orders"
                                     className={styles.link}
@@ -100,7 +133,7 @@ const Navbar = () => {
                                     {user.fullName.split(' ')[0]}
                                 </Link>
                             </li>
-                            <li className={styles.mobileOnly}>
+                            <li>
                                 <button
                                     onClick={handleLogout}
                                     className={styles.link}
@@ -113,7 +146,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className={styles.rightSection}>
-                    {/* ✅ Icon f nafs blasa — Login wla Logout */}
+                    {/* ✅ Icon 👤 (Login) wla 🚪 (Logout) */}
                     {user ? (
                         // ✅ Ba3d ma ydkhol — icon Logout
                         <button

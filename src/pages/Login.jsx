@@ -47,6 +47,10 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem('lanada_user_id', data.userId);
           localStorage.setItem('lanada_user', JSON.stringify(data.user));
+
+          // ✅ Notify Navbar
+          window.dispatchEvent(new Event('userChanged'));
+
           navigate('/orders');
         } else {
           setLoginError(data.message || 'Google login failed');
@@ -85,6 +89,10 @@ const Login = () => {
       if (data.success) {
         localStorage.setItem('lanada_user_id', data.userId);
         localStorage.setItem('lanada_user', JSON.stringify(data.user));
+
+        // ✅ Notify Navbar
+        window.dispatchEvent(new Event('userChanged'));
+
         navigate('/orders');
       } else {
         setLoginError(data.message || 'Email wla password ghalat');
@@ -137,6 +145,10 @@ const Login = () => {
       if (data.success) {
         localStorage.setItem('lanada_user_id', data.userId);
         localStorage.setItem('lanada_user', JSON.stringify(data.user));
+
+        // ✅ Notify Navbar
+        window.dispatchEvent(new Event('userChanged'));
+
         navigate('/orders');
       } else {
         setSignupError(data.message || 'Mochkil f signup');
