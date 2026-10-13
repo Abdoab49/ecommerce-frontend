@@ -342,53 +342,19 @@
 }
 
 /* ============================================
-   USER MENU — Desktop (7da Cart)
+   RIGHT SECTION — Icon + Cart 7da b3diyathom
    ============================================ */
-.userMenu {
+.rightSection {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.userText {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s;
-  cursor: pointer;
-}
-
-.userText:hover {
-  color: #27aa80;
-}
-
-/* ============================================
-   MOBILE ONLY — kayban ghir f mobile
-   ============================================ */
-.mobileOnly {
-  display: none;
 }
 
 /* ============================================
    MEDIA QUERIES
    ============================================ */
 @media (max-width: 768px) {
-  /* F mobile — user + logout kaybano f menu */
-  .mobileOnly {
-    display: block;
-  }
-
-  /* F mobile — iconLink makhfi */
-  .iconLink {
-    display: none;
-  }
-
-  /* F mobile — userText w logout makhfi */
-  .userMenu {
-    display: none;
-  }
-
+  /* ✅ F mobile — iconLink BAQI kayban (7da cart) */
   .iconLink {
     width: 36px;
     height: 36px;
@@ -398,6 +364,10 @@
     font-size: 18px;
     width: 18px;
     height: 18px;
+  }
+
+  .rightSection {
+    gap: 8px;
   }
 }
 
@@ -411,5 +381,9 @@
     font-size: 16px;
     width: 16px;
     height: 16px;
+  }
+
+  .rightSection {
+    gap: 6px;
   }
 }

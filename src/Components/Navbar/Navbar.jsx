@@ -87,10 +87,10 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* ✅ User + Logout — f menu (ghir f MOBILE) */}
-                    {user ? (
+                    {/* ✅ User + Logout — ghir ila mconnecté (f menu mobile) */}
+                    {user && (
                         <>
-                            <li className={styles.mobileOnly}>
+                            <li>
                                 <Link
                                     to="/orders"
                                     className={styles.link}
@@ -99,7 +99,7 @@ const Navbar = () => {
                                     {user.fullName.split(' ')[0]}
                                 </Link>
                             </li>
-                            <li className={styles.mobileOnly}>
+                            <li>
                                 <button
                                     onClick={handleLogout}
                                     className={styles.link}
@@ -108,27 +108,12 @@ const Navbar = () => {
                                 </button>
                             </li>
                         </>
-                    ) : (
-                        <li className={styles.mobileOnly}>
-                            <Link to="/login" className={styles.link} onClick={closeMenu}>
-                                LOG IN
-                            </Link>
-                        </li>
                     )}
                 </ul>
 
                 <div className={styles.rightSection}>
-                    {/* ✅ Icon 👤 — 7da Cart */}
-                    {user ? (
-                        <div className={styles.userMenu}>
-                            <Link to="/orders" className={styles.userText}>
-                                {user.fullName.split(' ')[0]}
-                            </Link>
-                            <button onClick={handleLogout} className={styles.link}>
-                                LOGOUT
-                            </button>
-                        </div>
-                    ) : (
+                    {/* ✅ Icon 👤 — 7da Cart — F DESKTOP W F MOBILE */}
+                    {!user && (
                         <Link
                             to="/login"
                             className={styles.iconLink}
