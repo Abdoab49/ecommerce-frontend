@@ -6,9 +6,9 @@ import cart_icon from '../Assets/cart_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 
-// ✅ Font Awesome
+// ✅ Font Awesome — Import direct
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { byPrefixAndName } from '@fortawesome/fontawesome-svg-core';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 const Navbar = () => {
     const [menu, setMenu] = useState("shop");
@@ -56,7 +56,6 @@ const Navbar = () => {
                 </div>
 
                 <ul className={`${styles.menuItems} ${isMenuOpen ? styles.active : ''}`}>
-                    {/* ===== LINKS — kifhom koulhom ===== */}
                     <li>
                         <Link to='/' className={`${styles.link} ${menu === "shop" ? styles.active : ''}`}
                             onClick={() => { setMenu("shop"); closeMenu(); }}>
@@ -88,7 +87,6 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* ===== USER + LOGOUT — nafs STYLE — kifhom kif SHOES ===== */}
                     {user ? (
                         <>
                             <li>
@@ -119,7 +117,7 @@ const Navbar = () => {
                                 title="Login"
                             >
                                 <FontAwesomeIcon
-                                    icon={byPrefixAndName.fal['user']}
+                                    icon={faUser}
                                     className={styles.userIcon}
                                 />
                             </Link>
