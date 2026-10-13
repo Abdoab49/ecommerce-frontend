@@ -461,11 +461,28 @@
   margin-bottom: 8px;
 }
 
+/* ============================================
+   ✅ FORM INPUT — Text K7EL
+   ============================================ */
 .formInput {
   padding: 10px 14px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 14px;
+  color: #000000;              /* ✅ Text k7el */
+  background: #ffffff;         /* ✅ Background byed */
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formInput::placeholder {
+  color: #999999;              /* ✅ Placeholder gray */
+}
+
+.formInput:focus {
+  border-color: #000000;       /* ✅ Focus k7el */
 }
 
 .summarySubtotal {
@@ -565,7 +582,6 @@
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  /* ✅ Bla background */
 }
 
 .successCard {
@@ -583,8 +599,6 @@
   0% { opacity: 0; transform: scale(0.8); }
   100% { opacity: 1; transform: scale(1); }
 }
-
-/* ❌ Hayedna .successIcon */
 
 .successTitle {
   font-size: 32px;
@@ -637,14 +651,16 @@
   }
 }
 
-/* ===== SELECT (dropdown) ===== */
+/* ============================================
+   ✅ SELECT (dropdown) — Text K7EL
+   ============================================ */
 select.formInput {
   padding: 10px 14px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 14px;
   background: #fff;
-  color: #000;
+  color: #000;                 /* ✅ Text k7el */
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
@@ -653,6 +669,8 @@ select.formInput {
   background-position: right 10px center;
   background-size: 16px;
   padding-right: 36px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 select.formInput:focus {
@@ -663,6 +681,11 @@ select.formInput:focus {
 select.formInput.inputError {
   border-color: #e84545 !important;
   background-color: #fff5f5 !important;
+}
+
+select.formInput option {
+  color: #000000;              /* ✅ Option — k7el */
+  background: #ffffff;         /* ✅ Option — byed */
 }
 
 /* ============================================
