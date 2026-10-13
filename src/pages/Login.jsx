@@ -291,7 +291,7 @@ const Login = () => {
               className={styles.soInput}
               type="text"
               id="so-fullname"
-              placeholder="Samir El Idrissi"
+              placeholder="full Name"
               value={signupFullName}
               onChange={(e) => setSignupFullName(e.target.value)}
               required
@@ -325,7 +325,7 @@ const Login = () => {
               className={styles.soInput}
               type="tel"
               id="so-phone"
-              placeholder="0612345678"
+              placeholder="Phone number"
               value={signupPhone}
               onChange={(e) => setSignupPhone(e.target.value)}
             />
