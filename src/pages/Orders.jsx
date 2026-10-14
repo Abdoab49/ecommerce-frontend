@@ -44,18 +44,14 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // LOADING
+  // LOADING — Spinner Byed
   // ============================================
   if (loading) {
     return (
-      <main className="mt-6 px-4 md:px-8">
-        <div
-          className="max-w-7xl mx-auto text-center py-24"
-          style={{ color: '#94a3b8' }}
-        >
-          Loading orders...
-        </div>
-      </main>
+      <div className="loader-wrapper">
+        <div className="spin"></div>
+        <p>Loading orders...</p>
+      </div>
     );
   }
 
@@ -79,17 +75,17 @@ const Orders = () => {
             onClick={() => window.location.reload()}
             className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
             style={{
-              backgroundColor: '#27aa80',
-              border: '1px solid #27aa80',
-              color: '#ffffff',
+              backgroundColor: '#ffffff',
+              border: '1px solid #ffffff',
+              color: '#000000',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#1f8a67';
-              e.currentTarget.style.borderColor = '#1f8a67';
+              e.currentTarget.style.backgroundColor = '#e5e7eb';
+              e.currentTarget.style.borderColor = '#e5e7eb';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#27aa80';
-              e.currentTarget.style.borderColor = '#27aa80';
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.borderColor = '#ffffff';
             }}
           >
             Try again
@@ -119,17 +115,17 @@ const Orders = () => {
             onClick={() => navigate('/')}
             className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
             style={{
-              backgroundColor: '#27aa80',
-              border: '1px solid #27aa80',
-              color: '#ffffff',
+              backgroundColor: '#ffffff',
+              border: '1px solid #ffffff',
+              color: '#000000',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#1f8a67';
-              e.currentTarget.style.borderColor = '#1f8a67';
+              e.currentTarget.style.backgroundColor = '#e5e7eb';
+              e.currentTarget.style.borderColor = '#e5e7eb';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#27aa80';
-              e.currentTarget.style.borderColor = '#27aa80';
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.borderColor = '#ffffff';
             }}
           >
             Continue shopping
@@ -173,19 +169,19 @@ const Orders = () => {
   // ✅ ALWAN — HEX CODES
   // ============================================
   const COLORS = {
-    active: '#27aa80',        // Zre9 — Active/Completed
-    activeHover: '#1f8a67',   // Zre9 darker — Hover
-    pending: '#404040',       // Gray — Pending
-    iconActive: '#ffffff',    // Byed — Icon active
-    iconPending: '#f8fafc',   // byad — Icon pending
-    textActive: '#27aa80',    // Zre9 — Text active
-    textPending: '#f8fafc',   // byad — Text pending
-    textPrimary: '#f8fafc',   // Byed — Titles
-    textSecondary: '#94a3b8', // Gray — Subtitles
-    textValue: '#cbd5e1',     // Gray light — Values
-    billingBg: '#262626',     // Dark — Billing bg
-    productBg: '#ffffff',     // Byed — Product bg
-    divider: '#404040',       // Gray — Dividers
+    active: '#27aa80',
+    activeHover: '#1f8a67',
+    pending: '#404040',
+    iconActive: '#ffffff',
+    iconPending: '#f8fafc',
+    textActive: '#27aa80',
+    textPending: '#f8fafc',
+    textPrimary: '#f8fafc',
+    textSecondary: '#94a3b8',
+    textValue: '#cbd5e1',
+    billingBg: '#262626',
+    productBg: '#ffffff',
+    divider: '#404040',
   };
 
   // ============================================
@@ -259,17 +255,17 @@ const Orders = () => {
                   type="button"
                   className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
                   style={{
-                    backgroundColor: COLORS.active,
-                    border: `1px solid ${COLORS.active}`,
-                    color: COLORS.textPrimary,
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #ffffff',
+                    color: '#000000',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = COLORS.activeHover;
-                    e.currentTarget.style.borderColor = COLORS.activeHover;
+                    e.currentTarget.style.backgroundColor = '#e5e7eb';
+                    e.currentTarget.style.borderColor = '#e5e7eb';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = COLORS.active;
-                    e.currentTarget.style.borderColor = COLORS.active;
+                    e.currentTarget.style.backgroundColor = '#ffffff';
+                    e.currentTarget.style.borderColor = '#ffffff';
                   }}
                 >
                   Download invoice
@@ -417,7 +413,6 @@ const Orders = () => {
                       <li key={idx}>
                         <div className="grid sm:grid-cols-3 items-center gap-4">
                           <div className="col-span-2 flex items-center gap-4">
-                            {/* ✅ Product Image — bg bayed */}
                             <div
                               className="w-20 h-20 shrink-0 p-2 rounded-md"
                               style={{ backgroundColor: COLORS.productBg }}
