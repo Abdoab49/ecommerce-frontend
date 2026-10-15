@@ -65,7 +65,7 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // ✅ DOWNLOAD INVOICE — b Font Libre Caslon Condensed
+  // ✅ DOWNLOAD INVOICE — b Font + QR Code
   // ============================================
   const handleDownloadInvoice = (order) => {
     const orderId = String(order._id || order.id || '');
@@ -119,7 +119,6 @@ const Orders = () => {
         <meta charset="UTF-8">
         <title>Invoice #${orderId.slice(-8).toUpperCase()}</title>
         <style>
-          /* ✅ Font Libre Caslon Condensed — KHASS YKOUN F L'AWWEL */
           @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400..700;1,400..700&display=swap');
 
           * { 
@@ -234,6 +233,64 @@ const Orders = () => {
             font-family: 'Libre Caslon Condensed', serif;
           }
 
+          /* ✅ QR Code Section */
+          .qr-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+          }
+
+          .qr-section img {
+            width: 130px;
+            height: 130px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px;
+            background: #fff;
+          }
+
+          .qr-text {
+            text-align: left;
+          }
+
+          .qr-text .qr-label {
+            font-size: 13px;
+            color: #666;
+            margin: 0 0 6px;
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+          }
+
+          .qr-text .qr-title {
+            font-size: 14px;
+            color: #000;
+            margin: 0 0 4px;
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+          }
+
+          .qr-text .qr-url {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+          }
+
+          .qr-text .qr-id {
+            font-size: 13px;
+            color: #000;
+            margin: 8px 0 0;
+            font-family: monospace;
+            font-weight: 700;
+          }
+
           .footer { 
             margin-top: 40px; 
             padding-top: 20px; 
@@ -291,6 +348,22 @@ const Orders = () => {
           <p class="total">TOTAL: ${total.toFixed(2)} DH</p>
         </div>
 
+        <!-- ✅ QR Code — Track Order -->
+        <div class="qr-section">
+          <img 
+            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
+              `https://lanada.shop/orders?tracking=${orderId.slice(-8).toUpperCase()}`
+            )}" 
+            alt="QR Code — Track Order" 
+          />
+          <div class="qr-text">
+            <p class="qr-label">Scan to track</p>
+            <p class="qr-title">Track your order online</p>
+            <p class="qr-url">www.lanada.shop/orders</p>
+            <p class="qr-id">#${orderId.slice(-8).toUpperCase()}</p>
+          </div>
+        </div>
+
         <div class="footer">
           Thank you for shopping with LANADA — www.lanada.shop
         </div>
@@ -304,7 +377,7 @@ const Orders = () => {
       printWindow.document.write(invoiceHTML);
       printWindow.document.close();
 
-      // ✅ Sber 1.5s bash font yload 9bel print
+      // ✅ Sber 1.5s bash font + QR yload 9bel print
       setTimeout(() => {
         printWindow.focus();
         printWindow.print();
