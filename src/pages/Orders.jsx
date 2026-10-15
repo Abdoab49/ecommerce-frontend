@@ -65,7 +65,7 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // ✅ DOWNLOAD INVOICE — b Logo + Font + QR Code
+  // ✅ DOWNLOAD INVOICE — b Logo + Font + QR + Totals Right
   // ============================================
   const handleDownloadInvoice = (order) => {
     const orderId = String(order._id || order.id || '');
@@ -139,7 +139,7 @@ const Orders = () => {
             background: #fff; 
           }
 
-          /* ✅ Logo Section — F Weset L'Fo9 */
+          /* ✅ Logo Section — Ghir Logo (Bla "LANADA") */
           .logo-section {
             text-align: center;
             margin-bottom: 30px;
@@ -151,18 +151,8 @@ const Orders = () => {
             width: 150px;
             height: 150px;
             object-fit: contain;
-            margin: 0 auto 16px;
+            margin: 0 auto;
             display: block;
-          }
-
-          .logo-title {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            color: #000;
-            font-family: 'Libre Caslon Condensed', serif;
-            margin: 0;
-            text-transform: uppercase;
           }
 
           .header { 
@@ -238,24 +228,43 @@ const Orders = () => {
             font-size: 13px;
           }
 
-          .totals { 
-            margin-top: 20px; 
-            text-align: right; 
+          /* ✅ Totals — Align Right */
+          .totals-wrap {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
           }
 
-          .totals p { 
-            font-size: 14px; 
-            margin: 6px 0; 
+          .totals {
+            width: 100%;
+            max-width: 320px;
+          }
+
+          .totals .totals-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
             font-family: 'Libre Caslon Condensed', serif;
-            font-weight: 400;
           }
 
-          .totals .total { 
-            font-size: 22px; 
-            font-weight: 700; 
-            border-top: 2px solid #000; 
-            padding-top: 12px; 
-            margin-top: 12px; 
+          .totals .totals-row .totals-label {
+            color: #666;
+          }
+
+          .totals .totals-row .totals-value {
+            font-weight: 700;
+            color: #000;
+          }
+
+          .totals .totals-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0 0;
+            margin-top: 12px;
+            border-top: 2px solid #000;
+            font-size: 22px;
+            font-weight: 700;
             font-family: 'Libre Caslon Condensed', serif;
           }
 
@@ -334,14 +343,13 @@ const Orders = () => {
         </style>
       </head>
       <body>
-        <!-- ✅ Logo — F Weset L'Fo9 -->
+        <!-- ✅ Logo — Ghir Logo (Bla "LANADA") -->
         <div class="logo-section">
           <img 
             src="https://www.lanada.shop/Assets/logo1.png" 
             alt="LANADA Logo" 
             class="logo-img"
           />
-          <h1 class="logo-title">LANADA</h1>
         </div>
 
         <div class="header">
@@ -378,10 +386,22 @@ const Orders = () => {
           </table>
         </div>
 
-        <div class="totals">
-          <p><strong>Subtotal:</strong> ${subtotal.toFixed(2)} DH</p>
-          <p><strong>Shipping:</strong> ${shippingFee.toFixed(2)} DH</p>
-          <p class="total">TOTAL: ${total.toFixed(2)} DH</p>
+        <!-- ✅ Totals — Align Right -->
+        <div class="totals-wrap">
+          <div class="totals">
+            <div class="totals-row">
+              <span class="totals-label">Subtotal:</span>
+              <span class="totals-value">${subtotal.toFixed(2)} DH</span>
+            </div>
+            <div class="totals-row">
+              <span class="totals-label">Shipping:</span>
+              <span class="totals-value">${shippingFee.toFixed(2)} DH</span>
+            </div>
+            <div class="totals-total">
+              <span>TOTAL:</span>
+              <span>${total.toFixed(2)} DH</span>
+            </div>
+          </div>
         </div>
 
         <!-- ✅ QR Code — Track Order -->
