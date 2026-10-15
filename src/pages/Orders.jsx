@@ -65,6 +65,143 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
+  // ✅ DOWNLOAD INVOICE — Khddam
+  // ============================================
+  const handleDownloadInvoice = (order) => {
+    const orderId = String(order._id || order.id || '');
+    const items = Array.isArray(order.items) ? order.items : [];
+    const shipping = order.shippingAddress || {};
+    const orderDate = order.createdAt ? new Date(order.createdAt) : new Date();
+
+    const formatDate = (date) => {
+      if (!date) return '—';
+      const d = new Date(date);
+      if (Number.isNaN(d.getTime())) return '—';
+      return (
+        d.toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+        }) +
+        ', ' +
+        d.toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      );
+    };
+
+    const subtotal = items.reduce(
+      (sum, i) => sum + Number(i.price || 0) * Number(i.quantity || 1),
+      0
+    );
+    const shippingFee = subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
+    const total = Number(order.totalAmount || subtotal + shippingFee);
+
+    const itemsHTML = items
+      .map(
+        (item) => `
+        <tr>
+          <td style="padding: 8px; border: 1px solid #ddd;">${item.name || 'Product'}</td>
+          <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${item.size || '—'}</td>
+          <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${item.quantity || 1}</td>
+          <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${Number(item.price || 0).toFixed(2)} DH</td>
+          <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)} DH</td>
+        </tr>
+      `
+      )
+      .join('');
+
+    const invoiceHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Invoice #${orderId.slice(-8).toUpperCase()}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #000; background: #fff; }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
+          .brand { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+          .invoice-label { font-size: 14px; color: #666; }
+          .invoice-id { font-size: 20px; font-weight: 700; font-family: monospace; }
+          .section { margin-bottom: 24px; }
+          .section h3 { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+          .section p { font-size: 14px; margin: 3px 0; }
+          table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          table th { background: #f3f4f6; padding: 10px; border: 1px solid #ddd; text-align: left; font-size: 13px; }
+          .totals { margin-top: 20px; text-align: right; }
+          .totals p { font-size: 14px; margin: 6px 0; }
+          .totals .total { font-size: 20px; font-weight: 800; border-top: 2px solid #000; padding-top: 10px; margin-top: 10px; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #999; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <div class="brand">LANADA</div>
+            <div class="invoice-label">Invoice</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="invoice-id">#${orderId.slice(-8).toUpperCase()}</div>
+            <div class="invoice-label" style="margin-top: 6px;">${formatDate(orderDate)}</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Customer</h3>
+          <p><strong>${shipping.fullName || '—'}</strong></p>
+          <p>Phone: ${shipping.phone || '—'}</p>
+          <p>Address: ${[shipping.street, shipping.city, shipping.region].filter(Boolean).join(', ') || '—'}</p>
+        </div>
+
+        <div class="section">
+          <h3>Products</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th style="text-align:center;">Size</th>
+                <th style="text-align:center;">Qty</th>
+                <th style="text-align:right;">Price</th>
+                <th style="text-align:right;">Total</th>
+              </tr>
+            </thead>
+            <tbody>${itemsHTML}</tbody>
+          </table>
+        </div>
+
+        <div class="totals">
+          <p><strong>Subtotal:</strong> ${subtotal.toFixed(2)} DH</p>
+          <p><strong>Shipping:</strong> ${shippingFee.toFixed(2)} DH</p>
+          <p class="total">TOTAL: ${total.toFixed(2)} DH</p>
+        </div>
+
+        <div class="footer">
+          Thank you for shopping with LANADA — www.lanada.shop
+        </div>
+
+        <script>
+          window.onload = function() {
+            window.print();
+          };
+        </script>
+      </body>
+      </html>
+    `;
+
+    // ✅ Fte7 window jdid + print
+    const printWindow = window.open('', '_blank', 'width=800,height=900');
+    if (printWindow) {
+      printWindow.document.write(invoiceHTML);
+      printWindow.document.close();
+    } else {
+      alert('Please allow pop-ups to download the invoice');
+    }
+  };
+
+  // ============================================
   // LOADING — Spinner K7el 3la Khalfiya Bayda
   // ============================================
   if (loading) {
@@ -326,8 +463,10 @@ const Orders = () => {
                     </p>
                   </div>
 
+                  {/* ✅ Button Download invoice — KHDDAM */}
                   <button
                     type="button"
+                    onClick={() => handleDownloadInvoice(order)}
                     className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
                     style={{
                       backgroundColor: '#000000',
