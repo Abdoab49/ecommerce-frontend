@@ -337,7 +337,7 @@ const Orders = () => {
         <!-- ✅ Logo — F Weset L'Fo9 -->
         <div class="logo-section">
           <img 
-            src="https://lanada.shop/Assets/logo.png" 
+            src="https://lanada.shop/Assets/logo1.png" 
             alt="LANADA Logo" 
             class="logo-img"
           />
