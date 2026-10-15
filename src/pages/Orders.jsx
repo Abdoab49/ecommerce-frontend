@@ -26,7 +26,6 @@ const Orders = () => {
     document.body.style.backgroundColor = '#ffffff';
     document.body.classList.add('orders-active');
 
-    // ✅ Melli nkhrej — rje3 l'asl (k7el)
     return () => {
       document.body.style.background = originalBg || '';
       document.body.style.backgroundColor = originalBgColor || '#000000';
@@ -66,7 +65,7 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // LOADING — Spinner Byed 3la Khalfiya Bayda
+  // LOADING — Spinner K7el 3la Khalfiya Bayda
   // ============================================
   if (loading) {
     return (
@@ -226,22 +225,22 @@ const Orders = () => {
   };
 
   // ============================================
-  // ✅ ALWAN — Khalfiya Bayda + Text K7el
+  // ✅ ALWAN — Khalfiya Bayda + Text K7el + Circle Khdar
   // ============================================
   const COLORS = {
-    active: '#000000',
-    activeHover: '#333333',
-    pending: '#d1d5db',
-    iconActive: '#ffffff',
-    iconPending: '#6b7280',
-    textActive: '#000000',
-    textPending: '#6b7280',
-    textPrimary: '#000000',
-    textSecondary: '#4b5563',
-    textValue: '#1f2937',
-    billingBg: '#f3f4f6',
-    productBg: '#ffffff',
-    divider: '#e5e7eb',
+    active: '#10b981',           // ✅ KH DAR (green) — circle + line
+    activeHover: '#059669',      // ✅ Green gham9
+    pending: '#d1d5db',          // ✅ Gray light (pending circles)
+    iconActive: '#ffffff',       // ✅ Icon bayd f circle khdar
+    iconPending: '#6b7280',      // ✅ Icon gray f circle pending
+    textActive: '#10b981',       // ✅ KH DAR (text active)
+    textPending: '#6b7280',      // ✅ Gray (text pending)
+    textPrimary: '#000000',      // ✅ K7el (titles)
+    textSecondary: '#4b5563',    // ✅ Gray gham9 (labels)
+    textValue: '#1f2937',        // ✅ Gray gham9 (values)
+    billingBg: '#f3f4f6',        // ✅ Gray fatesh
+    productBg: '#ffffff',        // ✅ Byed
+    divider: '#e5e7eb',          // ✅ Gray fatesh
   };
 
   // ============================================
