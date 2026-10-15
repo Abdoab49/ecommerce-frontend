@@ -148,15 +148,15 @@ const Orders = () => {
           }
 
           .logo-img {
-            width: 80px;
-            height: 80px;
+            width: 150px;
+            height: 150px;
             object-fit: contain;
-            margin: 0 auto 12px;
+            margin: 0 auto 16px;
             display: block;
           }
 
           .logo-title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             letter-spacing: 0.15em;
             color: #000;
@@ -337,7 +337,7 @@ const Orders = () => {
         <!-- ✅ Logo — F Weset L'Fo9 -->
         <div class="logo-section">
           <img 
-            src="https://lanada.shop/Assets/logo1.png" 
+            src="https://www.lanada.shop/Assets/logo1.png" 
             alt="LANADA Logo" 
             class="logo-img"
           />
@@ -413,11 +413,11 @@ const Orders = () => {
       printWindow.document.write(invoiceHTML);
       printWindow.document.close();
 
-      // ✅ Sber 1.5s bash font + logo + QR yload 9bel print
+      // ✅ Sber 2s bash font + logo + QR yload 9bel print
       setTimeout(() => {
         printWindow.focus();
         printWindow.print();
-      }, 1500);
+      }, 2000);
     } else {
       alert('Please allow pop-ups to download the invoice');
     }
