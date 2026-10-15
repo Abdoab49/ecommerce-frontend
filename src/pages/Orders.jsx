@@ -65,7 +65,7 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // ✅ DOWNLOAD INVOICE — b Font + QR Code
+  // ✅ DOWNLOAD INVOICE — b Logo + Font + QR Code
   // ============================================
   const handleDownloadInvoice = (order) => {
     const orderId = String(order._id || order.id || '');
@@ -139,6 +139,32 @@ const Orders = () => {
             background: #fff; 
           }
 
+          /* ✅ Logo Section — F Weset L'Fo9 */
+          .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+          }
+
+          .logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin: 0 auto 12px;
+            display: block;
+          }
+
+          .logo-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: #000;
+            font-family: 'Libre Caslon Condensed', serif;
+            margin: 0;
+            text-transform: uppercase;
+          }
+
           .header { 
             display: flex; 
             justify-content: space-between; 
@@ -149,9 +175,9 @@ const Orders = () => {
           }
 
           .brand { 
-            font-size: 32px; 
+            font-size: 22px; 
             font-weight: 700;
-            letter-spacing: -0.02em; 
+            letter-spacing: 0.02em; 
             font-family: 'Libre Caslon Condensed', serif;
           }
 
@@ -308,10 +334,20 @@ const Orders = () => {
         </style>
       </head>
       <body>
+        <!-- ✅ Logo — F Weset L'Fo9 -->
+        <div class="logo-section">
+          <img 
+            src="https://lanada.shop/Assets/logo.png" 
+            alt="LANADA Logo" 
+            class="logo-img"
+          />
+          <h1 class="logo-title">LANADA</h1>
+        </div>
+
         <div class="header">
           <div>
-            <div class="brand">LANADA</div>
-            <div class="invoice-label">Invoice</div>
+            <div class="brand">Invoice</div>
+            <div class="invoice-label">Order details</div>
           </div>
           <div style="text-align: right;">
             <div class="invoice-id">#${orderId.slice(-8).toUpperCase()}</div>
@@ -377,7 +413,7 @@ const Orders = () => {
       printWindow.document.write(invoiceHTML);
       printWindow.document.close();
 
-      // ✅ Sber 1.5s bash font + QR yload 9bel print
+      // ✅ Sber 1.5s bash font + logo + QR yload 9bel print
       setTimeout(() => {
         printWindow.focus();
         printWindow.print();
