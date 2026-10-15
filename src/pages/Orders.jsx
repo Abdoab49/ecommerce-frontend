@@ -44,13 +44,41 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // LOADING — Spinner Byed
+  // LOADING — Spinner Byed (bla ma tbdel index.css)
   // ============================================
   if (loading) {
     return (
-      <div className="loader-wrapper">
-        <div className="spin"></div>
-        <p>Loading orders...</p>
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          background: '#ffffff',
+          color: '#000000',
+          zIndex: 9999,
+        }}
+      >
+        <div
+          style={{
+            width: '40px',
+            height: '40px',
+            border: '4px solid rgba(0, 0, 0, 0.1)',
+            borderTopColor: '#000000',
+            borderRadius: '50%',
+            animation: 'spin 0.8s linear infinite',
+          }}
+        ></div>
+        <p style={{ color: '#000000', fontSize: '14px', opacity: 0.7, margin: 0 }}>
+          Loading orders...
+        </p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
@@ -64,28 +92,28 @@ const Orders = () => {
         <div className="max-w-7xl mx-auto text-center py-24">
           <h1
             className="text-2xl font-bold mb-4"
-            style={{ color: '#f8fafc' }}
+            style={{ color: '#000000' }}
           >
             Something went wrong
           </h1>
-          <p className="mb-6" style={{ color: '#94a3b8' }}>
+          <p className="mb-6" style={{ color: '#4b5563' }}>
             {error}
           </p>
           <button
             onClick={() => window.location.reload()}
             className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
             style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #ffffff',
-              color: '#000000',
+              backgroundColor: '#000000',
+              border: '1px solid #000000',
+              color: '#ffffff',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#e5e7eb';
-              e.currentTarget.style.borderColor = '#e5e7eb';
+              e.currentTarget.style.backgroundColor = '#333333';
+              e.currentTarget.style.borderColor = '#333333';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-              e.currentTarget.style.borderColor = '#ffffff';
+              e.currentTarget.style.backgroundColor = '#000000';
+              e.currentTarget.style.borderColor = '#000000';
             }}
           >
             Try again
@@ -104,28 +132,28 @@ const Orders = () => {
         <div className="max-w-7xl mx-auto text-center py-24">
           <h1
             className="text-2xl font-bold mb-4"
-            style={{ color: '#f8fafc' }}
+            style={{ color: '#000000' }}
           >
             No orders
           </h1>
-          <p className="mb-6" style={{ color: '#94a3b8' }}>
+          <p className="mb-6" style={{ color: '#4b5563' }}>
             Start shopping to place your first order!
           </p>
           <button
             onClick={() => navigate('/')}
             className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
             style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #ffffff',
-              color: '#000000',
+              backgroundColor: '#000000',
+              border: '1px solid #000000',
+              color: '#ffffff',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#e5e7eb';
-              e.currentTarget.style.borderColor = '#e5e7eb';
+              e.currentTarget.style.backgroundColor = '#333333';
+              e.currentTarget.style.borderColor = '#333333';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-              e.currentTarget.style.borderColor = '#ffffff';
+              e.currentTarget.style.backgroundColor = '#000000';
+              e.currentTarget.style.borderColor = '#000000';
             }}
           >
             Continue shopping
@@ -145,9 +173,6 @@ const Orders = () => {
     delivered: 3,
   };
 
-  // ============================================
-  // STEPS
-  // ============================================
   const STEPS = [
     { key: 'pending', label: 'Order placed' },
     { key: 'processing', label: 'Arrived at warehouse' },
@@ -155,9 +180,6 @@ const Orders = () => {
     { key: 'delivered', label: 'Products delivered' },
   ];
 
-  // ============================================
-  // ✅ @mdi/react Icons
-  // ============================================
   const STEP_ICONS = {
     pending: mdiCheck,
     processing: mdiPackageVariantClosed,
@@ -166,29 +188,32 @@ const Orders = () => {
   };
 
   // ============================================
-  // ✅ ALWAN — HEX CODES
+  // ✅ ALWAN — Khalfiya Bayda + Text K7el (GHIR F ORDERS)
   // ============================================
   const COLORS = {
-    active: '#27aa80',
-    activeHover: '#1f8a67',
-    pending: '#404040',
-    iconActive: '#ffffff',
-    iconPending: '#f8fafc',
-    textActive: '#27aa80',
-    textPending: '#f8fafc',
-    textPrimary: '#f8fafc',
-    textSecondary: '#94a3b8',
-    textValue: '#cbd5e1',
-    billingBg: '#262626',
-    productBg: '#ffffff',
-    divider: '#404040',
+    active: '#000000',           // ✅ K7el
+    activeHover: '#333333',
+    pending: '#d1d5db',          // ✅ Gray light
+    iconActive: '#ffffff',       // ✅ Icon bayd
+    iconPending: '#6b7280',      // ✅ Icon gray
+    textActive: '#000000',       // ✅ K7el
+    textPending: '#6b7280',      // ✅ Gray
+    textPrimary: '#000000',      // ✅ K7el
+    textSecondary: '#4b5563',    // ✅ Gray gham9
+    textValue: '#1f2937',        // ✅ Gray gham9
+    billingBg: '#f3f4f6',        // ✅ Gray fatesh
+    productBg: '#ffffff',        // ✅ Byed
+    divider: '#e5e7eb',          // ✅ Gray fatesh
   };
 
   // ============================================
   // MAIN
   // ============================================
   return (
-    <main className="mt-6 px-4 md:px-8">
+    <main
+      className="mt-6 px-4 md:px-8"
+      style={{ background: '#ffffff', minHeight: '100vh' }}  // ✅ Khalfiya bayda
+    >
       <div className="max-w-7xl mx-auto space-y-16">
         {orders.map((order) => {
           const orderId = String(order._id || order.id || '');
@@ -227,7 +252,10 @@ const Orders = () => {
           const total = Number(order.totalAmount || subtotal + shippingFee);
 
           return (
-            <div key={orderId}>
+            <div
+              key={orderId}
+              style={{ background: '#ffffff', color: '#000000' }}  // ✅ Khalfiya bayda + text k7el
+            >
               {/* ===== Header ===== */}
               <header
                 className="flex items-center gap-6 flex-wrap pb-6"
@@ -255,17 +283,17 @@ const Orders = () => {
                   type="button"
                   className="px-3.5 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors"
                   style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #ffffff',
-                    color: '#000000',
+                    backgroundColor: '#000000',
+                    border: '1px solid #000000',
+                    color: '#ffffff',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#e5e7eb';
-                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.backgroundColor = '#333333';
+                    e.currentTarget.style.borderColor = '#333333';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                    e.currentTarget.style.borderColor = '#ffffff';
+                    e.currentTarget.style.backgroundColor = '#000000';
+                    e.currentTarget.style.borderColor = '#000000';
                   }}
                 >
                   Download invoice
@@ -294,7 +322,6 @@ const Orders = () => {
                         className="relative flex flex-row lg:flex-col items-start flex-1"
                         aria-current={isActive ? 'step' : undefined}
                       >
-                        {/* Vertical line (mobile) */}
                         {idx < STEPS.length - 1 && (
                           <div
                             className="absolute left-3 top-6 -bottom-10 w-0.5 lg:hidden"
@@ -308,7 +335,6 @@ const Orders = () => {
                         )}
 
                         <div className="flex items-center w-max lg:w-full">
-                          {/* Circle */}
                           <div
                             className="z-10 w-6 h-6 shrink-0 flex items-center justify-center rounded-full md:w-7 md:h-7"
                             style={{
@@ -333,7 +359,6 @@ const Orders = () => {
                             />
                           </div>
 
-                          {/* Horizontal line (desktop) */}
                           {idx < STEPS.length - 1 && (
                             <div
                               className="hidden lg:block flex-1 h-0.5 mx-4 rounded-md"
@@ -347,7 +372,6 @@ const Orders = () => {
                           )}
                         </div>
 
-                        {/* Text */}
                         <div className="ml-4 lg:ml-0 lg:mt-3 lg:mr-4">
                           <p
                             className="text-sm font-semibold"
@@ -394,7 +418,6 @@ const Orders = () => {
 
               {/* ===== Content ===== */}
               <div className="mt-12 grid lg:grid-cols-2 gap-12">
-                {/* Products */}
                 <section>
                   <div
                     className="pb-2"
@@ -482,7 +505,6 @@ const Orders = () => {
                   </ul>
                 </section>
 
-                {/* Right Side */}
                 <section>
                   <h2
                     className="text-base font-semibold"
@@ -542,7 +564,6 @@ const Orders = () => {
                     </div>
                   </div>
 
-                  {/* Billing */}
                   <div
                     className="rounded-md p-6 h-max mt-8"
                     style={{ backgroundColor: COLORS.billingBg }}
