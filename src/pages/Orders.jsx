@@ -65,7 +65,7 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // ✅ DOWNLOAD INVOICE — Khddam
+  // ✅ DOWNLOAD INVOICE — b Font Libre Caslon Condensed
   // ============================================
   const handleDownloadInvoice = (order) => {
     const orderId = String(order._id || order.id || '');
@@ -102,11 +102,11 @@ const Orders = () => {
       .map(
         (item) => `
         <tr>
-          <td style="padding: 8px; border: 1px solid #ddd;">${item.name || 'Product'}</td>
-          <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${item.size || '—'}</td>
-          <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${item.quantity || 1}</td>
-          <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${Number(item.price || 0).toFixed(2)} DH</td>
-          <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)} DH</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${item.name || 'Product'}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.size || '—'}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.quantity || 1}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">${Number(item.price || 0).toFixed(2)} DH</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)} DH</td>
         </tr>
       `
       )
@@ -119,22 +119,135 @@ const Orders = () => {
         <meta charset="UTF-8">
         <title>Invoice #${orderId.slice(-8).toUpperCase()}</title>
         <style>
-          * { margin: 0; padding: 0; box-sizing: border-box; }
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #000; background: #fff; }
-          .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
-          .brand { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
-          .invoice-label { font-size: 14px; color: #666; }
-          .invoice-id { font-size: 20px; font-weight: 700; font-family: monospace; }
-          .section { margin-bottom: 24px; }
-          .section h3 { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-          .section p { font-size: 14px; margin: 3px 0; }
-          table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-          table th { background: #f3f4f6; padding: 10px; border: 1px solid #ddd; text-align: left; font-size: 13px; }
-          .totals { margin-top: 20px; text-align: right; }
-          .totals p { font-size: 14px; margin: 6px 0; }
-          .totals .total { font-size: 20px; font-weight: 800; border-top: 2px solid #000; padding-top: 10px; margin-top: 10px; }
-          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #999; }
-          @media print { body { padding: 20px; } }
+          /* ✅ Font Libre Caslon Condensed — KHASS YKOUN F L'AWWEL */
+          @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400..700;1,400..700&display=swap');
+
+          * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-optical-sizing: auto;
+          }
+
+          body { 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            padding: 40px; 
+            color: #000; 
+            background: #fff; 
+          }
+
+          .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            border-bottom: 2px solid #000; 
+            padding-bottom: 20px; 
+            margin-bottom: 30px; 
+          }
+
+          .brand { 
+            font-size: 32px; 
+            font-weight: 700;
+            letter-spacing: -0.02em; 
+            font-family: 'Libre Caslon Condensed', serif;
+          }
+
+          .invoice-label { 
+            font-size: 14px; 
+            color: #666; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+          }
+
+          .invoice-id { 
+            font-size: 20px; 
+            font-weight: 700;
+            font-family: 'Libre Caslon Condensed', serif;
+            letter-spacing: 0.02em;
+          }
+
+          .section { 
+            margin-bottom: 24px; 
+          }
+
+          .section h3 { 
+            font-size: 13px; 
+            color: #666; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            margin-bottom: 10px; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 700;
+          }
+
+          .section p { 
+            font-size: 14px; 
+            margin: 4px 0; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+          }
+
+          table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+          }
+
+          table th { 
+            background: #f3f4f6; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            text-align: left; 
+            font-size: 13px; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 700;
+          }
+
+          table td {
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+            font-size: 13px;
+          }
+
+          .totals { 
+            margin-top: 20px; 
+            text-align: right; 
+          }
+
+          .totals p { 
+            font-size: 14px; 
+            margin: 6px 0; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+          }
+
+          .totals .total { 
+            font-size: 22px; 
+            font-weight: 700; 
+            border-top: 2px solid #000; 
+            padding-top: 12px; 
+            margin-top: 12px; 
+            font-family: 'Libre Caslon Condensed', serif;
+          }
+
+          .footer { 
+            margin-top: 40px; 
+            padding-top: 20px; 
+            border-top: 1px solid #ddd; 
+            text-align: center; 
+            font-size: 12px; 
+            color: #999; 
+            font-family: 'Libre Caslon Condensed', serif;
+            font-weight: 400;
+          }
+
+          @media print { 
+            body { padding: 20px; } 
+          }
         </style>
       </head>
       <body>
@@ -181,21 +294,21 @@ const Orders = () => {
         <div class="footer">
           Thank you for shopping with LANADA — www.lanada.shop
         </div>
-
-        <script>
-          window.onload = function() {
-            window.print();
-          };
-        </script>
       </body>
       </html>
     `;
 
-    // ✅ Fte7 window jdid + print
+    // ✅ Fte7 window jdid
     const printWindow = window.open('', '_blank', 'width=800,height=900');
     if (printWindow) {
       printWindow.document.write(invoiceHTML);
       printWindow.document.close();
+
+      // ✅ Sber 1.5s bash font yload 9bel print
+      setTimeout(() => {
+        printWindow.focus();
+        printWindow.print();
+      }, 1500);
     } else {
       alert('Please allow pop-ups to download the invoice');
     }
@@ -365,19 +478,19 @@ const Orders = () => {
   // ✅ ALWAN — Khalfiya Bayda + Text K7el + Circle Khdar
   // ============================================
   const COLORS = {
-    active: '#10b981',           // ✅ KH DAR (green) — circle + line
-    activeHover: '#059669',      // ✅ Green gham9
-    pending: '#d1d5db',          // ✅ Gray light (pending circles)
-    iconActive: '#ffffff',       // ✅ Icon bayd f circle khdar
-    iconPending: '#6b7280',      // ✅ Icon gray f circle pending
-    textActive: '#10b981',       // ✅ KH DAR (text active)
-    textPending: '#6b7280',      // ✅ Gray (text pending)
-    textPrimary: '#000000',      // ✅ K7el (titles)
-    textSecondary: '#4b5563',    // ✅ Gray gham9 (labels)
-    textValue: '#1f2937',        // ✅ Gray gham9 (values)
-    billingBg: '#f3f4f6',        // ✅ Gray fatesh
-    productBg: '#ffffff',        // ✅ Byed
-    divider: '#e5e7eb',          // ✅ Gray fatesh
+    active: '#10b981',
+    activeHover: '#059669',
+    pending: '#d1d5db',
+    iconActive: '#ffffff',
+    iconPending: '#6b7280',
+    textActive: '#10b981',
+    textPending: '#6b7280',
+    textPrimary: '#000000',
+    textSecondary: '#4b5563',
+    textValue: '#1f2937',
+    billingBg: '#f3f4f6',
+    productBg: '#ffffff',
+    divider: '#e5e7eb',
   };
 
   // ============================================
