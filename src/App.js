@@ -11,6 +11,7 @@ import {
 import Navbar from './Components/Navbar/Navbar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
+import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';   // ✅ ZID HADI
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -19,8 +20,8 @@ import Product from './pages/Product';
 import Cart from './Components/Cart/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';     // ✅ JDID
-import ResetPassword from './pages/ResetPassword';       // ✅ JDID
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Orders from './pages/Orders';
 import Admin from './pages/Admin';
 import SizeSelection from './Components/SizeSelection';
@@ -49,6 +50,10 @@ function App() {
                     <div className="app-content">
                         <Navbar />
                         <NotificationBell />
+
+                        {/* ✅ Button "My Orders" — Floating f Jnab */}
+                        <MyOrdersButton />
+
                         <Routes>
                             <Route path='/' element={<Shop />} />
                             <Route path='/shop' element={<Shop />} />
@@ -61,8 +66,8 @@ function App() {
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/login' element={<Login />} />
                             <Route path='/signup' element={<Signup />} />
-                            <Route path='/forgot-password' element={<ForgotPassword />} />           {/* ✅ JDID */}
-                            <Route path='/reset-password/:token' element={<ResetPassword />} />     {/* ✅ JDID */}
+                            <Route path='/forgot-password' element={<ForgotPassword />} />
+                            <Route path='/reset-password/:token' element={<ResetPassword />} />
                             <Route path='/size-selection' element={<SizeSelection />} />
                             <Route path='/orders' element={<Orders />} />
                             <Route path='/admin' element={<Admin />} />
