@@ -7,6 +7,7 @@ const MyOrdersButton = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(null);
+  const [ordersCount, setOrdersCount] = useState(0);   // ✅ Badge count
 
   // ✅ Check user mconnecté
   useEffect(() => {
@@ -46,6 +47,33 @@ const MyOrdersButton = () => {
     };
   }, []);
 
+  // ✅ Fetch 3adad dyal Orders
+  useEffect(() => {
+    const userId = localStorage.getItem('lanada_user_id');
+    if (!userId) {
+      setOrdersCount(0);
+      return;
+    }
+
+    const fetchOrdersCount = async () => {
+      try {
+        const response = await fetch(
+          `https://backend-3lyx.onrender.com/api/orders?userId=${userId}`
+        );
+
+        if (!response.ok) throw new Error('Failed to fetch');
+
+        const data = await response.json();
+        setOrdersCount(Array.isArray(data) ? data.length : 0);
+      } catch (err) {
+        console.error('Error fetching orders count:', err);
+        setOrdersCount(0);
+      }
+    };
+
+    fetchOrdersCount();
+  }, [location.pathname]);
+
   // ✅ Ma kaybanch ila mashi mconnecté
   if (!user) return null;
 
@@ -54,6 +82,13 @@ const MyOrdersButton = () => {
 
   return (
     <StyledWrapper>
+      {/* ✅ Badge — Fo9 Button */}
+      {ordersCount > 0 && (
+        <span className="badge" aria-label={`${ordersCount} orders`}>
+          {ordersCount > 99 ? '99+' : ordersCount}
+        </span>
+      )}
+
       <button
         className="button"
         onClick={() => navigate('/orders')}
@@ -83,7 +118,6 @@ const MyOrdersButton = () => {
         </p>
 
         <div className="button__circle">
-          {/* ✅ Icon Package — Badal Arrow */}
           <svg
             width={20}
             height={20}
@@ -123,17 +157,65 @@ const MyOrdersButton = () => {
 };
 
 const StyledWrapper = styled.div`
-  .button {
-    /* ✅ FIXED — Floating f jnab */
-    position: fixed;
-    right: 24px;
-    bottom: 100px;
-    z-index: 999;
+  /* ✅ Position relative — bash Badge ykoun fo9 Button */
+  position: fixed;
+  right: 24px;
+  bottom: 100px;
+  z-index: 999;
 
+  /* ============================================
+     ✅ BADGE — Ra9im fo9 Button
+     ============================================ */
+  .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    z-index: 10;
+
+    min-width: 26px;
+    height: 26px;
+    padding: 0 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000000;         /* ✅ K7el */
+    color: #ffffff;              /* ✅ Byed */
+    border: 2px solid #ffffff;   /* ✅ Border byed */
+    border-radius: 50px;
+
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+    animation: badge-pop 0.3s ease-out;
+  }
+
+  @keyframes badge-pop {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* ============================================
+     ✅ BUTTON — Bla Position Fixed (deja f parent)
+     ============================================ */
+  .button {
+    position: relative;          /* ✅ Relative — mashi fixed */
     cursor: pointer;
     border: none;
-    background: #fef6f7;
-    color: #db5275;
+    background: #ffffff;
+    color: #000000;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -152,6 +234,7 @@ const StyledWrapper = styled.div`
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
+    color: #000000;
 
     > span {
       position: absolute;
@@ -168,8 +251,8 @@ const StyledWrapper = styled.div`
     width: 44px;
     height: 44px;
     overflow: hidden;
-    background: #fff;
-    color: #db5275;
+    background: #000000;
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -182,13 +265,22 @@ const StyledWrapper = styled.div`
   }
 
   .button:hover {
-    background: #000;
-    color: #fff;
+    background: #000000;
+    color: #ffffff;
     transform: scale(1.05);
   }
 
+  .button:hover .button__text {
+    color: #ffffff;
+  }
+
+  .button:hover .button__circle {
+    background: #ffffff;
+    color: #000000;
+  }
+
   .button:hover .button__icon {
-    color: #000;
+    color: #000000;
   }
 
   .button:hover .button__icon:first-child {
@@ -211,9 +303,10 @@ const StyledWrapper = styled.div`
      ✅ MOBILE
      ============================================ */
   @media (max-width: 768px) {
+    right: 16px;
+    bottom: 90px;
+
     .button {
-      right: 16px;
-      bottom: 90px;
       width: 85px;
       height: 85px;
     }
@@ -230,12 +323,21 @@ const StyledWrapper = styled.div`
       width: 38px;
       height: 38px;
     }
+
+    .badge {
+      min-width: 22px;
+      height: 22px;
+      font-size: 11px;
+      top: -3px;
+      right: -3px;
+    }
   }
 
   @media (max-width: 480px) {
+    right: 12px;
+    bottom: 80px;
+
     .button {
-      right: 12px;
-      bottom: 80px;
       width: 70px;
       height: 70px;
     }
@@ -251,6 +353,14 @@ const StyledWrapper = styled.div`
     .button__circle {
       width: 32px;
       height: 32px;
+    }
+
+    .badge {
+      min-width: 20px;
+      height: 20px;
+      font-size: 10px;
+      top: -2px;
+      right: -2px;
     }
   }
 `;
