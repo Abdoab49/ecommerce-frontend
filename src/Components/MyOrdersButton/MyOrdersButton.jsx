@@ -7,7 +7,7 @@ const MyOrdersButton = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(null);
-  const [ordersCount, setOrdersCount] = useState(0);   // ✅ Badge count
+  const [ordersCount, setOrdersCount] = useState(0);
 
   // ✅ Check user mconnecté
   useEffect(() => {
@@ -77,7 +77,7 @@ const MyOrdersButton = () => {
   // ✅ Ma kaybanch ila mashi mconnecté
   if (!user) return null;
 
-  // ✅ Ma kaybanch f /orders (rak deja f Orders)
+  // ✅ Ma kaybanch f /orders
   if (location.pathname === '/orders') return null;
 
   return (
@@ -118,6 +118,7 @@ const MyOrdersButton = () => {
         </p>
 
         <div className="button__circle">
+          {/* ✅ Icon Package */}
           <svg
             width={20}
             height={20}
@@ -157,7 +158,7 @@ const MyOrdersButton = () => {
 };
 
 const StyledWrapper = styled.div`
-  /* ✅ Position relative — bash Badge ykoun fo9 Button */
+  /* ✅ Fixed — Floating f jnab */
   position: fixed;
   right: 24px;
   bottom: 100px;
@@ -168,63 +169,57 @@ const StyledWrapper = styled.div`
      ============================================ */
   .badge {
     position: absolute;
-    top: -4px;
-    right: -4px;
+    top: -6px;
+    right: -6px;
     z-index: 10;
 
-    min-width: 26px;
-    height: 26px;
+    min-width: 28px;
+    height: 28px;
     padding: 0 8px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #000000;         /* ✅ K7el */
-    color: #ffffff;              /* ✅ Byed */
-    border: 2px solid #ffffff;   /* ✅ Border byed */
+    background: #ffffff;         /* ✅ Byed */
+    color: #000000;              /* ✅ K7el */
+    border: 3px solid #000000;   /* ✅ Border k7el */
     border-radius: 50px;
 
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0;
 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
 
     animation: badge-pop 0.3s ease-out;
   }
 
   @keyframes badge-pop {
-    0% {
-      transform: scale(0);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
   }
 
   /* ============================================
-     ✅ BUTTON — Bla Position Fixed (deja f parent)
+     ✅ BUTTON — Khat Byed + Dayera K7la
      ============================================ */
   .button {
-    position: relative;          /* ✅ Relative — mashi fixed */
+    position: relative;
     cursor: pointer;
-    border: none;
-    background: #ffffff;
-    color: #000000;
+    background: #000000;         /* ✅ Dayera k7la */
+    color: #ffffff;              /* ✅ Text byed */
+    border: 3px solid #ffffff;   /* ✅ Khat byed */
     width: 100px;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
     display: grid;
     place-content: center;
-    transition: background 300ms, transform 200ms;
+    transition: background 300ms, color 300ms, border-color 300ms, transform 200ms;
     font-weight: 600;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.1);
   }
 
   .button__text {
@@ -234,7 +229,7 @@ const StyledWrapper = styled.div`
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
-    color: #000000;
+    color: #ffffff;              /* ✅ Byed */
 
     > span {
       position: absolute;
@@ -251,12 +246,13 @@ const StyledWrapper = styled.div`
     width: 44px;
     height: 44px;
     overflow: hidden;
-    background: #000000;
-    color: #ffffff;
+    background: #ffffff;         /* ✅ Byed — dayera sghira */
+    color: #000000;              /* ✅ K7el — icon */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 300ms, color 300ms;
   }
 
   .button__icon--copy {
@@ -264,23 +260,28 @@ const StyledWrapper = styled.div`
     transform: translate(-150%, 150%);
   }
 
+  /* ============================================
+     ✅ HOVER — L'3aks
+     ============================================ */
   .button:hover {
-    background: #000000;
-    color: #ffffff;
+    background: #ffffff;         /* ✅ Byed */
+    color: #000000;              /* ✅ K7el */
+    border-color: #000000;       /* ✅ Khat k7el */
     transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.2);
   }
 
   .button:hover .button__text {
-    color: #ffffff;
+    color: #000000;              /* ✅ K7el */
   }
 
   .button:hover .button__circle {
-    background: #ffffff;
-    color: #000000;
+    background: #000000;         /* ✅ K7el */
+    color: #ffffff;              /* ✅ Byed */
   }
 
   .button:hover .button__icon {
-    color: #000000;
+    color: #ffffff;              /* ✅ Byed */
   }
 
   .button:hover .button__icon:first-child {
@@ -309,6 +310,7 @@ const StyledWrapper = styled.div`
     .button {
       width: 85px;
       height: 85px;
+      border-width: 2.5px;
     }
 
     .button__text {
@@ -325,11 +327,12 @@ const StyledWrapper = styled.div`
     }
 
     .badge {
-      min-width: 22px;
-      height: 22px;
-      font-size: 11px;
-      top: -3px;
-      right: -3px;
+      min-width: 24px;
+      height: 24px;
+      font-size: 12px;
+      top: -4px;
+      right: -4px;
+      border-width: 2px;
     }
   }
 
@@ -340,6 +343,7 @@ const StyledWrapper = styled.div`
     .button {
       width: 70px;
       height: 70px;
+      border-width: 2px;
     }
 
     .button__text {
@@ -361,6 +365,7 @@ const StyledWrapper = styled.div`
       font-size: 10px;
       top: -2px;
       right: -2px;
+      border-width: 2px;
     }
   }
 `;
