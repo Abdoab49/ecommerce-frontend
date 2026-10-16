@@ -183,7 +183,7 @@ const StyledWrapper = styled.div`
 
     background: #000000;         /* ✅ Byed */
     color: #ffffff;              /* ✅ K7el */
-    border: 3px solid #000000;   /* ✅ Border k7el */
+    border: 3px solid #ffffff;   /* ✅ Border k7el */
     border-radius: 50px;
 
     font-family: 'Bebas Neue', sans-serif;
