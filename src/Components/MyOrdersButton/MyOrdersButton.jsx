@@ -181,8 +181,8 @@ const StyledWrapper = styled.div`
     align-items: center;
     justify-content: center;
 
-    background: #ffffff;         /* ✅ Byed */
-    color: #000000;              /* ✅ K7el */
+    background: #000000;         /* ✅ Byed */
+    color: #ffffff;              /* ✅ K7el */
     border: 3px solid #000000;   /* ✅ Border k7el */
     border-radius: 50px;
 
@@ -210,7 +210,7 @@ const StyledWrapper = styled.div`
     cursor: pointer;
     background: #000000;         /* ✅ Dayera k7la */
     color: #ffffff;              /* ✅ Text byed */
-    border: 3px solid #ffffff;   /* ✅ Khat byed */
+    border: 3px solid #000000;   /* ✅ Khat byed */
     width: 100px;
     height: 100px;
     border-radius: 50%;
