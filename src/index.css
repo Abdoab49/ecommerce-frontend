@@ -55,6 +55,7 @@ body {
 @media screen and (max-width: 768px) {
   body {
     font-size: 14px;
+    padding-bottom: 80px !important; /* ✅ ESPACE L BOTTOM NAVBAR */
   }
 
   /* جعل جميع الصور مناسبة */

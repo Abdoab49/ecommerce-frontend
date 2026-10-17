@@ -1,19 +1,19 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — Wrapper
+   ✅ BOTTOM NAV BAR — Wrapper (Mlas9 F Ltaht)
    ============================================ */
 .bottom-navbar-wrapper {
   position: fixed;
-  bottom: 0;                   /* ✅ Lsa9 m3a asfal mobile */
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;                   /* ✅ Mlas9 100% f ltaht */
+  left: 0;                     /* ✅ Mched l'yaser */
+  right: 0;                    /* ✅ Mched l'imin */
   z-index: 1000;
   width: 100%;
-  max-width: 550px;
-  padding: 0 10px 10px 10px;   /* ✅ Padding sghir f ltaht */
+  padding: 0;                  /* ✅ Bla padding */
+  margin: 0;                   /* ✅ Bla margin */
 }
 
 /* ============================================
-   ✅ CONTAINER — Pill (Kbira)
+   ✅ CONTAINER — Pill (Mlas9 F Ltaht)
    ============================================ */
 .bottom-navbar-container {
   position: relative;
@@ -22,14 +22,16 @@
   justify-content: space-between;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 50px;
-  padding: 14px 8px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-              0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-bottom: none;         /* ✅ Hayedna l'khat lta7tani */
+  border-radius: 30px 30px 0 0; /* ✅ Dayra ghir fo9 */
+  padding: 14px 8px calc(14px + env(safe-area-inset-bottom)); /* ✅ Safe area l iPhone */
+  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1); /* ✅ Dhal kayti7 3la lfo9 */
+  max-width: 100%;             /* ✅ Mched m3a l'ecran */
+  margin: 0 auto;              /* ✅ F weset */
 }
 
 /* ============================================
-   ✅ BUTTON — Kbira + Bla Hover
+   ✅ BUTTON
    ============================================ */
 .bottom-navbar-btn {
   position: relative;
@@ -38,7 +40,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding: 14px 12px;
+  padding: 10px 4px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -64,19 +66,19 @@
   color: #000000;
 }
 
-/* ✅ Kberna Icon */
+/* ✅ Icon */
 .bottom-navbar-icon {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
-/* ✅ Kberna Label */
+/* ✅ Label */
 .bottom-navbar-label {
-  font-size: 14px;
-  margin-top: 6px;
+  font-size: 11px;
+  margin-top: 4px;
   letter-spacing: 0.3px;
   display: none;
 }
@@ -97,45 +99,34 @@
 }
 
 /* ============================================
-   ✅ MOBILE
+   ✅ MOBILE (Ghir bash n9ado l'icons w l'ktba)
    ============================================ */
 @media (max-width: 768px) {
-  .bottom-navbar-wrapper {
-    bottom: 0;                 /* ✅ Lsa9 m3a asfal mobile */
-    padding: 0 8px 8px 8px;
-  }
-
   .bottom-navbar-container {
-    padding: 12px 6px;
-    border-radius: 40px;
+    padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+    border-radius: 24px 24px 0 0;
   }
 
   .bottom-navbar-btn {
-    padding: 12px 8px;
+    padding: 8px 2px;
   }
 
   .bottom-navbar-label {
-    font-size: 12px;
-    margin-top: 5px;
+    font-size: 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .bottom-navbar-wrapper {
-    bottom: 0;
-    padding: 0 6px 6px 6px;
-  }
-
   .bottom-navbar-container {
-    padding: 10px 5px;
-    border-radius: 32px;
+    padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
+    border-radius: 20px 20px 0 0;
   }
 
   .bottom-navbar-btn {
-    padding: 10px 6px;
+    padding: 6px 2px;
   }
 
   .bottom-navbar-label {
-    font-size: 11px;
+    font-size: 9px;
   }
 }
