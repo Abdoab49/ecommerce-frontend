@@ -30,7 +30,7 @@
 }
 
 /* ============================================
-   ✅ BUTTON
+   ✅ BUTTON — Kbira + Bla Hover
    ============================================ */
 .bottom-navbar-btn {
   position: relative;
@@ -48,8 +48,20 @@
   font-size: 14px;
   font-weight: 500;
   transition: color 0.2s;
+  
+  /* ✅ HADI HIYA LI KATHAYED DAK MORBA3 K7EL */
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
+/* ✅ Ila kliiti 3lih b l'clavier (Accessibility) */
+.bottom-navbar-btn:focus {
+  outline: none !important;
+}
+
+/* ✅ Active button — Khdar */
 .bottom-navbar-btn--active {
   color: #10b981;
 }
@@ -76,7 +88,7 @@
 }
 
 /* ============================================
-   ✅ MOBILE ONLY
+   ✅ MOBILE ONLY — Makhfi f Desktop
    ============================================ */
 @media (min-width: 769px) {
   .bottom-navbar-wrapper {
