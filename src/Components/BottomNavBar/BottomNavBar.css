@@ -31,7 +31,7 @@
 }
 
 /* ============================================
-   ✅ BUTTON — b Hover Effect
+   ✅ BUTTON — Bla Hover
    ============================================ */
 .bottom-navbar-btn {
   position: relative;
@@ -48,42 +48,24 @@
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: color 0.2s;
   outline: none !important;
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
   user-select: none;
-  border-radius: 16px; /* ✅ Dayra l hover */
-  z-index: 1;
+  border-radius: 16px;
 }
 
-/* ✅ HOVER — Khalfiya Madababya */
-.bottom-navbar-btn:hover {
-  background: rgba(16, 185, 129, 0.12); /* ✅ Khdar fatesh (madababya) */
-  color: #10b981; /* ✅ Icon w Label ykouno khdar */
-  transform: translateY(-2px); /* ✅ Kaytla3 chwiya */
-}
-
-.bottom-navbar-btn:hover .bottom-navbar-icon-img {
-  filter: invert(58%) sepia(89%) saturate(385%) hue-rotate(93deg) brightness(96%) contrast(94%); /* ✅ Icon Icons8 ykoun khdar */
-}
+/* ❌ HAYEDNA HOVER */
+/* .bottom-navbar-btn:hover { ... } */
 
 /* ✅ Active button — K7el */
 .bottom-navbar-btn--active {
   color: #000000;
 }
 
-.bottom-navbar-btn--active:hover {
-  background: rgba(0, 0, 0, 0.05); /* ✅ Khalfiya k7la fatesh */
-  color: #000000;
-}
-
-.bottom-navbar-btn--active:hover .bottom-navbar-icon-img {
-  filter: brightness(0) saturate(100%); /* ✅ Icon Icons8 ykoun k7el */
-}
-
 /* ============================================
-   ✅ ICON
+   ✅ ICON — K7el
    ============================================ */
 .bottom-navbar-icon {
   position: relative;
@@ -98,30 +80,25 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: filter 0.2s;
-  /* Default: gray */
-  filter: brightness(0) saturate(100%) invert(36%) sepia(11%) saturate(748%) hue-rotate(178deg) brightness(93%) contrast(87%);
-}
-
-/* ✅ Active: k7el */
-.bottom-navbar-btn--active .bottom-navbar-icon-img {
+  /* ✅ K7el */
   filter: brightness(0) saturate(100%);
 }
 
 .bottom-navbar-svg-icon {
   width: 24px;
   height: 24px;
-  color: inherit; /* ✅ Kayakhod color mn button */
+  color: #000000; /* ✅ K7el */
 }
 
 /* ============================================
-   ✅ LABEL
+   ✅ LABEL — K7el
    ============================================ */
 .bottom-navbar-label {
   font-size: 12px;
   margin-top: 5px;
   letter-spacing: 0.3px;
   display: none;
+  color: #000000; /* ✅ K7el */
 }
 
 @media (min-width: 640px) {
