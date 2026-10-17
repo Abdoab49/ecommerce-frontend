@@ -1,5 +1,5 @@
 // src/Components/BottomNavBar/BottomNavBar.jsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Home,
@@ -15,8 +15,6 @@ const BottomNavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(0);
-  const containerRef = useRef(null);
-  const btnRefs = useRef([]);
 
   const items = [
     { id: 0, icon: <Home size={22} />,         label: 'Shop',      path: '/' },
@@ -39,13 +37,12 @@ const BottomNavBar = () => {
 
   return (
     <div className="bottom-navbar-wrapper">
-      <div ref={containerRef} className="bottom-navbar-container">
+      <div className="bottom-navbar-container">
         {items.map((item, index) => {
           const isActive = active === index;
           return (
             <button
               key={item.id}
-              ref={(el) => (btnRefs.current[index] = el)}
               onClick={() => handleClick(index)}
               className={`bottom-navbar-btn ${isActive ? 'bottom-navbar-btn--active' : ''}`}
               aria-label={item.label}
