@@ -8,13 +8,13 @@
   transform: translateX(-50%);
   z-index: 1000;
   width: 100%;
-  max-width: 550px;
-  padding: 0 16px;
+  max-width: 550px;            /* ✅ Kberna chwiya */
+  padding: 0 16px;             /* ✅ Kberna chwiya */
   margin-bottom: 64px;
 }
 
 /* ============================================
-   ✅ CONTAINER — Pill
+   ✅ CONTAINER — Pill (Kbira)
    ============================================ */
 .bottom-navbar-container {
   position: relative;
@@ -24,13 +24,13 @@
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 50px;
-  padding: 14px 8px;
+  padding: 14px 8px;           /* ✅ Kberna (kanet 12px 6px) */
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
               0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 /* ============================================
-   ✅ BUTTON
+   ✅ BUTTON — Kbira + Bla Hover
    ============================================ */
 .bottom-navbar-btn {
   position: relative;
@@ -39,7 +39,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding: 14px 12px;
+  padding: 14px 12px;          /* ✅ Kberna (kanet 12px 10px) */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -49,7 +49,7 @@
   font-weight: 500;
   transition: color 0.2s;
   
-  /* ✅ Hayedna morba3 k7el */
+  /* ✅ Hayedna morba3 */
   outline: none !important;
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
@@ -62,21 +62,22 @@
 
 /* ✅ Active button — Khdar */
 .bottom-navbar-btn--active {
-  color: #10b981;
+  color: #000000;
 }
 
+/* ✅ Kberna Icon */
 .bottom-navbar-icon {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  transform: scale(1.2);       /* ✅ Kberna (kanet 1.1) */
 }
 
+/* ✅ Kberna Label */
 .bottom-navbar-label {
-  font-size: 14px;
-  margin-top: 6px;
+  font-size: 14px;             /* ✅ Kberna (kanet 13px) */
+  margin-top: 6px;             /* ✅ Kberna chwiya */
   letter-spacing: 0.3px;
   display: none;
 }
@@ -108,16 +109,16 @@
   }
 
   .bottom-navbar-container {
-    padding: 12px 6px;
+    padding: 12px 6px;         /* ✅ Kberna (kanet 10px 5px) */
     border-radius: 40px;
   }
 
   .bottom-navbar-btn {
-    padding: 12px 8px;
+    padding: 12px 8px;         /* ✅ Kberna (kanet 10px 6px) */
   }
 
   .bottom-navbar-label {
-    font-size: 12px;
+    font-size: 12px;           /* ✅ Kberna (kanet 11px) */
     margin-top: 5px;
   }
 }
@@ -130,15 +131,15 @@
   }
 
   .bottom-navbar-container {
-    padding: 10px 5px;
+    padding: 10px 5px;         /* ✅ Kberna (kanet 8px 4px) */
     border-radius: 32px;
   }
 
   .bottom-navbar-btn {
-    padding: 10px 6px;
+    padding: 10px 6px;         /* ✅ Kberna (kanet 8px 4px) */
   }
 
   .bottom-navbar-label {
-    font-size: 11px;
+    font-size: 11px;           /* ✅ Kberna (kanet 10px) */
   }
 }
