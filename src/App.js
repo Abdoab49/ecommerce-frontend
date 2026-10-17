@@ -1,17 +1,13 @@
 // src/App.jsx
 import React from 'react';
 import './App.css';
-import {
-    BrowserRouter,
-    Routes,
-    Route
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /* COMPONENTS */
 import Navbar from './Components/Navbar/Navbar';
+import FloatingNav from './Components/FloatingNav/FloatingNav';   // ✅ JDID
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
-import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';   // ✅ ZID HADI
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -31,14 +27,10 @@ import Jackets from './pages/Jackets';
 import Shoes from './pages/Shoes';
 
 /* BANNERS */
-import men_banner from './Components/Assets/banner_mens.png';
-import women_banner from './Components/Assets/banner_women.png';
 import kid_banner from './Components/Assets/banner_kids.png';
 
 /* CONTEXT */
 import ShopContextProvider from './Context/ShopContext';
-
-const shoes_banner = "/Assets/ShoeStore/background8.png";
 
 function App() {
     return (
@@ -50,9 +42,6 @@ function App() {
                     <div className="app-content">
                         <Navbar />
                         <NotificationBell />
-
-                        {/* ✅ Button "My Orders" — Floating f Jnab */}
-                        <MyOrdersButton />
 
                         <Routes>
                             <Route path='/' element={<Shop />} />
@@ -72,6 +61,9 @@ function App() {
                             <Route path='/orders' element={<Orders />} />
                             <Route path='/admin' element={<Admin />} />
                         </Routes>
+
+                        {/* ✅ FloatingNav — Ghir f Mobile */}
+                        <FloatingNav />
                     </div>
                 </div>
             </BrowserRouter>

@@ -1,0 +1,142 @@
+/* ============================================
+   ✅ FLOATING NAV — Wrapper
+   ============================================ */
+.floating-nav-wrapper {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 12px;
+}
+
+/* ============================================
+   ✅ CONTAINER — Pill
+   ============================================ */
+.floating-nav-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 50px;
+  padding: 6px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================
+   ✅ BUTTON
+   ============================================ */
+.floating-nav-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 8px 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-family: inherit;
+  transition: color 0.2s;
+  z-index: 2;
+}
+
+.floating-nav-btn:hover {
+  color: #000000;
+}
+
+.floating-nav-icon {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ Label — Makhfi f screens sghira */
+.floating-nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 2px;
+  letter-spacing: 0.3px;
+  display: none;   /* ❌ Makhfi */
+}
+
+/* ✅ Label — Kayban f screens kbar */
+@media (min-width: 400px) {
+  .floating-nav-label {
+    display: block;
+  }
+}
+
+/* ============================================
+   ✅ SLIDING INDICATOR — Khdar
+   ============================================ */
+.floating-nav-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  border-radius: 50px;
+  background: rgba(16, 185, 129, 0.12);   /* Khdar fatesh */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================
+   ✅ MOBILE ONLY — Makhfi f Desktop
+   ============================================ */
+@media (min-width: 769px) {
+  .floating-nav-wrapper {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   ✅ MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .floating-nav-wrapper {
+    bottom: 12px;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .floating-nav-container {
+    padding: 5px;
+    border-radius: 40px;
+  }
+
+  .floating-nav-btn {
+    padding: 6px 2px;
+  }
+
+  .floating-nav-label {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-nav-wrapper {
+    bottom: 8px;
+    padding: 0 6px;
+  }
+
+  .floating-nav-container {
+    padding: 4px;
+    border-radius: 32px;
+  }
+
+  .floating-nav-btn {
+    padding: 5px 2px;
+  }
+
+  .floating-nav-label {
+    font-size: 8px;
+  }
+}
