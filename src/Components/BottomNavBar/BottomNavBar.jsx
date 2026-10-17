@@ -1,7 +1,7 @@
 // src/Components/BottomNavBar/BottomNavBar.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, ShoppingCart } from 'lucide-react';
+import { Home } from 'lucide-react';
 import './BottomNavBar.css';
 
 const BottomNavBar = () => {
@@ -12,7 +12,7 @@ const BottomNavBar = () => {
   const items = [
     {
       id: 0,
-      icon: <Home size={24} strokeWidth={2} />,   // ✅ Shop (Lucide)
+      icon: <Home size={38} strokeWidth={2} />,   // ✅ Shop (Lucide)
       label: 'Shop',
       path: '/',
     },
@@ -33,8 +33,8 @@ const BottomNavBar = () => {
       // ✅ Jackets: SVG dyalek (down-jacket-svgrepo)
       icon: (
         <svg
-          width="24"
-          height="24"
+          width="38"
+          height="38"
           viewBox="0 0 1000 1000"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
@@ -56,8 +56,8 @@ const BottomNavBar = () => {
       // ✅ Casquette: SVG dyalek (baseball-cap-svgrepo)
       icon: (
         <svg
-          width="24"
-          height="24"
+          width="38"
+          height="38"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -86,12 +86,7 @@ const BottomNavBar = () => {
       label: 'Shoes',
       path: '/shoes',
     },
-    {
-      id: 5,
-      icon: <ShoppingCart size={24} strokeWidth={2} />,   // ✅ Cart (Lucide)
-      label: 'Cart',
-      path: '/cart',
-    },
+    // ❌ HAYEDNA CART
   ];
 
   useEffect(() => {
