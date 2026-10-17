@@ -3,17 +3,17 @@
    ============================================ */
 .bottom-navbar-wrapper {
   position: fixed;
-  bottom: 0;                   /* ✅ Mlas9 100% f ltaht */
-  left: 0;                     /* ✅ Mched l'yaser */
-  right: 0;                    /* ✅ Mched l'imin */
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   width: 100%;
-  padding: 0;                  /* ✅ Bla padding */
-  margin: 0;                   /* ✅ Bla margin */
+  padding: 0;
+  margin: 0;
 }
 
 /* ============================================
-   ✅ CONTAINER — Pill (Mlas9 F Ltaht)
+   ✅ CONTAINER — Pill (Tawalna + Kberna)
    ============================================ */
 .bottom-navbar-container {
   position: relative;
@@ -22,12 +22,12 @@
   justify-content: space-between;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-bottom: none;         /* ✅ Hayedna l'khat lta7tani */
-  border-radius: 30px 30px 0 0; /* ✅ Dayra ghir fo9 */
-  padding: 14px 8px calc(14px + env(safe-area-inset-bottom)); /* ✅ Safe area l iPhone */
-  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1); /* ✅ Dhal kayti7 3la lfo9 */
-  max-width: 100%;             /* ✅ Mched m3a l'ecran */
-  margin: 0 auto;              /* ✅ F weset */
+  border-bottom: none;
+  border-radius: 30px 30px 0 0;
+  padding: 18px 12px calc(18px + env(safe-area-inset-bottom)); /* ✅ Tawalna */
+  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* ============================================
@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding: 10px 4px;
+  padding: 12px 4px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -49,8 +49,6 @@
   font-size: 14px;
   font-weight: 500;
   transition: color 0.2s;
-  
-  /* ✅ Hayedna morba3 */
   outline: none !important;
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
@@ -66,19 +64,38 @@
   color: #000000;
 }
 
-/* ✅ Icon */
+/* ============================================
+   ✅ ICON (Icons8 Images)
+   ============================================ */
 .bottom-navbar-icon {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(1.1);
+  width: 26px;
+  height: 26px;
 }
 
-/* ✅ Label */
+.bottom-navbar-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: filter 0.2s;
+  /* Default: gray (4b5563) */
+  filter: brightness(0) saturate(100%) invert(36%) sepia(11%) saturate(748%) hue-rotate(178deg) brightness(93%) contrast(87%);
+}
+
+/* ✅ Active: k7el */
+.bottom-navbar-btn--active .bottom-navbar-icon-img {
+  filter: brightness(0) saturate(100%);
+}
+
+/* ============================================
+   ✅ LABEL
+   ============================================ */
 .bottom-navbar-label {
-  font-size: 11px;
-  margin-top: 4px;
+  font-size: 12px;
+  margin-top: 5px;
   letter-spacing: 0.3px;
   display: none;
 }
@@ -99,16 +116,21 @@
 }
 
 /* ============================================
-   ✅ MOBILE (Ghir bash n9ado l'icons w l'ktba)
+   ✅ MOBILE
    ============================================ */
 @media (max-width: 768px) {
   .bottom-navbar-container {
-    padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+    padding: 14px 8px calc(14px + env(safe-area-inset-bottom));
     border-radius: 24px 24px 0 0;
   }
 
   .bottom-navbar-btn {
-    padding: 8px 2px;
+    padding: 10px 2px;
+  }
+
+  .bottom-navbar-icon {
+    width: 24px;
+    height: 24px;
   }
 
   .bottom-navbar-label {
@@ -118,12 +140,17 @@
 
 @media (max-width: 480px) {
   .bottom-navbar-container {
-    padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
+    padding: 12px 6px calc(12px + env(safe-area-inset-bottom));
     border-radius: 20px 20px 0 0;
   }
 
   .bottom-navbar-btn {
-    padding: 6px 2px;
+    padding: 8px 2px;
+  }
+
+  .bottom-navbar-icon {
+    width: 22px;
+    height: 22px;
   }
 
   .bottom-navbar-label {

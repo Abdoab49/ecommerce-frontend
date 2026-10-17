@@ -1,14 +1,6 @@
 // src/Components/BottomNavBar/BottomNavBar.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  Home,
-  Shirt,
-  ShoppingBag,
-  Award,
-  Footprints,
-  ShoppingCart,
-} from 'lucide-react';
 import './BottomNavBar.css';
 
 const BottomNavBar = () => {
@@ -16,13 +8,80 @@ const BottomNavBar = () => {
   const location = useLocation();
   const [active, setActive] = useState(0);
 
+  // ✅ Icons8 URLs + Options dyalek
   const items = [
-    { id: 0, icon: <Home size={22} />,         label: 'Shop',      path: '/' },
-    { id: 1, icon: <Shirt size={22} />,        label: 'Men',       path: '/mens' },
-    { id: 2, icon: <ShoppingBag size={22} />,  label: 'Jackets',   path: '/womens' },
-    { id: 3, icon: <Award size={22} />,        label: 'Casquette', path: '/casquette' },
-    { id: 4, icon: <Footprints size={22} />,   label: 'Shoes',     path: '/shoes' },
-    { id: 5, icon: <ShoppingCart size={22} />, label: 'Cart',      path: '/cart' },
+    {
+      id: 0,
+      icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/4b5563/shop.png"
+          alt="Shop"
+          className="bottom-navbar-icon-img"
+        />
+      ),
+      label: 'Shop',
+      path: '/',
+    },
+    {
+      id: 1,
+      icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/4b5563/t-shirt.png"
+          alt="Men"
+          className="bottom-navbar-icon-img"
+        />
+      ),
+      label: 'Men',
+      path: '/mens',
+    },
+    {
+      id: 2,
+      icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/4b5563/jacket.png"
+          alt="Jackets"
+          className="bottom-navbar-icon-img"
+        />
+      ),
+      label: 'Jackets',
+      path: '/womens',
+    },
+    {
+      id: 3,
+      icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/4b5563/cap.png"
+          alt="Casquette"
+          className="bottom-navbar-icon-img"
+        />
+      ),
+      label: 'Casquette',
+      path: '/casquette',
+    },
+    {
+      id: 4,
+      icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/4b5563/sneakers.png"
+          alt="Shoes"
+          className="bottom-navbar-icon-img"
+        />
+      ),
+      label: 'Shoes',
+      path: '/shoes',
+    },
+    {
+      id: 5,
+      icon: (
+        <img
+          src="https://img.icons8.com/ios-filled/50/4b5563/shopping-cart.png"
+          alt="Cart"
+          className="bottom-navbar-icon-img"
+        />
+      ),
+      label: 'Cart',
+      path: '/cart',
+    },
   ];
 
   useEffect(() => {
