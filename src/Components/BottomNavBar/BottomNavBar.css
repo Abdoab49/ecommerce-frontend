@@ -13,7 +13,7 @@
 }
 
 /* ============================================
-   ✅ CONTAINER — Pill (Tawalna + Kberna)
+   ✅ CONTAINER — Pill
    ============================================ */
 .bottom-navbar-container {
   position: relative;
@@ -24,14 +24,14 @@
   border: 1px solid #e5e7eb;
   border-bottom: none;
   border-radius: 30px 30px 0 0;
-  padding: 18px 12px calc(18px + env(safe-area-inset-bottom)); /* ✅ Tawalna */
+  padding: 18px 12px calc(18px + env(safe-area-inset-bottom));
   box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1);
   max-width: 100%;
   margin: 0 auto;
 }
 
 /* ============================================
-   ✅ BUTTON
+   ✅ BUTTON — b Hover Effect
    ============================================ */
 .bottom-navbar-btn {
   position: relative;
@@ -48,15 +48,24 @@
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
   outline: none !important;
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
   user-select: none;
+  border-radius: 16px; /* ✅ Dayra l hover */
+  z-index: 1;
 }
 
-.bottom-navbar-btn:focus {
-  outline: none !important;
+/* ✅ HOVER — Khalfiya Madababya */
+.bottom-navbar-btn:hover {
+  background: rgba(16, 185, 129, 0.12); /* ✅ Khdar fatesh (madababya) */
+  color: #10b981; /* ✅ Icon w Label ykouno khdar */
+  transform: translateY(-2px); /* ✅ Kaytla3 chwiya */
+}
+
+.bottom-navbar-btn:hover .bottom-navbar-icon-img {
+  filter: invert(58%) sepia(89%) saturate(385%) hue-rotate(93deg) brightness(96%) contrast(94%); /* ✅ Icon Icons8 ykoun khdar */
 }
 
 /* ✅ Active button — K7el */
@@ -64,8 +73,17 @@
   color: #000000;
 }
 
+.bottom-navbar-btn--active:hover {
+  background: rgba(0, 0, 0, 0.05); /* ✅ Khalfiya k7la fatesh */
+  color: #000000;
+}
+
+.bottom-navbar-btn--active:hover .bottom-navbar-icon-img {
+  filter: brightness(0) saturate(100%); /* ✅ Icon Icons8 ykoun k7el */
+}
+
 /* ============================================
-   ✅ ICON (Icons8 Images)
+   ✅ ICON
    ============================================ */
 .bottom-navbar-icon {
   position: relative;
@@ -81,13 +99,19 @@
   height: 100%;
   object-fit: contain;
   transition: filter 0.2s;
-  /* Default: gray (4b5563) */
+  /* Default: gray */
   filter: brightness(0) saturate(100%) invert(36%) sepia(11%) saturate(748%) hue-rotate(178deg) brightness(93%) contrast(87%);
 }
 
 /* ✅ Active: k7el */
 .bottom-navbar-btn--active .bottom-navbar-icon-img {
   filter: brightness(0) saturate(100%);
+}
+
+.bottom-navbar-svg-icon {
+  width: 24px;
+  height: 24px;
+  color: inherit; /* ✅ Kayakhod color mn button */
 }
 
 /* ============================================
