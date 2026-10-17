@@ -5,7 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /* COMPONENTS */
 import Navbar from './Components/Navbar/Navbar';
-import BottomNavBar from './Components/BottomNavBar/BottomNavBar';   // ✅ JDID
+import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';    // ✅ JDID
+import BottomNavBar from './Components/BottomNavBar/BottomNavBar';           // ✅ JDID
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 
@@ -42,6 +43,9 @@ function App() {
                     <div className="app-content">
                         <Navbar />
                         <NotificationBell />
+
+                        {/* ✅ MyOrdersButton — Floating f l'imin */}
+                        <MyOrdersButton />
 
                         <Routes>
                             <Route path='/' element={<Shop />} />
