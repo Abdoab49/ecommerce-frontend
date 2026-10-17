@@ -161,7 +161,7 @@ const StyledWrapper = styled.div`
   /* ✅ Fixed — Floating f jnab */
   position: fixed;
   right: 24px;
-  bottom: 100px;
+  bottom: 180px;               /* ✅ Tal3a chwiya (kanet 100px) */
   z-index: 999;
 
   /* ============================================
@@ -181,9 +181,9 @@ const StyledWrapper = styled.div`
     align-items: center;
     justify-content: center;
 
-    background: #000000;         /* ✅ Byed */
-    color: #ffffff;              /* ✅ K7el */
-    border: 3px solid #ffffff;   /* ✅ Border k7el */
+    background: #000000;         /* ✅ K7el */
+    color: #ffffff;              /* ✅ Byed */
+    border: 3px solid #ffffff;   /* ✅ Border byed */
     border-radius: 50px;
 
     font-family: 'Bebas Neue', sans-serif;
@@ -210,7 +210,7 @@ const StyledWrapper = styled.div`
     cursor: pointer;
     background: #000000;         /* ✅ Dayera k7la */
     color: #ffffff;              /* ✅ Text byed */
-    border: 3px solid #000000;   /* ✅ Khat byed */
+    border: 3px solid #000000;   /* ✅ Khat k7el */
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -305,7 +305,7 @@ const StyledWrapper = styled.div`
      ============================================ */
   @media (max-width: 768px) {
     right: 16px;
-    bottom: 90px;
+    bottom: 140px;             /* ✅ Tal3a chwiya (kanet 90px) */
 
     .button {
       width: 85px;
@@ -338,7 +338,7 @@ const StyledWrapper = styled.div`
 
   @media (max-width: 480px) {
     right: 12px;
-    bottom: 80px;
+    bottom: 120px;             /* ✅ Tal3a chwiya (kanet 80px) */
 
     .button {
       width: 70px;
