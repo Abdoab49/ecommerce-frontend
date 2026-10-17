@@ -1,6 +1,7 @@
 // src/Components/BottomNavBar/BottomNavBar.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Home } from 'lucide-react';   // ✅ Rje3na Shop l Lucide
 import './BottomNavBar.css';
 
 const BottomNavBar = () => {
@@ -8,17 +9,11 @@ const BottomNavBar = () => {
   const location = useLocation();
   const [active, setActive] = useState(0);
 
-  // ✅ Icons8 URLs + Options dyalek
+  // ✅ Icons8 URLs (Casquette daba khddama) + Shop b Lucide
   const items = [
     {
       id: 0,
-      icon: (
-        <img
-          src="https://img.icons8.com/ios-filled/50/4b5563/shop.png"
-          alt="Shop"
-          className="bottom-navbar-icon-img"
-        />
-      ),
+      icon: <Home size={24} strokeWidth={2} />,   // ✅ Shop kifma kan
       label: 'Shop',
       path: '/',
     },
@@ -49,10 +44,16 @@ const BottomNavBar = () => {
     {
       id: 3,
       icon: (
+        // ✅ Casquette: Icons8 URL khddama
         <img
           src="https://img.icons8.com/ios-filled/50/4b5563/cap.png"
           alt="Casquette"
           className="bottom-navbar-icon-img"
+          onError={(e) => {
+            // Ila Icons8 ma khdemch, rje3 l Lucide
+            e.target.style.display = 'none';
+            e.target.nextSibling.style.display = 'block';
+          }}
         />
       ),
       label: 'Casquette',
