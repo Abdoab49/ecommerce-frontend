@@ -1,7 +1,7 @@
 // src/Components/BottomNavBar/BottomNavBar.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home } from 'lucide-react';   // ✅ Rje3na Shop l Lucide
+import { Home, ShoppingCart } from 'lucide-react';   // ✅ Cart w Shop b Lucide
 import './BottomNavBar.css';
 
 const BottomNavBar = () => {
@@ -9,7 +9,6 @@ const BottomNavBar = () => {
   const location = useLocation();
   const [active, setActive] = useState(0);
 
-  // ✅ Icons8 URLs (Casquette daba khddama) + Shop b Lucide
   const items = [
     {
       id: 0,
@@ -43,18 +42,24 @@ const BottomNavBar = () => {
     },
     {
       id: 3,
+      // ✅ Casquette: SVG 3adi (Khddam 100% bla internet, bla CORB)
       icon: (
-        // ✅ Casquette: Icons8 URL khddama
-        <img
-          src="https://img.icons8.com/ios-filled/50/4b5563/cap.png"
-          alt="Casquette"
-          className="bottom-navbar-icon-img"
-          onError={(e) => {
-            // Ila Icons8 ma khdemch, rje3 l Lucide
-            e.target.style.display = 'none';
-            e.target.nextSibling.style.display = 'block';
-          }}
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="bottom-navbar-svg-icon"
+          style={{ width: '24px', height: '24px' }}
+        >
+          <path d="M3 14h18" />
+          <path d="M5 14a7 7 0 0 1 14 0" />
+          <path d="M3 14c-1.5 0-2 1.5-2 2.5s.5 2.5 2 2.5" />
+          <circle cx="12" cy="7" r="1" fill="currentColor" />
+        </svg>
       ),
       label: 'Casquette',
       path: '/casquette',
@@ -73,13 +78,7 @@ const BottomNavBar = () => {
     },
     {
       id: 5,
-      icon: (
-        <img
-          src="https://img.icons8.com/ios-filled/50/4b5563/shopping-cart.png"
-          alt="Cart"
-          className="bottom-navbar-icon-img"
-        />
-      ),
+      icon: <ShoppingCart size={24} strokeWidth={2} />,   // ✅ Cart rje3et l Lucide
       label: 'Cart',
       path: '/cart',
     },
