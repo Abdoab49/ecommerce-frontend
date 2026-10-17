@@ -56,49 +56,45 @@
   border-radius: 16px;
 }
 
-/* ❌ HAYEDNA HOVER */
-/* .bottom-navbar-btn:hover { ... } */
-
 /* ✅ Active button — K7el */
 .bottom-navbar-btn--active {
   color: #000000;
 }
 
 /* ============================================
-   ✅ ICON — K7el
+   ✅ ICON — K7el + Kbar
    ============================================ */
 .bottom-navbar-icon {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 32px;             /* ✅ Kberna (kanet 26px) */
+  height: 32px;            /* ✅ Kberna (kanet 26px) */
 }
 
 .bottom-navbar-icon-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* ✅ K7el */
-  filter: brightness(0) saturate(100%);
+  filter: brightness(0) saturate(100%); /* ✅ K7el */
 }
 
 .bottom-navbar-svg-icon {
-  width: 24px;
-  height: 24px;
-  color: #000000; /* ✅ K7el */
+  width: 32px;             /* ✅ Kberna (kanet 24px) */
+  height: 32px;            /* ✅ Kberna (kanet 24px) */
+  color: #000000;
 }
 
 /* ============================================
    ✅ LABEL — K7el
    ============================================ */
 .bottom-navbar-label {
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 13px;         /* ✅ Kberna chwiya (kanet 12px) */
+  margin-top: 6px;
   letter-spacing: 0.3px;
   display: none;
-  color: #000000; /* ✅ K7el */
+  color: #000000;
 }
 
 @media (min-width: 640px) {
@@ -121,7 +117,7 @@
    ============================================ */
 @media (max-width: 768px) {
   .bottom-navbar-container {
-    padding: 14px 8px calc(14px + env(safe-area-inset-bottom));
+    padding: 16px 8px calc(16px + env(safe-area-inset-bottom));
     border-radius: 24px 24px 0 0;
   }
 
@@ -130,18 +126,24 @@
   }
 
   .bottom-navbar-icon {
-    width: 24px;
-    height: 24px;
+    width: 30px;           /* ✅ Kberna f mobile (kanet 24px) */
+    height: 30px;
+  }
+
+  .bottom-navbar-svg-icon {
+    width: 30px;
+    height: 30px;
   }
 
   .bottom-navbar-label {
-    font-size: 10px;
+    font-size: 11px;
+    margin-top: 4px;
   }
 }
 
 @media (max-width: 480px) {
   .bottom-navbar-container {
-    padding: 12px 6px calc(12px + env(safe-area-inset-bottom));
+    padding: 14px 6px calc(14px + env(safe-area-inset-bottom));
     border-radius: 20px 20px 0 0;
   }
 
@@ -150,11 +152,16 @@
   }
 
   .bottom-navbar-icon {
-    width: 22px;
-    height: 22px;
+    width: 28px;           /* ✅ Kberna f small mobile (kanet 22px) */
+    height: 28px;
+  }
+
+  .bottom-navbar-svg-icon {
+    width: 28px;
+    height: 28px;
   }
 
   .bottom-navbar-label {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
