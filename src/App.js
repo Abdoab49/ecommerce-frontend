@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /* COMPONENTS */
 import Navbar from './Components/Navbar/Navbar';
-import FloatingNav from './Components/FloatingNav/FloatingNav';   // ✅ JDID
+import BottomNavBar from './Components/BottomNavBar/BottomNavBar';   // ✅ JDID
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 
@@ -62,8 +62,8 @@ function App() {
                             <Route path='/admin' element={<Admin />} />
                         </Routes>
 
-                        {/* ✅ FloatingNav — Ghir f Mobile */}
-                        <FloatingNav />
+                        {/* ✅ BottomNavBar — Ghir f Mobile */}
+                        <BottomNavBar />
                     </div>
                 </div>
             </BrowserRouter>
