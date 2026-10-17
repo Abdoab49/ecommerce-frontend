@@ -9,6 +9,9 @@
     box-sizing: border-box;
 }
 
+/* ============================================
+   NAVBAR
+   ============================================ */
 .navbar {
     font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
     background: hsl(0, 0%, 0%);
@@ -25,7 +28,9 @@
     margin: 0 auto;
 }
 
-/* زر القائمة (Hamburger) */
+/* ============================================
+   MENU TOGGLE (Hamburger)
+   ============================================ */
 .menuToggle {
     display: none;
     flex-direction: column;
@@ -41,6 +46,9 @@
     transition: 0.3s;
 }
 
+/* ============================================
+   LOGO
+   ============================================ */
 .logo {
     transition: 0.35s ease;
 }
@@ -55,6 +63,9 @@
     display: block;
 }
 
+/* ============================================
+   MENU ITEMS
+   ============================================ */
 .menuItems {
     display: flex;
     gap: 1.2rem;
@@ -63,9 +74,6 @@
     padding: 0;
 }
 
-/* ============================================
-   LINK — SHOP, MEN, JACKETS, ... , LOGOUT
-   ============================================ */
 .link {
     color: #ffffff;
     text-decoration: none;
@@ -134,15 +142,14 @@
 }
 
 /* ============================================
-   RIGHT SECTION
+   RIGHT SECTION (Login/Logout + Cart)
    ============================================ */
 .rightSection {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 12px;
 }
 
-/* زر Login */
 .loginBtn {
     color: white;
     text-decoration: none;
@@ -154,51 +161,85 @@
     transition: all 0.3s ease;
 }
 
-/* ✅ ABDO + LOGOUT — m3a b3diyathom — nafs l'khat */
-.mobileLogin {
-    display: flex;
+/* ============================================
+   ICON LINK (Login/Logout)
+   ============================================ */
+.iconLink {
+    display: inline-flex;
     align-items: center;
-    gap: 1.2rem;
+    justify-content: center;
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    text-decoration: none;
+}
+
+.iconLink:hover {
+    color: #808080;
+}
+
+.userIcon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
 }
 
 /* ============================================
-   MEDIA QUERIES
+   MOBILE ONLY
+   ============================================ */
+.mobileOnly {
+    display: none;
+}
+
+/* ============================================
+   ✅ MEDIA QUERIES — MOBILE
    ============================================ */
 @media (max-width: 768px) {
     .navbar {
         padding: 0.8rem 1rem;
     }
 
+    /* ❌ Hayed Menu Toggle */
     .menuToggle {
-        display: flex;
+        display: none !important;
     }
 
+    /* ❌ Hayed Menu Items */
     .menuItems {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 70%;
-        height: 100vh;
-        background: hsl(0, 0%, 8%);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-        transition: left 0.3s ease;
-        z-index: 1000;
-        padding: 0;
+        display: none !important;
     }
 
-    .menuItems.active {
-        left: 0;
+    /* ❌ Hayed mobileOnly */
+    .mobileOnly {
+        display: none !important;
     }
 
-    .link {
-        font-size: 1.2rem;
+    /* ✅ Logo f l'yaser */
+    .logo {
+        position: static !important;
+        transform: none !important;
+        left: auto !important;
     }
 
     .logo img {
         width: 35px;
+    }
+
+    /* ✅ RightSection f l'imin */
+    .rightSection {
+        display: flex !important;
+        align-items: center;
+        gap: 12px;
+        margin-left: auto;
+    }
+
+    /* ✅ Navbar Container — space-between */
+    .navbarContainer {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .cart img {
@@ -206,20 +247,15 @@
         height: 24px;
     }
 
-    .rightSection {
-        gap: 1rem;
+    .iconLink {
+        width: 36px;
+        height: 36px;
     }
 
-    .loginBtn {
-        display: none;
-    }
-
-    /* ✅ ABDO + LOGOUT — f mobile — m3a b3diyathom */
-    .mobileLogin {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
+    .userIcon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -237,10 +273,6 @@
         height: 22px;
     }
 
-    .link {
-        font-size: 1rem;
-    }
-
     .cartCount {
         width: 16px;
         height: 16px;
@@ -249,138 +281,19 @@
         right: -10px;
     }
 
-    .menuItems {
-        width: 80%;
+    .rightSection {
+        gap: 8px;
     }
 }
 
-/* ============================================
-   ICON LINK — Login (blaset LOG IN)
-   ============================================ */
-.iconLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
-  text-decoration: none;
-}
-
-.iconLink:hover {
-  color: #808080;
-}
-
-.userIcon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .iconLink {
-  }
-
-  .userIcon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
-}
-
 @media (max-width: 480px) {
-  .iconLink {
-  }
+    .rightSection {
+        gap: 6px;
+    }
 
-  .userIcon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-  }
-}
-
-/* ============================================
-   ICON LINK — Login (7da Cart)
-   ============================================ */
-.iconLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
-  text-decoration: none;
-}
-
-.iconLink:hover {
-  color:#808080;
-}
-
-.userIcon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
-/* ============================================
-   RIGHT SECTION — Icon + Cart 7da b3diyathom
-   ============================================ */
-.rightSection {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* ============================================
-   MEDIA QUERIES
-   ============================================ */
-@media (max-width: 768px) {
-  /* ✅ F mobile — iconLink BAQI kayban (7da cart) */
-  .iconLink {
-    width: 36px;
-    height: 36px;
-  }
-
-  .userIcon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
-
-  .rightSection {
-    gap: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .iconLink {
-  }
-
-  .userIcon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-  }
-
-  .rightSection {
-    gap: 6px;
-  }
-}
-
-/* ============================================
-   MOBILE ONLY — Kayban ghir f mobile
-   ============================================ */
-.mobileOnly {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .mobileOnly {
-        display: block;
+    .userIcon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
     }
 }
