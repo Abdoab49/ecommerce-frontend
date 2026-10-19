@@ -1,24 +1,23 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — DESIGN JDID
+   ✅ BOTTOM NAV BAR — DESIGN JDID (Animation)
    ============================================ */
 
-/* ✅ Wrapper — Fixed f ltaht */
+/* ✅ Wrapper */
 .bottom-menu {
   position: fixed;
-  bottom: 20px;              /* ✅ M3a chwiya dyal espace mn ltaht */
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 350px;              /* ✅ L'3ard dyalha */
+  width: 350px;
   max-width: 90vw;
-  font-size: 1em;
   padding: 0.5rem;
   background-color: #fff;
   border-radius: 10px;
   z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* ✅ Dhal */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* ✅ Button */
@@ -38,7 +37,7 @@
   transition: transform 0.4s;
 }
 
-/* ✅ Dwayra (Circle) — melli active */
+/* ✅ Dwayra */
 .tab-btn::before {
   content: '';
   position: absolute;
@@ -52,7 +51,7 @@
   transition: transform 0.4s;
 }
 
-/* ✅ Ktba (Label) — melli active */
+/* ✅ Ktba */
 .tab-btn::after {
   content: attr(data-text);
   position: absolute;
@@ -66,7 +65,7 @@
   white-space: nowrap;
 }
 
-/* ✅ Active State */
+/* ✅ Active */
 .tab-btn.active {
   transform: translate3d(0, -2em, 0);
 }
@@ -79,14 +78,27 @@
   opacity: 1;
 }
 
-/* ✅ Icon Size */
-.tab-btn ion-icon {
-  font-size: 1.8rem;         /* ✅ Kberna chwiya */
+/* ✅ Icon Size — Nefs Ma9as */
+.tab-btn .tab-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.tab-btn .tab-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%);
+}
+
+.tab-btn .tab-icon-svg {
+  width: 28px;
+  height: 28px;
   color: #111;
 }
 
 /* ============================================
-   ✅ MOBILE ONLY — Makhfi f Desktop
+   ✅ MOBILE ONLY
    ============================================ */
 @media (min-width: 769px) {
   .bottom-menu {
@@ -94,9 +106,6 @@
   }
 }
 
-/* ============================================
-   ✅ MOBILE
-   ============================================ */
 @media (max-width: 768px) {
   .bottom-menu {
     width: 320px;
@@ -118,8 +127,11 @@
     top: 55px;
   }
 
-  .tab-btn ion-icon {
-    font-size: 1.6rem;
+  .tab-btn .tab-icon,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -144,7 +156,10 @@
     top: 50px;
   }
 
-  .tab-btn ion-icon {
-    font-size: 1.4rem;
+  .tab-btn .tab-icon,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 22px;
+    height: 22px;
   }
 }
