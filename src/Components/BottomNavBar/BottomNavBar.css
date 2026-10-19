@@ -1,113 +1,95 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — Wrapper (Mlas9 F Ltaht)
+   ✅ BOTTOM NAV BAR — DESIGN JDID
    ============================================ */
-.bottom-navbar-wrapper {
+
+/* ✅ Wrapper — Fixed f ltaht */
+.bottom-menu {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 20px;              /* ✅ M3a chwiya dyal espace mn ltaht */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;              /* ✅ L'3ard dyalha */
+  max-width: 90vw;
+  font-size: 1em;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 10px;
   z-index: 1000;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* ✅ Dhal */
 }
 
-/* ============================================
-   ✅ CONTAINER — Pill
-   ============================================ */
-.bottom-navbar-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-bottom: none;
-  border-radius: 30px 30px 0 0;
-  padding: 22px 12px calc(22px + env(safe-area-inset-bottom)); /* ✅ Kberna */
-  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-/* ============================================
-   ✅ BUTTON — Bla Hover
-   ============================================ */
-.bottom-navbar-btn {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  padding: 12px 4px;
-  background: transparent;
-  border: none;
+/* ✅ Button */
+.tab-btn {
+  flex-grow: 1;
+  z-index: 10;
+  padding: 10px 20px;
+  border-radius: 50%;
   cursor: pointer;
-  color: #4b5563;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
-  user-select: none;
-  border-radius: 16px;
-}
-
-/* ✅ Active button — K7el */
-.bottom-navbar-btn--active {
-  color: #000000;
-}
-
-/* ============================================
-   ✅ ICON — K7el + Kbar Bzaf
-   ============================================ */
-.bottom-navbar-icon {
-  position: relative;
+  border: none;
+  background: transparent;
+  color: #111;
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 38px;             /* ✅ Kberna bzaf (kanet 32px) */
-  height: 38px;            /* ✅ Kberna bzaf (kanet 32px) */
+  align-items: center;
+  position: relative;
+  transition: transform 0.4s;
 }
 
-.bottom-navbar-icon-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: brightness(0) saturate(100%); /* ✅ K7el */
+/* ✅ Dwayra (Circle) — melli active */
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 0.4s;
 }
 
-.bottom-navbar-svg-icon {
-  width: 38px;             /* ✅ Kberna bzaf (kanet 32px) */
-  height: 38px;            /* ✅ Kberna bzaf (kanet 32px) */
-  color: #000000;
+/* ✅ Ktba (Label) — melli active */
+.tab-btn::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 60px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+  white-space: nowrap;
 }
 
-/* ============================================
-   ✅ LABEL — K7el
-   ============================================ */
-.bottom-navbar-label {
-  font-size: 13px;         /* ✅ Baqi kifma kan */
-  margin-top: 6px;
-  letter-spacing: 0.3px;
-  display: none;
-  color: #000000;
+/* ✅ Active State */
+.tab-btn.active {
+  transform: translate3d(0, -2em, 0);
 }
 
-@media (min-width: 640px) {
-  .bottom-navbar-label {
-    display: block;
-  }
+.tab-btn.active::before {
+  transform: scale(1);
+}
+
+.tab-btn.active::after {
+  opacity: 1;
+}
+
+/* ✅ Icon Size */
+.tab-btn ion-icon {
+  font-size: 1.8rem;         /* ✅ Kberna chwiya */
+  color: #111;
 }
 
 /* ============================================
    ✅ MOBILE ONLY — Makhfi f Desktop
    ============================================ */
 @media (min-width: 769px) {
-  .bottom-navbar-wrapper {
+  .bottom-menu {
     display: none !important;
   }
 }
@@ -116,52 +98,53 @@
    ✅ MOBILE
    ============================================ */
 @media (max-width: 768px) {
-  .bottom-navbar-container {
-    padding: 18px 8px calc(18px + env(safe-area-inset-bottom));
-    border-radius: 24px 24px 0 0;
+  .bottom-menu {
+    width: 320px;
+    bottom: 15px;
+    padding: 0.4rem;
   }
 
-  .bottom-navbar-btn {
-    padding: 10px 2px;
+  .tab-btn {
+    padding: 8px 16px;
   }
 
-  .bottom-navbar-icon {
-    width: 36px;           /* ✅ Kberna f mobile (kanet 30px) */
-    height: 36px;
+  .tab-btn::before {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
-  .bottom-navbar-svg-icon {
-    width: 36px;
-    height: 36px;
+  .tab-btn::after {
+    font-size: 0.9rem;
+    top: 55px;
   }
 
-  .bottom-navbar-label {
-    font-size: 11px;
-    margin-top: 4px;
+  .tab-btn ion-icon {
+    font-size: 1.6rem;
   }
 }
 
 @media (max-width: 480px) {
-  .bottom-navbar-container {
-    padding: 16px 6px calc(16px + env(safe-area-inset-bottom));
-    border-radius: 20px 20px 0 0;
+  .bottom-menu {
+    width: 280px;
+    bottom: 10px;
+    border-radius: 8px;
   }
 
-  .bottom-navbar-btn {
-    padding: 8px 2px;
+  .tab-btn {
+    padding: 6px 12px;
   }
 
-  .bottom-navbar-icon {
-    width: 32px;           /* ✅ Kberna f small mobile (kanet 28px) */
-    height: 32px;
+  .tab-btn::before {
+    width: 3rem;
+    height: 3rem;
   }
 
-  .bottom-navbar-svg-icon {
-    width: 32px;
-    height: 32px;
+  .tab-btn::after {
+    font-size: 0.85rem;
+    top: 50px;
   }
 
-  .bottom-navbar-label {
-    font-size: 10px;
+  .tab-btn ion-icon {
+    font-size: 1.4rem;
   }
 }
