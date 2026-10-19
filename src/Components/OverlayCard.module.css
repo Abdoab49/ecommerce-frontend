@@ -10,23 +10,15 @@
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: #000;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   overflow: hidden;
   width: 100%;
-  max-width: 1920px;           /* ✅ 1920px */
+  max-width: 1920px;
   margin: 20px auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.bgDark {
-  background-color: #000 !important;
-}
-
-.textWhite {
-  color: #fff !important;
 }
 
 /* ============================================
@@ -34,14 +26,14 @@
    ============================================ */
 .cardImg {
   width: 100%;
-  height: 400px;               /* ✅ 400px */
+  height: 400px;
   object-fit: cover;
   display: block;
   object-position: center;
 }
 
 /* ============================================
-   ✅ OVERLAY
+   ✅ OVERLAY — Ktba F Wast l'Card (Over Image)
    ============================================ */
 .cardImgOverlay {
   position: absolute;
@@ -50,11 +42,10 @@
   bottom: 0;
   left: 0;
   padding: 2.5rem 2rem;
-  border-radius: 12px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.85));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%); /* ✅ Gradient mzyan */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-end;    /* ✅ Ktba ltaht */
   gap: 6px;
 }
 
@@ -67,6 +58,7 @@
   margin-bottom: 0.75rem;
   font-family: 'Splash', cursive;
   line-height: 1.2;
+  color: #ffffff;
 }
 
 .cardText {
@@ -74,6 +66,7 @@
   margin-bottom: 0.4rem;
   line-height: 1.4;
   font-family: 'Splash', cursive;
+  color: #ffffff;
   opacity: 0.95;
 }
 
@@ -81,225 +74,86 @@
    ✅ TABLET — 1024px w taht
    ============================================ */
 @media (max-width: 1024px) {
-  .card {
-    max-width: 100%;
-    margin: 16px auto;
-  }
-
-  .cardImg {
-    height: 380px;             /* ✅ Sghir chwiya */
-  }
-
-  .cardImgOverlay {
-    padding: 2rem 1.5rem;
-  }
-
-  .cardTitle {
-    font-size: 1.75rem;
-  }
-
-  .cardText {
-    font-size: 1rem;
-  }
+  .card { max-width: 100%; margin: 16px auto; }
+  .cardImg { height: 380px; }
+  .cardImgOverlay { padding: 2rem 1.5rem; }
+  .cardTitle { font-size: 1.75rem; }
+  .cardText { font-size: 1rem; }
 }
 
 /* ============================================
    ✅ MOBILE LARGE — 768px w taht
    ============================================ */
 @media (max-width: 768px) {
-  .card {
-    max-width: 100%;
-    margin: 12px auto;
-    border-radius: 8px;
-  }
-
-  .cardImg {
-    height: 320px;             /* ✅ Sghir chwiya */
-  }
-
-  .cardImgOverlay {
-    padding: 1.5rem 1.2rem;
-    gap: 4px;
-  }
-
-  .cardTitle {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .cardText {
-    font-size: 0.95rem;
-    margin-bottom: 0.3rem;
-    line-height: 1.3;
-  }
+  .card { max-width: 100%; margin: 12px auto; border-radius: 8px; }
+  .cardImg { height: 320px; }
+  .cardImgOverlay { padding: 1.5rem 1.2rem; gap: 4px; }
+  .cardTitle { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .cardText { font-size: 0.95rem; margin-bottom: 0.3rem; line-height: 1.3; }
 }
 
 /* ============================================
    ✅ MOBILE — 576px w taht
    ============================================ */
 @media (max-width: 576px) {
-  .card {
-    max-width: 100%;
-    margin: 10px auto;
-    border-radius: 8px;
-  }
-
-  .cardImg {
-    height: 260px;             /* ✅ Sghir chwiya */
-  }
-
-  .cardImgOverlay {
-    padding: 1.2rem 1rem;
-    gap: 3px;
-  }
-
-  .cardTitle {
-    font-size: 1.25rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .cardText {
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
-    line-height: 1.3;
-  }
+  .card { max-width: 100%; margin: 10px auto; border-radius: 8px; }
+  .cardImg { height: 260px; }
+  .cardImgOverlay { padding: 1.2rem 1rem; gap: 3px; }
+  .cardTitle { font-size: 1.25rem; margin-bottom: 0.4rem; }
+  .cardText { font-size: 0.85rem; margin-bottom: 0.25rem; line-height: 1.3; }
 }
 
 /* ============================================
    ✅ SMALL MOBILE — 480px w taht
    ============================================ */
 @media (max-width: 480px) {
-  .card {
-    margin: 8px auto;
-    border-radius: 6px;
-  }
-
-  .cardImg {
-    height: 220px;             /* ✅ Sghir chwiya */
-  }
-
-  .cardImgOverlay {
-    padding: 1rem 0.85rem;
-  }
-
-  .cardTitle {
-    font-size: 1.1rem;
-    margin-bottom: 0.35rem;
-  }
-
-  .cardText {
-    font-size: 0.78rem;
-    margin-bottom: 0.2rem;
-    line-height: 1.25;
-  }
+  .card { margin: 8px auto; border-radius: 6px; }
+  .cardImg { height: 220px; }
+  .cardImgOverlay { padding: 1rem 0.85rem; }
+  .cardTitle { font-size: 1.1rem; margin-bottom: 0.35rem; }
+  .cardText { font-size: 0.78rem; margin-bottom: 0.2rem; line-height: 1.25; }
 }
 
 /* ============================================
    ✅ VERY SMALL — 400px w taht
    ============================================ */
 @media (max-width: 400px) {
-  .card {
-    margin: 6px auto;
-    border-radius: 6px;
-  }
-
-  .cardImg {
-    height: 190px;             /* ✅ Sghir chwiya */
-  }
-
-  .cardImgOverlay {
-    padding: 0.85rem 0.75rem;
-  }
-
-  .cardTitle {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-  }
-
-  .cardText {
-    font-size: 0.72rem;
-    margin-bottom: 0.15rem;
-    line-height: 1.2;
-  }
+  .card { margin: 6px auto; border-radius: 6px; }
+  .cardImg { height: 190px; }
+  .cardImgOverlay { padding: 0.85rem 0.75rem; }
+  .cardTitle { font-size: 1rem; margin-bottom: 0.3rem; }
+  .cardText { font-size: 0.72rem; margin-bottom: 0.15rem; line-height: 1.2; }
 }
 
 /* ============================================
    ✅ EXTRA SMALL — 320px w taht
    ============================================ */
 @media (max-width: 320px) {
-  .card {
-    margin: 5px auto;
-  }
-
-  .cardImg {
-    height: 160px;             /* ✅ Sghir chwiya */
-  }
-
-  .cardImgOverlay {
-    padding: 0.7rem 0.6rem;
-  }
-
-  .cardTitle {
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .cardText {
-    font-size: 0.65rem;
-    line-height: 1.15;
-  }
+  .card { margin: 5px auto; }
+  .cardImg { height: 160px; }
+  .cardImgOverlay { padding: 0.7rem 0.6rem; }
+  .cardTitle { font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .cardText { font-size: 0.65rem; line-height: 1.15; }
 }
 
 /* ============================================
-   ✅ LANDSCAPE — Mobile Landscapes
+   ✅ LANDSCAPE
    ============================================ */
 @media (orientation: landscape) and (max-height: 500px) {
-  .card {
-    max-width: 90%;
-    margin: 10px auto;
-  }
-
-  .cardImg {
-    height: 200px;
-  }
-
-  .cardImgOverlay {
-    padding: 1rem;
-  }
-
-  .cardTitle {
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .cardText {
-    font-size: 0.85rem;
-    margin-bottom: 0.2rem;
-    line-height: 1.3;
-  }
+  .card { max-width: 90%; margin: 10px auto; }
+  .cardImg { height: 200px; }
+  .cardImgOverlay { padding: 1rem; }
+  .cardTitle { font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .cardText { font-size: 0.85rem; margin-bottom: 0.2rem; line-height: 1.3; }
 }
 
 /* ============================================
    ✅ LARGE SCREENS — 1440px w fo9
    ============================================ */
 @media (min-width: 1440px) {
-  .card {
-    max-width: 1920px;         /* ✅ 1920px */
-  }
-
-  .cardImg {
-    height: 400px;             /* ✅ 400px */
-  }
-
-  .cardImgOverlay {
-    padding: 3rem 2.5rem;
-  }
-
-  .cardTitle {
-    font-size: 2.5rem;
-  }
-
-  .cardText {
-    font-size: 1.25rem;
-  }
+  .card { max-width: 1920px; }
+  .cardImg { height: 400px; }
+  .cardImgOverlay { padding: 3rem 2.5rem; }
+  .cardTitle { font-size: 2.5rem; }
+  .cardText { font-size: 1.25rem; }
 }
