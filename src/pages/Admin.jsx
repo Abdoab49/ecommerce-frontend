@@ -934,14 +934,20 @@ const Admin = () => {
                         </span>
                       )}
                       
-                      {/* ✅ Button Download Invoice — KHDDAM */}
+                      {/* ✅ Button Download Invoice — Taht mn Confirmer/Annuler */}
                       <button
                         className={`${styles.btn} ${styles.btnInvoice}`}
                         onClick={() => handleDownloadInvoice(order)}
                         style={{
                           backgroundColor: '#000000',
                           color: '#ffffff',
-                          marginLeft: '8px',
+                          width: '100%',         /* ✅ Kayakhod l'espace kamel f sater jdid */
+                          marginTop: '10px',     /* ✅ Espace mn lfo9 */
+                          marginLeft: 0,         /* ✅ Bla margin yaser */
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '6px',
                         }}
                       >
                         <i className="fas fa-file-invoice"></i> Invoice
