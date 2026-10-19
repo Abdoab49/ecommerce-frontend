@@ -12,7 +12,7 @@ const BottomNavBar = () => {
   const items = [
     {
       id: 0,
-      icon: <Home size={28} strokeWidth={2} className="tab-icon" />,
+      icon: <Home size={32} strokeWidth={2} className="tab-icon" />,
       label: 'Shop',
       path: '/',
     },
@@ -32,8 +32,8 @@ const BottomNavBar = () => {
       id: 2,
       icon: (
         <svg
-          width="28"
-          height="28"
+          width="32"
+          height="32"
           viewBox="0 0 1000 1000"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
@@ -54,8 +54,8 @@ const BottomNavBar = () => {
       id: 3,
       icon: (
         <svg
-          width="28"
-          height="28"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
