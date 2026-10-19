@@ -934,16 +934,16 @@ const Admin = () => {
                         </span>
                       )}
                       
-                      {/* ✅ Button Download Invoice — Taht mn Confirmer/Annuler */}
+                      {/* ✅ Button Download Invoice — Nefs ma9asat dyal Confirmer/Annuler */}
                       <button
                         className={`${styles.btn} ${styles.btnInvoice}`}
                         onClick={() => handleDownloadInvoice(order)}
                         style={{
                           backgroundColor: '#000000',
                           color: '#ffffff',
-                          width: '100%',         /* ✅ Kayakhod l'espace kamel f sater jdid */
-                          marginTop: '10px',     /* ✅ Espace mn lfo9 */
-                          marginLeft: 0,         /* ✅ Bla margin yaser */
+                          flex: '1 1 100%',      /* ✅ Kayakhod 100% f sater jdid, w nefs tol */
+                          marginTop: '10px',
+                          marginLeft: 0,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
