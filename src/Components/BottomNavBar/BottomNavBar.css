@@ -1,34 +1,33 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — DESIGN JDID (Bla Hover)
+   ✅ BOTTOM NAV BAR — Chada Ltaht Kamel
    ============================================ */
 
-/* ✅ Wrapper */
+/* ✅ Wrapper — Fixed f ltaht, chada l'3ard kamel */
 .bottom-menu {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  width: 350px;
-  max-width: 90vw;
-  padding: 0.5rem;
+  width: 100%;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
   background-color: #fff;
-  border-radius: 10px;
+  border-top: 1px solid #e5e7eb;
   z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* ✅ Button */
 .tab-btn {
-  flex-grow: 1;
+  flex: 1;
   z-index: 10;
-  padding: 10px 20px;
+  padding: 10px 0;
   border-radius: 50%;
   cursor: pointer;
   border: none;
-  background: transparent !important;   /* ✅ Bla background */
+  background: transparent !important;
   color: #111;
   display: flex;
   justify-content: center;
@@ -37,7 +36,7 @@
   transition: transform 0.4s;
   outline: none !important;
   -webkit-tap-highlight-color: transparent !important;
-  box-shadow: none !important;          /* ✅ Bla shadow */
+  box-shadow: none !important;
 }
 
 /* ✅ Hayed Hover Byedawi */
@@ -110,7 +109,7 @@
 }
 
 /* ============================================
-   ✅ MOBILE ONLY
+   ✅ MOBILE ONLY — Makhfi f Desktop
    ============================================ */
 @media (min-width: 769px) {
   .bottom-menu {
@@ -118,15 +117,16 @@
   }
 }
 
+/* ============================================
+   ✅ TABLET (768px w taht)
+   ============================================ */
 @media (max-width: 768px) {
   .bottom-menu {
-    width: 320px;
-    bottom: 15px;
-    padding: 0.4rem;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
   }
 
   .tab-btn {
-    padding: 8px 16px;
+    padding: 8px 0;
   }
 
   .tab-btn::before {
@@ -147,15 +147,16 @@
   }
 }
 
+/* ============================================
+   ✅ MOBILE (480px w taht)
+   ============================================ */
 @media (max-width: 480px) {
   .bottom-menu {
-    width: 280px;
-    bottom: 10px;
-    border-radius: 8px;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
   }
 
   .tab-btn {
-    padding: 6px 12px;
+    padding: 6px 0;
   }
 
   .tab-btn::before {
