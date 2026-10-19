@@ -91,8 +91,8 @@ const BottomNavBar = () => {
     if (idx >= 0) setActive(idx);
   }, [location.pathname]);
 
-  // ✅ HYDE BOTTOMNAVBAR F /ORDERS
-  if (location.pathname === '/orders') {
+  // ✅ HYDE BOTTOMNAVBAR F /ORDERS W /ADMIN
+  if (location.pathname === '/orders' || location.pathname === '/admin') {
     return null;
   }
 
