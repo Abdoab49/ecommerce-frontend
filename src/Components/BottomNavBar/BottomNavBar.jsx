@@ -12,7 +12,7 @@ const BottomNavBar = () => {
   const items = [
     {
       id: 0,
-      icon: <Home size={38} strokeWidth={2} />,   // ✅ Shop (Lucide)
+      icon: <Home size={38} strokeWidth={2} />,
       label: 'Shop',
       path: '/',
     },
@@ -30,7 +30,6 @@ const BottomNavBar = () => {
     },
     {
       id: 2,
-      // ✅ Jackets: SVG dyalek (down-jacket-svgrepo)
       icon: (
         <svg
           width="38"
@@ -53,7 +52,6 @@ const BottomNavBar = () => {
     },
     {
       id: 3,
-      // ✅ Casquette: SVG dyalek (baseball-cap-svgrepo)
       icon: (
         <svg
           width="38"
@@ -92,6 +90,11 @@ const BottomNavBar = () => {
     const idx = items.findIndex((item) => item.path === location.pathname);
     if (idx >= 0) setActive(idx);
   }, [location.pathname]);
+
+  // ✅ HYDE BOTTOMNAVBAR F /ORDERS
+  if (location.pathname === '/orders') {
+    return null;
+  }
 
   const handleClick = (index) => {
     setActive(index);
