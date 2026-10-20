@@ -1,5 +1,5 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — b Dabt (Icons Kbar)
+   ✅ BOTTOM NAV BAR — b Dabt (Icons Kbar Bzaf)
    ============================================ */
 
 /* ✅ Menu — Fixed f ltaht, chada l'3ard kamel */
@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); /* ✅ Kberna padding */
   background-color: #fff;
   border-top: 1px solid #e5e7eb;
   z-index: 1000;
@@ -53,9 +53,9 @@
   content: '';
   position: absolute;
   z-index: -1;
-  width: 4.5rem;           /* ✅ Kberna (kanet 4rem) */
-  height: 4.5rem;          /* ✅ Kberna (kanet 4rem) */
-  border: 2px solid #111;
+  width: 5rem;             /* ✅ Kberna (kanet 4.5rem) */
+  height: 5rem;            /* ✅ Kberna (kanet 4.5rem) */
+  border: 3px solid #111;  /* ✅ Kberna l'khat (kanet 2px) */
   border-radius: 50%;
   background: #fff;
   transform: scale(0);
@@ -66,7 +66,7 @@
 .tab-btn::after {
   content: attr(data-text);
   position: absolute;
-  top: 65px;               /* ✅ Kberna (kanet 60px) */
+  top: 75px;               /* ✅ Kberna (kanet 65px) */
   font-size: 1rem;
   font-weight: bold;
   color: #333;
@@ -89,22 +89,22 @@
   opacity: 1;
 }
 
-/* ✅ Icons Size — Kbar */
+/* ✅ Icons Size — Kbar Bzaf */
 .tab-btn svg {
-  width: 38px;             /* ✅ Kberna (kanet 32px) */
-  height: 38px;
+  width: 45px;             /* ✅ Kberna (kanet 38px) */
+  height: 45px;
 }
 
 .tab-btn .tab-icon-img {
-  width: 38px;             /* ✅ Kberna (kanet 32px) */
-  height: 38px;
+  width: 45px;             /* ✅ Kberna (kanet 38px) */
+  height: 45px;
   object-fit: contain;
   filter: brightness(0) saturate(100%);
 }
 
 .tab-btn .tab-icon-svg {
-  width: 38px;             /* ✅ Kberna (kanet 32px) */
-  height: 38px;
+  width: 45px;             /* ✅ Kberna (kanet 38px) */
+  height: 45px;
   color: #111;
 }
 
@@ -122,7 +122,7 @@
    ============================================ */
 @media (max-width: 768px) {
   .bottom-menu {
-    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+    padding: 16px 12px calc(16px + env(safe-area-inset-bottom));
   }
 
   .tab-btn {
@@ -130,26 +130,27 @@
   }
 
   .tab-btn::before {
-    width: 4rem;           /* ✅ Kberna (kanet 3.5rem) */
-    height: 4rem;
+    width: 4.5rem;         /* ✅ Kberna (kanet 4rem) */
+    height: 4.5rem;
+    border-width: 2.5px;
   }
 
   .tab-btn::after {
     font-size: 0.9rem;
-    top: 60px;
+    top: 70px;
   }
 
   .tab-btn svg,
   .tab-btn .tab-icon-img,
   .tab-btn .tab-icon-svg {
-    width: 34px;           /* ✅ Kberna (kanet 28px) */
-    height: 34px;
+    width: 40px;           /* ✅ Kberna (kanet 34px) */
+    height: 40px;
   }
 }
 
 @media (max-width: 480px) {
   .bottom-menu {
-    padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
+    padding: 14px 8px calc(14px + env(safe-area-inset-bottom));
   }
 
   .tab-btn {
@@ -157,19 +158,20 @@
   }
 
   .tab-btn::before {
-    width: 3.5rem;         /* ✅ Kberna (kanet 3rem) */
-    height: 3.5rem;
+    width: 4rem;           /* ✅ Kberna (kanet 3.5rem) */
+    height: 4rem;
+    border-width: 2px;
   }
 
   .tab-btn::after {
     font-size: 0.85rem;
-    top: 55px;
+    top: 62px;
   }
 
   .tab-btn svg,
   .tab-btn .tab-icon-img,
   .tab-btn .tab-icon-svg {
-    width: 30px;           /* ✅ Kberna (kanet 24px) */
-    height: 30px;
+    width: 36px;           /* ✅ Kberna (kanet 30px) */
+    height: 36px;
   }
 }
