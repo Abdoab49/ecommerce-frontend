@@ -1,5 +1,5 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — b Dabt (Chada Ltaht Kamel)
+   ✅ BOTTOM NAV BAR — b Dabt (Icons Kbar)
    ============================================ */
 
 /* ✅ Menu — Fixed f ltaht, chada l'3ard kamel */
@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
   background-color: #fff;
   border-top: 1px solid #e5e7eb;
   z-index: 1000;
@@ -53,8 +53,8 @@
   content: '';
   position: absolute;
   z-index: -1;
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;           /* ✅ Kberna (kanet 4rem) */
+  height: 4.5rem;          /* ✅ Kberna (kanet 4rem) */
   border: 2px solid #111;
   border-radius: 50%;
   background: #fff;
@@ -66,7 +66,7 @@
 .tab-btn::after {
   content: attr(data-text);
   position: absolute;
-  top: 60px;
+  top: 65px;               /* ✅ Kberna (kanet 60px) */
   font-size: 1rem;
   font-weight: bold;
   color: #333;
@@ -89,22 +89,22 @@
   opacity: 1;
 }
 
-/* ✅ Icons Size */
+/* ✅ Icons Size — Kbar */
 .tab-btn svg {
-  width: 32px;
-  height: 32px;
+  width: 38px;             /* ✅ Kberna (kanet 32px) */
+  height: 38px;
 }
 
 .tab-btn .tab-icon-img {
-  width: 32px;
-  height: 32px;
+  width: 38px;             /* ✅ Kberna (kanet 32px) */
+  height: 38px;
   object-fit: contain;
   filter: brightness(0) saturate(100%);
 }
 
 .tab-btn .tab-icon-svg {
-  width: 32px;
-  height: 32px;
+  width: 38px;             /* ✅ Kberna (kanet 32px) */
+  height: 38px;
   color: #111;
 }
 
@@ -122,7 +122,7 @@
    ============================================ */
 @media (max-width: 768px) {
   .bottom-menu {
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
   }
 
   .tab-btn {
@@ -130,26 +130,26 @@
   }
 
   .tab-btn::before {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 4rem;           /* ✅ Kberna (kanet 3.5rem) */
+    height: 4rem;
   }
 
   .tab-btn::after {
     font-size: 0.9rem;
-    top: 55px;
+    top: 60px;
   }
 
   .tab-btn svg,
   .tab-btn .tab-icon-img,
   .tab-btn .tab-icon-svg {
-    width: 28px;
-    height: 28px;
+    width: 34px;           /* ✅ Kberna (kanet 28px) */
+    height: 34px;
   }
 }
 
 @media (max-width: 480px) {
   .bottom-menu {
-    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+    padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
   }
 
   .tab-btn {
@@ -157,19 +157,19 @@
   }
 
   .tab-btn::before {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;         /* ✅ Kberna (kanet 3rem) */
+    height: 3.5rem;
   }
 
   .tab-btn::after {
     font-size: 0.85rem;
-    top: 50px;
+    top: 55px;
   }
 
   .tab-btn svg,
   .tab-btn .tab-icon-img,
   .tab-btn .tab-icon-svg {
-    width: 24px;
-    height: 24px;
+    width: 30px;           /* ✅ Kberna (kanet 24px) */
+    height: 30px;
   }
 }
