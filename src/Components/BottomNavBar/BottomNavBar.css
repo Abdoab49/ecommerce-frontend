@@ -1,5 +1,5 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — b Dabt (Ma Tzid Ma Tn9as)
+   ✅ BOTTOM NAV BAR — CodePen Style (b Dabt)
    ============================================ */
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
@@ -110,7 +110,7 @@ a {
   color: var(--bkg);
 }
 
-/* ✅ Indicator — b Dabt */
+/* ✅ Indicator — b Dabt (CodePen Style) */
 .indicator {
   position: absolute;
   top: -50%;
@@ -121,8 +121,10 @@ a {
   border: 6px solid var(--bkg);
   background: var(--accent);
   transition: var(--easing);
+  z-index: 2;
 }
 
+/* ✅ Notch — الحفرة من الجيهتين */
 .indicator::before {
   content: "";
   position: absolute;
