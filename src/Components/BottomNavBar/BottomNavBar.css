@@ -1,167 +1,158 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — Wrapper (Mlas9 F Ltaht)
+   ✅ BOTTOM NAV BAR — Design CodePen + Dwayra
    ============================================ */
-.bottom-navbar-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  width: 100%;
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
-/* ============================================
-   ✅ CONTAINER — Pill
-   ============================================ */
-.bottom-navbar-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-bottom: none;
-  border-radius: 30px 30px 0 0;
-  padding: 22px 12px calc(22px + env(safe-area-inset-bottom)); /* ✅ Kberna */
-  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
+:root {
+  --bkg: #292c2c;
+  --white: #eeeeee;
+  --accent: #0cbcd3;
+  --easing: 0.6s cubic-bezier(0.3, -0.01, 0.06, 1);
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ✅ Menu — b Dabt */
+.menu {
+  width: 400px;
+  height: 70px;
+  background-color: var(--white);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* ✅ Ul — b Dabt */
+.menu ul {
+  width: 350px;
   margin: 0 auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
 }
 
-/* ============================================
-   ✅ BUTTON — Bla Hover
-   ============================================ */
-.bottom-navbar-btn {
+/* ✅ Li — b Dabt */
+.menu ul li {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  padding: 12px 4px;
-  background: transparent;
-  border: none;
+  width: 70px;
+  height: 70px;
+  z-index: 1;
   cursor: pointer;
-  color: #4b5563;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
-  user-select: none;
-  border-radius: 16px;
 }
 
-/* ✅ Active button — K7el */
-.bottom-navbar-btn--active {
-  color: #000000;
-}
-
-/* ============================================
-   ✅ ICON — K7el + Kbar Bzaf
-   ============================================ */
-.bottom-navbar-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;             /* ✅ Kberna bzaf (kanet 32px) */
-  height: 38px;            /* ✅ Kberna bzaf (kanet 32px) */
-}
-
-.bottom-navbar-icon-img {
-  width: 100%;
+.menu ul li a {
   height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.menu ul li a .icon {
+  position: relative;
+  display: block;
+  line-height: 75px;
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--bkg);
+  transition: var(--easing);
+}
+
+.menu ul li.active a .icon {
+  transform: translateY(-35px);
+}
+
+.menu ul li a .text {
+  position: absolute;
+  font-size: 0.75rem;
+  color: var(--bkg);
+  transition: var(--easing);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.menu ul li.active a .text {
+  opacity: 1;
+  transform: translateY(14px);
+}
+
+/* ✅ Icons Size — b Dabt */
+.menu ul li a .icon svg,
+.menu ul li a .icon .tab-icon-img,
+.menu ul li a .icon .tab-icon-svg {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  filter: brightness(0) saturate(100%); /* ✅ K7el */
 }
 
-.bottom-navbar-svg-icon {
-  width: 38px;             /* ✅ Kberna bzaf (kanet 32px) */
-  height: 38px;            /* ✅ Kberna bzaf (kanet 32px) */
-  color: #000000;
+.menu ul li a .icon .tab-icon-img {
+  filter: brightness(0) saturate(100%);
 }
 
-/* ============================================
-   ✅ LABEL — K7el
-   ============================================ */
-.bottom-navbar-label {
-  font-size: 13px;         /* ✅ Baqi kifma kan */
-  margin-top: 6px;
-  letter-spacing: 0.3px;
-  display: none;
-  color: #000000;
+.menu ul li a .icon .tab-icon-svg {
+  color: var(--bkg);
 }
 
-@media (min-width: 640px) {
-  .bottom-navbar-label {
-    display: block;
-  }
+/* ✅ Indicator — Dwayra (CodePen Style) */
+.indicator {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 6px solid var(--bkg);
+  background: var(--accent);
+  transition: var(--easing);
+  z-index: 2;
+}
+
+.indicator::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -22px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -10px 0 0 var(--bkg);
+}
+
+.indicator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -22px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border-top-left-radius: 20px;
+  box-shadow: 0 -10px 0 0 var(--bkg);
 }
 
 /* ============================================
    ✅ MOBILE ONLY — Makhfi f Desktop
    ============================================ */
 @media (min-width: 769px) {
-  .bottom-navbar-wrapper {
+  .menu {
     display: none !important;
-  }
-}
-
-/* ============================================
-   ✅ MOBILE
-   ============================================ */
-@media (max-width: 768px) {
-  .bottom-navbar-container {
-    padding: 18px 8px calc(18px + env(safe-area-inset-bottom));
-    border-radius: 24px 24px 0 0;
-  }
-
-  .bottom-navbar-btn {
-    padding: 10px 2px;
-  }
-
-  .bottom-navbar-icon {
-    width: 36px;           /* ✅ Kberna f mobile (kanet 30px) */
-    height: 36px;
-  }
-
-  .bottom-navbar-svg-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .bottom-navbar-label {
-    font-size: 11px;
-    margin-top: 4px;
-  }
-}
-
-@media (max-width: 480px) {
-  .bottom-navbar-container {
-    padding: 16px 6px calc(16px + env(safe-area-inset-bottom));
-    border-radius: 20px 20px 0 0;
-  }
-
-  .bottom-navbar-btn {
-    padding: 8px 2px;
-  }
-
-  .bottom-navbar-icon {
-    width: 32px;           /* ✅ Kberna f small mobile (kanet 28px) */
-    height: 32px;
-  }
-
-  .bottom-navbar-svg-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .bottom-navbar-label {
-    font-size: 10px;
   }
 }
