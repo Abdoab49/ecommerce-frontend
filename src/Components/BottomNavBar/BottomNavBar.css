@@ -1,53 +1,54 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — Design Asli (b Dabt)
+   ✅ BOTTOM NAV BAR — b Dabt (Chada Ltaht Kamel)
    ============================================ */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #111;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
 
-/* ✅ Menu */
-.menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-  font-size: 1em;
-  padding: .5rem;
-  background-color: #fff;
+/* ✅ Menu — Fixed f ltaht, chada l'3ard kamel */
+.bottom-menu {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background-color: #fff;
+  border-top: 1px solid #e5e7eb;
   z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* ✅ Button */
 .tab-btn {
-  flex-grow: 1;
+  flex: 1;
   z-index: 10;
-  padding: 10px 20px;
+  padding: 10px 0;
   border-radius: 50%;
   cursor: pointer;
   border: none;
-  background: transparent;
+  background: transparent !important;
   color: #111;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   transition: transform 0.4s;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  box-shadow: none !important;
 }
 
-/* ✅ Dwayra (Circle) */
+/* ✅ Hayed Hover Byedawi */
+.tab-btn:hover,
+.tab-btn:focus,
+.tab-btn:active {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ✅ Dwayra (Indicator) — Melli Active */
 .tab-btn::before {
   content: '';
   position: absolute;
@@ -61,17 +62,18 @@ body {
   transition: transform 0.4s;
 }
 
-/* ✅ Ktba (Label) */
+/* ✅ Ktba (Label) — Melli Active */
 .tab-btn::after {
   content: attr(data-text);
   position: absolute;
   top: 60px;
-  font-size: 1.2em;
+  font-size: 1rem;
   font-weight: bold;
   color: #333;
   z-index: -1;
   opacity: 0;
   transition: opacity 0.4s;
+  white-space: nowrap;
 }
 
 /* ✅ Active State */
@@ -87,11 +89,87 @@ body {
   opacity: 1;
 }
 
+/* ✅ Icons Size */
+.tab-btn svg {
+  width: 32px;
+  height: 32px;
+}
+
+.tab-btn .tab-icon-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%);
+}
+
+.tab-btn .tab-icon-svg {
+  width: 32px;
+  height: 32px;
+  color: #111;
+}
+
 /* ============================================
    ✅ MOBILE ONLY — Makhfi f Desktop
    ============================================ */
 @media (min-width: 769px) {
-  .menu {
+  .bottom-menu {
     display: none !important;
+  }
+}
+
+/* ============================================
+   ✅ MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .bottom-menu {
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  }
+
+  .tab-btn {
+    padding: 8px 0;
+  }
+
+  .tab-btn::before {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .tab-btn::after {
+    font-size: 0.9rem;
+    top: 55px;
+  }
+
+  .tab-btn svg,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-menu {
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  }
+
+  .tab-btn {
+    padding: 6px 0;
+  }
+
+  .tab-btn::before {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .tab-btn::after {
+    font-size: 0.85rem;
+    top: 50px;
+  }
+
+  .tab-btn svg,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 24px;
+    height: 24px;
   }
 }
