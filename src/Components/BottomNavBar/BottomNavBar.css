@@ -1,159 +1,177 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — b Dabt (CodePen Style)
+   ✅ BOTTOM NAV BAR — Kifma kan (Bla Hover Byedawi)
    ============================================ */
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --bkg: #292c2c;
-  --white: #eeeeee;
-  --accent: #0cbcd3;
-  --easing: 0.6s cubic-bezier(0.3, -0.01, 0.06, 1);
-}
-
-ul {
-  list-style-type: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-/* ✅ Menu — b Dabt */
-.menu {
-  width: 400px;
-  height: 70px;
-  background-color: var(--white);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+/* ✅ Wrapper */
+.bottom-menu {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
-}
-
-/* ✅ Ul — b Dabt */
-.menu ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 350px;
-  margin: 0 auto;
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-items: center;
+  max-width: 90vw;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* ✅ Li — b Dabt */
-.menu ul li {
-  position: relative;
-  width: 70px;
-  height: 70px;
-  z-index: 1;
+/* ✅ Button */
+.tab-btn {
+  flex-grow: 1;
+  z-index: 10;
+  padding: 10px 20px;
+  border-radius: 50%;
   cursor: pointer;
-}
-
-.menu ul li a {
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.menu ul li a .icon {
+  border: none;
+  background: transparent !important;
+  color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  display: block;
-  line-height: 75px;
-  font-size: 1.5rem;
-  text-align: center;
-  color: var(--bkg);
-  transition: var(--easing);
+  transition: transform 0.4s;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  box-shadow: none !important;
 }
 
-.menu ul li.active a .icon {
-  transform: translateY(-35px);
+/* ✅ Hayed Hover Byedawi */
+.tab-btn:hover,
+.tab-btn:focus,
+.tab-btn:active {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
-.menu ul li a .text {
+/* ✅ Dwayra K7la — Melli Active */
+.tab-btn::before {
+  content: '';
   position: absolute;
-  font-size: 0.75rem;
-  color: var(--bkg);
-  transition: var(--easing);
+  z-index: -1;
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 0.4s;
+}
+
+/* ✅ Ktba */
+.tab-btn::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 60px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  z-index: -1;
   opacity: 0;
-  transform: translateY(20px);
+  transition: opacity 0.4s;
+  white-space: nowrap;
 }
 
-.menu ul li.active a .text {
+/* ✅ Active State */
+.tab-btn.active {
+  transform: translate3d(0, -2em, 0);
+}
+
+.tab-btn.active::before {
+  transform: scale(1);
+}
+
+.tab-btn.active::after {
   opacity: 1;
-  transform: translateY(14px);
 }
 
-/* ✅ Icons Size — b Dabt */
-.menu ul li a .icon svg,
-.menu ul li a .icon .tab-icon-img,
-.menu ul li a .icon .tab-icon-svg {
-  width: 24px;
-  height: 24px;
+/* ✅ Icon Size */
+.tab-btn .tab-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.tab-btn .tab-icon-img {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
-}
-
-.menu ul li a .icon .tab-icon-img {
   filter: brightness(0) saturate(100%);
 }
 
-.menu ul li a .icon .tab-icon-svg {
-  color: var(--bkg);
-}
-
-/* ✅ Indicator — b Dabt (CodePen Style) */
-.indicator {
-  position: absolute;
-  top: -50%;
-  left: 0;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  border: 6px solid var(--bkg);
-  background: var(--accent);
-  transition: var(--easing);
-  z-index: 2;
-}
-
-/* ✅ Notch — الحفرة من الجيهتين */
-.indicator::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -22px;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -10px 0 0 var(--bkg);
-}
-
-.indicator::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -22px;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border-top-left-radius: 20px;
-  box-shadow: 0 -10px 0 0 var(--bkg);
+.tab-btn .tab-icon-svg {
+  width: 32px;
+  height: 32px;
+  color: #111;
 }
 
 /* ============================================
    ✅ MOBILE ONLY — Makhfi f Desktop
    ============================================ */
 @media (min-width: 769px) {
-  .menu {
+  .bottom-menu {
     display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .bottom-menu {
+    width: 320px;
+    bottom: 15px;
+    padding: 0.4rem;
+  }
+
+  .tab-btn {
+    padding: 8px 16px;
+  }
+
+  .tab-btn::before {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .tab-btn::after {
+    font-size: 0.9rem;
+    top: 55px;
+  }
+
+  .tab-btn .tab-icon,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-menu {
+    width: 280px;
+    bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .tab-btn {
+    padding: 6px 12px;
+  }
+
+  .tab-btn::before {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .tab-btn::after {
+    font-size: 0.85rem;
+    top: 50px;
+  }
+
+  .tab-btn .tab-icon,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 24px;
+    height: 24px;
   }
 }
