@@ -1,151 +1,90 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — Design CodePen + Dwayra
+   ✅ BOTTOM NAV BAR — Design Asli (b Dabt)
    ============================================ */
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-* {
-  padding: 0;
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  box-sizing: border-box;
+  padding: 0;
+  background-color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-:root {
-  --bkg: #292c2c;
-  --white: #eeeeee;
-  --accent: #0cbcd3;
-  --easing: 0.6s cubic-bezier(0.3, -0.01, 0.06, 1);
-}
-
-ul {
-  list-style-type: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-/* ✅ Menu — b Dabt */
+/* ✅ Menu */
 .menu {
-  width: 400px;
-  height: 70px;
-  background-color: var(--white);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  font-size: 1em;
+  padding: .5rem;
+  background-color: #fff;
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  border-radius: 10px;
   z-index: 1000;
 }
 
-/* ✅ Ul — b Dabt */
-.menu ul {
-  width: 350px;
-  margin: 0 auto;
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-items: center;
-}
-
-/* ✅ Li — b Dabt */
-.menu ul li {
-  position: relative;
-  width: 70px;
-  height: 70px;
-  z-index: 1;
-  cursor: pointer;
-}
-
-.menu ul li a {
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.menu ul li a .icon {
-  position: relative;
-  display: block;
-  line-height: 75px;
-  font-size: 1.5rem;
-  text-align: center;
-  color: var(--bkg);
-  transition: var(--easing);
-}
-
-.menu ul li.active a .icon {
-  transform: translateY(-35px);
-}
-
-.menu ul li a .text {
-  position: absolute;
-  font-size: 0.75rem;
-  color: var(--bkg);
-  transition: var(--easing);
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.menu ul li.active a .text {
-  opacity: 1;
-  transform: translateY(14px);
-}
-
-/* ✅ Icons Size — b Dabt */
-.menu ul li a .icon svg,
-.menu ul li a .icon .tab-icon-img,
-.menu ul li a .icon .tab-icon-svg {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.menu ul li a .icon .tab-icon-img {
-  filter: brightness(0) saturate(100%);
-}
-
-.menu ul li a .icon .tab-icon-svg {
-  color: var(--bkg);
-}
-
-/* ✅ Indicator — Dwayra (CodePen Style) */
-.indicator {
-  position: absolute;
-  top: -50%;
-  left: 0;
-  width: 70px;
-  height: 70px;
+/* ✅ Button */
+.tab-btn {
+  flex-grow: 1;
+  z-index: 10;
+  padding: 10px 20px;
   border-radius: 50%;
-  border: 6px solid var(--bkg);
-  background: var(--accent);
-  transition: var(--easing);
-  z-index: 2;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 0.4s;
 }
 
-.indicator::before {
-  content: "";
+/* ✅ Dwayra (Circle) */
+.tab-btn::before {
+  content: '';
   position: absolute;
-  top: 50%;
-  left: -22px;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -10px 0 0 var(--bkg);
+  z-index: -1;
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 0.4s;
 }
 
-.indicator::after {
-  content: "";
+/* ✅ Ktba (Label) */
+.tab-btn::after {
+  content: attr(data-text);
   position: absolute;
-  top: 50%;
-  right: -22px;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border-top-left-radius: 20px;
-  box-shadow: 0 -10px 0 0 var(--bkg);
+  top: 60px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+/* ✅ Active State */
+.tab-btn.active {
+  transform: translate3d(0, -2em, 0);
+}
+
+.tab-btn.active::before {
+  transform: scale(1);
+}
+
+.tab-btn.active::after {
+  opacity: 1;
 }
 
 /* ============================================
