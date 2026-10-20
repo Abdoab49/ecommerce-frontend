@@ -12,7 +12,7 @@ const BottomNavBar = () => {
   const items = [
     {
       id: 0,
-      icon: <Home size={32} strokeWidth={2} className="tab-icon" />,
+      icon: <Home size={24} strokeWidth={2} />,
       label: 'Shop',
       path: '/',
     },
@@ -32,8 +32,8 @@ const BottomNavBar = () => {
       id: 2,
       icon: (
         <svg
-          width="32"
-          height="32"
+          width="24"
+          height="24"
           viewBox="0 0 1000 1000"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
@@ -54,8 +54,8 @@ const BottomNavBar = () => {
       id: 3,
       icon: (
         <svg
-          width="32"
-          height="32"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -107,23 +107,31 @@ const BottomNavBar = () => {
   };
 
   return (
-    <menu className="bottom-menu">
-      {items.map((item, index) => {
-        const isActive = active === index;
-        return (
-          <button
-            key={item.id}
-            className={`tab-btn ${isActive ? 'active' : ''}`}
-            data-text={item.label}
-            onClick={() => handleClick(index)}
-            aria-label={item.label}
-            type="button"
-          >
-            {item.icon}
-          </button>
-        );
-      })}
-    </menu>
+    <nav className="menu" id="app">
+      <ul>
+        {items.map((item, index) => {
+          const isActive = active === index;
+          return (
+            <li
+              key={item.id}
+              className={`list ${isActive ? 'active' : ''}`}
+              onClick={() => handleClick(index)}
+            >
+              <a href="#" onClick={(e) => e.preventDefault()}>
+                <span className="icon">{item.icon}</span>
+                <span className="text">{item.label}</span>
+              </a>
+            </li>
+          );
+        })}
+        <div
+          className="indicator"
+          style={{
+            transform: `translateX(calc(70px * ${active}))`,
+          }}
+        ></div>
+      </ul>
+    </nav>
   );
 };
 
