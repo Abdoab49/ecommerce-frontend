@@ -8,7 +8,7 @@ const BottomNavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Nefs icons li kano (SVG Style)
+  // ✅ Nefs icons li kano
   const items = [
     {
       id: 0,

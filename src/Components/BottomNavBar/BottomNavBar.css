@@ -1,5 +1,5 @@
 /* ============================================
-   ✅ BOTTOM NAV BAR — M9ada 100%
+   ✅ BOTTOM NAV BAR — b Dabt (Ma Tzid Ma Tn9as)
    ============================================ */
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
@@ -24,7 +24,7 @@ a {
   text-decoration: none;
 }
 
-/* ✅ Wrapper — M9ada kifma l'asli */
+/* ✅ Menu — b Dabt */
 .menu {
   width: 400px;
   height: 70px;
@@ -40,6 +40,7 @@ a {
   z-index: 1000;
 }
 
+/* ✅ Ul — b Dabt */
 .menu ul {
   width: 350px;
   margin: 0 auto;
@@ -49,6 +50,7 @@ a {
   justify-items: center;
 }
 
+/* ✅ Li — b Dabt */
 .menu ul li {
   position: relative;
   width: 70px;
@@ -91,7 +93,7 @@ a {
   transform: translateY(14px);
 }
 
-/* ✅ Icons Size — M9ad */
+/* ✅ Icons Size — b Dabt */
 .menu ul li a .icon svg,
 .menu ul li a .icon .tab-icon-img,
 .menu ul li a .icon .tab-icon-svg {
@@ -108,7 +110,7 @@ a {
   color: var(--bkg);
 }
 
-/* ✅ Indicator — M9ada kifma l'asli */
+/* ✅ Indicator — b Dabt */
 .indicator {
   position: absolute;
   top: -50%;
@@ -151,45 +153,5 @@ a {
 @media (min-width: 769px) {
   .menu {
     display: none !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .menu {
-    width: 350px;
-  }
-
-  .menu ul {
-    width: 310px;
-  }
-
-  .menu ul li {
-    width: 60px;
-  }
-
-  .indicator {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-@media (max-width: 480px) {
-  .menu {
-    width: 90vw;
-    bottom: 10px;
-  }
-
-  .menu ul {
-    width: 100%;
-  }
-
-  .menu ul li {
-    width: 50px;
-  }
-
-  .indicator {
-    width: 50px;
-    height: 50px;
-    border-width: 4px;
   }
 }
