@@ -96,8 +96,12 @@ const BottomNavBar = () => {
     if (idx >= 0) setActive(idx);
   }, [location.pathname]);
 
-  // ✅ Hide BottomNavBar in /orders and /admin
-  if (location.pathname === '/orders' || location.pathname === '/admin') {
+  // ✅ HYDE BOTTOMNAVBAR F /ORDERS, /ADMIN, /CART
+  if (
+    location.pathname === '/orders' ||
+    location.pathname === '/admin' ||
+    location.pathname === '/cart'
+  ) {
     return null;
   }
 
