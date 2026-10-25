@@ -1,13 +1,18 @@
+// src/pages/Cart.jsx
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 import TruckButton from '../TruckButton/TruckButton';
 import { cities, getRegionsByCity } from '../../Data/moroccoCities';
+import Notification from '../Notification/Notification';   // ✅ JDID
 import styles from './Cart.module.css';
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useContext(ShopContext);
+
+  // ✅ State dyal Notification
+  const [notification, setNotification] = useState(null);
 
   const [promoCode, setPromoCode] = useState('');
   const [promoPercent, setPromoPercent] = useState(0);
@@ -66,14 +71,23 @@ const Cart = () => {
     const code = promoCode.toUpperCase();
 
     if (!promoCodes[code]) {
-      alert('❌ Code promo ghalat');
+      // ❌ Error
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: '❌ Code promo ghalat',
+      });
       setPromoPercent(0);
       return;
     }
 
     const userId = getUserId();
     if (!userId) {
-      alert('⚠️ Khass tdkhol l compte dyalek qbel');
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: '⚠️ Khass tdkhol l compte dyalek qbel',
+      });
       navigate('/login');
       return;
     }
@@ -89,14 +103,27 @@ const Cart = () => {
 
       if (result.valid) {
         setPromoPercent(promoCodes[code]);
-        alert(`✅ Code promo tsayeb: -${promoCodes[code]}%`);
+        // ✅ Success
+        setNotification({
+          type: 'success',
+          title: 'Success',
+          message: `✅ Code promo tsayeb: -${promoCodes[code]}%`,
+        });
       } else {
-        alert(`❌ ${result.message || 'Code msta3mel'}`);
+        setNotification({
+          type: 'error',
+          title: 'Error',
+          message: `❌ ${result.message || 'Code msta3mel'}`,
+        });
         setPromoPercent(0);
       }
     } catch (error) {
       console.error('Promo error:', error);
-      alert('❌ Mochkil f connection');
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: '❌ Mochkil f connection',
+      });
     }
   };
 
@@ -155,18 +182,30 @@ const Cart = () => {
     // ✅ Check wach mconnecté
     const userId = getUserId();
     if (!userId) {
-      alert('⚠️ Khass tdkhol l compte dyalek qbel ma t3ammer order');
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: '⚠️ Khass tdkhol l compte dyalek qbel ma t3ammer order',
+      });
       navigate('/login');
       return;
     }
 
     if (cartItems.length === 0) {
-      alert('Your cart is empty!');
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Your cart is empty!',
+      });
       return;
     }
 
     if (!validateAll()) {
-      alert('Please fix the errors in the shipping form.');
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Please fix the errors in the shipping form.',
+      });
       return;
     }
 
@@ -210,10 +249,18 @@ const Cart = () => {
       if (response.ok) {
         setOrderSuccess(true);
       } else {
-        alert('❌ Failed to place order: ' + (result.message || 'Unknown error'));
+        setNotification({
+          type: 'error',
+          title: 'Error',
+          message: '❌ Failed to place order: ' + (result.message || 'Unknown error'),
+        });
       }
     } catch (error) {
-      alert('❌ Error placing order: ' + error.message);
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: '❌ Error placing order: ' + error.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -257,6 +304,16 @@ const Cart = () => {
 
   return (
     <div className={styles.cartContainer}>
+      {/* ✅ NOTIFICATION — f l'fo9 */}
+      {notification && (
+        <Notification
+          type={notification.type}
+          title={notification.title}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
       <main className={styles.main}>
         <div className={styles.basket}>
           <div className={styles.basketModule}>
