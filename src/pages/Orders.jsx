@@ -355,7 +355,7 @@ const Orders = () => {
           </div>
           <div style="text-align: right;">
             <div class="invoice-id">#${orderId.slice(-8).toUpperCase()}</div>
-            <div class="invoice-label" style="margin-top: 6px;">${formatDate(orderDate)}</div>
+            <div class="invoice-label" style={{ marginTop: '6px' }}>${formatDate(orderDate)}</div>
           </div>
         </div>
 
@@ -531,7 +531,7 @@ const Orders = () => {
   }
 
   // ============================================
-  // EMPTY (كنشوفو واش كاينين أوردرات نشطين)
+  // EMPTY
   // ============================================
   if (activeOrders.length === 0) {
     return (
@@ -633,7 +633,6 @@ const Orders = () => {
       <main className="px-4 md:px-8">
         <div className="max-w-7xl mx-auto space-y-16">
           
-          {/* ✅ هنا كنمشيو فـ activeOrders ماشي orders */}
           {activeOrders.map((order) => {
             const orderId = String(order._id || order.id || '');
             const status = String(order.status || 'pending').toLowerCase();
@@ -723,7 +722,7 @@ const Orders = () => {
                   </button>
                 </header>
 
-                {/* ===== Progress Timeline ===== */}
+                {/* ===== Progress Timeline (Khat Mottasel) ===== */}
                 <section
                   className="mt-8 pb-8 w-full"
                   style={{ borderBottom: `1px solid ${COLORS.divider}` }}
@@ -732,13 +731,13 @@ const Orders = () => {
 
                   <div className="relative flex flex-row items-start justify-between w-full">
                     
-                    {/* ✅ L'Khat L'Khalfi */}
+                    {/* ✅ L'Khat L'Khalfi (Background Line) - mn lowla l lakhra */}
                     <div 
                       className="absolute top-4 md:top-5 left-0 right-0 h-1 -z-10 bg-gray-300"
                       style={{ transform: 'translateY(-50%)' }}
                     ></div>
 
-                    {/* ✅ L'Khat L'Molawan */}
+                    {/* ✅ L'Khat L'Molawan (Progress Line) - 7sab status */}
                     <div 
                       className="absolute top-4 md:top-5 left-0 h-1 -z-10 transition-all duration-500"
                       style={{ 
@@ -763,7 +762,6 @@ const Orders = () => {
                           aria-current={isActive ? 'step' : undefined}
                         >
                           <div className="flex items-center w-full justify-center relative z-10">
-                            {/* ✅ هنا صلحنا المشكل: حيدنا bg-white وخليو غير اللون من الستايل */}
                             <div
                               className="w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-[3px] border-white shadow-sm transition-colors duration-300"
                               style={{
