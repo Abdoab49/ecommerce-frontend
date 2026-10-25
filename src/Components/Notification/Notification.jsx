@@ -5,7 +5,6 @@ import './Notification.css';
 const Notification = ({ type = 'success', title, message, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
 
-  // ✅ Auto-close ba3d 4 seconds (kifma f l'asli)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
@@ -15,10 +14,8 @@ const Notification = ({ type = 'success', title, message, onClose }) => {
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  // ✅ Ila mashi visible — ma kaybanch
   if (!isVisible) return null;
 
-  // ✅ Hayed l'khat l'fo9ani 3la 7sab type
   const accentColor = type === 'success' ? '#49a87d' : '#ef4444';
   const iconSvg =
     type === 'success'
@@ -38,10 +35,8 @@ const Notification = ({ type = 'success', title, message, onClose }) => {
     >
       <div className="notification__icon"></div>
       <div className="notification__body">
-        <h2 className="notification__header">
-          {title || (type === 'success' ? 'Success' : 'Error')}
-        </h2>
-        <p className="notification__text">{message || 'Operation completed'}</p>
+        <h2 className="notification__header">{title}</h2>
+        <p className="notification__text">{message}</p>
       </div>
       <div className="notification__action">
         <button

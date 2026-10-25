@@ -1,13 +1,14 @@
 /* ============================================
-   ✅ NOTIFICATION — Kifma 3titek + Icon f Weset
+   ✅ NOTIFICATION — Font Bebas Neue + Ktba Taht
    ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 :root {
   --accent-900: #49a87d;
   --accent-800: #1b945b;
   --check-svg: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 -960 960 960' width='24' fill='%23ffffff'%3E%3Cpath d='M400-314.46 250.46-464 296-509.54l104 104 264-264L709.54-624 400-314.46Z'/%3E%3C/svg%3E");
   --notification-inset: 2rem;
-  font-family: system-ui;
+  font-family: 'Bebas Neue', sans-serif;   /* ✅ Font Bebas Neue */
 }
 
 *,
@@ -21,10 +22,11 @@
   color: rgba(0, 0, 0, 0.7);
   position: fixed;
   display: flex;
-  font-size: 1.1rem;         /* ✅ Sgharna chwiya */
-  letter-spacing: 1px;       /* ✅ Sgharna chwiya */
+  font-family: 'Bebas Neue', sans-serif;   /* ✅ Font */
+  font-size: 1.1rem;
+  letter-spacing: 1px;
   line-height: 1.4;
-  gap: 1.25rem;              /* ✅ Sgharna chwiya */
+  gap: 1.25rem;
   top: 0;
   right: 0;
   margin: var(--notification-inset);
@@ -32,9 +34,9 @@
   background-color: white;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
   border-radius: 0.5rem;
-  max-width: calc(100% - 4rem); /* ✅ Sgharna */
+  max-width: calc(100% - 4rem);
   z-index: 9999;
-  padding: 1.5rem 1.25rem 1.25rem; /* ✅ Sgharna */
+  padding: 1.5rem 1.25rem 1.25rem;
   overflow: clip;
   transform: translateX(calc(100% + var(--notification-inset)));
   animation: slideInOut 4s infinite cubic-bezier(0.33, 0, 0.66, 1.33);
@@ -61,18 +63,37 @@
   --animation-play-state: paused;
 }
 
-/* ✅ Text */
-.notification__text {
-  margin: 0.3rem 0 0;
+/* ============================================
+   ✅ BODY — Ktba Taht l'Header
+   ============================================ */
+.notification__body {
+  display: flex;
+  flex-direction: column;   /* ✅ Ktba taht l'Header */
+  gap: 0.3rem;              /* ✅ Espace bin l'Header w l'Text */
 }
 
+/* ✅ Header (l'Kelma l'Fo9aniya) */
 .notification__header {
   color: black;
   margin: 0;
-  font-size: 1.3rem;         /* ✅ Sgharna */
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 400;         /* ✅ Bebas Neue ma 3ndouch Bold */
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;      /* ✅ Bebas Neue kay7taj espace */
+  line-height: 1.1;
 }
 
+/* ✅ Text (l'Ktba li taht) */
+.notification__text {
+  margin: 0;
+  font-size: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1.5px;
+  line-height: 1.3;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ Action (Button dyal Close) */
 .notification__action {
   margin-left: auto;
 }
@@ -80,9 +101,9 @@
 /* ✅ Icon — f Weset Dwayra */
 .notification__icon {
   border-radius: 50%;
-  display: flex;             /* ✅ Flex — bash ykoun f weset */
-  align-items: center;       /* ✅ Center vertical */
-  justify-content: center;   /* ✅ Center horizontal */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   aspect-ratio: 1;
   background-color: var(--accent-900);
   width: 3.2rem;
@@ -98,11 +119,11 @@
   height: 100%;
   background-image: var(--check-svg);
   background-repeat: no-repeat;
-  background-position: center center; /* ✅ Center */
-  background-size: 2rem;     /* ✅ Size mzyan */
+  background-position: center center;
+  background-size: 2rem;
 }
 
-/* ✅ Error — Khalfiya 7amra */
+/* ✅ Error */
 .notification--error {
   --accent-900: #ef4444;
 }
