@@ -1,5 +1,5 @@
 /* ============================================
-   ✅ NOTIFICATION — Font Bebas Neue + Ktba Taht
+   ✅ NOTIFICATION — Jami3 Ma9asat Mobile
    ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
@@ -163,6 +163,102 @@
 }
 
 /* ============================================
+   ✅ IPHONE SE (≤ 375px)
+   ============================================ */
+@media (max-width: 375px) {
+  :root {
+    --notification-inset: 0.5rem;
+  }
+
+  .notification {
+    width: calc(100% - 1rem);
+    font-size: 0.85rem;
+    gap: 0.6rem;
+    padding: 0.85rem 0.7rem 0.7rem;
+  }
+
+  .notification__header {
+    font-size: 0.95rem;
+  }
+
+  .notification__text {
+    font-size: 0.65rem;
+  }
+
+  .notification__icon {
+    width: 2rem;
+  }
+
+  .notification__icon::after {
+    background-size: 1.2rem;
+  }
+}
+
+/* ============================================
+   ✅ IPHONE 12 / 13 / 14 (≤ 390px)
+   ============================================ */
+@media (max-width: 390px) {
+  :root {
+    --notification-inset: 0.6rem;
+  }
+
+  .notification {
+    width: calc(100% - 1.2rem);
+    font-size: 0.9rem;
+    gap: 0.75rem;
+    padding: 1rem 0.8rem 0.8rem;
+  }
+
+  .notification__header {
+    font-size: 1.05rem;
+  }
+
+  .notification__text {
+    font-size: 0.7rem;
+  }
+
+  .notification__icon {
+    width: 2.2rem;
+  }
+
+  .notification__icon::after {
+    background-size: 1.3rem;
+  }
+}
+
+/* ============================================
+   ✅ IPHONE 14 PRO MAX / ANDROID (≤ 430px)
+   ============================================ */
+@media (max-width: 430px) {
+  :root {
+    --notification-inset: 0.75rem;
+  }
+
+  .notification {
+    width: calc(100% - 1.5rem);
+    font-size: 0.95rem;
+    gap: 0.85rem;
+    padding: 1.1rem 0.9rem 0.9rem;
+  }
+
+  .notification__header {
+    font-size: 1.1rem;
+  }
+
+  .notification__text {
+    font-size: 0.72rem;
+  }
+
+  .notification__icon {
+    width: 2.4rem;
+  }
+
+  .notification__icon::after {
+    background-size: 1.4rem;
+  }
+}
+
+/* ============================================
    ✅ TABLET (≤ 768px)
    ============================================ */
 @media (max-width: 768px) {
@@ -172,7 +268,6 @@
 
   .notification {
     width: calc(100% - 2rem);
-    max-width: unset;
     font-size: 1rem;
     gap: 1rem;
     padding: 1.25rem 1rem 1rem;
@@ -183,7 +278,7 @@
   }
 
   .notification__text {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 
   .notification__icon {
@@ -196,22 +291,22 @@
 }
 
 /* ============================================
-   ✅ MOBILE (≤ 480px)
+   ✅ LANDSCAPE (Mobile Landscape)
    ============================================ */
-@media (max-width: 480px) {
+@media (orientation: landscape) and (max-height: 500px) {
   :root {
-    --notification-inset: 0.75rem;
+    --notification-inset: 0.5rem;
   }
 
   .notification {
-    width: calc(100% - 1.5rem);
-    font-size: 0.9rem;
-    gap: 0.75rem;
-    padding: 1rem 0.85rem 0.85rem;
+    width: 20rem;
+    font-size: 0.85rem;
+    gap: 0.6rem;
+    padding: 0.85rem 0.7rem 0.7rem;
   }
 
   .notification__header {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
   }
 
   .notification__text {
@@ -219,10 +314,10 @@
   }
 
   .notification__icon {
-    width: 2.4rem;
+    width: 2rem;
   }
 
   .notification__icon::after {
-    background-size: 1.4rem;
+    background-size: 1.2rem;
   }
 }
