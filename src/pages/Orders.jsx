@@ -763,8 +763,9 @@ const Orders = () => {
                           aria-current={isActive ? 'step' : undefined}
                         >
                           <div className="flex items-center w-full justify-center relative z-10">
+                            {/* ✅ هنا صلحنا المشكل: حيدنا bg-white وخليو غير اللون من الستايل */}
                             <div
-                              className="w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-2 border-white shadow-sm bg-white"
+                              className="w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-[3px] border-white shadow-sm transition-colors duration-300"
                               style={{
                                 backgroundColor:
                                   isCompleted || isActive
