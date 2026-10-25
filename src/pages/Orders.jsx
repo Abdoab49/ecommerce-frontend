@@ -65,7 +65,7 @@ const Orders = () => {
   }, [navigate]);
 
   // ============================================
-  // ✅ DOWNLOAD INVOICE — b Logo + Font + QR + Totals Right
+  // ✅ DOWNLOAD INVOICE
   // ============================================
   const handleDownloadInvoice = (order) => {
     const orderId = String(order._id || order.id || '');
@@ -139,7 +139,6 @@ const Orders = () => {
             background: #fff; 
           }
 
-          /* ✅ Logo Section — Ghir Logo (Bla "LANADA") */
           .logo-section {
             text-align: center;
             margin-bottom: 30px;
@@ -228,7 +227,6 @@ const Orders = () => {
             font-size: 13px;
           }
 
-          /* ✅ Totals — Align Right */
           .totals-wrap {
             margin-top: 30px;
             display: flex;
@@ -268,7 +266,6 @@ const Orders = () => {
             font-family: 'Libre Caslon Condensed', serif;
           }
 
-          /* ✅ QR Code Section */
           .qr-section {
             margin-top: 40px;
             padding-top: 30px;
@@ -343,7 +340,6 @@ const Orders = () => {
         </style>
       </head>
       <body>
-        <!-- ✅ Logo — Ghir Logo (Bla "LANADA") -->
         <div class="logo-section">
           <img 
             src="https://www.lanada.shop/Assets/logo1.png" 
@@ -386,7 +382,6 @@ const Orders = () => {
           </table>
         </div>
 
-        <!-- ✅ Totals — Align Right -->
         <div class="totals-wrap">
           <div class="totals">
             <div class="totals-row">
@@ -404,7 +399,6 @@ const Orders = () => {
           </div>
         </div>
 
-        <!-- ✅ QR Code — Track Order -->
         <div class="qr-section">
           <img 
             src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
@@ -427,13 +421,11 @@ const Orders = () => {
       </html>
     `;
 
-    // ✅ Fte7 window jdid
     const printWindow = window.open('', '_blank', 'width=800,height=900');
     if (printWindow) {
       printWindow.document.write(invoiceHTML);
       printWindow.document.close();
 
-      // ✅ Sber 2s bash font + logo + QR yload 9bel print
       setTimeout(() => {
         printWindow.focus();
         printWindow.print();
@@ -444,7 +436,7 @@ const Orders = () => {
   };
 
   // ============================================
-  // LOADING — Spinner K7el 3la Khalfiya Bayda
+  // LOADING — Spinner
   // ============================================
   if (loading) {
     return (
@@ -500,10 +492,7 @@ const Orders = () => {
         style={{ background: '#ffffff', minHeight: '100vh', color: '#000000' }}
       >
         <div className="max-w-7xl mx-auto text-center py-24">
-          <h1
-            className="text-2xl font-bold mb-4"
-            style={{ color: '#000000' }}
-          >
+          <h1 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>
             Something went wrong
           </h1>
           <p className="mb-6" style={{ color: '#4b5563' }}>
@@ -543,10 +532,7 @@ const Orders = () => {
         style={{ background: '#ffffff', minHeight: '100vh', color: '#000000' }}
       >
         <div className="max-w-7xl mx-auto text-center py-24">
-          <h1
-            className="text-2xl font-bold mb-4"
-            style={{ color: '#000000' }}
-          >
+          <h1 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>
             No orders
           </h1>
           <p className="mb-6" style={{ color: '#4b5563' }}>
@@ -604,7 +590,7 @@ const Orders = () => {
   };
 
   // ============================================
-  // ✅ ALWAN — Khalfiya Bayda + Text K7el + Circle Khdar
+  // ✅ ALWAN
   // ============================================
   const COLORS = {
     active: '#10b981',
@@ -623,7 +609,7 @@ const Orders = () => {
   };
 
   // ============================================
-  // MAIN — Khalfiya Bayda tl3a l fo9
+  // MAIN
   // ============================================
   return (
     <div
@@ -705,7 +691,6 @@ const Orders = () => {
                     </p>
                   </div>
 
-                  {/* ✅ Button Download invoice — KHDDAM */}
                   <button
                     type="button"
                     onClick={() => handleDownloadInvoice(order)}
@@ -728,14 +713,14 @@ const Orders = () => {
                   </button>
                 </header>
 
-                {/* ===== Progress Timeline ===== */}
+                {/* ===== Progress Timeline (M9ada b l'3ard) ===== */}
                 <section
-                  className="mt-12 pb-6"
+                  className="mt-8 pb-8 overflow-x-auto"
                   style={{ borderBottom: `1px solid ${COLORS.divider}` }}
                 >
                   <h2 className="sr-only">Order progress</h2>
 
-                  <ol className="flex flex-col lg:flex-row items-start lg:items-center w-full space-y-8 lg:space-y-0">
+                  <ol className="flex flex-row items-start w-full min-w-max gap-2 sm:gap-4">
                     {STEPS.map((step, idx) => {
                       const isCompleted =
                         status !== 'cancelled' && idx < currentIdx;
@@ -747,24 +732,12 @@ const Orders = () => {
                       return (
                         <li
                           key={step.key}
-                          className="relative flex flex-row lg:flex-col items-start flex-1"
+                          className="relative flex flex-col items-center flex-1"
                           aria-current={isActive ? 'step' : undefined}
                         >
-                          {idx < STEPS.length - 1 && (
+                          <div className="flex items-center w-full">
                             <div
-                              className="absolute left-3 top-6 -bottom-10 w-0.5 lg:hidden"
-                              style={{
-                                backgroundColor:
-                                  idx < currentIdx
-                                    ? COLORS.active
-                                    : COLORS.pending,
-                              }}
-                            ></div>
-                          )}
-
-                          <div className="flex items-center w-max lg:w-full">
-                            <div
-                              className="z-10 w-6 h-6 shrink-0 flex items-center justify-center rounded-full md:w-7 md:h-7"
+                              className="z-10 w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-2 border-white shadow-sm"
                               style={{
                                 backgroundColor:
                                   isCompleted || isActive
@@ -789,7 +762,7 @@ const Orders = () => {
 
                             {idx < STEPS.length - 1 && (
                               <div
-                                className="hidden lg:block flex-1 h-0.5 mx-4 rounded-md"
+                                className="flex-1 h-1 mx-1 sm:mx-2 rounded-md"
                                 style={{
                                   backgroundColor:
                                     idx < currentIdx
@@ -800,9 +773,9 @@ const Orders = () => {
                             )}
                           </div>
 
-                          <div className="ml-4 lg:ml-0 lg:mt-3 lg:mr-4">
+                          <div className="mt-3 text-center w-full px-1">
                             <p
-                              className="text-sm font-semibold"
+                              className="text-[10px] sm:text-xs font-semibold leading-tight"
                               style={{
                                 color:
                                   isCompleted || isActive
@@ -815,7 +788,7 @@ const Orders = () => {
                             {idx === 0 && (
                               <time
                                 dateTime={orderDate.toISOString()}
-                                className="text-xs block mt-1"
+                                className="text-[9px] sm:text-[10px] block mt-1"
                                 style={{ color: COLORS.textSecondary }}
                               >
                                 {formatDateTime(orderDate)}
@@ -823,7 +796,7 @@ const Orders = () => {
                             )}
                             {idx === STEPS.length - 1 && isPending && (
                               <span
-                                className="text-xs block mt-1"
+                                className="text-[9px] sm:text-[10px] block mt-1"
                                 style={{ color: COLORS.textSecondary }}
                               >
                                 Expected soon
@@ -831,7 +804,7 @@ const Orders = () => {
                             )}
                             {idx === STEPS.length - 1 && isCompleted && (
                               <span
-                                className="text-xs block mt-1"
+                                className="text-[9px] sm:text-[10px] block mt-1"
                                 style={{ color: COLORS.textSecondary }}
                               >
                                 Products delivered
