@@ -713,14 +713,15 @@ const Orders = () => {
                   </button>
                 </header>
 
-                {/* ===== Progress Timeline (M9ada b l'3ard) ===== */}
+                {/* ===== Progress Timeline (M9ada b l'3ard f l'west) ===== */}
                 <section
-                  className="mt-8 pb-8 overflow-x-auto"
+                  className="mt-8 pb-8 w-full"
                   style={{ borderBottom: `1px solid ${COLORS.divider}` }}
                 >
                   <h2 className="sr-only">Order progress</h2>
 
-                  <ol className="flex flex-row items-start w-full min-w-max gap-2 sm:gap-4">
+                  {/* ✅ Hna drna flex-row w justify-between bach yt9asmo l'espace b tssawi */}
+                  <ol className="flex flex-row items-start justify-between w-full">
                     {STEPS.map((step, idx) => {
                       const isCompleted =
                         status !== 'cancelled' && idx < currentIdx;
@@ -737,7 +738,7 @@ const Orders = () => {
                         >
                           <div className="flex items-center w-full">
                             <div
-                              className="z-10 w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-2 border-white shadow-sm"
+                              className="z-10 w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-2 border-white shadow-sm mx-auto"
                               style={{
                                 backgroundColor:
                                   isCompleted || isActive
@@ -762,7 +763,7 @@ const Orders = () => {
 
                             {idx < STEPS.length - 1 && (
                               <div
-                                className="flex-1 h-1 mx-1 sm:mx-2 rounded-md"
+                                className="absolute top-4 left-1/2 w-full h-1 -z-10"
                                 style={{
                                   backgroundColor:
                                     idx < currentIdx
