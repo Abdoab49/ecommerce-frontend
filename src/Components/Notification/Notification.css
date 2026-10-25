@@ -1,5 +1,5 @@
 /* ============================================
-   ✅ NOTIFICATION — Kifma 3titek
+   ✅ NOTIFICATION — Kifma 3titek + Icon f Weset
    ============================================ */
 
 :root {
@@ -21,10 +21,10 @@
   color: rgba(0, 0, 0, 0.7);
   position: fixed;
   display: flex;
-  font-size: 1.3rem;
-  letter-spacing: 2px;
+  font-size: 1.1rem;         /* ✅ Sgharna chwiya */
+  letter-spacing: 1px;       /* ✅ Sgharna chwiya */
   line-height: 1.4;
-  gap: 1.75rem;
+  gap: 1.25rem;              /* ✅ Sgharna chwiya */
   top: 0;
   right: 0;
   margin: var(--notification-inset);
@@ -32,16 +32,17 @@
   background-color: white;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
   border-radius: 0.5rem;
-  max-width: calc(100% - 6rem);
+  max-width: calc(100% - 4rem); /* ✅ Sgharna */
   z-index: 9999;
-  padding: 1.75rem 1.25rem 1.25rem;
+  padding: 1.5rem 1.25rem 1.25rem; /* ✅ Sgharna */
   overflow: clip;
   transform: translateX(calc(100% + var(--notification-inset)));
   animation: slideInOut 4s infinite cubic-bezier(0.33, 0, 0.66, 1.33);
+  animation-play-state: var(--animation-play-state, running);
 }
 
 .notification:hover {
-  animation-play-state: paused;
+  --animation-play-state: paused;
 }
 
 .notification:before {
@@ -53,10 +54,11 @@
   transform-origin: left;
   position: absolute;
   animation: countdown 4s infinite linear;
+  animation-play-state: var(--animation-play-state, running);
 }
 
 .notification:hover:before {
-  animation-play-state: paused;
+  --animation-play-state: paused;
 }
 
 /* ✅ Text */
@@ -67,7 +69,7 @@
 .notification__header {
   color: black;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.3rem;         /* ✅ Sgharna */
   font-weight: 600;
 }
 
@@ -75,19 +77,34 @@
   margin-left: auto;
 }
 
-/* ✅ Icon */
+/* ✅ Icon — f Weset Dwayra */
 .notification__icon {
   border-radius: 50%;
-  display: block;
+  display: flex;             /* ✅ Flex — bash ykoun f weset */
+  align-items: center;       /* ✅ Center vertical */
+  justify-content: center;   /* ✅ Center horizontal */
   aspect-ratio: 1;
-  background-size: 3rem;
   background-color: var(--accent-900);
-  background-image: var(--check-svg);
-  background-repeat: no-repeat;
-  background-position: 50% 100%;
   width: 3.2rem;
   margin-bottom: auto;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.notification__icon::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: var(--check-svg);
+  background-repeat: no-repeat;
+  background-position: center center; /* ✅ Center */
+  background-size: 2rem;     /* ✅ Size mzyan */
+}
+
+/* ✅ Error — Khalfiya 7amra */
+.notification--error {
+  --accent-900: #ef4444;
 }
 
 /* ✅ Button */
@@ -100,11 +117,6 @@
   color: currentColor;
   padding: 0;
   cursor: pointer;
-}
-
-/* ✅ Error — Khalfiya 7amra */
-.notification--error {
-  --accent-900: #ef4444;
 }
 
 /* ============================================
@@ -125,16 +137,19 @@
 }
 
 /* ============================================
-   ✅ MOBILE
+   ✅ TABLET (≤ 768px)
    ============================================ */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  :root {
+    --notification-inset: 1rem;
+  }
+
   .notification {
     width: calc(100% - 2rem);
     max-width: unset;
-    margin: 1rem;
-    padding: 1.25rem 1rem 1rem;
     font-size: 1rem;
     gap: 1rem;
+    padding: 1.25rem 1rem 1rem;
   }
 
   .notification__header {
@@ -142,7 +157,42 @@
   }
 
   .notification__icon {
-    width: 2.5rem;
-    background-size: 2rem;
+    width: 2.8rem;
+  }
+
+  .notification__icon::after {
+    background-size: 1.6rem;
+  }
+}
+
+/* ============================================
+   ✅ MOBILE (≤ 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  :root {
+    --notification-inset: 0.75rem;
+  }
+
+  .notification {
+    width: calc(100% - 1.5rem);
+    font-size: 0.9rem;
+    gap: 0.75rem;
+    padding: 1rem 0.85rem 0.85rem;
+  }
+
+  .notification__header {
+    font-size: 1.05rem;
+  }
+
+  .notification__text {
+    font-size: 0.85rem;
+  }
+
+  .notification__icon {
+    width: 2.4rem;
+  }
+
+  .notification__icon::after {
+    background-size: 1.4rem;
   }
 }
