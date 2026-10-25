@@ -8,7 +8,6 @@ const BottomNavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Nefs icons li kano
   const items = [
     {
       id: 0,
@@ -86,21 +85,20 @@ const BottomNavBar = () => {
     },
   ];
 
-  // ✅ Find active index based on current path
   const currentIdx = items.findIndex((item) => item.path === location.pathname);
   const [active, setActive] = useState(currentIdx >= 0 ? currentIdx : 0);
 
-  // ✅ Update active when URL changes
   useEffect(() => {
     const idx = items.findIndex((item) => item.path === location.pathname);
     if (idx >= 0) setActive(idx);
   }, [location.pathname]);
 
-  // ✅ HYDE BOTTOMNAVBAR F /ORDERS, /ADMIN, /CART
+  // ✅ HYDE BOTTOMNAVBAR F /ORDERS, /ADMIN, /CART, /SIZE-SELECTION
   if (
     location.pathname === '/orders' ||
     location.pathname === '/admin' ||
-    location.pathname === '/cart'
+    location.pathname === '/cart' ||
+    location.pathname === '/size-selection'
   ) {
     return null;
   }
