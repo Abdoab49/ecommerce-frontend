@@ -713,15 +713,31 @@ const Orders = () => {
                   </button>
                 </header>
 
-                {/* ===== Progress Timeline (M9ada b l'3ard f l'west) ===== */}
+                {/* ===== Progress Timeline (Khat Mottasel) ===== */}
                 <section
                   className="mt-8 pb-8 w-full"
                   style={{ borderBottom: `1px solid ${COLORS.divider}` }}
                 >
                   <h2 className="sr-only">Order progress</h2>
 
-                  {/* ✅ Hna drna flex-row w justify-between bach yt9asmo l'espace b tssawi */}
-                  <ol className="flex flex-row items-start justify-between w-full">
+                  <div className="relative flex flex-row items-start justify-between w-full">
+                    
+                    {/* ✅ L'Khat L'Khalfi (Background Line) - mn lowla l lakhra */}
+                    <div 
+                      className="absolute top-4 md:top-5 left-0 right-0 h-1 -z-10 bg-gray-300"
+                      style={{ transform: 'translateY(-50%)' }}
+                    ></div>
+
+                    {/* ✅ L'Khat L'Molawan (Progress Line) - 7sab status */}
+                    <div 
+                      className="absolute top-4 md:top-5 left-0 h-1 -z-10 transition-all duration-500"
+                      style={{ 
+                        width: `${(currentIdx / (STEPS.length - 1)) * 100}%`,
+                        backgroundColor: COLORS.active,
+                        transform: 'translateY(-50%)' 
+                      }}
+                    ></div>
+
                     {STEPS.map((step, idx) => {
                       const isCompleted =
                         status !== 'cancelled' && idx < currentIdx;
@@ -736,9 +752,9 @@ const Orders = () => {
                           className="relative flex flex-col items-center flex-1"
                           aria-current={isActive ? 'step' : undefined}
                         >
-                          <div className="flex items-center w-full">
+                          <div className="flex items-center w-full justify-center relative z-10">
                             <div
-                              className="z-10 w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-2 border-white shadow-sm mx-auto"
+                              className="w-8 h-8 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full border-2 border-white shadow-sm bg-white"
                               style={{
                                 backgroundColor:
                                   isCompleted || isActive
@@ -760,18 +776,6 @@ const Orders = () => {
                                 }
                               />
                             </div>
-
-                            {idx < STEPS.length - 1 && (
-                              <div
-                                className="absolute top-4 left-1/2 w-full h-1 -z-10"
-                                style={{
-                                  backgroundColor:
-                                    idx < currentIdx
-                                      ? COLORS.active
-                                      : COLORS.pending,
-                                }}
-                              ></div>
-                            )}
                           </div>
 
                           <div className="mt-3 text-center w-full px-1">
@@ -815,7 +819,7 @@ const Orders = () => {
                         </li>
                       );
                     })}
-                  </ol>
+                  </div>
                 </section>
 
                 {/* ===== Content ===== */}
