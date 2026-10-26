@@ -44,7 +44,6 @@ function App() {
                     <div className="app-content">
                         <Navbar />
                         <NotificationBell />
-
                         <MyOrdersButton />
 
                         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>

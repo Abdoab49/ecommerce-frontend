@@ -19,7 +19,6 @@ const Footer = () => {
         <div className="left">
           <h2>Contact Us</h2>
           <blockquote>Let's Discuss Your Software vision.</blockquote>
-          {/* ✅ Hna bdelna l'link l wa7d safeh 3adiya (contact) */}
           <button onClick={() => navigate('/contact')}>
             Schedule a call
             <span className="symbols">
@@ -32,7 +31,6 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Company</h2>
-              {/* ✅ Bdelna l'links l pages 3adiya wla external */}
               <a href="/about">About</a>
               <a href="/blog">Blog</a>
               <a href="/careers">Careers</a>
@@ -42,7 +40,6 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Resources</h2>
-              {/* ✅ Bdelna l'links l pages 3adiya wla external */}
               <a href="/help">Help</a>
               <a href="/support">Support</a>
               <a href="/instructions">Instructions</a>
@@ -58,7 +55,6 @@ const Footer = () => {
         </div>
         <div className="right socials">
           <div className="social-links">
-            {/* ✅ Bdelna l'links l pages 3adiya wla external */}
             <a href="/help" title="Help">
               <FaQuestionCircle />
               <span>Help</span>
