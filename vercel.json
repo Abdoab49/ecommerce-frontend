@@ -1,7 +1,7 @@
 {
-  "buildCommand": "",
+  "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "installCommand": "",
+  "installCommand": "npm install",
   "headers": [
     {
       "source": "/(.*)",
