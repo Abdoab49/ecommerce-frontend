@@ -9,7 +9,7 @@ import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';
 import BottomNavBar from './Components/BottomNavBar/BottomNavBar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
-import Footer from './Components/Footer/Footer'; // ✅ Footer dyalk
+import Footer from './Components/Footer/Footer'; // ✅ JDID (Footer dyalk)
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -27,7 +27,6 @@ import Casquette from './pages/Casquette';
 import Mens from './pages/Mens';
 import Jackets from './pages/Jackets';
 import Shoes from './pages/Shoes';
-import InfoPage from './pages/InfoPage'; // ✅ JDID (Page dyal l'ktba)
 
 /* BANNERS */
 import kid_banner from './Components/Assets/banner_kids.png';
@@ -48,7 +47,7 @@ function App() {
 
                         <MyOrdersButton />
 
-                        {/* ✅ Flex-col bach Footer yb9a ltaht */}
+                        {/* ✅ Hna drna flex-col bach l'Footer yb9a ltaht */}
                         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                             
                             <div style={{ flex: 1 }}>
@@ -69,13 +68,10 @@ function App() {
                                     <Route path='/size-selection' element={<SizeSelection />} />
                                     <Route path='/orders' element={<Orders />} />
                                     <Route path='/admin' element={<Admin />} />
-
-                                    {/* ✅ Route jdid l Footer Links */}
-                                    <Route path='/info/:topic' element={<InfoPage />} />
                                 </Routes>
                             </div>
 
-                            {/* ✅ Footer dyalk */}
+                            {/* ✅ Footer dyalk (Fixed ltaht) */}
                             <Footer />
                         </div>
 
