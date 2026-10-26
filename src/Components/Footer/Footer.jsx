@@ -1,6 +1,13 @@
 // src/Components/Footer/Footer.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { 
+  FaQuestionCircle, 
+  FaHeadset, 
+  FaBookOpen, 
+  FaFileAlt,
+  FaArrowRight
+} from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
@@ -12,10 +19,10 @@ const Footer = () => {
         <div className="left">
           <h2>Contact Us</h2>
           <blockquote>Let's Discuss Your Software vision.</blockquote>
-          <button onClick={() => navigate('/contact')}>
+          <button onClick={() => navigate('/info/contact')}>
             Schedule a call
             <span className="symbols">
-              <i className="fa-solid fa-arrow-right"></i>
+              <FaArrowRight />
             </span>
           </button>
         </div>
@@ -24,19 +31,19 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Company</h2>
-              <a href="#">About</a>
-              <a href="#">Blog</a>
-              <a href="#">Careers</a>
-              <a href="#">Contact</a>
+              <Link to="/info/about">About</Link>
+              <Link to="/info/blog">Blog</Link>
+              <Link to="/info/careers">Careers</Link>
+              <Link to="/info/contact">Contact</Link>
             </li>
           </ul>
           <ul>
             <li>
               <h2>Resources</h2>
-              <a href="#">Help</a>
-              <a href="#">Support</a>
-              <a href="#">Instructions</a>
-              <a href="#">Docs</a>
+              <Link to="/info/help">Help</Link>
+              <Link to="/info/support">Support</Link>
+              <Link to="/info/instructions">Instructions</Link>
+              <Link to="/info/docs">Docs</Link>
             </li>
           </ul>
         </div>
@@ -46,25 +53,25 @@ const Footer = () => {
         <div className="left">
           <p>&copy; LANADA 2026 . All rights Reserved</p>
         </div>
-        {/* ✅ Hna bdelna Social Media b Links dyal Help w Support */}
+        {/* ✅ Hna bdelna b React Icons w drnahom Links */}
         <div className="right socials">
           <div className="social-links">
-            <a href="#" title="Help">
-              <i className="fa-solid fa-circle-question"></i>
+            <Link to="/info/help" title="Help">
+              <FaQuestionCircle />
               <span>Help</span>
-            </a>
-            <a href="#" title="Support">
-              <i className="fa-solid fa-headset"></i>
+            </Link>
+            <Link to="/info/support" title="Support">
+              <FaHeadset />
               <span>Support</span>
-            </a>
-            <a href="#" title="Instructions">
-              <i className="fa-solid fa-book-open"></i>
+            </Link>
+            <Link to="/info/instructions" title="Instructions">
+              <FaBookOpen />
               <span>Instructions</span>
-            </a>
-            <a href="#" title="Docs">
-              <i className="fa-solid fa-file-lines"></i>
+            </Link>
+            <Link to="/info/docs" title="Docs">
+              <FaFileAlt />
               <span>Docs</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
