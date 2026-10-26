@@ -9,7 +9,7 @@ import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';
 import BottomNavBar from './Components/BottomNavBar/BottomNavBar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
-import Footer from './Components/Footer/Footer'; // ✅ JDID (Footer dyalk)
+import Footer from './Components/Footer/Footer';
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -47,7 +47,6 @@ function App() {
 
                         <MyOrdersButton />
 
-                        {/* ✅ Hna drna flex-col bach l'Footer yb9a ltaht */}
                         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                             
                             <div style={{ flex: 1 }}>
@@ -71,11 +70,9 @@ function App() {
                                 </Routes>
                             </div>
 
-                            {/* ✅ Footer dyalk (Fixed ltaht) */}
                             <Footer />
                         </div>
 
-                        {/* ✅ BottomNavBar — Ghir f Mobile */}
                         <BottomNavBar />
                     </div>
                 </div>

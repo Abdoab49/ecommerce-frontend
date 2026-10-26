@@ -1,6 +1,6 @@
 // src/Components/Footer/Footer.jsx
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
   FaQuestionCircle, 
   FaHeadset, 
@@ -19,7 +19,8 @@ const Footer = () => {
         <div className="left">
           <h2>Contact Us</h2>
           <blockquote>Let's Discuss Your Software vision.</blockquote>
-          <button onClick={() => navigate('/info/contact')}>
+          {/* ✅ Hna bdelna l'link l wa7d safeh 3adiya (contact) */}
+          <button onClick={() => navigate('/contact')}>
             Schedule a call
             <span className="symbols">
               <FaArrowRight />
@@ -31,19 +32,21 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Company</h2>
-              <Link to="/info/about">About</Link>
-              <Link to="/info/blog">Blog</Link>
-              <Link to="/info/careers">Careers</Link>
-              <Link to="/info/contact">Contact</Link>
+              {/* ✅ Bdelna l'links l pages 3adiya wla external */}
+              <a href="/about">About</a>
+              <a href="/blog">Blog</a>
+              <a href="/careers">Careers</a>
+              <a href="/contact">Contact</a>
             </li>
           </ul>
           <ul>
             <li>
               <h2>Resources</h2>
-              <Link to="/info/help">Help</Link>
-              <Link to="/info/support">Support</Link>
-              <Link to="/info/instructions">Instructions</Link>
-              <Link to="/info/docs">Docs</Link>
+              {/* ✅ Bdelna l'links l pages 3adiya wla external */}
+              <a href="/help">Help</a>
+              <a href="/support">Support</a>
+              <a href="/instructions">Instructions</a>
+              <a href="/docs">Docs</a>
             </li>
           </ul>
         </div>
@@ -53,25 +56,25 @@ const Footer = () => {
         <div className="left">
           <p>&copy; LANADA 2026 . All rights Reserved</p>
         </div>
-        {/* ✅ Hna bdelna b React Icons w drnahom Links */}
         <div className="right socials">
           <div className="social-links">
-            <Link to="/info/help" title="Help">
+            {/* ✅ Bdelna l'links l pages 3adiya wla external */}
+            <a href="/help" title="Help">
               <FaQuestionCircle />
               <span>Help</span>
-            </Link>
-            <Link to="/info/support" title="Support">
+            </a>
+            <a href="/support" title="Support">
               <FaHeadset />
               <span>Support</span>
-            </Link>
-            <Link to="/info/instructions" title="Instructions">
+            </a>
+            <a href="/instructions" title="Instructions">
               <FaBookOpen />
               <span>Instructions</span>
-            </Link>
-            <Link to="/info/docs" title="Docs">
+            </a>
+            <a href="/docs" title="Docs">
               <FaFileAlt />
               <span>Docs</span>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
