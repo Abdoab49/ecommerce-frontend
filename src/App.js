@@ -9,7 +9,6 @@ import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';
 import BottomNavBar from './Components/BottomNavBar/BottomNavBar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
-import Footer from './Components/Footer/Footer';
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -69,7 +68,6 @@ function App() {
                                 </Routes>
                             </div>
 
-                            <Footer />
                         </div>
 
                         <BottomNavBar />
