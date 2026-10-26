@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Icon from '@mdi/react';
 import {
+  mdiGift,
   mdiCheck,
   mdiPackageVariantClosed,
   mdiTruckFast,
-  mdiHome,
+  mdiPackageVariant,
 } from '@mdi/js';
 
 const Orders = () => {
@@ -581,21 +582,14 @@ const Orders = () => {
   };
 
   // ============================================
-  // STEPS
+  // STEPS (M9adin bach ikhddmo m3a design jdid)
   // ============================================
   const STEPS = [
-    { key: 'pending', label: 'Order placed' },
-    { key: 'processing', label: 'Arrived at warehouse' },
-    { key: 'shipped', label: 'Out for delivery' },
-    { key: 'delivered', label: 'Products delivered' },
+    { key: 'pending', label: 'Placed', icon: mdiGift },
+    { key: 'processing', label: 'Accepted', icon: mdiCheck },
+    { key: 'shipped', label: 'Shipped', icon: mdiTruckFast },
+    { key: 'delivered', label: 'Delivered', icon: mdiPackageVariantClosed },
   ];
-
-  const STEP_ICONS = {
-    pending: mdiCheck,
-    processing: mdiPackageVariantClosed,
-    shipped: mdiTruckFast,
-    delivered: mdiHome,
-  };
 
   // ============================================
   // ✅ ALWAN
@@ -729,15 +723,15 @@ const Orders = () => {
                 >
                   <h2 className="sr-only">Order progress</h2>
 
-                  <div className="relative flex flex-row items-start justify-between w-full">
+                  <div className="relative flex flex-row items-start justify-between w-full mt-4">
                     
-                    {/* ✅ L'Khat L'Khalfi (Background Line) - mn lowla l lakhra */}
+                    {/* ✅ L'Khat L'Khalfi */}
                     <div 
                       className="absolute top-4 md:top-5 left-0 right-0 h-1 -z-10 bg-gray-300"
                       style={{ transform: 'translateY(-50%)' }}
                     ></div>
 
-                    {/* ✅ L'Khat L'Molawan (Progress Line) - 7sab status */}
+                    {/* ✅ L'Khat L'Molawan */}
                     <div 
                       className="absolute top-4 md:top-5 left-0 h-1 -z-10 transition-all duration-500"
                       style={{ 
@@ -776,7 +770,7 @@ const Orders = () => {
                               </span>
 
                               <Icon
-                                path={STEP_ICONS[step.key]}
+                                path={step.icon}
                                 size={0.7}
                                 color={
                                   isPending
