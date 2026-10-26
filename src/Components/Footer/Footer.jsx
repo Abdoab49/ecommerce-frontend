@@ -46,11 +46,26 @@ const Footer = () => {
         <div className="left">
           <p>&copy; LANADA 2026 . All rights Reserved</p>
         </div>
+        {/* ✅ Hna bdelna Social Media b Links dyal Help w Support */}
         <div className="right socials">
-          <i className="fa-brands fa-facebook"></i>
-          <i className="fa-brands fa-twitter"></i>
-          <i className="fa-brands fa-discord"></i>
-          <i className="fa-brands fa-linkedin"></i>
+          <div className="social-links">
+            <a href="#" title="Help">
+              <i className="fa-solid fa-circle-question"></i>
+              <span>Help</span>
+            </a>
+            <a href="#" title="Support">
+              <i className="fa-solid fa-headset"></i>
+              <span>Support</span>
+            </a>
+            <a href="#" title="Instructions">
+              <i className="fa-solid fa-book-open"></i>
+              <span>Instructions</span>
+            </a>
+            <a href="#" title="Docs">
+              <i className="fa-solid fa-file-lines"></i>
+              <span>Docs</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

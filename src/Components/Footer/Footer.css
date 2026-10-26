@@ -8,25 +8,7 @@
     padding: 48px;
     position: relative;
     width: 100%;
-    margin-top: auto; /* ✅ باش يلصق فـ التحت */
-}
-
-/* ✅ Ila bghiti ykoun Fixed (bhala CodePen l'asli), hayed l'comment mn had l'kode w dir l'classe f JSX */
-/*
-.footer-wrapper {
-    position: fixed;
-    left: 48px;
-    bottom: 58px;
-    right: 48px;
-    border-radius: 16px;
-    background: rgb(0 0 0 / 30%);
-    backdrop-filter: blur(20px);
-    z-index: 100;
-}
-*/
-
-.footer-wrapper :root {
-    --color-primary: #908dcb;
+    margin-top: auto;
 }
 
 * {
@@ -68,7 +50,7 @@
 
 .footer-wrapper h2, 
 .footer-wrapper p {
-    color: var(--color-primary);
+    color: #908dcb; /* --color-primary */
 }
 
 .footer-wrapper p {
@@ -133,24 +115,37 @@
 }
 
 .footer-wrapper ul li a:hover {
-    color: var(--color-primary);
+    color: #908dcb;
 }
 
+/* ✅ L'Jdid: Social Links (Help w Support) */
 .footer-wrapper .socials {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
-    font-size: 20px;
-    color: #e8f0fb;
+    font-size: 15px; /* Sgharna chwiya 7it ghadi nzido l'ktba */
 }
 
-.footer-wrapper .socials i {
-    cursor: pointer;
+.footer-wrapper .social-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-wrapper .social-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #e8f0fb;
     transition: color 0.3s;
 }
 
-.footer-wrapper .socials i:hover {
-    color: var(--color-primary);
+.footer-wrapper .social-links a i {
+    font-size: 18px;
+}
+
+.footer-wrapper .social-links a:hover {
+    color: #908dcb;
 }
 
 /* ✅ Responsive */
@@ -175,8 +170,8 @@
         gap: 16px;
     }
     .footer-wrapper .links {
-        padding-left: 24px;
-        padding-right: 24px;
+        padding-left: 0;
+        padding-right: 0;
         text-align: center;
         flex-direction: column;
         gap: 24px;
@@ -188,7 +183,13 @@
         padding-left: 0;
         padding-right: 0;
     }
+    /* ✅ F mobile: social links yjiw f weset w ytzadlo toul */
     .footer-wrapper .socials {
         justify-content: center;
+    }
+    .footer-wrapper .social-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
 }
