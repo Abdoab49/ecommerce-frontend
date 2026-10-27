@@ -1,6 +1,6 @@
 // src/Components/Footer/Footer.jsx
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
   FaQuestionCircle, 
   FaHeadset, 
@@ -12,6 +12,12 @@ import './Footer.css';
 
 const Footer = () => {
   const navigate = useNavigate();
+
+  // ✅ Had l'function katbiyn alert mli tkliki 3la chi link mashi mawjoud
+  const handleLinkClick = (e, pageName) => {
+    e.preventDefault();
+    alert(`📄 ${pageName} page is coming soon!`);
+  };
 
   return (
     <footer className="footer-wrapper">
@@ -31,19 +37,19 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Company</h2>
-              <Link to="/about">About</Link>
-              <Link to="/blog">Blog</Link>
-              <Link to="/careers">Careers</Link>
-              <Link to="/contact">Contact</Link>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'About')}>About</a>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Blog')}>Blog</a>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Careers')}>Careers</a>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Contact')}>Contact</a>
             </li>
           </ul>
           <ul>
             <li>
               <h2>Resources</h2>
-              <Link to="/help">Help</Link>
-              <Link to="/support">Support</Link>
-              <Link to="/instructions">Instructions</Link>
-              <Link to="/docs">Docs</Link>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Help')}>Help</a>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Support')}>Support</a>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Instructions')}>Instructions</a>
+              <a href="#" onClick={(e) => handleLinkClick(e, 'Docs')}>Docs</a>
             </li>
           </ul>
         </div>
@@ -55,22 +61,22 @@ const Footer = () => {
         </div>
         <div className="right socials">
           <div className="social-links">
-            <Link to="/help" title="Help">
+            <a href="#" onClick={(e) => handleLinkClick(e, 'Help')} title="Help">
               <FaQuestionCircle />
               <span>Help</span>
-            </Link>
-            <Link to="/support" title="Support">
+            </a>
+            <a href="#" onClick={(e) => handleLinkClick(e, 'Support')} title="Support">
               <FaHeadset />
               <span>Support</span>
-            </Link>
-            <Link to="/instructions" title="Instructions">
+            </a>
+            <a href="#" onClick={(e) => handleLinkClick(e, 'Instructions')} title="Instructions">
               <FaBookOpen />
               <span>Instructions</span>
-            </Link>
-            <Link to="/docs" title="Docs">
+            </a>
+            <a href="#" onClick={(e) => handleLinkClick(e, 'Docs')} title="Docs">
               <FaFileAlt />
               <span>Docs</span>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
