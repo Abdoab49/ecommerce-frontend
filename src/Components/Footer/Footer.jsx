@@ -1,6 +1,6 @@
 // src/Components/Footer/Footer.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   FaQuestionCircle, 
   FaHeadset, 
@@ -31,19 +31,19 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Company</h2>
-              <a href="/about">About</a>
-              <a href="/blog">Blog</a>
-              <a href="/careers">Careers</a>
-              <a href="/contact">Contact</a>
+              <Link to="/about">About</Link>
+              <Link to="/blog">Blog</Link>
+              <Link to="/careers">Careers</Link>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
           <ul>
             <li>
               <h2>Resources</h2>
-              <a href="/help">Help</a>
-              <a href="/support">Support</a>
-              <a href="/instructions">Instructions</a>
-              <a href="/docs">Docs</a>
+              <Link to="/help">Help</Link>
+              <Link to="/support">Support</Link>
+              <Link to="/instructions">Instructions</Link>
+              <Link to="/docs">Docs</Link>
             </li>
           </ul>
         </div>
@@ -55,22 +55,22 @@ const Footer = () => {
         </div>
         <div className="right socials">
           <div className="social-links">
-            <a href="/help" title="Help">
+            <Link to="/help" title="Help">
               <FaQuestionCircle />
               <span>Help</span>
-            </a>
-            <a href="/support" title="Support">
+            </Link>
+            <Link to="/support" title="Support">
               <FaHeadset />
               <span>Support</span>
-            </a>
-            <a href="/instructions" title="Instructions">
+            </Link>
+            <Link to="/instructions" title="Instructions">
               <FaBookOpen />
               <span>Instructions</span>
-            </a>
-            <a href="/docs" title="Docs">
+            </Link>
+            <Link to="/docs" title="Docs">
               <FaFileAlt />
               <span>Docs</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

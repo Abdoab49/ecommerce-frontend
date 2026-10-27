@@ -1,5 +1,5 @@
 /* src/Components/Footer/Footer.css */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap");
 
 .footer-wrapper {
     background: #232325;
@@ -8,7 +8,7 @@
     padding: 48px;
     position: relative;
     width: 100%;
-    margin-top: auto;
+    margin-top: auto; /* ✅ Bash yb9a ltaht f les pages li fihom 9lila dyal content */
 }
 
 * {
@@ -50,7 +50,7 @@
 
 .footer-wrapper h2, 
 .footer-wrapper p {
-    color: #908dcb; /* --color-primary */
+    color: #908dcb;
 }
 
 .footer-wrapper p {
@@ -118,12 +118,11 @@
     color: #908dcb;
 }
 
-/* ✅ L'Jdid: Social Links (Help w Support) */
 .footer-wrapper .socials {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
-    font-size: 15px; /* Sgharna chwiya 7it ghadi nzido l'ktba */
+    font-size: 15px;
 }
 
 .footer-wrapper .social-links {
@@ -183,7 +182,6 @@
         padding-left: 0;
         padding-right: 0;
     }
-    /* ✅ F mobile: social links yjiw f weset w ytzadlo toul */
     .footer-wrapper .socials {
         justify-content: center;
     }
