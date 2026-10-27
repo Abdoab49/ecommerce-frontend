@@ -1,23 +1,10 @@
 // src/Components/Footer/Footer.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  FaQuestionCircle, 
-  FaHeadset, 
-  FaBookOpen, 
-  FaFileAlt,
-  FaArrowRight
-} from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
   const navigate = useNavigate();
-
-  // ✅ Had l'function katbiyn alert mli tkliki 3la chi link mashi mawjoud
-  const handleLinkClick = (e, pageName) => {
-    e.preventDefault();
-    alert(`📄 ${pageName} page is coming soon!`);
-  };
 
   return (
     <footer className="footer-wrapper">
@@ -28,7 +15,7 @@ const Footer = () => {
           <button onClick={() => navigate('/contact')}>
             Schedule a call
             <span className="symbols">
-              <FaArrowRight />
+              <i className="fa-solid fa-arrow-right"></i>
             </span>
           </button>
         </div>
@@ -37,19 +24,19 @@ const Footer = () => {
           <ul>
             <li>
               <h2>Company</h2>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'About')}>About</a>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Blog')}>Blog</a>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Careers')}>Careers</a>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Contact')}>Contact</a>
+              <a href="#">About</a>
+              <a href="#">Blog</a>
+              <a href="#">Careers</a>
+              <a href="#">Contact</a>
             </li>
           </ul>
           <ul>
             <li>
               <h2>Resources</h2>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Help')}>Help</a>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Support')}>Support</a>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Instructions')}>Instructions</a>
-              <a href="#" onClick={(e) => handleLinkClick(e, 'Docs')}>Docs</a>
+              <a href="#">Help</a>
+              <a href="#">Support</a>
+              <a href="#">Instructions</a>
+              <a href="#">Docs</a>
             </li>
           </ul>
         </div>
@@ -59,25 +46,12 @@ const Footer = () => {
         <div className="left">
           <p>&copy; LANADA 2026 . All rights Reserved</p>
         </div>
+        {/* ✅ Hna drna les icons dyal social media (Font Awesome) */}
         <div className="right socials">
-          <div className="social-links">
-            <a href="#" onClick={(e) => handleLinkClick(e, 'Help')} title="Help">
-              <FaQuestionCircle />
-              <span>Help</span>
-            </a>
-            <a href="#" onClick={(e) => handleLinkClick(e, 'Support')} title="Support">
-              <FaHeadset />
-              <span>Support</span>
-            </a>
-            <a href="#" onClick={(e) => handleLinkClick(e, 'Instructions')} title="Instructions">
-              <FaBookOpen />
-              <span>Instructions</span>
-            </a>
-            <a href="#" onClick={(e) => handleLinkClick(e, 'Docs')} title="Docs">
-              <FaFileAlt />
-              <span>Docs</span>
-            </a>
-          </div>
+          <i className="fa-brands fa-facebook"></i>
+          <i className="fa-brands fa-twitter"></i>
+          <i className="fa-brands fa-discord"></i>
+          <i className="fa-brands fa-linkedin"></i>
         </div>
       </div>
     </footer>

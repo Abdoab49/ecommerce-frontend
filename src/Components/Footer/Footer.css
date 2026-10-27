@@ -2,13 +2,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap");
 
 .footer-wrapper {
-    background: #232325;
-    color: #e8f0fb;
-    font-family: "Poppins", sans-serif;
+    position: fixed;
+    left: 48px;
+    bottom: 58px;
+    right: 48px;
     padding: 48px;
-    position: relative;
-    width: 100%;
-    margin-top: auto; /* ✅ Bash yb9a ltaht f les pages li fihom 9lila dyal content */
+    border-radius: 16px;
+    background: rgb(0 0 0 / 30%);
+    backdrop-filter: blur(20px);
+    font-family: 'Poppins', sans-serif;
+    color: #e8f0fb;
+    z-index: 1000;
+}
+
+.footer-wrapper :root {
+    --color-primary: #908dcb;
 }
 
 * {
@@ -122,34 +130,24 @@
     display: flex;
     justify-content: flex-end;
     gap: 16px;
-    font-size: 15px;
+    font-size: 20px;
 }
 
-.footer-wrapper .social-links {
-    display: flex;
-    gap: 24px;
-}
-
-.footer-wrapper .social-links a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #e8f0fb;
+.footer-wrapper .socials i {
+    cursor: pointer;
     transition: color 0.3s;
 }
 
-.footer-wrapper .social-links a i {
-    font-size: 18px;
-}
-
-.footer-wrapper .social-links a:hover {
+.footer-wrapper .socials i:hover {
     color: #908dcb;
 }
 
 /* ✅ Responsive */
 @media (max-width: 734px) {
     .footer-wrapper {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
         padding: 24px;
     }
     .footer-wrapper .top {
@@ -164,6 +162,12 @@
 }
 
 @media (max-width: 440px) {
+    .footer-wrapper {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        padding: 16px;
+    }
     .footer-wrapper .bottom {
         flex-direction: column-reverse;
         gap: 16px;
@@ -184,10 +188,5 @@
     }
     .footer-wrapper .socials {
         justify-content: center;
-    }
-    .footer-wrapper .social-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
     }
 }
