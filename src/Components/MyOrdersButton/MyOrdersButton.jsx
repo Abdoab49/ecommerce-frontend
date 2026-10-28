@@ -47,7 +47,7 @@ const MyOrdersButton = () => {
     };
   }, []);
 
-  // ✅ Fetch 3adad dyal Orders
+  // ✅ Fetch 3adad dyal Orders (Lli mazal ma wsaloch ghir)
   useEffect(() => {
     const userId = localStorage.getItem('lanada_user_id');
     if (!userId) {
@@ -64,7 +64,18 @@ const MyOrdersButton = () => {
         if (!response.ok) throw new Error('Failed to fetch');
 
         const data = await response.json();
-        setOrdersCount(Array.isArray(data) ? data.length : 0);
+        
+        // ✅ Hna kanfiltriw bach n7isbo ghir l'commandes li mazal ma wsaloch
+        if (Array.isArray(data)) {
+          const activeOrders = data.filter((order) => {
+            const status = String(order.status || 'pending').toLowerCase();
+            return status !== 'delivered' && status !== 'cancelled';
+          });
+          setOrdersCount(activeOrders.length);
+        } else {
+          setOrdersCount(0);
+        }
+
       } catch (err) {
         console.error('Error fetching orders count:', err);
         setOrdersCount(0);
@@ -82,7 +93,7 @@ const MyOrdersButton = () => {
 
   return (
     <StyledWrapper>
-      {/* ✅ Badge — Fo9 Button */}
+      {/* ✅ Badge — Fo9 Button (Kiban ghir ila kayn orders mazal) */}
       {ordersCount > 0 && (
         <span className="badge" aria-label={`${ordersCount} orders`}>
           {ordersCount > 99 ? '99+' : ordersCount}
@@ -161,7 +172,7 @@ const StyledWrapper = styled.div`
   /* ✅ Fixed — Floating f jnab */
   position: fixed;
   right: 24px;
-  bottom: 180px;               /* ✅ Tal3a chwiya (kanet 100px) */
+  bottom: 180px;
   z-index: 999;
 
   /* ============================================
@@ -181,9 +192,9 @@ const StyledWrapper = styled.div`
     align-items: center;
     justify-content: center;
 
-    background: #000000;         /* ✅ K7el */
-    color: #ffffff;              /* ✅ Byed */
-    border: 3px solid #ffffff;   /* ✅ Border byed */
+    background: #000000;
+    color: #ffffff;
+    border: 3px solid #ffffff;
     border-radius: 50px;
 
     font-family: 'Bebas Neue', sans-serif;
@@ -208,9 +219,9 @@ const StyledWrapper = styled.div`
   .button {
     position: relative;
     cursor: pointer;
-    background: #000000;         /* ✅ Dayera k7la */
-    color: #ffffff;              /* ✅ Text byed */
-    border: 3px solid #000000;   /* ✅ Khat k7el */
+    background: #000000;
+    color: #ffffff;
+    border: 3px solid #000000;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -229,7 +240,7 @@ const StyledWrapper = styled.div`
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
-    color: #ffffff;              /* ✅ Byed */
+    color: #ffffff;
 
     > span {
       position: absolute;
@@ -246,8 +257,8 @@ const StyledWrapper = styled.div`
     width: 44px;
     height: 44px;
     overflow: hidden;
-    background: #ffffff;         /* ✅ Byed — dayera sghira */
-    color: #000000;              /* ✅ K7el — icon */
+    background: #ffffff;
+    color: #000000;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -264,24 +275,24 @@ const StyledWrapper = styled.div`
      ✅ HOVER — L'3aks
      ============================================ */
   .button:hover {
-    background: #ffffff;         /* ✅ Byed */
-    color: #000000;              /* ✅ K7el */
-    border-color: #000000;       /* ✅ Khat k7el */
+    background: #ffffff;
+    color: #000000;
+    border-color: #000000;
     transform: scale(1.05);
     box-shadow: 0 12px 32px rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.2);
   }
 
   .button:hover .button__text {
-    color: #000000;              /* ✅ K7el */
+    color: #000000;
   }
 
   .button:hover .button__circle {
-    background: #000000;         /* ✅ K7el */
-    color: #ffffff;              /* ✅ Byed */
+    background: #000000;
+    color: #ffffff;
   }
 
   .button:hover .button__icon {
-    color: #ffffff;              /* ✅ Byed */
+    color: #ffffff;
   }
 
   .button:hover .button__icon:first-child {
@@ -305,7 +316,7 @@ const StyledWrapper = styled.div`
      ============================================ */
   @media (max-width: 768px) {
     right: 16px;
-    bottom: 140px;             /* ✅ Tal3a chwiya (kanet 90px) */
+    bottom: 140px;
 
     .button {
       width: 85px;
@@ -338,7 +349,7 @@ const StyledWrapper = styled.div`
 
   @media (max-width: 480px) {
     right: 12px;
-    bottom: 120px;             /* ✅ Tal3a chwiya (kanet 80px) */
+    bottom: 120px;
 
     .button {
       width: 70px;
