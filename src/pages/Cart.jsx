@@ -10,7 +10,7 @@ const Cart = () => {
   
   const [cartItems, setCartItems] = useState([]);
   const [promoCode, setPromoCode] = useState('');
-  const [promoPrice, setPromoPrice] = useState(0);
+  const [promoDiscount, setPromoDiscount] = useState(0); // ✅ نسبة التخفيض (مثلا 20)
   const [isAnimating, setIsAnimating] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -61,7 +61,11 @@ const Cart = () => {
   };
 
   const subtotal = getTotal();
-  const total = subtotal - (promoPrice > 0 && subtotal >= 10 ? promoPrice : 0);
+  
+  // ✅ حساب التخفيض بناءً على النسبة المئوية
+  const discountAmount = promoDiscount > 0 ? (subtotal * promoDiscount) / 100 : 0;
+  const total = subtotal - discountAmount;
+  
   const totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   const updateQuantity = (index, newQuantity) => {
@@ -76,28 +80,45 @@ const Cart = () => {
     saveCartItems(updatedItems);
   };
 
-  const applyPromoCode = () => {
-    if (promoCode === '10off' || promoCode === '10OFF') {
-      if (subtotal >= 10) {
-        setPromoPrice(10);
+  // ✅ دالة البرومو كود المربوطة بالباك إند
+  const applyPromoCode = async () => {
+    if (!promoCode.trim()) {
+      alert('❌ Dkhel code promo');
+      return;
+    }
+
+    const userId = localStorage.getItem('lanada_user_id');
+    if (!userId) {
+      alert('⚠️ Khass tdkhol l compte dyalek qbel');
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://backend-3lyx.onrender.com/api/promo/check-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: promoCode.toUpperCase(), userId })
+      });
+
+      const result = await response.json();
+
+      if (result.valid) {
+        setPromoDiscount(result.discountPercent); // ✅ كياخد النسبة من الباك إند
+        alert(result.message);
       } else {
-        alert('Order must be more than £10 for Promo code to apply.');
-        setPromoPrice(0);
+        alert('❌ ' + (result.message || 'Code ghalat wla msta3mel'));
+        setPromoDiscount(0);
       }
-    } else if (promoCode !== '') {
-      alert('Invalid Promo Code');
-      setPromoPrice(0);
+    } catch (error) {
+      console.error('Promo error:', error);
+      alert('❌ Mochkil f connection');
     }
   };
 
-  // ===== ✅ زر Add Manifest (الهيكل الأصلي) =====
+  // ===== ✅ زر Add Manifest (Checkout) =====
   const handleCheckout = async () => {
-    console.log('🛒 Starting checkout...');
-    
-    if (isAnimating || loading) {
-      console.log('⏳ Already processing...');
-      return;
-    }
+    if (isAnimating || loading) return;
 
     if (cartItems.length === 0) {
       alert('Your cart is empty!');
@@ -110,21 +131,8 @@ const Cart = () => {
     }
 
     setLoading(true);
-    console.log('📦 Cart Items:', cartItems);
     
     try {
-      const totalAmount = cartItems.reduce((sum, item) => {
-        const price = extractPrice(item.price);
-        const qty = item.quantity || 1;
-        return sum + (price * qty);
-      }, 0);
-
-      const finalAmount = promoPrice > 0 && totalAmount >= 10 
-        ? totalAmount - promoPrice 
-        : totalAmount;
-
-      console.log('💰 Total Amount:', finalAmount);
-
       const orderItems = cartItems.map(item => ({
         name: item.name || item.title || 'Unknown Product',
         price: extractPrice(item.price),
@@ -135,19 +143,14 @@ const Cart = () => {
         brand: item.brand || 'National Team'
       }));
 
-      console.log('📦 Order Items:', orderItems);
-
-      // ✅ ✅ ✅ الهيكل الأصلي (الذي كان يعمل)
       const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items: orderItems,
-          totalAmount: finalAmount,
-          subtotal: totalAmount,
-          discount: promoPrice,
+          totalAmount: total,
+          subtotal: subtotal,
+          discount: discountAmount, // ✅ كيمشي للباك إند بقيمة التخفيض
           shippingAddress: {
             fullName: fullName,
             phone: phone,
@@ -162,16 +165,13 @@ const Cart = () => {
       });
 
       const result = await response.json();
-      console.log('📡 Response:', response.status, result);
 
       if (response.ok) {
-        alert(`✅ Order placed successfully! Total: ${finalAmount} DH`);
-        
+        alert(`✅ Order placed successfully! Total: ${total.toFixed(2)} DH`);
         localStorage.removeItem('cart');
         localStorage.removeItem('cartItems');
         setCartItems([]);
         clearCart();
-        
         window.location.reload();
       } else {
         alert('❌ Failed to place order: ' + (result.message || 'Unknown error'));
@@ -184,21 +184,12 @@ const Cart = () => {
     }
   };
 
-  useEffect(() => {
-    if (promoPrice > 0 && subtotal < 10) {
-      setPromoPrice(0);
-    }
-  }, [subtotal, promoPrice]);
-
   if (cartItems.length === 0) {
     return (
       <div className={styles.emptyCart}>
         <h2>🛒 Your cart is empty</h2>
         <p>Add some products to your cart to see them here.</p>
-        <button 
-          className={styles.shopBtn}
-          onClick={() => navigate('/')}
-        >
+        <button className={styles.shopBtn} onClick={() => navigate('/')}>
           Continue Shopping
         </button>
       </div>
@@ -215,7 +206,6 @@ const Cart = () => {
               id="promo-code"
               type="text"
               name="promo-code"
-              maxLength="5"
               className={styles.promoCodeField}
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
@@ -335,18 +325,23 @@ const Cart = () => {
             <div className={styles.summaryTotalItems}>
               <span className={styles.totalItems}>{totalItems}</span> Items in your Bag
             </div>
+            
             <div className={styles.summarySubtotal}>
               <div className={styles.subtotalTitle}>Subtotal</div>
-              <div className={styles.subtotalValue}>{subtotal} DH</div>
-              <div className={`${styles.summaryPromo} ${promoPrice === 0 ? styles.hide : ''}`}>
-                <div className={styles.promoTitle}>Promotion</div>
-                <div className={styles.promoValue}>-{promoPrice} DH</div>
-              </div>
+              <div className={styles.subtotalValue}>{subtotal.toFixed(2)} DH</div>
+              
+              {/* ✅ إظهار التخفيض فقط إذا كان أكبر من 0 */}
+              {promoDiscount > 0 && (
+                <div className={styles.summaryPromo}>
+                  <div className={styles.promoTitle}>Promotion ({promoDiscount}%)</div>
+                  <div className={styles.promoValue}>-{discountAmount.toFixed(2)} DH</div>
+                </div>
+              )}
             </div>
 
             <div className={styles.summaryTotal}>
               <div className={styles.totalTitle}>Total</div>
-              <div className={styles.totalValue}>{total} DH</div>
+              <div className={styles.totalValue}>{total.toFixed(2)} DH</div>
             </div>
             <div className={styles.summaryCheckout}>
               <button 
