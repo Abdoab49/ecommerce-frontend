@@ -26,6 +26,7 @@ import Casquette from './pages/Casquette';
 import Mens from './pages/Mens';
 import Jackets from './pages/Jackets';
 import Shoes from './pages/Shoes';
+import HealthCheck from './pages/HealthCheck'; // ✅ JDID
 
 /* BANNERS */
 import kid_banner from './Components/Assets/banner_kids.png';
@@ -65,6 +66,9 @@ function App() {
                                     <Route path='/size-selection' element={<SizeSelection />} />
                                     <Route path='/orders' element={<Orders />} />
                                     <Route path='/admin' element={<Admin />} />
+                                    
+                                    {/* ✅ Route jdid l HealthCheck */}
+                                    <Route path='/health' element={<HealthCheck />} />
                                 </Routes>
                             </div>
 
