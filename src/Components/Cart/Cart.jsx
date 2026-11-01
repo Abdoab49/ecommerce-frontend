@@ -324,7 +324,7 @@ const Cart = () => {
               className={styles.promoCodeField}
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
-              placeholder="10OFF, LANADA20..."
+              placeholder="Enter your promo code"
             />
             <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
           </div>
