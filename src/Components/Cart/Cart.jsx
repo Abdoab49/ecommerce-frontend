@@ -4,16 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 import TruckButton from '../TruckButton/TruckButton';
 import { cities, getRegionsByCity } from '../../Data/moroccoCities';
-import Notification from '../Notification/Notification';   // ✅ JDID
+import Notification from '../Notification/Notification';
 import styles from './Cart.module.css';
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useContext(ShopContext);
 
-  // ✅ State dyal Notification
   const [notification, setNotification] = useState(null);
-
   const [promoCode, setPromoCode] = useState('');
   const [promoPercent, setPromoPercent] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -58,13 +56,13 @@ const Cart = () => {
     removeFromCart(index);
   };
 
-  // ✅ دالة البرومو كود المربوطة بالباك إند (JDID)
+  // ✅ دالة البرومو كود
   const applyPromoCode = async () => {
     if (!promoCode.trim()) {
       setNotification({
         type: 'error',
         title: 'Error',
-        message: '❌ Dkhel code promo',
+        message: 'Please enter a promo code.',
       });
       return;
     }
@@ -74,7 +72,7 @@ const Cart = () => {
       setNotification({
         type: 'error',
         title: 'Error',
-        message: '⚠️ Khass tdkhol l compte dyalek qbel',
+        message: 'Please log in to your account first.',
       });
       navigate('/login');
       return;
@@ -90,17 +88,18 @@ const Cart = () => {
       const result = await response.json();
 
       if (result.valid) {
-        setPromoPercent(result.discountPercent); // ✅ كياخد النسبة من الباك إند
+        setPromoPercent(result.discountPercent);
+        setPromoCode(''); 
         setNotification({
           type: 'success',
           title: 'Success',
-          message: `✅ Code promo tsayeb: -${result.discountPercent}%`,
+          message: `Promo code applied: -${result.discountPercent}%`,
         });
       } else {
         setNotification({
           type: 'error',
           title: 'Error',
-          message: `❌ ${result.message || 'Code msta3mel'}`,
+          message: result.message || 'Invalid or used code.',
         });
         setPromoPercent(0);
       }
@@ -109,7 +108,7 @@ const Cart = () => {
       setNotification({
         type: 'error',
         title: 'Error',
-        message: '❌ Mochkil f connection',
+        message: 'Connection error. Please try again.',
       });
     }
   };
@@ -166,13 +165,12 @@ const Cart = () => {
   const handleCheckout = async () => {
     if (loading) return;
 
-    // ✅ Check wach mconnecté
     const userId = getUserId();
     if (!userId) {
       setNotification({
         type: 'error',
         title: 'Error',
-        message: '⚠️ Khass tdkhol l compte dyalek qbel ma t3ammer order',
+        message: 'Please log in to your account before placing an order.',
       });
       navigate('/login');
       return;
@@ -239,14 +237,14 @@ const Cart = () => {
         setNotification({
           type: 'error',
           title: 'Error',
-          message: '❌ Failed to place order: ' + (result.message || 'Unknown error'),
+          message: 'Failed to place order: ' + (result.message || 'Unknown error'),
         });
       }
     } catch (error) {
       setNotification({
         type: 'error',
         title: 'Error',
-        message: '❌ Error placing order: ' + error.message,
+        message: 'Error placing order: ' + error.message,
       });
     } finally {
       setLoading(false);
@@ -262,9 +260,9 @@ const Cart = () => {
     return (
       <div className={styles.successContainer}>
         <div className={styles.successCard}>
-          <h2 className={styles.successTitle}>Commande passée!</h2>
+          <h2 className={styles.successTitle}>Order Placed!</h2>
           <p className={styles.successText}>
-            Merci pour votre commande. Nous vous contacterons bientôt.
+            Thank you for your order. We will contact you shortly.
           </p>
           <button
             className={styles.continueShoppingBtn}
@@ -291,7 +289,6 @@ const Cart = () => {
 
   return (
     <div className={styles.cartContainer}>
-      {/* ✅ NOTIFICATION — f l'fo9 */}
       {notification && (
         <Notification
           type={notification.type}
@@ -304,16 +301,48 @@ const Cart = () => {
       <main className={styles.main}>
         <div className={styles.basket}>
           <div className={styles.basketModule}>
-            <label htmlFor="promo-code">Enter a promotional code</label>
-            <input
-              id="promo-code"
-              type="text"
-              className={styles.promoCodeField}
-              value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value)}
-              placeholder="Enter your promo code"
-            />
-            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
+            {promoPercent > 0 ? (
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                width: '100%',
+                padding: '10px 0'
+              }}>
+                <span style={{ fontWeight: 600, color: '#10b981' }}>
+                  Code Promo Applied: -{promoPercent}%
+                </span>
+                <button 
+                  onClick={() => {
+                    setPromoPercent(0);
+                    setPromoCode('');
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#e84545',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    textDecoration: 'underline'
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <>
+                <label htmlFor="promo-code">Enter a promotional code</label>
+                <input
+                  id="promo-code"
+                  type="text"
+                  className={styles.promoCodeField}
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="Enter your promo code"
+                />
+                <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
+              </>
+            )}
           </div>
 
           {cartItems.map((item, index) => {
