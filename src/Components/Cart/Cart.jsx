@@ -89,7 +89,7 @@ const Cart = () => {
 
       if (result.valid) {
         setPromoPercent(result.discountPercent);
-        setPromoCode(''); 
+        setPromoCode(''); // ✅ Hna kaytmseh l'code mn l'input (katb9a khawya)
         setNotification({
           type: 'success',
           title: 'Success',
@@ -300,49 +300,18 @@ const Cart = () => {
 
       <main className={styles.main}>
         <div className={styles.basket}>
+          {/* ✅ Hna drna l'Input dima kiban w khawi */}
           <div className={styles.basketModule}>
-            {promoPercent > 0 ? (
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center', 
-                width: '100%',
-                padding: '10px 0'
-              }}>
-                <span style={{ fontWeight: 600, color: '#10b981' }}>
-                  Code Promo Applied: -{promoPercent}%
-                </span>
-                <button 
-                  onClick={() => {
-                    setPromoPercent(0);
-                    setPromoCode('');
-                  }}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#e84545',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    textDecoration: 'underline'
-                  }}
-                >
-                  Remove
-                </button>
-              </div>
-            ) : (
-              <>
-                <label htmlFor="promo-code">Enter a promotional code</label>
-                <input
-                  id="promo-code"
-                  type="text"
-                  className={styles.promoCodeField}
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder="Enter your promo code"
-                />
-                <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
-              </>
-            )}
+            <label htmlFor="promo-code">Enter a promotional code</label>
+            <input
+              id="promo-code"
+              type="text"
+              className={styles.promoCodeField}
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              placeholder="Enter your promo code"
+            />
+            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
           </div>
 
           {cartItems.map((item, index) => {
