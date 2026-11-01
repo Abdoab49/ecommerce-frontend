@@ -58,26 +58,14 @@ const Cart = () => {
     removeFromCart(index);
   };
 
+  // ✅ دالة البرومو كود المربوطة بالباك إند (JDID)
   const applyPromoCode = async () => {
-    const promoCodes = {
-      '4F334412': 10,
-      '20OFF': 20,
-      'LANADA15': 15,
-      'WELCOME5': 5,
-      'LANADA20': 20,
-      'SAVE20': 20,
-    };
-
-    const code = promoCode.toUpperCase();
-
-    if (!promoCodes[code]) {
-      // ❌ Error
+    if (!promoCode.trim()) {
       setNotification({
         type: 'error',
         title: 'Error',
-        message: '❌ Code promo ghalat',
+        message: '❌ Dkhel code promo',
       });
-      setPromoPercent(0);
       return;
     }
 
@@ -96,18 +84,17 @@ const Cart = () => {
       const response = await fetch('https://backend-3lyx.onrender.com/api/promo/check-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, userId })
+        body: JSON.stringify({ code: promoCode.toUpperCase(), userId })
       });
 
       const result = await response.json();
 
       if (result.valid) {
-        setPromoPercent(promoCodes[code]);
-        // ✅ Success
+        setPromoPercent(result.discountPercent); // ✅ كياخد النسبة من الباك إند
         setNotification({
           type: 'success',
           title: 'Success',
-          message: `✅ Code promo tsayeb: -${promoCodes[code]}%`,
+          message: `✅ Code promo tsayeb: -${result.discountPercent}%`,
         });
       } else {
         setNotification({
