@@ -35,7 +35,7 @@ function ClubCard({ item }) {
   );
 }
 
-export default function NikeLanada() {
+export default function Style() {
   const railRef = useRef(null);
   const move = direction => railRef.current?.scrollBy({ left: direction * railRef.current.clientWidth * .82, behavior: "smooth" });
 
