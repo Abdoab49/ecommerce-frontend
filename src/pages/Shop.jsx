@@ -18,6 +18,7 @@ import NewPromoCard from '../Components/NewPromoCard'
 import Slider from '../Components/Slider'
 import ShoeCard from '../Components/ShoeCard/ShoeCard';
 import BannerVideo from '../Components/BannerVideo/BannerVideo';
+import NikeLanada from '../Components/NikeLanada/NikeLanada'
 const Shop = () => {
     return (
         <div>
@@ -39,6 +40,7 @@ const Shop = () => {
             <ShoeCard />
             <Slider />
             <BannerVideo />
+            <NikeLanada />
             <SocialIcons />
         </div>
     )
