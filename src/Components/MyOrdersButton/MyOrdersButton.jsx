@@ -1,41 +1,49 @@
-// src/Components/MyOrdersButton/MyOrdersButton.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { PackageCheck } from 'lucide-react';
+
+const API = 'https://backend-3lyx.onrender.com/api';
 
 const MyOrdersButton = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [user, setUser] = useState(null);
   const [ordersCount, setOrdersCount] = useState(0);
 
-  // ✅ Check user mconnecté
-  useEffect(() => {
+  // =========================================
+  // READ CONNECTED USER
+  // =========================================
+
+  const readUser = () => {
     const userData = localStorage.getItem('lanada_user');
-    if (userData) {
-      try {
-        setUser(JSON.parse(userData));
-      } catch (e) {
-        setUser(null);
-      }
-    } else {
+
+    if (!userData) {
+      setUser(null);
+      return;
+    }
+
+    try {
+      setUser(JSON.parse(userData));
+    } catch (error) {
+      console.error('User data error:', error);
       setUser(null);
     }
+  };
+
+  useEffect(() => {
+    readUser();
   }, [location.pathname]);
 
-  // ✅ Listener — melli user ytbdel
+  // =========================================
+  // LISTEN TO LOGIN / LOGOUT CHANGES
+  // =========================================
+
   useEffect(() => {
     const handleUserChange = () => {
-      const userData = localStorage.getItem('lanada_user');
-      if (userData) {
-        try {
-          setUser(JSON.parse(userData));
-        } catch (e) {
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
+      readUser();
     };
 
     window.addEventListener('userChanged', handleUserChange);
@@ -47,338 +55,423 @@ const MyOrdersButton = () => {
     };
   }, []);
 
-  // ✅ Fetch 3adad dyal Orders (Lli mazal ma wsaloch ghir)
+  // =========================================
+  // FETCH ACTIVE ORDERS COUNT
+  // =========================================
+
   useEffect(() => {
     const userId = localStorage.getItem('lanada_user_id');
-    if (!userId) {
+
+    if (!userId || !user) {
       setOrdersCount(0);
       return;
     }
 
+    const controller = new AbortController();
+
     const fetchOrdersCount = async () => {
       try {
         const response = await fetch(
-          `https://backend-3lyx.onrender.com/api/orders?userId=${userId}`
+          `${API}/orders?userId=${encodeURIComponent(userId)}`,
+          {
+            signal: controller.signal
+          }
         );
 
-        if (!response.ok) throw new Error('Failed to fetch');
+        if (!response.ok) {
+          throw new Error('Failed to fetch orders');
+        }
 
         const data = await response.json();
-        
-        // ✅ Hna kanfiltriw bach n7isbo ghir l'commandes li mazal ma wsaloch
+
         if (Array.isArray(data)) {
+          // Count orders that have not been delivered or cancelled
           const activeOrders = data.filter((order) => {
-            const status = String(order.status || 'pending').toLowerCase();
-            return status !== 'delivered' && status !== 'cancelled';
+            const status = String(
+              order.status || 'pending'
+            ).toLowerCase();
+
+            return (
+              status !== 'delivered' &&
+              status !== 'cancelled'
+            );
           });
+
           setOrdersCount(activeOrders.length);
         } else {
           setOrdersCount(0);
         }
 
-      } catch (err) {
-        console.error('Error fetching orders count:', err);
-        setOrdersCount(0);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error('Error fetching orders:', error);
+          setOrdersCount(0);
+        }
       }
     };
 
     fetchOrdersCount();
-  }, [location.pathname]);
 
-  // ✅ Ma kaybanch ila mashi mconnecté
-  if (!user) return null;
+    return () => {
+      controller.abort();
+    };
 
-  // ✅ Ma kaybanch f /orders
-  if (location.pathname === '/orders') return null;
+  }, [location.pathname, user]);
+
+  // =========================================
+  // VISIBILITY CONDITIONS
+  // =========================================
+
+  // Show only on Home page
+  if (location.pathname !== '/') {
+    return null;
+  }
+
+  // Hide if the user is not connected
+  if (!user) {
+    return null;
+  }
+
+  // =========================================
+  // RENDER BUTTON
+  // =========================================
 
   return (
     <StyledWrapper>
-      {/* ✅ Badge — Fo9 Button (Kiban ghir ila kayn orders mazal) */}
-      {ordersCount > 0 && (
-        <span className="badge" aria-label={`${ordersCount} orders`}>
-          {ordersCount > 99 ? '99+' : ordersCount}
-        </span>
-      )}
 
       <button
-        className="button"
+        type="button"
+        className="my-orders-button"
         onClick={() => navigate('/orders')}
         title="My Orders"
-        aria-label="My Orders"
+        aria-label={`My Orders, ${ordersCount} active orders`}
       >
-        <p className="button__text">
-          <span style={{ '--index': 0 }}>M</span>
-          <span style={{ '--index': 1 }}>Y</span>
-          <span style={{ '--index': 2 }} />
-          <span style={{ '--index': 3 }}>O</span>
-          <span style={{ '--index': 4 }}>R</span>
-          <span style={{ '--index': 5 }}>D</span>
-          <span style={{ '--index': 6 }}>E</span>
-          <span style={{ '--index': 7 }}>R</span>
-          <span style={{ '--index': 8 }}>S</span>
-          <span style={{ '--index': 9 }} />
-          <span style={{ '--index': 10 }}>M</span>
-          <span style={{ '--index': 11 }}>Y</span>
-          <span style={{ '--index': 12 }} />
-          <span style={{ '--index': 13 }}>O</span>
-          <span style={{ '--index': 14 }}>R</span>
-          <span style={{ '--index': 15 }}>D</span>
-          <span style={{ '--index': 16 }}>E</span>
-          <span style={{ '--index': 17 }}>R</span>
-          <span style={{ '--index': 18 }}>S</span>
-        </p>
 
-        <div className="button__circle">
-          {/* ✅ Icon Package */}
-          <svg
-            width={20}
-            height={20}
-            className="button__icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {/* TOP WHITE INDICATOR */}
+        <span className="active-indicator" />
+
+        {/* PACKAGE ICON */}
+        <span className="orders-icon">
+          <PackageCheck
+            size={25}
+            strokeWidth={1.8}
+          />
+        </span>
+
+        {/* BUTTON LABEL */}
+        <span className="orders-label">
+          MY ORDERS
+        </span>
+
+        {/* ACTIVE ORDERS BADGE */}
+        {ordersCount > 0 && (
+          <span
+            className="orders-badge"
+            aria-label={`${ordersCount} active orders`}
           >
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-            <line x1="12" y1="22.08" x2="12" y2="12" />
-          </svg>
-          <svg
-            className="button__icon button__icon--copy"
-            width={20}
-            height={20}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-            <line x1="12" y1="22.08" x2="12" y2="12" />
-          </svg>
-        </div>
+            {ordersCount > 99 ? '99+' : ordersCount}
+          </span>
+        )}
+
       </button>
+
     </StyledWrapper>
   );
 };
 
+// =============================================
+// PREMIUM BLACK & WHITE STYLED DESIGN
+// =============================================
+
 const StyledWrapper = styled.div`
-  /* ✅ Fixed — Floating f jnab */
+
   position: fixed;
-  right: 24px;
-  bottom: 180px;
+  right: 20px;
+  top: 52%;
+  transform: translateY(-50%);
   z-index: 999;
 
-  /* ============================================
-     ✅ BADGE — Ra9im fo9 Button
-     ============================================ */
-  .badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    z-index: 10;
+  /* =========================================
+     MAIN BUTTON
+  ========================================= */
 
-    min-width: 28px;
-    height: 28px;
-    padding: 0 8px;
+  .my-orders-button {
+
+    position: relative;
+
+    width: 108px;
+    height: 102px;
 
     display: flex;
+    flex-direction: column;
+
     align-items: center;
     justify-content: center;
 
-    background: #000000;
-    color: #ffffff;
-    border: 3px solid #ffffff;
-    border-radius: 50px;
+    gap: 12px;
 
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0;
+    padding: 10px;
 
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
-
-    animation: badge-pop 0.3s ease-out;
-  }
-
-  @keyframes badge-pop {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  /* ============================================
-     ✅ BUTTON — Khat Byed + Dayera K7la
-     ============================================ */
-  .button {
-    position: relative;
-    cursor: pointer;
-    background: #000000;
-    color: #ffffff;
-    border: 3px solid #000000;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
     overflow: hidden;
-    display: grid;
-    place-content: center;
-    transition: background 300ms, color 300ms, border-color 300ms, transform 200ms;
-    font-weight: 600;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.1);
+
+    background: #000000;
+    color: #ffffff;
+
+    border: 1px solid rgba(255,255,255,.20);
+    border-radius: 19px;
+
+    cursor: pointer;
+
+    outline: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,.22);
+
+    transition:
+      transform .25s ease,
+      background .25s ease,
+      box-shadow .25s ease;
+
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .button__text {
+  /* =========================================
+     TOP WHITE INDICATOR
+  ========================================= */
+
+  .active-indicator {
+
     position: absolute;
-    inset: 0;
-    animation: text-rotation 8s linear infinite;
+
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 55%;
+    height: 4px;
+
+    background: #ffffff;
+
+    border-radius: 0 0 3px 3px;
+  }
+
+  /* =========================================
+     PACKAGE ICON
+  ========================================= */
+
+  .orders-icon {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    transition: transform .25s ease;
+  }
+
+  /* =========================================
+     MY ORDERS TEXT
+  ========================================= */
+
+  .orders-label {
+
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 1px;
-    color: #ffffff;
 
-    > span {
-      position: absolute;
-      transform: rotate(calc(19deg * var(--index)));
-      inset: 8px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-    }
+    letter-spacing: 1px;
+
+    white-space: nowrap;
   }
 
-  .button__circle {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    overflow: hidden;
-    background: #ffffff;
-    color: #000000;
-    border-radius: 50%;
+  /* =========================================
+     ORDERS COUNTER
+  ========================================= */
+
+  .orders-badge {
+
+    position: absolute;
+
+    top: 8px;
+    right: 8px;
+
+    min-width: 19px;
+    height: 19px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
-    transition: background 300ms, color 300ms;
-  }
 
-  .button__icon--copy {
-    position: absolute;
-    transform: translate(-150%, 150%);
-  }
+    padding: 0 5px;
 
-  /* ============================================
-     ✅ HOVER — L'3aks
-     ============================================ */
-  .button:hover {
     background: #ffffff;
     color: #000000;
-    border-color: #000000;
-    transform: scale(1.05);
-    box-shadow: 0 12px 32px rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.2);
+
+    border-radius: 50px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+
+    font-variant-numeric: tabular-nums;
   }
 
-  .button:hover .button__text {
+  /* =========================================
+     HOVER EFFECT
+  ========================================= */
+
+  .my-orders-button:hover {
+
+    background: #ffffff;
+    color: #000000;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  }
+
+  .my-orders-button:hover .orders-icon,
+  .my-orders-button:hover .orders-label {
+
     color: #000000;
   }
 
-  .button:hover .button__circle {
+  .my-orders-button:hover .active-indicator {
+
+    background: #000000;
+  }
+
+  .my-orders-button:hover .orders-badge {
+
     background: #000000;
     color: #ffffff;
   }
 
-  .button:hover .button__icon {
-    color: #ffffff;
+  /* =========================================
+     CLICK EFFECT
+  ========================================= */
+
+  .my-orders-button:active {
+
+    transform: scale(.95);
   }
 
-  .button:hover .button__icon:first-child {
-    transition: transform 0.3s ease-in-out;
-    transform: translate(150%, -150%);
+  .my-orders-button:focus-visible {
+
+    outline: 2px solid #000000;
+    outline-offset: 4px;
   }
 
-  .button:hover .button__icon--copy {
-    transition: transform 0.3s ease-in-out 0.1s;
-    transform: translate(0);
-  }
+  /* =========================================
+     TABLET & MOBILE
+  ========================================= */
 
-  @keyframes text-rotation {
-    to {
-      rotate: 360deg;
-    }
-  }
-
-  /* ============================================
-     ✅ MOBILE
-     ============================================ */
   @media (max-width: 768px) {
-    right: 16px;
-    bottom: 140px;
 
-    .button {
-      width: 85px;
-      height: 85px;
-      border-width: 2.5px;
+    right: 12px;
+    top: auto;
+
+    bottom: calc(
+      115px + env(safe-area-inset-bottom)
+    );
+
+    transform: none;
+
+    .my-orders-button {
+
+      width: 88px;
+      height: 86px;
+
+      border-radius: 16px;
+      gap: 10px;
+
+      padding: 8px;
     }
 
-    .button__text {
+    .orders-icon svg {
+
+      width: 25px;
+      height: 25px;
+    }
+
+    .orders-label {
+
+      font-size: 9px;
+      letter-spacing: .8px;
+    }
+
+    .orders-badge {
+
+      top: 6px;
+      right: 6px;
+
+      min-width: 17px;
+      height: 17px;
+
       font-size: 9px;
     }
 
-    .button__text > span {
-      inset: 6px;
+    .my-orders-button:hover {
+
+      transform: none;
     }
 
-    .button__circle {
-      width: 38px;
-      height: 38px;
-    }
+    .my-orders-button:active {
 
-    .badge {
-      min-width: 24px;
-      height: 24px;
-      font-size: 12px;
-      top: -4px;
-      right: -4px;
-      border-width: 2px;
+      transform: scale(.95);
     }
   }
 
-  @media (max-width: 480px) {
-    right: 12px;
-    bottom: 120px;
+  /* =========================================
+     SMALL MOBILE
+  ========================================= */
 
-    .button {
-      width: 70px;
-      height: 70px;
-      border-width: 2px;
+  @media (max-width: 380px) {
+
+    right: 9px;
+
+    bottom: calc(
+      105px + env(safe-area-inset-bottom)
+    );
+
+    .my-orders-button {
+
+      width: 78px;
+      height: 78px;
+
+      border-radius: 14px;
+      gap: 8px;
     }
 
-    .button__text {
+    .orders-icon svg {
+
+      width: 22px;
+      height: 22px;
+    }
+
+    .orders-label {
+
+      font-size: 8px;
+      letter-spacing: .6px;
+    }
+
+    .orders-badge {
+
+      top: 5px;
+      right: 5px;
+
+      min-width: 16px;
+      height: 16px;
+
       font-size: 8px;
     }
-
-    .button__text > span {
-      inset: 5px;
-    }
-
-    .button__circle {
-      width: 32px;
-      height: 32px;
-    }
-
-    .badge {
-      min-width: 20px;
-      height: 20px;
-      font-size: 10px;
-      top: -2px;
-      right: -2px;
-      border-width: 2px;
-    }
   }
+
 `;
 
 export default MyOrdersButton;
