@@ -1,4 +1,4 @@
-// src/App.jsx
+
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -9,6 +9,7 @@ import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';
 import BottomNavBar from './Components/BottomNavBar/BottomNavBar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
+import GiveawayPromo from './Components/GiveawayPromo/GiveawayPromo';
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -26,7 +27,7 @@ import Casquette from './pages/Casquette';
 import Mens from './pages/Mens';
 import Jackets from './pages/Jackets';
 import Shoes from './pages/Shoes';
-import HealthCheck from './pages/HealthCheck'; // ✅ JDID
+import HealthCheck from './pages/HealthCheck';
 
 /* BANNERS */
 import kid_banner from './Components/Assets/banner_kids.png';
@@ -35,51 +36,160 @@ import kid_banner from './Components/Assets/banner_kids.png';
 import ShopContextProvider from './Context/ShopContext';
 
 function App() {
-    return (
-        <ShopContextProvider>
-            <BrowserRouter>
-                <ScrollToTop />
-                <div className="app-background">
-                    <div id="stars"></div>
-                    <div className="app-content">
-                        <Navbar />
-                        <NotificationBell />
-                        <MyOrdersButton />
+  return (
+    <ShopContextProvider>
+      <BrowserRouter>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-                            
-                            <div style={{ flex: 1 }}>
-                                <Routes>
-                                    <Route path='/' element={<Shop />} />
-                                    <Route path='/shop' element={<Shop />} />
-                                    <Route path='/mens' element={<Mens />} />
-                                    <Route path='/womens' element={<Jackets />} />
-                                    <Route path='/kids' element={<ShopCategory banner={kid_banner} category="kid" />} />
-                                    <Route path='/shoes' element={<Shoes />} />
-                                    <Route path='/casquette' element={<Casquette />} />
-                                    <Route path='/product/:productId' element={<Product />} />
-                                    <Route path='/cart' element={<Cart />} />
-                                    <Route path='/login' element={<Login />} />
-                                    <Route path='/signup' element={<Signup />} />
-                                    <Route path='/forgot-password' element={<ForgotPassword />} />
-                                    <Route path='/reset-password/:token' element={<ResetPassword />} />
-                                    <Route path='/size-selection' element={<SizeSelection />} />
-                                    <Route path='/orders' element={<Orders />} />
-                                    <Route path='/admin' element={<Admin />} />
-                                    
-                                    {/* ✅ Route jdid l HealthCheck */}
-                                    <Route path='/health' element={<HealthCheck />} />
-                                </Routes>
-                            </div>
+        <ScrollToTop />
 
-                        </div>
+        <div className="app-background">
 
-                        <BottomNavBar />
-                    </div>
-                </div>
-            </BrowserRouter>
-        </ShopContextProvider>
-    );
+          <div id="stars"></div>
+
+          <div className="app-content">
+
+            {/* GLOBAL COMPONENTS */}
+            <Navbar />
+            <NotificationBell />
+            <MyOrdersButton />
+
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh'
+              }}
+            >
+
+              <div style={{ flex: 1 }}>
+
+                <Routes>
+
+                  {/* HOME + GIVEAWAY */}
+                  <Route
+                    path="/"
+                    element={
+                      <>
+                        <Shop />
+                        <GiveawayPromo />
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="/shop"
+                    element={
+                      <>
+                        <Shop />
+                        <GiveawayPromo />
+                      </>
+                    }
+                  />
+
+                  {/* SHOP CATEGORIES */}
+                  <Route
+                    path="/mens"
+                    element={<Mens />}
+                  />
+
+                  <Route
+                    path="/womens"
+                    element={<Jackets />}
+                  />
+
+                  <Route
+                    path="/kids"
+                    element={
+                      <ShopCategory
+                        banner={kid_banner}
+                        category="kid"
+                      />
+                    }
+                  />
+
+                  <Route
+                    path="/shoes"
+                    element={<Shoes />}
+                  />
+
+                  <Route
+                    path="/casquette"
+                    element={<Casquette />}
+                  />
+
+                  {/* PRODUCT */}
+                  <Route
+                    path="/product/:productId"
+                    element={<Product />}
+                  />
+
+                  {/* CART */}
+                  <Route
+                    path="/cart"
+                    element={<Cart />}
+                  />
+
+                  {/* AUTHENTICATION */}
+                  <Route
+                    path="/login"
+                    element={<Login />}
+                  />
+
+                  <Route
+                    path="/signup"
+                    element={<Signup />}
+                  />
+
+                  <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                  />
+
+                  <Route
+                    path="/reset-password/:token"
+                    element={<ResetPassword />}
+                  />
+
+                  {/* ORDERS */}
+                  <Route
+                    path="/orders"
+                    element={<Orders />}
+                  />
+
+                  {/* ADMIN */}
+                  <Route
+                    path="/admin"
+                    element={<Admin />}
+                  />
+
+                  {/* SIZE SELECTION */}
+                  <Route
+                    path="/size-selection"
+                    element={<SizeSelection />}
+                  />
+
+                  {/* HEALTH CHECK */}
+                  <Route
+                    path="/health"
+                    element={<HealthCheck />}
+                  />
+
+                </Routes>
+
+              </div>
+
+            </div>
+
+            {/* MOBILE NAVIGATION */}
+            <BottomNavBar />
+
+          </div>
+
+        </div>
+
+      </BrowserRouter>
+    </ShopContextProvider>
+  );
 }
 
 export default App;
