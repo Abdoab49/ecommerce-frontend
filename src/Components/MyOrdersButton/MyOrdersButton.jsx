@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { PackageCheck } from 'lucide-react';
+import { PackageCheck, ArrowUpRight } from 'lucide-react';
 
 const API = 'https://backend-3lyx.onrender.com/api';
 
@@ -13,10 +13,7 @@ const MyOrdersButton = () => {
   const [user, setUser] = useState(null);
   const [ordersCount, setOrdersCount] = useState(0);
 
-  // =========================================
-  // READ CONNECTED USER
-  // =========================================
-
+  // USER DATA
   const readUser = () => {
     const userData = localStorage.getItem('lanada_user');
 
@@ -37,14 +34,9 @@ const MyOrdersButton = () => {
     readUser();
   }, [location.pathname]);
 
-  // =========================================
-  // LISTEN TO LOGIN / LOGOUT CHANGES
-  // =========================================
-
+  // LOGIN / LOGOUT LISTENER
   useEffect(() => {
-    const handleUserChange = () => {
-      readUser();
-    };
+    const handleUserChange = () => readUser();
 
     window.addEventListener('userChanged', handleUserChange);
     window.addEventListener('storage', handleUserChange);
@@ -55,10 +47,7 @@ const MyOrdersButton = () => {
     };
   }, []);
 
-  // =========================================
-  // FETCH ACTIVE ORDERS COUNT
-  // =========================================
-
+  // FETCH ACTIVE ORDERS
   useEffect(() => {
     const userId = localStorage.getItem('lanada_user_id');
 
@@ -73,9 +62,7 @@ const MyOrdersButton = () => {
       try {
         const response = await fetch(
           `${API}/orders?userId=${encodeURIComponent(userId)}`,
-          {
-            signal: controller.signal
-          }
+          { signal: controller.signal }
         );
 
         if (!response.ok) {
@@ -85,7 +72,6 @@ const MyOrdersButton = () => {
         const data = await response.json();
 
         if (Array.isArray(data)) {
-          // Count orders that have not been delivered or cancelled
           const activeOrders = data.filter((order) => {
             const status = String(
               order.status || 'pending'
@@ -101,10 +87,9 @@ const MyOrdersButton = () => {
         } else {
           setOrdersCount(0);
         }
-
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('Error fetching orders:', error);
+          console.error('Orders count error:', error);
           setOrdersCount(0);
         }
       }
@@ -112,33 +97,18 @@ const MyOrdersButton = () => {
 
     fetchOrdersCount();
 
-    return () => {
-      controller.abort();
-    };
+    return () => controller.abort();
 
   }, [location.pathname, user]);
 
-  // =========================================
-  // VISIBILITY CONDITIONS
-  // =========================================
+  // SHOW ONLY ON HOME
+  if (location.pathname !== '/') return null;
 
-  // Show only on Home page
-  if (location.pathname !== '/') {
-    return null;
-  }
-
-  // Hide if the user is not connected
-  if (!user) {
-    return null;
-  }
-
-  // =========================================
-  // RENDER BUTTON
-  // =========================================
+  // HIDE IF NOT LOGGED IN
+  if (!user) return null;
 
   return (
     <StyledWrapper>
-
       <button
         type="button"
         className="my-orders-button"
@@ -146,332 +116,211 @@ const MyOrdersButton = () => {
         title="My Orders"
         aria-label={`My Orders, ${ordersCount} active orders`}
       >
-
-        {/* TOP WHITE INDICATOR */}
-        <span className="active-indicator" />
-
-        {/* PACKAGE ICON */}
-        <span className="orders-icon">
-          <PackageCheck
-            size={25}
-            strokeWidth={1.8}
-          />
+        {/* LEFT ARROW */}
+        <span className="orders-leading-icon">
+          <ArrowUpRight size={14} strokeWidth={2} />
         </span>
 
-        {/* BUTTON LABEL */}
+        {/* BUTTON TEXT */}
         <span className="orders-label">
           MY ORDERS
         </span>
 
-        {/* ACTIVE ORDERS BADGE */}
+        {/* ORDER COUNT */}
         {ordersCount > 0 && (
-          <span
-            className="orders-badge"
-            aria-label={`${ordersCount} active orders`}
-          >
+          <span className="orders-badge">
             {ordersCount > 99 ? '99+' : ordersCount}
           </span>
         )}
 
+        {/* PACKAGE ICON */}
+        <span className="orders-package-icon">
+          <PackageCheck size={17} strokeWidth={1.8} />
+        </span>
       </button>
-
     </StyledWrapper>
   );
 };
 
-// =============================================
-// PREMIUM BLACK & WHITE STYLED DESIGN
-// =============================================
+// =========================================
+// LANADA — MINIMAL BLACK & WHITE BUTTON
+// =========================================
 
 const StyledWrapper = styled.div`
-
   position: fixed;
-  right: 20px;
+  right: 24px;
   top: 52%;
   transform: translateY(-50%);
   z-index: 999;
 
-  /* =========================================
-     MAIN BUTTON
-  ========================================= */
-
   .my-orders-button {
-
     position: relative;
 
-    width: 108px;
-    height: 102px;
+    min-width: 140px;
+    height: 36px;
 
     display: flex;
-    flex-direction: column;
-
     align-items: center;
     justify-content: center;
+    gap: 8px;
 
-    gap: 12px;
+    padding: 0 13px;
 
-    padding: 10px;
-
-    overflow: hidden;
-
-    background: #000000;
+    background: #080808;
     color: #ffffff;
 
-    border: 1px solid rgba(255,255,255,.20);
-    border-radius: 19px;
+    border: 1px solid #080808;
+    border-radius: 50px;
 
     cursor: pointer;
 
-    outline: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,.22);
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    font-family: Arial, Helvetica, sans-serif;
 
     transition:
-      transform .25s ease,
-      background .25s ease,
-      box-shadow .25s ease;
+      background .2s ease,
+      transform .2s ease,
+      box-shadow .2s ease;
 
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* =========================================
-     TOP WHITE INDICATOR
-  ========================================= */
+  /* LEFT ARROW */
 
-  .active-indicator {
-
-    position: absolute;
-
-    top: 0;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: 55%;
-    height: 4px;
-
-    background: #ffffff;
-
-    border-radius: 0 0 3px 3px;
-  }
-
-  /* =========================================
-     PACKAGE ICON
-  ========================================= */
-
-  .orders-icon {
-
+  .orders-leading-icon {
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     color: #ffffff;
-
-    transition: transform .25s ease;
+    flex-shrink: 0;
   }
 
-  /* =========================================
-     MY ORDERS TEXT
-  ========================================= */
+  /* MY ORDERS TEXT */
 
   .orders-label {
-
     color: #ffffff;
 
-    font-family: Arial, Helvetica, sans-serif;
-
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
 
-    letter-spacing: 1px;
-
+    letter-spacing: .55px;
     white-space: nowrap;
   }
 
-  /* =========================================
-     ORDERS COUNTER
-  ========================================= */
+  /* PACKAGE */
 
-  .orders-badge {
-
-    position: absolute;
-
-    top: 8px;
-    right: 8px;
-
-    min-width: 19px;
-    height: 19px;
-
+  .orders-package-icon {
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    padding: 0 5px;
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  /* ORDERS BADGE */
+
+  .orders-badge {
+    position: absolute;
+    top: -7px;
+    right: -5px;
+
+    min-width: 18px;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 4px;
 
     background: #ffffff;
     color: #000000;
 
+    border: 1px solid #000000;
     border-radius: 50px;
 
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
-
     font-variant-numeric: tabular-nums;
   }
 
-  /* =========================================
-     HOVER EFFECT
-  ========================================= */
+  /* HOVER */
 
   .my-orders-button:hover {
+    background: #262626;
+    border-color: #262626;
 
-    background: #ffffff;
-    color: #000000;
-
-    transform: translateY(-3px);
-
-    box-shadow: 0 10px 26px rgba(0,0,0,.18);
+    box-shadow: 0 7px 17px rgba(0,0,0,.17);
   }
 
-  .my-orders-button:hover .orders-icon,
-  .my-orders-button:hover .orders-label {
-
-    color: #000000;
-  }
-
-  .my-orders-button:hover .active-indicator {
-
-    background: #000000;
-  }
-
-  .my-orders-button:hover .orders-badge {
-
-    background: #000000;
-    color: #ffffff;
-  }
-
-  /* =========================================
-     CLICK EFFECT
-  ========================================= */
+  /* CLICK */
 
   .my-orders-button:active {
-
-    transform: scale(.95);
+    transform: scale(.96);
   }
 
   .my-orders-button:focus-visible {
-
     outline: 2px solid #000000;
     outline-offset: 4px;
   }
 
-  /* =========================================
-     TABLET & MOBILE
-  ========================================= */
+  /* MOBILE */
 
   @media (max-width: 768px) {
-
-    right: 12px;
+    right: 13px;
     top: auto;
 
     bottom: calc(
-      115px + env(safe-area-inset-bottom)
+      118px + env(safe-area-inset-bottom)
     );
 
     transform: none;
 
     .my-orders-button {
-
-      width: 88px;
-      height: 86px;
-
-      border-radius: 16px;
-      gap: 10px;
-
-      padding: 8px;
-    }
-
-    .orders-icon svg {
-
-      width: 25px;
-      height: 25px;
+      min-width: 132px;
+      height: 34px;
+      padding: 0 11px;
+      gap: 7px;
     }
 
     .orders-label {
-
       font-size: 9px;
-      letter-spacing: .8px;
-    }
-
-    .orders-badge {
-
-      top: 6px;
-      right: 6px;
-
-      min-width: 17px;
-      height: 17px;
-
-      font-size: 9px;
-    }
-
-    .my-orders-button:hover {
-
-      transform: none;
     }
 
     .my-orders-button:active {
-
-      transform: scale(.95);
+      transform: scale(.96);
     }
   }
 
-  /* =========================================
-     SMALL MOBILE
-  ========================================= */
+  /* SMALL MOBILE */
 
   @media (max-width: 380px) {
-
     right: 9px;
 
     bottom: calc(
-      105px + env(safe-area-inset-bottom)
+      108px + env(safe-area-inset-bottom)
     );
 
     .my-orders-button {
-
-      width: 78px;
-      height: 78px;
-
-      border-radius: 14px;
-      gap: 8px;
-    }
-
-    .orders-icon svg {
-
-      width: 22px;
-      height: 22px;
+      min-width: 122px;
+      height: 32px;
+      padding: 0 9px;
+      gap: 6px;
     }
 
     .orders-label {
-
       font-size: 8px;
-      letter-spacing: .6px;
     }
 
-    .orders-badge {
-
-      top: 5px;
-      right: 5px;
-
-      min-width: 16px;
-      height: 16px;
-
-      font-size: 8px;
+    .orders-leading-icon svg,
+    .orders-package-icon svg {
+      width: 15px;
+      height: 15px;
     }
   }
-
 `;
 
 export default MyOrdersButton;
