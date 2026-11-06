@@ -20,33 +20,53 @@ const Cart = () => {
   } = useContext(ShopContext);
 
   const [notification, setNotification] = useState(null);
-  const [promoCode, setPromoCode] = useState('');
+
+  // Read Giveaway promo code automatically
+  const [promoCode, setPromoCode] = useState(() => {
+    return localStorage.getItem('lanada_pending_promo') || '';
+  });
+
   const [promoPercent, setPromoPercent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
+  // SHIPPING INFORMATION
   const [fullName, setFullName] = useState('');
   const [city, setCity] = useState('');
   const [region, setRegion] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+
   const [errors, setErrors] = useState({});
+
+  // =========================================
+  // USER ID
+  // =========================================
 
   const getUserId = () => {
     return localStorage.getItem('lanada_user_id');
   };
+
+  // =========================================
+  // PRICE
+  // =========================================
 
   const extractPrice = (price) => {
     if (typeof price === 'number') return price;
 
     if (typeof price === 'string') {
       const value = parseFloat(price.replace(/[^0-9.]/g, ''));
+
       return Number.isNaN(value) ? 0 : value;
     }
 
     return 0;
   };
+
+  // =========================================
+  // PRODUCT IMAGE
+  // =========================================
 
   const getProductImage = (item) => {
     return (
@@ -55,6 +75,10 @@ const Cart = () => {
       '/Assets/ShoeStore/tshirt1.png'
     );
   };
+
+  // =========================================
+  // CART CALCULATIONS
+  // =========================================
 
   const subtotal = cartItems.reduce((sum, item) => {
     return sum + extractPrice(item.price) * (item.quantity || 1);
@@ -74,11 +98,22 @@ const Cart = () => {
     return sum + (item.quantity || 1);
   }, 0);
 
+  // =========================================
+  // NOTIFICATION
+  // =========================================
+
   const showNotice = (type, title, message) => {
-    setNotification({ type, title, message });
+    setNotification({
+      type,
+      title,
+      message
+    });
   };
 
-  // PROMO CODE
+  // =========================================
+  // PROMO CODE VALIDATION
+  // =========================================
+
   const applyPromoCode = async () => {
     if (!promoCode.trim()) {
       showNotice(
@@ -86,6 +121,7 @@ const Cart = () => {
         'Error',
         'Please enter a promo code.'
       );
+
       return;
     }
 
@@ -107,9 +143,11 @@ const Cart = () => {
         `${API}/promo/check-code`,
         {
           method: 'POST',
+
           headers: {
             'Content-Type': 'application/json'
           },
+
           body: JSON.stringify({
             code: promoCode.trim().toUpperCase(),
             userId
@@ -120,14 +158,20 @@ const Cart = () => {
       const result = await response.json();
 
       if (result.valid) {
-        setPromoPercent(Number(result.discountPercent) || 0);
+        const discount = Number(result.discountPercent) || 0;
+
+        setPromoPercent(discount);
         setPromoCode('');
+
+        // Remove pending Giveaway code after successful validation
+        localStorage.removeItem('lanada_pending_promo');
 
         showNotice(
           'success',
           'Success',
-          `Promo code applied: -${result.discountPercent}%`
+          `Promo code applied: -${discount}%`
         );
+
       } else {
         setPromoPercent(0);
 
@@ -137,7 +181,10 @@ const Cart = () => {
           result.message || 'Invalid or used code.'
         );
       }
+
     } catch (error) {
+      console.error('Promo error:', error);
+
       showNotice(
         'error',
         'Connection error',
@@ -146,7 +193,10 @@ const Cart = () => {
     }
   };
 
-  // VALIDATION
+  // =========================================
+  // FIELD VALIDATION
+  // =========================================
+
   const validateField = (name, value) => {
     let error = '';
 
@@ -193,6 +243,10 @@ const Cart = () => {
     return error;
   };
 
+  // =========================================
+  // VALIDATE ALL FIELDS
+  // =========================================
+
   const validateAll = () => {
     const next = {
       fullName: validateField('fullName', fullName),
@@ -207,6 +261,10 @@ const Cart = () => {
     return !Object.values(next).some(Boolean);
   };
 
+  // =========================================
+  // HANDLE FIELD CHANGE
+  // =========================================
+
   const changeField = (name, value, setter) => {
     setter(value);
 
@@ -218,7 +276,10 @@ const Cart = () => {
     }
   };
 
+  // =========================================
   // CHECKOUT
+  // =========================================
+
   const handleCheckout = async () => {
     if (loading) return;
 
@@ -241,6 +302,7 @@ const Cart = () => {
         'Empty cart',
         'Your cart is empty.'
       );
+
       return;
     }
 
@@ -250,6 +312,7 @@ const Cart = () => {
         'Missing information',
         'Please complete the shipping information.'
       );
+
       return;
     }
 
@@ -258,27 +321,42 @@ const Cart = () => {
     try {
       const orderItems = cartItems.map((item) => ({
         name: item.name || item.title || 'Unknown Product',
+
         price: extractPrice(item.price),
+
         quantity: item.quantity || 1,
+
         size: item.size || 'M',
+
         image: getProductImage(item),
+
         category: item.category || 'T-Shirts'
       }));
 
       const response = await fetch(`${API}/orders`, {
         method: 'POST',
+
         headers: {
           'Content-Type': 'application/json'
         },
+
         body: JSON.stringify({
           userId,
+
           items: orderItems,
+
           subtotal,
+
           shipping: shippingFee,
+
           discountPercent: promoPercent,
+
           discountAmount: promoAmount,
+
           totalAmount: total,
+
           paymentMethod: 'cash_on_delivery',
+
           shippingAddress: {
             fullName,
             phone,
@@ -294,6 +372,7 @@ const Cart = () => {
 
       if (response.ok) {
         setOrderSuccess(true);
+
       } else {
         showNotice(
           'error',
@@ -301,28 +380,42 @@ const Cart = () => {
           result.message || 'Unable to place your order.'
         );
       }
+
     } catch (error) {
+      console.error('Checkout error:', error);
+
       showNotice(
         'error',
         'Connection error',
         error.message || 'Please try again.'
       );
+
     } finally {
       setLoading(false);
     }
   };
+
+  // =========================================
+  // ORDER ANIMATION COMPLETE
+  // =========================================
 
   const handleAnimationComplete = () => {
     clearCart();
     setShowSuccessMessage(true);
   };
 
+  // =========================================
   // SUCCESS PAGE
+  // =========================================
+
   if (showSuccessMessage) {
     return (
       <div className={styles.successPage}>
         <div className={styles.successCard}>
-          <span className={styles.successMark}>✓</span>
+
+          <span className={styles.successMark}>
+            ✓
+          </span>
 
           <p className={styles.overline}>
             LANADA ORDER
@@ -338,15 +431,20 @@ const Cart = () => {
           <button onClick={() => navigate('/shop')}>
             Continue shopping
           </button>
+
         </div>
       </div>
     );
   }
 
+  // =========================================
   // EMPTY CART
+  // =========================================
+
   if (!cartItems.length) {
     return (
       <div className={styles.emptyPage}>
+
         <p className={styles.overline}>
           LANADA / CART
         </p>
@@ -361,13 +459,19 @@ const Cart = () => {
         <button onClick={() => navigate('/')}>
           Continue shopping <span>→</span>
         </button>
+
       </div>
     );
   }
 
+  // =========================================
+  // MAIN CART
+  // =========================================
+
   return (
     <div className={styles.cartPage}>
 
+      {/* NOTIFICATION */}
       {notification && (
         <Notification
           type={notification.type}
@@ -384,6 +488,7 @@ const Cart = () => {
 
       {/* HEADER */}
       <header className={styles.cartHeader}>
+
         <button
           className={styles.backButton}
           onClick={() => navigate('/')}
@@ -398,18 +503,24 @@ const Cart = () => {
         <div className={styles.headerBag}>
           BAG <b>{String(totalItems).padStart(2, '0')}</b>
         </div>
+
       </header>
 
+      {/* BREADCRUMB */}
       <div className={styles.breadcrumb}>
         HOME <span>/</span> CART
       </div>
 
       <main className={styles.layout}>
 
-        {/* LEFT: PRODUCTS */}
+        {/* =================================
+            LEFT: PRODUCTS
+        ================================= */}
+
         <section className={styles.productsSection}>
 
           <div className={styles.sectionHeading}>
+
             <div>
               <p className={styles.overline}>
                 YOUR SELECTION
@@ -437,8 +548,10 @@ const Cart = () => {
             >
               ⌫ <span>DELETE ALL</span>
             </button>
+
           </div>
 
+          {/* PRODUCT LIST */}
           <div className={styles.productList}>
 
             {cartItems.map((item, index) => {
@@ -448,9 +561,14 @@ const Cart = () => {
               return (
                 <article
                   className={styles.productRow}
-                  key={item.id || item._id || `${item.name}-${index}`}
+                  key={
+                    item.id ||
+                    item._id ||
+                    `${item.name}-${index}`
+                  }
                 >
 
+                  {/* IMAGE */}
                   <div className={styles.productPhoto}>
                     <img
                       src={getProductImage(item)}
@@ -458,7 +576,9 @@ const Cart = () => {
                     />
                   </div>
 
+                  {/* DETAILS */}
                   <div className={styles.productInfo}>
+
                     <span className={styles.categoryTag}>
                       {(item.category || 'ESSENTIAL').toUpperCase()}
                     </span>
@@ -468,6 +588,7 @@ const Cart = () => {
                     </h2>
 
                     <div className={styles.productMeta}>
+
                       {item.color && (
                         <span>
                           Color: <b>{item.color}</b>
@@ -483,20 +604,26 @@ const Cart = () => {
                       {!item.color && !item.size && (
                         <span>LANADA COLLECTION</span>
                       )}
+
                     </div>
 
                     <div className={styles.mobilePrice}>
                       {price.toFixed(2)} DH
                     </div>
+
                   </div>
 
+                  {/* PRICE */}
                   <div className={styles.productPrice}>
                     {price.toFixed(2)}
                     <small> DH</small>
                   </div>
 
+                  {/* QUANTITY */}
                   <div className={styles.quantityControl}>
+
                     <button
+                      type="button"
                       aria-label="Decrease quantity"
                       disabled={quantity <= 1}
                       onClick={() =>
@@ -511,6 +638,7 @@ const Cart = () => {
                     </span>
 
                     <button
+                      type="button"
                       aria-label="Increase quantity"
                       onClick={() =>
                         updateQuantity(index, quantity + 1)
@@ -518,9 +646,12 @@ const Cart = () => {
                     >
                       +
                     </button>
+
                   </div>
 
+                  {/* REMOVE */}
                   <button
+                    type="button"
                     className={styles.removeButton}
                     aria-label="Remove product"
                     onClick={() => removeFromCart(index)}
@@ -534,7 +665,9 @@ const Cart = () => {
 
           </div>
 
+          {/* SUPPORT NOTE */}
           <div className={styles.shippingNote}>
+
             <span>↗</span>
 
             <div>
@@ -545,11 +678,15 @@ const Cart = () => {
                 sizing, delivery and returns.
               </p>
             </div>
+
           </div>
 
         </section>
 
-        {/* RIGHT: SUMMARY */}
+        {/* =================================
+            RIGHT: ORDER SUMMARY
+        ================================= */}
+
         <aside className={styles.summaryColumn}>
 
           <div className={styles.summaryCard}>
@@ -565,16 +702,23 @@ const Cart = () => {
 
               <div>
                 <span>Total items</span>
-                <b>{String(totalItems).padStart(2, '0')} items</b>
+
+                <b>
+                  {String(totalItems).padStart(2, '0')} items
+                </b>
               </div>
 
               <div>
                 <span>Subtotal</span>
-                <b>{subtotal.toFixed(2)} DH</b>
+
+                <b>
+                  {subtotal.toFixed(2)} DH
+                </b>
               </div>
 
               <div>
                 <span>Est. delivery</span>
+
                 <b>
                   {shippingFee === 0
                     ? 'FREE'
@@ -584,38 +728,61 @@ const Cart = () => {
 
               {promoPercent > 0 && (
                 <div className={styles.discountLine}>
-                  <span>Discount ({promoPercent}%)</span>
-                  <b>-{promoAmount.toFixed(2)} DH</b>
+
+                  <span>
+                    Discount ({promoPercent}%)
+                  </span>
+
+                  <b>
+                    -{promoAmount.toFixed(2)} DH
+                  </b>
+
                 </div>
               )}
 
             </div>
 
+            {/* FINAL TOTAL */}
             <div className={styles.totalLine}>
+
               <span>Final payment</span>
 
               <strong>
                 {total.toFixed(2)}
                 <small> DH</small>
               </strong>
+
             </div>
 
-            {/* PROMO */}
+            {/* =================================
+                GIVEAWAY / PROMO CODE
+            ================================= */}
+
             <div className={styles.promoBox}>
+
               <input
                 type="text"
                 value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
+                onChange={(e) => {
+                  setPromoCode(e.target.value);
+                }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') applyPromoCode();
+                  if (e.key === 'Enter') {
+                    applyPromoCode();
+                  }
                 }}
                 placeholder="Enter promo code"
                 aria-label="Promo code"
+                autoComplete="off"
               />
 
-              <button onClick={applyPromoCode}>
+              <button
+                type="button"
+                onClick={applyPromoCode}
+              >
                 APPLY
               </button>
+
             </div>
 
             {shippingFee === 0 && (
@@ -624,18 +791,25 @@ const Cart = () => {
               </p>
             )}
 
-            {/* SHIPPING INFORMATION */}
+            {/* =================================
+                SHIPPING INFORMATION
+            ================================= */}
+
             <div className={styles.shippingForm}>
 
               <div className={styles.shippingFormHeading}>
+
                 <span className={styles.overline}>
                   DELIVERY DETAILS
                 </span>
 
                 <h3>Where should we send it?</h3>
+
               </div>
 
+              {/* FULL NAME */}
               <input
+                type="text"
                 value={fullName}
                 onChange={(e) =>
                   changeField(
@@ -647,22 +821,32 @@ const Cart = () => {
                 onBlur={() =>
                   setErrors((p) => ({
                     ...p,
-                    fullName: validateField('fullName', fullName)
+                    fullName: validateField(
+                      'fullName',
+                      fullName
+                    )
                   }))
                 }
                 placeholder="Full name *"
-                className={errors.fullName ? styles.invalid : ''}
+                className={
+                  errors.fullName ? styles.invalid : ''
+                }
               />
 
               {errors.fullName && (
                 <small>{errors.fullName}</small>
               )}
 
+              {/* PHONE */}
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) =>
-                  changeField('phone', e.target.value, setPhone)
+                  changeField(
+                    'phone',
+                    e.target.value,
+                    setPhone
+                  )
                 }
                 onBlur={() =>
                   setErrors((p) => ({
@@ -671,18 +855,26 @@ const Cart = () => {
                   }))
                 }
                 placeholder="Phone number *"
-                className={errors.phone ? styles.invalid : ''}
+                className={
+                  errors.phone ? styles.invalid : ''
+                }
               />
 
               {errors.phone && (
                 <small>{errors.phone}</small>
               )}
 
+              {/* CITY */}
               <select
                 value={city}
                 onChange={(e) => {
                   changeField('city', e.target.value, setCity);
                   setRegion('');
+
+                  setErrors((prev) => ({
+                    ...prev,
+                    region: ''
+                  }));
                 }}
                 onBlur={() =>
                   setErrors((p) => ({
@@ -690,23 +882,31 @@ const Cart = () => {
                     city: validateField('city', city)
                   }))
                 }
-                className={errors.city ? styles.invalid : ''}
+                className={
+                  errors.city ? styles.invalid : ''
+                }
               >
-                <option value="">Select city *</option>
+
+                <option value="">
+                  Select city *
+                </option>
 
                 {cities.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
                 ))}
+
               </select>
 
               {errors.city && (
                 <small>{errors.city}</small>
               )}
 
+              {/* REGION */}
               {city && (
                 <>
+
                   <select
                     value={region}
                     onChange={(e) =>
@@ -719,40 +919,60 @@ const Cart = () => {
                     onBlur={() =>
                       setErrors((p) => ({
                         ...p,
-                        region: validateField('region', region)
+                        region: validateField(
+                          'region',
+                          region
+                        )
                       }))
                     }
-                    className={errors.region ? styles.invalid : ''}
+                    className={
+                      errors.region ? styles.invalid : ''
+                    }
                   >
-                    <option value="">Select region *</option>
+
+                    <option value="">
+                      Select region *
+                    </option>
 
                     {getRegionsByCity(city).map((r) => (
                       <option key={r} value={r}>
                         {r}
                       </option>
                     ))}
+
                   </select>
 
                   {errors.region && (
                     <small>{errors.region}</small>
                   )}
+
                 </>
               )}
 
+              {/* ADDRESS */}
               <textarea
                 value={address}
                 onChange={(e) =>
-                  changeField('address', e.target.value, setAddress)
+                  changeField(
+                    'address',
+                    e.target.value,
+                    setAddress
+                  )
                 }
                 onBlur={() =>
                   setErrors((p) => ({
                     ...p,
-                    address: validateField('address', address)
+                    address: validateField(
+                      'address',
+                      address
+                    )
                   }))
                 }
                 placeholder="Full delivery address *"
                 rows="2"
-                className={errors.address ? styles.invalid : ''}
+                className={
+                  errors.address ? styles.invalid : ''
+                }
               />
 
               {errors.address && (
@@ -761,12 +981,17 @@ const Cart = () => {
 
             </div>
 
-            {/* CHECKOUT */}
+            {/* =================================
+                CHECKOUT
+            ================================= */}
+
             <div className={styles.checkoutArea}>
 
               <TruckButton
                 defaultText={
-                  loading ? 'Processing...' : 'CHECKOUT  →'
+                  loading
+                    ? 'Processing...'
+                    : 'CHECKOUT  →'
                 }
                 successText="ORDER PLACED"
                 onClick={handleCheckout}
@@ -783,7 +1008,7 @@ const Cart = () => {
 
           </div>
 
-          {/* TRUST */}
+          {/* TRUST INFORMATION */}
           <div className={styles.trustNotes}>
 
             <div>
@@ -791,7 +1016,10 @@ const Cart = () => {
 
               <p>
                 <b>SECURE PAYMENT</b>
-                <small>Your details are protected</small>
+
+                <small>
+                  Your details are protected
+                </small>
               </p>
             </div>
 
@@ -800,7 +1028,10 @@ const Cart = () => {
 
               <p>
                 <b>DELIVERY ACROSS MOROCCO</b>
-                <small>Carefully packed, always</small>
+
+                <small>
+                  Carefully packed, always
+                </small>
               </p>
             </div>
 
@@ -810,9 +1041,13 @@ const Cart = () => {
 
       </main>
 
+      {/* FOOTER */}
       <footer className={styles.cartFooter}>
         LANADA<span>.</span>
-        <small>MADE FOR EVERYDAY MOVEMENT.</small>
+
+        <small>
+          MADE FOR EVERYDAY MOVEMENT.
+        </small>
       </footer>
 
     </div>
