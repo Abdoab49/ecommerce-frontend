@@ -1,4 +1,4 @@
-// src/pages/Cart.jsx
+
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
@@ -7,9 +7,17 @@ import { cities, getRegionsByCity } from '../../Data/moroccoCities';
 import Notification from '../Notification/Notification';
 import styles from './Cart.module.css';
 
+const API = 'https://backend-3lyx.onrender.com/api';
+
 const Cart = () => {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, updateQuantity, clearCart } = useContext(ShopContext);
+
+  const {
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+    clearCart
+  } = useContext(ShopContext);
 
   const [notification, setNotification] = useState(null);
   const [promoCode, setPromoCode] = useState('');
@@ -31,198 +39,251 @@ const Cart = () => {
 
   const extractPrice = (price) => {
     if (typeof price === 'number') return price;
+
     if (typeof price === 'string') {
-      const num = parseFloat(price.replace(/[^0-9.]/g, ''));
-      return isNaN(num) ? 0 : num;
+      const value = parseFloat(price.replace(/[^0-9.]/g, ''));
+      return Number.isNaN(value) ? 0 : value;
     }
+
     return 0;
   };
 
   const getProductImage = (item) => {
-    if (item.image) return item.image;
-    if (item.img) return item.img;
-    return '/Assets/ShoeStore/tshirt1.png';
+    return (
+      item.image ||
+      item.img ||
+      '/Assets/ShoeStore/tshirt1.png'
+    );
   };
 
-  const subtotal = cartItems.reduce((total, item) => {
-    return total + extractPrice(item.price) * (item.quantity || 1);
+  const subtotal = cartItems.reduce((sum, item) => {
+    return sum + extractPrice(item.price) * (item.quantity || 1);
   }, 0);
 
-  const shippingFee = subtotal > 500 ? 0 : (subtotal > 0 ? 20 : 0);
-  const promoAmount = (subtotal * promoPercent) / 100;
-  const total = subtotal + shippingFee - promoAmount;
+  const shippingFee =
+    subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
 
-  const removeItem = (index) => {
-    removeFromCart(index);
+  const promoAmount = (subtotal * promoPercent) / 100;
+
+  const total = Math.max(
+    0,
+    subtotal + shippingFee - promoAmount
+  );
+
+  const totalItems = cartItems.reduce((sum, item) => {
+    return sum + (item.quantity || 1);
+  }, 0);
+
+  const showNotice = (type, title, message) => {
+    setNotification({ type, title, message });
   };
 
-  // ✅ دالة البرومو كود
+  // PROMO CODE
   const applyPromoCode = async () => {
     if (!promoCode.trim()) {
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Please enter a promo code.',
-      });
+      showNotice(
+        'error',
+        'Error',
+        'Please enter a promo code.'
+      );
       return;
     }
 
     const userId = getUserId();
+
     if (!userId) {
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Please log in to your account first.',
-      });
+      showNotice(
+        'error',
+        'Login required',
+        'Please log in to apply a promo code.'
+      );
+
       navigate('/login');
       return;
     }
 
     try {
-      const response = await fetch('https://backend-3lyx.onrender.com/api/promo/check-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: promoCode.toUpperCase(), userId })
-      });
+      const response = await fetch(
+        `${API}/promo/check-code`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            code: promoCode.trim().toUpperCase(),
+            userId
+          })
+        }
+      );
 
       const result = await response.json();
 
       if (result.valid) {
-        setPromoPercent(result.discountPercent);
-        setPromoCode(''); // ✅ Hna kaytmseh l'code mn l'input (katb9a khawya)
-        setNotification({
-          type: 'success',
-          title: 'Success',
-          message: `Promo code applied: -${result.discountPercent}%`,
-        });
+        setPromoPercent(Number(result.discountPercent) || 0);
+        setPromoCode('');
+
+        showNotice(
+          'success',
+          'Success',
+          `Promo code applied: -${result.discountPercent}%`
+        );
       } else {
-        setNotification({
-          type: 'error',
-          title: 'Error',
-          message: result.message || 'Invalid or used code.',
-        });
         setPromoPercent(0);
+
+        showNotice(
+          'error',
+          'Invalid code',
+          result.message || 'Invalid or used code.'
+        );
       }
     } catch (error) {
-      console.error('Promo error:', error);
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Connection error. Please try again.',
-      });
+      showNotice(
+        'error',
+        'Connection error',
+        'Please try again.'
+      );
     }
   };
 
+  // VALIDATION
   const validateField = (name, value) => {
     let error = '';
 
     if (name === 'fullName') {
-      if (!value.trim()) error = 'Full name is required';
-      else if (value.trim().length < 3) error = 'Full name must be at least 3 characters';
-      else if (!/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())) error = 'Full name contains invalid characters';
+      if (!value.trim()) {
+        error = 'Full name is required';
+      } else if (value.trim().length < 3) {
+        error = 'At least 3 characters are required';
+      } else if (
+        !/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())
+      ) {
+        error = 'Please enter a valid name';
+      }
     }
 
     if (name === 'phone') {
       const cleaned = value.replace(/[\s-]/g, '');
-      if (!cleaned) error = 'Phone number is required';
-      else if (!/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)) error = 'Enter a valid Moroccan phone (e.g. 0612345678)';
+
+      if (!cleaned) {
+        error = 'Phone number is required';
+      } else if (
+        !/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)
+      ) {
+        error = 'Enter a valid Moroccan phone number';
+      }
     }
 
-    if (name === 'city' && !value.trim()) error = 'City is required';
-    if (name === 'region' && !value.trim()) error = 'Region is required';
+    if (name === 'city' && !value.trim()) {
+      error = 'City is required';
+    }
+
+    if (name === 'region' && !value.trim()) {
+      error = 'Region is required';
+    }
 
     if (name === 'address') {
-      if (!value.trim()) error = 'Address is required';
-      else if (value.trim().length < 5) error = 'Address must be at least 5 characters';
+      if (!value.trim()) {
+        error = 'Address is required';
+      } else if (value.trim().length < 5) {
+        error = 'Address must be at least 5 characters';
+      }
     }
 
     return error;
   };
 
   const validateAll = () => {
-    const newErrors = {
+    const next = {
       fullName: validateField('fullName', fullName),
       phone: validateField('phone', phone),
       city: validateField('city', city),
       region: validateField('region', region),
-      address: validateField('address', address),
+      address: validateField('address', address)
     };
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(Boolean);
+
+    setErrors(next);
+
+    return !Object.values(next).some(Boolean);
   };
 
-  const handleFieldChange = (name, value, setter) => {
+  const changeField = (name, value, setter) => {
     setter(value);
+
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, value)
+      }));
     }
   };
 
-  const handleBlur = (name, value) => {
-    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
-  };
-
+  // CHECKOUT
   const handleCheckout = async () => {
     if (loading) return;
 
     const userId = getUserId();
+
     if (!userId) {
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Please log in to your account before placing an order.',
-      });
+      showNotice(
+        'error',
+        'Login required',
+        'Please log in before placing an order.'
+      );
+
       navigate('/login');
       return;
     }
 
-    if (cartItems.length === 0) {
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Your cart is empty!',
-      });
+    if (!cartItems.length) {
+      showNotice(
+        'error',
+        'Empty cart',
+        'Your cart is empty.'
+      );
       return;
     }
 
     if (!validateAll()) {
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Please fix the errors in the shipping form.',
-      });
+      showNotice(
+        'error',
+        'Missing information',
+        'Please complete the shipping information.'
+      );
       return;
     }
 
     setLoading(true);
 
     try {
-      const orderItems = cartItems.map(item => ({
+      const orderItems = cartItems.map((item) => ({
         name: item.name || item.title || 'Unknown Product',
         price: extractPrice(item.price),
         quantity: item.quantity || 1,
         size: item.size || 'M',
         image: getProductImage(item),
-        category: item.category || 'T-Shirts',
+        category: item.category || 'T-Shirts'
       }));
 
-      const response = await fetch('https://backend-3lyx.onrender.com/api/orders', {
+      const response = await fetch(`${API}/orders`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-          userId: userId,
+          userId,
           items: orderItems,
-          subtotal: subtotal,
+          subtotal,
           shipping: shippingFee,
           discountPercent: promoPercent,
           discountAmount: promoAmount,
           totalAmount: total,
           paymentMethod: 'cash_on_delivery',
           shippingAddress: {
-            fullName: fullName,
-            phone: phone,
-            city: city,
-            region: region,
+            fullName,
+            phone,
+            city,
+            region,
             street: address,
             country: 'Morocco'
           }
@@ -234,18 +295,18 @@ const Cart = () => {
       if (response.ok) {
         setOrderSuccess(true);
       } else {
-        setNotification({
-          type: 'error',
-          title: 'Error',
-          message: 'Failed to place order: ' + (result.message || 'Unknown error'),
-        });
+        showNotice(
+          'error',
+          'Order failed',
+          result.message || 'Unable to place your order.'
+        );
       }
     } catch (error) {
-      setNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Error placing order: ' + error.message,
-      });
+      showNotice(
+        'error',
+        'Connection error',
+        error.message || 'Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -256,39 +317,57 @@ const Cart = () => {
     setShowSuccessMessage(true);
   };
 
+  // SUCCESS PAGE
   if (showSuccessMessage) {
     return (
-      <div className={styles.successContainer}>
+      <div className={styles.successPage}>
         <div className={styles.successCard}>
-          <h2 className={styles.successTitle}>Order Placed!</h2>
-          <p className={styles.successText}>
-            Thank you for your order. We will contact you shortly.
+          <span className={styles.successMark}>✓</span>
+
+          <p className={styles.overline}>
+            LANADA ORDER
           </p>
-          <button
-            className={styles.continueShoppingBtn}
-            onClick={() => navigate('/shop')}
-          >
-            Continue Shopping
+
+          <h1>Order placed.</h1>
+
+          <p>
+            Thank you for your order.
+            We will contact you shortly.
+          </p>
+
+          <button onClick={() => navigate('/shop')}>
+            Continue shopping
           </button>
         </div>
       </div>
     );
   }
 
-  if (cartItems.length === 0) {
+  // EMPTY CART
+  if (!cartItems.length) {
     return (
-      <div className={styles.emptyCart}>
-        <h2>Your cart is empty</h2>
-        <p>Add some products to your cart to see them here.</p>
-        <button className={styles.shopBtn} onClick={() => navigate('/')}>
-          Continue Shopping
+      <div className={styles.emptyPage}>
+        <p className={styles.overline}>
+          LANADA / CART
+        </p>
+
+        <h1>Your cart is empty.</h1>
+
+        <p>
+          Looks like you haven’t added anything
+          to your bag yet.
+        </p>
+
+        <button onClick={() => navigate('/')}>
+          Continue shopping <span>→</span>
         </button>
       </div>
     );
   }
 
   return (
-    <div className={styles.cartContainer}>
+    <div className={styles.cartPage}>
+
       {notification && (
         <Notification
           type={notification.type}
@@ -298,183 +377,444 @@ const Cart = () => {
         />
       )}
 
-      <main className={styles.main}>
-        <div className={styles.basket}>
-          {/* ✅ Hna drna l'Input dima kiban w khawi */}
-          <div className={styles.basketModule}>
-            <label htmlFor="promo-code">Enter a promotional code</label>
-            <input
-              id="promo-code"
-              type="text"
-              className={styles.promoCodeField}
-              value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value)}
-              placeholder="Enter your promo code"
-            />
-            <button className={styles.promoCodeCta} onClick={applyPromoCode}>Apply</button>
-          </div>
+      {/* TOP BAR */}
+      <div className={styles.promoStrip}>
+        COMPLIMENTARY SHIPPING ON ORDERS OVER 500 DH
+      </div>
 
-          {cartItems.map((item, index) => {
-            const productImage = getProductImage(item);
-            const productPrice = extractPrice(item.price);
-            const productQty = item.quantity || 1;
+      {/* HEADER */}
+      <header className={styles.cartHeader}>
+        <button
+          className={styles.backButton}
+          onClick={() => navigate('/')}
+        >
+          ← <span>CONTINUE SHOPPING</span>
+        </button>
 
-            return (
-              <div key={index} className={styles.basketProduct}>
-                <div className={styles.item}>
-                  <div className={styles.productImage}>
-                    <img src={productImage} alt={item.name} className={styles.productFrame} />
-                  </div>
-                  <div className={styles.productDetails}>
-                    <h1><strong>{productQty} x {item.name}</strong></h1>
-                    <p><strong>Category: {item.category || 'T-Shirts'}</strong></p>
-                    {item.size && (
-                      <p><strong>Size: {item.size}</strong></p>
-                    )}
-                    <p className={styles.priceInline}>
-                      <strong>Price: {productPrice} DH</strong>
-                    </p>
-                  </div>
-                </div>
-
-                <div className={styles.quantityBox}>
-                  <button
-                    type="button"
-                    className={styles.qtyBtn}
-                    onClick={() => updateQuantity(index, productQty - 1)}
-                    disabled={productQty <= 1}
-                  >
-                    −
-                  </button>
-                  <input
-                    type="number"
-                    value={productQty}
-                    min="1"
-                    className={styles.quantityField}
-                    onChange={(e) => updateQuantity(index, parseInt(e.target.value) || 1)}
-                  />
-                  <button
-                    type="button"
-                    className={styles.qtyBtn}
-                    onClick={() => updateQuantity(index, productQty + 1)}
-                  >
-                    +
-                  </button>
-                </div>
-
-                <div className={styles.remove}>
-                  <button
-                    className={styles.removeBtn}
-                    onClick={() => removeItem(index)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        <div className={styles.wordmark}>
+          LANADA<span>.</span>
         </div>
 
-        <aside className={styles.aside}>
-          <div className={styles.summary}>
-            <div className={styles.shippingForm}>
-              <h4>📍 Shipping Information</h4>
+        <div className={styles.headerBag}>
+          BAG <b>{String(totalItems).padStart(2, '0')}</b>
+        </div>
+      </header>
 
+      <div className={styles.breadcrumb}>
+        HOME <span>/</span> CART
+      </div>
+
+      <main className={styles.layout}>
+
+        {/* LEFT: PRODUCTS */}
+        <section className={styles.productsSection}>
+
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.overline}>
+                YOUR SELECTION
+              </p>
+
+              <h1>
+                Shopping bag
+                <sup>
+                  {String(totalItems).padStart(2, '0')}
+                </sup>
+              </h1>
+            </div>
+
+            <button
+              className={styles.clearButton}
+              onClick={() => {
+                if (
+                  window.confirm(
+                    'Remove all items from your cart?'
+                  )
+                ) {
+                  clearCart();
+                }
+              }}
+            >
+              ⌫ <span>DELETE ALL</span>
+            </button>
+          </div>
+
+          <div className={styles.productList}>
+
+            {cartItems.map((item, index) => {
+              const quantity = item.quantity || 1;
+              const price = extractPrice(item.price);
+
+              return (
+                <article
+                  className={styles.productRow}
+                  key={item.id || item._id || `${item.name}-${index}`}
+                >
+
+                  <div className={styles.productPhoto}>
+                    <img
+                      src={getProductImage(item)}
+                      alt={item.name || item.title || 'Product'}
+                    />
+                  </div>
+
+                  <div className={styles.productInfo}>
+                    <span className={styles.categoryTag}>
+                      {(item.category || 'ESSENTIAL').toUpperCase()}
+                    </span>
+
+                    <h2>
+                      {item.name || item.title || 'Product'}
+                    </h2>
+
+                    <div className={styles.productMeta}>
+                      {item.color && (
+                        <span>
+                          Color: <b>{item.color}</b>
+                        </span>
+                      )}
+
+                      {item.size && (
+                        <span>
+                          Size: <b>{item.size}</b>
+                        </span>
+                      )}
+
+                      {!item.color && !item.size && (
+                        <span>LANADA COLLECTION</span>
+                      )}
+                    </div>
+
+                    <div className={styles.mobilePrice}>
+                      {price.toFixed(2)} DH
+                    </div>
+                  </div>
+
+                  <div className={styles.productPrice}>
+                    {price.toFixed(2)}
+                    <small> DH</small>
+                  </div>
+
+                  <div className={styles.quantityControl}>
+                    <button
+                      aria-label="Decrease quantity"
+                      disabled={quantity <= 1}
+                      onClick={() =>
+                        updateQuantity(index, quantity - 1)
+                      }
+                    >
+                      −
+                    </button>
+
+                    <span>
+                      {String(quantity).padStart(2, '0')}
+                    </span>
+
+                    <button
+                      aria-label="Increase quantity"
+                      onClick={() =>
+                        updateQuantity(index, quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    className={styles.removeButton}
+                    aria-label="Remove product"
+                    onClick={() => removeFromCart(index)}
+                  >
+                    ×
+                  </button>
+
+                </article>
+              );
+            })}
+
+          </div>
+
+          <div className={styles.shippingNote}>
+            <span>↗</span>
+
+            <div>
+              <b>Need help with your order?</b>
+
+              <p>
+                Our team is here to help you with
+                sizing, delivery and returns.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        {/* RIGHT: SUMMARY */}
+        <aside className={styles.summaryColumn}>
+
+          <div className={styles.summaryCard}>
+
+            <p className={styles.overline}>
+              THE DETAILS
+            </p>
+
+            <h2>Summary</h2>
+
+            {/* TOTALS */}
+            <div className={styles.summaryLines}>
+
+              <div>
+                <span>Total items</span>
+                <b>{String(totalItems).padStart(2, '0')} items</b>
+              </div>
+
+              <div>
+                <span>Subtotal</span>
+                <b>{subtotal.toFixed(2)} DH</b>
+              </div>
+
+              <div>
+                <span>Est. delivery</span>
+                <b>
+                  {shippingFee === 0
+                    ? 'FREE'
+                    : `${shippingFee.toFixed(2)} DH`}
+                </b>
+              </div>
+
+              {promoPercent > 0 && (
+                <div className={styles.discountLine}>
+                  <span>Discount ({promoPercent}%)</span>
+                  <b>-{promoAmount.toFixed(2)} DH</b>
+                </div>
+              )}
+
+            </div>
+
+            <div className={styles.totalLine}>
+              <span>Final payment</span>
+
+              <strong>
+                {total.toFixed(2)}
+                <small> DH</small>
+              </strong>
+            </div>
+
+            {/* PROMO */}
+            <div className={styles.promoBox}>
               <input
                 type="text"
-                placeholder="Full Name *"
-                value={fullName}
-                onChange={(e) => handleFieldChange('fullName', e.target.value, setFullName)}
-                onBlur={() => handleBlur('fullName', fullName)}
-                className={`${styles.formInput} ${errors.fullName ? styles.inputError : ''}`}
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') applyPromoCode();
+                }}
+                placeholder="Enter promo code"
+                aria-label="Promo code"
               />
-              {errors.fullName && <p className={styles.fieldError}>{errors.fullName}</p>}
+
+              <button onClick={applyPromoCode}>
+                APPLY
+              </button>
+            </div>
+
+            {shippingFee === 0 && (
+              <p className={styles.freeShipping}>
+                ✓ You qualify for complimentary shipping.
+              </p>
+            )}
+
+            {/* SHIPPING INFORMATION */}
+            <div className={styles.shippingForm}>
+
+              <div className={styles.shippingFormHeading}>
+                <span className={styles.overline}>
+                  DELIVERY DETAILS
+                </span>
+
+                <h3>Where should we send it?</h3>
+              </div>
+
+              <input
+                value={fullName}
+                onChange={(e) =>
+                  changeField(
+                    'fullName',
+                    e.target.value,
+                    setFullName
+                  )
+                }
+                onBlur={() =>
+                  setErrors((p) => ({
+                    ...p,
+                    fullName: validateField('fullName', fullName)
+                  }))
+                }
+                placeholder="Full name *"
+                className={errors.fullName ? styles.invalid : ''}
+              />
+
+              {errors.fullName && (
+                <small>{errors.fullName}</small>
+              )}
 
               <input
                 type="tel"
-                placeholder="Phone *"
                 value={phone}
-                onChange={(e) => handleFieldChange('phone', e.target.value, setPhone)}
-                onBlur={() => handleBlur('phone', phone)}
-                className={`${styles.formInput} ${errors.phone ? styles.inputError : ''}`}
+                onChange={(e) =>
+                  changeField('phone', e.target.value, setPhone)
+                }
+                onBlur={() =>
+                  setErrors((p) => ({
+                    ...p,
+                    phone: validateField('phone', phone)
+                  }))
+                }
+                placeholder="Phone number *"
+                className={errors.phone ? styles.invalid : ''}
               />
-              {errors.phone && <p className={styles.fieldError}>{errors.phone}</p>}
+
+              {errors.phone && (
+                <small>{errors.phone}</small>
+              )}
 
               <select
                 value={city}
                 onChange={(e) => {
-                  handleFieldChange('city', e.target.value, setCity);
+                  changeField('city', e.target.value, setCity);
                   setRegion('');
                 }}
-                onBlur={() => handleBlur('city', city)}
-                className={`${styles.formInput} ${errors.city ? styles.inputError : ''}`}
+                onBlur={() =>
+                  setErrors((p) => ({
+                    ...p,
+                    city: validateField('city', city)
+                  }))
+                }
+                className={errors.city ? styles.invalid : ''}
               >
-                <option value="">-- Select City * --</option>
+                <option value="">Select city *</option>
+
                 {cities.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
-              {errors.city && <p className={styles.fieldError}>{errors.city}</p>}
+
+              {errors.city && (
+                <small>{errors.city}</small>
+              )}
 
               {city && (
                 <>
                   <select
                     value={region}
-                    onChange={(e) => handleFieldChange('region', e.target.value, setRegion)}
-                    onBlur={() => handleBlur('region', region)}
-                    className={`${styles.formInput} ${errors.region ? styles.inputError : ''}`}
+                    onChange={(e) =>
+                      changeField(
+                        'region',
+                        e.target.value,
+                        setRegion
+                      )
+                    }
+                    onBlur={() =>
+                      setErrors((p) => ({
+                        ...p,
+                        region: validateField('region', region)
+                      }))
+                    }
+                    className={errors.region ? styles.invalid : ''}
                   >
-                    <option value="">-- Select Region * --</option>
+                    <option value="">Select region *</option>
+
                     {getRegionsByCity(city).map((r) => (
-                      <option key={r} value={r}>{r}</option>
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
                     ))}
                   </select>
-                  {errors.region && <p className={styles.fieldError}>{errors.region}</p>}
+
+                  {errors.region && (
+                    <small>{errors.region}</small>
+                  )}
                 </>
               )}
 
-              <input
-                type="text"
-                placeholder="Address *"
+              <textarea
                 value={address}
-                onChange={(e) => handleFieldChange('address', e.target.value, setAddress)}
-                onBlur={() => handleBlur('address', address)}
-                className={`${styles.formInput} ${errors.address ? styles.inputError : ''}`}
+                onChange={(e) =>
+                  changeField('address', e.target.value, setAddress)
+                }
+                onBlur={() =>
+                  setErrors((p) => ({
+                    ...p,
+                    address: validateField('address', address)
+                  }))
+                }
+                placeholder="Full delivery address *"
+                rows="2"
+                className={errors.address ? styles.invalid : ''}
               />
-              {errors.address && <p className={styles.fieldError}>{errors.address}</p>}
-            </div>
 
-            <div className={styles.summarySubtotal}>
-              <div className={styles.subtotalTitle}>Subtotal</div>
-              <div className={styles.subtotalValue}>{subtotal} DH</div>
-              <div className={styles.subtotalTitle}>Shipping</div>
-              <div className={styles.subtotalValue}>{shippingFee} DH</div>
-              {promoPercent > 0 && (
-                <>
-                  <div className={styles.promoTitle}>Promotion ({promoPercent}%)</div>
-                  <div className={styles.promoValue}>-{promoAmount.toFixed(2)} DH</div>
-                </>
+              {errors.address && (
+                <small>{errors.address}</small>
               )}
+
             </div>
 
-            <div className={styles.summaryTotal}>
-              <div className={styles.totalTitle}>Total</div>
-              <div className={styles.totalValue}>{total.toFixed(2)} DH</div>
-            </div>
+            {/* CHECKOUT */}
+            <div className={styles.checkoutArea}>
 
-            <div className={styles.summaryCheckout}>
               <TruckButton
-                defaultText="Place Order"
-                successText="Order Placed"
+                defaultText={
+                  loading ? 'Processing...' : 'CHECKOUT  →'
+                }
+                successText="ORDER PLACED"
                 onClick={handleCheckout}
                 trigger={orderSuccess}
                 onComplete={handleAnimationComplete}
                 disabled={loading}
               />
+
+              <p>
+                Secure checkout · Cash on delivery
+              </p>
+
             </div>
+
           </div>
+
+          {/* TRUST */}
+          <div className={styles.trustNotes}>
+
+            <div>
+              <span>◇</span>
+
+              <p>
+                <b>SECURE PAYMENT</b>
+                <small>Your details are protected</small>
+              </p>
+            </div>
+
+            <div>
+              <span>↗</span>
+
+              <p>
+                <b>DELIVERY ACROSS MOROCCO</b>
+                <small>Carefully packed, always</small>
+              </p>
+            </div>
+
+          </div>
+
         </aside>
+
       </main>
+
+      <footer className={styles.cartFooter}>
+        LANADA<span>.</span>
+        <small>MADE FOR EVERYDAY MOVEMENT.</small>
+      </footer>
+
     </div>
   );
 };
