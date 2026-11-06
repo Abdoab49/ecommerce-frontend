@@ -1,172 +1,291 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
 
-/* LoginSignup.css */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
-/* توسيط الفورم في منتصف الصفحة */
+/* =========================================
+   LANADA — LUXURY AUTH DESIGN
+========================================= */
+
 .login-container {
+  min-height: calc(100vh - 90px);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  font-family: "Cinzel", serif;
+  justify-content: center;
+  padding: 55px 20px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #292929 0%, #101010 42%, #050505 100%);
+  font-family: 'DM Sans', sans-serif;
+  color: #171717;
 }
 
-.form {
+/* FORM CARD */
+
+.login-container .form {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: #ffffff;
-  padding: 30px;
-  width: 450px;
-  border-radius: 20px;
-  font-family: "Cinzel", serif;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-::placeholder {
-  font-family: "Cinzel", serif;
-}
-
-.form button {
-  align-self: flex-end;
-}
-
-.flex-column > label {
-  color: #151717;
-  font-weight: 600;
-  font-family: "Cinzel", serif;
-}
-
-.inputForm {
-  border: 1.5px solid #ecedec;
-  border-radius: 10px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  transition: 0.2s ease-in-out;
-}
-
-.input {
-  margin-left: 10px;
-  border-radius: 10px;
-  border: none;
+  gap: 12px;
   width: 100%;
-  height: 100%;
-  font-family: "Cinzel", serif;
+  max-width: 465px;
+  box-sizing: border-box;
+  padding: 48px 44px 38px;
+  background: #f8f6f1;
+  border: 1px solid rgba(205, 174, 113, 0.35);
+  border-radius: 5px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+  animation: lanadaAppear 0.55s ease both;
 }
 
-.input:focus {
-  outline: none;
-}
-
-.inputForm:focus-within {
-  border: 1.5px solid #000000;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.flex-row > div > label {
-  font-size: 14px;
-  color: black;
-  font-weight: 400;
-  font-family: "Cinzel", serif;
-}
-
-.span {
-  font-size: 14px;
-  margin-left: 5px;
-  color: #2d79f3;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: "Cinzel", serif;
-}
-
-.button-submit {
-  margin: 20px 0 10px 0;
-  background-color: #151717;
-  border: none;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 10px;
-  height: 50px;
-  width: 100%;
-  cursor: pointer;
-  font-family: "Cinzel", serif;
-}
-
-.p {
-  text-align: center;
-  color: black;
-  font-size: 14px;
-  margin: 5px 0;
-  font-family: "Cinzel", serif;
-}
-
-.btn {
-  margin-top: 10px;
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  gap: 10px;
-  border: 1px solid #ededef;
-  background-color: white;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  font-family: "Cinzel", serif;
-}
-
-.btn:hover {
-  border: 1px solid #2d79f3;
-}
-
-/* للشاشات الصغيرة */
-@media (max-width: 500px) {
-  .form {
-    width: 90%;
-    padding: 20px;
+@keyframes lanadaAppear {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* خلفية سوداء للصفحة بالكامل */
-.login-container {
-  background-color: #000000 !important;
-}
+/* TOP DECORATION */
 
-/* ============================================
-   ✅ الإضافات الجديدة (بلا ما نمسح شي حاجة)
-   ============================================ */
-
-.input-error {
-  border: 2px solid #e84545 !important;
-  background: #fff5f5 !important;
-}
-
-.field-error {
-  color: #e84545;
-  font-size: 12px;
-  margin-top: -8px;
-  margin-bottom: 8px;
-  text-align: left;
-  font-family: "Cinzel", serif;
-}
-
-.error-message {
-  color: #e84545;
-  font-size: 14px;
+.login-container .form::before {
+  content: "LANADA";
+  display: block;
+  margin-bottom: 7px;
   text-align: center;
-  margin-bottom: 12px;
-  font-family: "Cinzel", serif;
+  color: #a48650;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 7px;
+}
+
+.login-container .form::after {
+  content: "";
+  width: 42px;
+  height: 2px;
+  margin: 0 auto 13px;
+  background: #b69a68;
+}
+
+/* LABELS */
+
+.login-container .flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.login-container .flex-column > label {
+  color: #292929;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+/* INPUT CONTAINER */
+
+.login-container .inputForm {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 53px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #dedbd3;
+  border-radius: 3px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.login-container .inputForm:focus-within {
+  border-color: #a48650;
+  box-shadow: 0 0 0 3px rgba(164, 134, 80, 0.12);
+}
+
+/* INPUT */
+
+.login-container .input {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #171717;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-container .input::placeholder {
+  color: #aaa69e;
+  opacity: 1;
+  font-size: 13px;
+}
+
+/* EMAIL ERROR */
+
+.login-container .input-error {
+  color: #b42318;
+}
+
+.login-container .inputForm:has(.input-error) {
+  border-color: #d94b4b;
+  background: #fffafa;
+}
+
+.login-container .field-error {
+  margin: -5px 0 2px;
+  color: #c0392b;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* SUBMIT BUTTON */
+
+.login-container .button-submit {
+  width: 100%;
+  min-height: 54px;
+  margin: 14px 0 5px;
+  border: 1px solid #151515;
+  border-radius: 3px;
+  background: #151515;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.login-container .button-submit:hover:not(:disabled) {
+  background: #a48650;
+  border-color: #a48650;
+  color: #ffffff;
+}
+
+.login-container .button-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* SWITCH LOGIN / SIGNUP */
+
+.login-container .p {
+  margin: 12px 0 0;
+  color: #77736c;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.login-container .span {
+  margin-left: 4px;
+  color: #947442;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.login-container .span:hover {
+  color: #171717;
+  text-decoration: underline;
+}
+
+/* ERROR MESSAGE */
+
+.login-container .error-message {
+  margin: 5px 0;
+  padding: 12px;
+  border: 1px solid #efcaca;
+  border-radius: 3px;
+  background: #fff0f0;
+  color: #b42318;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* OPTIONAL SOCIAL BUTTON */
+
+.login-container .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 8px;
+  border: 1px solid #dedbd3;
+  border-radius: 3px;
+  background: #fff;
+  color: #222;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.login-container .btn:hover {
+  border-color: #a48650;
+  background: #f1eee7;
+}
+
+/* ACCESSIBILITY */
+
+.login-container button:focus-visible,
+.login-container input:focus-visible,
+.login-container .span:focus-visible {
+  outline: 2px solid #a48650;
+  outline-offset: 3px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .login-container {
+    min-height: calc(100vh - 75px);
+    padding: 30px 16px;
+  }
+
+  .login-container .form {
+    max-width: 430px;
+    padding: 38px 25px 30px;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-container .form {
+    padding: 32px 19px 26px;
+  }
+
+  .login-container .inputForm {
+    height: 49px;
+  }
+
+  .login-container .button-submit {
+    min-height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-container .form {
+    animation: none;
+  }
+
+  .login-container * {
+    transition: none !important;
+  }
 }
