@@ -1,158 +1,177 @@
+/* ============================================
+   ✅ BOTTOM NAV BAR — b Dabt (Icons Kbar Bzaf)
+   ============================================ */
 
-/* =========================================
-   LANADA PREMIUM MOBILE BOTTOM BAR
-========================================= */
-
-.lanada-bottom-bar {
-  display: none;
+/* ✅ Menu — Fixed f ltaht, chada l'3ard kamel */
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); /* ✅ Kberna padding */
+  background-color: #fff;
+  border-top: 1px solid #e5e7eb;
+  z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
 }
 
-@media screen and (max-width: 768px) {
-
-  .lanada-bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    width: 100%;
-    height: 100px;
-
-    padding:
-      12px 22px
-      calc(12px + env(safe-area-inset-bottom));
-
-    display: grid;
-    grid-template-columns: 1fr 1.4fr 1fr;
-
-    align-items: center;
-    justify-items: center;
-
-    background: #050505;
-    color: #ffffff;
-
-    border-top: 1px solid rgba(255,255,255,.06);
-
-    z-index: 9999;
-    box-sizing: border-box;
-  }
-
-  .lanada-bottom-bar * {
-    box-sizing: border-box;
-  }
-
-  /* HOME AND ME */
-
-  .lanada-bottom-item {
-    height: 70px;
-    min-width: 65px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    color: #777777;
-    text-decoration: none;
-
-    transition:
-      color .25s ease,
-      transform .25s ease;
-
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .lanada-bottom-item.active {
-    color: #ffffff;
-  }
-
-  .lanada-bottom-item svg {
-    display: block;
-    flex-shrink: 0;
-  }
-
-  .lanada-bottom-item span {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: .2px;
-  }
-
-  .lanada-bottom-item:active {
-    transform: scale(.93);
-  }
-
-  /* CENTER LANADA BRAND */
-
-  .lanada-bottom-brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    min-width: 145px;
-    height: 66px;
-
-    color: #050505;
-    background: #ffffff;
-
-    border-radius: 50px;
-
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 23px;
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-    text-decoration: none;
-
-    transition:
-      transform .25s ease,
-      background .25s ease;
-
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .lanada-bottom-brand span {
-    color: #888888;
-  }
-
-  .lanada-bottom-brand:active {
-    transform: scale(.95);
-    background: #eeeeee;
-  }
+/* ✅ Button */
+.tab-btn {
+  flex: 1;
+  z-index: 10;
+  padding: 10px 0;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: transparent !important;
+  color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 0.4s;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  box-shadow: none !important;
 }
 
-/* SMALL MOBILE */
-
-@media screen and (max-width: 380px) {
-
-  .lanada-bottom-bar {
-    height: 90px;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .lanada-bottom-item {
-    min-width: 55px;
-    height: 65px;
-    gap: 6px;
-  }
-
-  .lanada-bottom-item span {
-    font-size: 12px;
-  }
-
-  .lanada-bottom-brand {
-    min-width: 120px;
-    height: 58px;
-    font-size: 20px;
-  }
+/* ✅ Hayed Hover Byedawi */
+.tab-btn:hover,
+.tab-btn:focus,
+.tab-btn:active {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
-/* DESKTOP: HIDDEN */
+/* ✅ Dwayra (Indicator) — Melli Active */
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 5rem;             /* ✅ Kberna (kanet 4.5rem) */
+  height: 5rem;            /* ✅ Kberna (kanet 4.5rem) */
+  border: 3px solid #111;  /* ✅ Kberna l'khat (kanet 2px) */
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 0.4s;
+}
 
-@media screen and (min-width: 769px) {
-  .lanada-bottom-bar {
+/* ✅ Ktba (Label) — Melli Active */
+.tab-btn::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 75px;               /* ✅ Kberna (kanet 65px) */
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+  white-space: nowrap;
+}
+
+/* ✅ Active State */
+.tab-btn.active {
+  transform: translate3d(0, -2em, 0);
+}
+
+.tab-btn.active::before {
+  transform: scale(1);
+}
+
+.tab-btn.active::after {
+  opacity: 1;
+}
+
+/* ✅ Icons Size — Kbar Bzaf */
+.tab-btn svg {
+  width: 45px;             /* ✅ Kberna (kanet 38px) */
+  height: 45px;
+}
+
+.tab-btn .tab-icon-img {
+  width: 45px;             /* ✅ Kberna (kanet 38px) */
+  height: 45px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%);
+}
+
+.tab-btn .tab-icon-svg {
+  width: 45px;             /* ✅ Kberna (kanet 38px) */
+  height: 45px;
+  color: #111;
+}
+
+/* ============================================
+   ✅ MOBILE ONLY — Makhfi f Desktop
+   ============================================ */
+@media (min-width: 769px) {
+  .bottom-menu {
     display: none !important;
+  }
+}
+
+/* ============================================
+   ✅ MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .bottom-menu {
+    padding: 16px 12px calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .tab-btn {
+    padding: 8px 0;
+  }
+
+  .tab-btn::before {
+    width: 4.5rem;         /* ✅ Kberna (kanet 4rem) */
+    height: 4.5rem;
+    border-width: 2.5px;
+  }
+
+  .tab-btn::after {
+    font-size: 0.9rem;
+    top: 70px;
+  }
+
+  .tab-btn svg,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 40px;           /* ✅ Kberna (kanet 34px) */
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-menu {
+    padding: 14px 8px calc(14px + env(safe-area-inset-bottom));
+  }
+
+  .tab-btn {
+    padding: 6px 0;
+  }
+
+  .tab-btn::before {
+    width: 4rem;           /* ✅ Kberna (kanet 3.5rem) */
+    height: 4rem;
+    border-width: 2px;
+  }
+
+  .tab-btn::after {
+    font-size: 0.85rem;
+    top: 62px;
+  }
+
+  .tab-btn svg,
+  .tab-btn .tab-icon-img,
+  .tab-btn .tab-icon-svg {
+    width: 36px;           /* ✅ Kberna (kanet 30px) */
+    height: 36px;
   }
 }
