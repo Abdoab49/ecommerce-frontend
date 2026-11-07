@@ -1,0 +1,1256 @@
+
+/* =========================================
+   LANADA ULTIMATE FOOTBALL SHOP
+   Premium Football Jersey Store
+========================================= */
+
+.jerseys-page,
+.jerseys-page * {
+  box-sizing: border-box;
+}
+
+.jerseys-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 32px clamp(15px, 3.5vw, 55px) 70px;
+  background: #f5f5f5;
+  color: #101010;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================
+   HERO BANNER
+========================================= */
+
+.jerseys-hero {
+  position: relative;
+  width: 100%;
+  min-height: 440px;
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #080808;
+  color: #fff;
+  isolation: isolate;
+}
+
+.jerseys-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse at 74% 42%,
+      rgba(159, 0, 15, 0.36),
+      transparent 40%
+    ),
+    linear-gradient(
+      105deg,
+      #050505 0%,
+      #111111 54%,
+      #260608 100%
+    );
+}
+
+.jerseys-hero-bg::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.16;
+  background-image:
+    repeating-linear-gradient(
+      115deg,
+      transparent 0,
+      transparent 37px,
+      rgba(255, 255, 255, 0.12) 38px,
+      transparent 39px
+    );
+}
+
+.jerseys-hero-bg::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.35),
+      transparent 70%
+    );
+}
+
+.jerseys-hero-content {
+  position: relative;
+  z-index: 3;
+  align-self: center;
+  padding: 55px 0 55px clamp(35px, 5vw, 78px);
+}
+
+.jerseys-eyebrow {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #bcbcbc;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.jerseys-hero-content h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(55px, 7vw, 105px);
+  font-weight: 950;
+  letter-spacing: -6px;
+  line-height: 0.82;
+}
+
+.jerseys-hero-content h1 span {
+  color: #e3212c;
+}
+
+.jerseys-hero-content > p {
+  margin: 26px 0 25px;
+  color: #d2d2d2;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.jerseys-hero-button {
+  width: fit-content;
+  min-height: 49px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 0 23px;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  background: #fff;
+  color: #050505;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.jerseys-hero-button:hover {
+  transform: translateY(-3px);
+  background: transparent;
+  color: #fff;
+}
+
+.jerseys-hero-button span {
+  font-size: 17px;
+}
+
+.jerseys-hero-meta {
+  display: flex;
+  gap: 35px;
+  margin-top: 48px;
+  color: #858585;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* HERO PRODUCT COLLAGE */
+
+.jerseys-hero-visual {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.jerseys-hero-product {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  width: 39%;
+  height: 83%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+
+.jerseys-hero-product img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
+}
+
+.hero-product-1 {
+  left: 3%;
+  transform: translateY(-50%) rotate(-9deg) scale(0.84);
+  opacity: 0.68;
+}
+
+.hero-product-2 {
+  left: 29%;
+  z-index: 3;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.hero-product-3 {
+  right: 0;
+  transform: translateY(-50%) rotate(9deg) scale(0.84);
+  opacity: 0.78;
+}
+
+.jerseys-hero-stamp {
+  position: absolute;
+  right: 28px;
+  bottom: 25px;
+  z-index: 4;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.54);
+  color: #fff;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+.jerseys-hero-stamp span {
+  font-size: 7px;
+  letter-spacing: 2px;
+}
+
+.jerseys-hero-stamp strong {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.jerseys-hero-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #aaa;
+}
+
+.jerseys-hero-placeholder > span {
+  font-size: 9px;
+  letter-spacing: 4px;
+}
+
+.jerseys-placeholder-shirt {
+  width: 190px;
+  height: 210px;
+  display: grid;
+  place-items: center;
+  clip-path: polygon(23% 0, 38% 7%, 62% 7%, 77% 0, 100% 20%, 82% 47%, 75% 39%, 75% 100%, 25% 100%, 25% 39%, 18% 47%, 0 20%);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #bc101c 0,
+      #bc101c 20px,
+      #94101a 21px,
+      #94101a 22px
+    );
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+/* =========================================
+   SECTION INTRO
+========================================= */
+
+.jerseys-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 75px 0 35px;
+}
+
+.jerseys-section-kicker {
+  color: #888;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.jerseys-section-heading h2 {
+  margin: 12px 0 0;
+  color: #101010;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 950;
+  letter-spacing: -2.8px;
+  line-height: 0.94;
+}
+
+.jerseys-section-heading h2 em {
+  color: #b31320;
+  font-style: normal;
+}
+
+.jerseys-section-heading > p {
+  max-width: 330px;
+  margin: 0 0 5px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: right;
+}
+
+/* =========================================
+   CATEGORY TABS
+========================================= */
+
+.jerseys-categories {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 0 0 25px;
+}
+
+.jerseys-categories button {
+  min-height: 39px;
+  padding: 0 17px;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  background: transparent;
+  color: #555;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.jerseys-categories button:hover {
+  border-color: #111;
+  color: #111;
+}
+
+.jerseys-categories button.active {
+  border-color: #090909;
+  background: #090909;
+  color: #fff;
+}
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.jerseys-toolbar {
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+}
+
+.jerseys-results {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.jerseys-results strong {
+  color: #111;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.jerseys-results span {
+  color: #777;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.jerseys-toolbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.jerseys-search {
+  width: 250px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 11px;
+  border: 1px solid #dedede;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.jerseys-search svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #777;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.jerseys-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #111;
+  font-size: 11px;
+}
+
+.jerseys-search input::placeholder {
+  color: #999;
+}
+
+.jerseys-sort {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.jerseys-sort > span {
+  color: #888;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.jerseys-sort select {
+  height: 38px;
+  padding: 0 8px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #111;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.jerseys-mobile-filter-button {
+  display: none;
+}
+
+/* =========================================
+   ADVANCED FILTERS
+========================================= */
+
+.jerseys-filter-panel {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.65fr 1.3fr auto;
+  align-items: end;
+  gap: 20px;
+  padding: 22px 0 29px;
+}
+
+.jerseys-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jerseys-filter-field label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #888;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.jerseys-filter-field label strong {
+  color: #111;
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.jerseys-filter-field select {
+  width: 100%;
+  height: 39px;
+  padding: 0 11px;
+  border: 1px solid #dedede;
+  border-radius: 2px;
+  outline: none;
+  background: #fff;
+  color: #222;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.jerseys-filter-field select:focus {
+  border-color: #111;
+}
+
+.jerseys-filter-field select:disabled {
+  color: #aaa;
+  background: #eee;
+  cursor: not-allowed;
+}
+
+.jerseys-price-field input {
+  width: 100%;
+  height: 39px;
+  margin: 0;
+  accent-color: #b31320;
+  cursor: pointer;
+}
+
+.jerseys-reset-button {
+  height: 39px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 13px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background: transparent;
+  color: #555;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.jerseys-reset-button:hover {
+  border-color: #111;
+  color: #111;
+}
+
+.jerseys-reset-button span {
+  font-size: 15px;
+}
+
+/* =========================================
+   PRODUCT GRID
+========================================= */
+
+.jerseys-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  padding-top: 6px;
+}
+
+.jersey-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  background: #fff;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.jersey-card:hover {
+  transform: translateY(-5px);
+  border-color: #ccc;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
+}
+
+/* CARD IMAGE */
+
+.jersey-card-visual-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #f0f0f0;
+  color: #111;
+  text-decoration: none;
+}
+
+.jersey-card-top {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  right: 13px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.jersey-card-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.jersey-discount-badge,
+.jersey-new-badge {
+  min-height: 25px;
+  display: flex;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 2px;
+  background: #b31320;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.jersey-new-badge {
+  background: #111;
+}
+
+.jersey-card-index {
+  color: #777;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.jersey-card-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.88 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #fff 0%,
+      #f3f3f3 60%,
+      #e9e9e9 100%
+    );
+}
+
+.jersey-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.jersey-card:hover .jersey-card-image img {
+  transform: scale(1.07);
+}
+
+.jersey-image-fallback {
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-content: center;
+  justify-items: center;
+  gap: 9px;
+  background:
+    linear-gradient(135deg, #e8e8e8, #f8f8f8);
+  color: #111;
+}
+
+.jersey-image-fallback span {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.jersey-image-fallback strong {
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.jersey-image-fallback small {
+  color: #b31320;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+.jersey-card-view {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 9px 11px;
+  background: rgba(0, 0, 0, 0.84);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.25s ease;
+}
+
+.jersey-card:hover .jersey-card-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* CARD INFORMATION */
+
+.jersey-card-info {
+  padding: 16px 15px 15px;
+}
+
+.jersey-card-team {
+  overflow: hidden;
+  color: #a20d19;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.jersey-card-info h3 {
+  min-height: 38px;
+  margin: 8px 0 4px;
+  color: #101010;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.jersey-card-description {
+  min-height: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  color: #888;
+  font-size: 9px;
+}
+
+.jersey-card-description span + span::before {
+  margin-right: 7px;
+  color: #bbb;
+  content: "·";
+}
+
+.jersey-card-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 12px;
+}
+
+.jersey-card-sizes span {
+  min-width: 24px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border: 1px solid #ddd;
+  color: #555;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.jersey-card-price {
+  min-height: 35px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 11px;
+}
+
+.jersey-card-price strong {
+  color: #090909;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.jersey-card-price del {
+  color: #999;
+  font-size: 10px;
+}
+
+.jersey-card-button {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 0 13px;
+  border: 1px solid #070707;
+  border-radius: 2px;
+  background: #070707;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.jersey-card-button:hover {
+  background: #fff;
+  color: #070707;
+}
+
+.jersey-card-button span {
+  font-size: 16px;
+}
+
+/* =========================================
+   EMPTY STATES
+========================================= */
+
+.jerseys-empty-state {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.jerseys-empty-state > span {
+  color: #b31320;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.jerseys-empty-state h3 {
+  margin: 14px 0 8px;
+  color: #111;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.jerseys-empty-state p {
+  max-width: 420px;
+  margin: 0;
+  color: #888;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.jerseys-empty-state button {
+  min-height: 40px;
+  margin-top: 20px;
+  padding: 0 17px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+/* =========================================
+   BOTTOM COLLECTION BANNER
+========================================= */
+
+.jerseys-bottom-banner {
+  position: relative;
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 85px;
+  padding: 35px 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(180, 16, 30, 0.23),
+      transparent 55%
+    ),
+    #080808;
+  color: #fff;
+  text-align: center;
+}
+
+.jerseys-bottom-banner > span {
+  color: #aaa;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.jerseys-bottom-banner h2 {
+  margin: 15px 0 9px;
+  color: #fff;
+  font-size: clamp(34px, 5vw, 55px);
+  font-weight: 950;
+  letter-spacing: -2px;
+  line-height: 0.94;
+}
+
+.jerseys-bottom-banner h2 em {
+  color: #e3212c;
+  font-style: normal;
+}
+
+.jerseys-bottom-banner p {
+  margin: 10px 0 19px;
+  color: #aaa;
+  font-size: 11px;
+}
+
+.jerseys-bottom-banner a {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 18px;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.jerseys-bottom-banner a:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* =========================================
+   LARGE DESKTOP
+========================================= */
+
+@media (min-width: 1500px) {
+  .jerseys-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
+  .jerseys-hero {
+    min-height: 375px;
+  }
+
+  .jerseys-hero-content h1 {
+    font-size: 70px;
+  }
+
+  .jerseys-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .jerseys-filter-panel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .jerseys-price-field {
+    grid-column: span 2;
+  }
+
+  .jerseys-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 15px 0;
+  }
+
+  .jerseys-toolbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .jerseys-search {
+    width: min(100%, 330px);
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+  .jerseys-page {
+    padding: 15px 13px 45px;
+  }
+
+  .jerseys-hero {
+    min-height: 555px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    border-radius: 6px;
+  }
+
+  .jerseys-hero-content {
+    padding: 37px 23px 10px;
+  }
+
+  .jerseys-eyebrow {
+    margin-bottom: 17px;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+  }
+
+  .jerseys-hero-content h1 {
+    font-size: clamp(59px, 15vw, 82px);
+    letter-spacing: -4px;
+  }
+
+  .jerseys-hero-content > p {
+    margin: 17px 0 17px;
+    font-size: 12px;
+  }
+
+  .jerseys-hero-button {
+    min-height: 43px;
+    padding: 0 16px;
+    font-size: 8px;
+  }
+
+  .jerseys-hero-meta {
+    display: none;
+  }
+
+  .jerseys-hero-visual {
+    min-height: 230px;
+  }
+
+  .jerseys-hero-product {
+    width: 35%;
+    height: 95%;
+  }
+
+  .jerseys-hero-stamp {
+    right: 11px;
+    bottom: 8px;
+    width: 70px;
+    height: 70px;
+  }
+
+  .jerseys-hero-stamp strong {
+    font-size: 12px;
+  }
+
+  .jerseys-hero-stamp span {
+    font-size: 5px;
+  }
+
+  .jerseys-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 45px 0 25px;
+  }
+
+  .jerseys-section-heading h2 {
+    font-size: 43px;
+  }
+
+  .jerseys-section-heading > p {
+    max-width: 310px;
+    margin: 0;
+    font-size: 11px;
+    text-align: left;
+  }
+
+  .jerseys-categories {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    scrollbar-width: none;
+  }
+
+  .jerseys-categories::-webkit-scrollbar {
+    display: none;
+  }
+
+  .jerseys-categories button {
+    flex: 0 0 auto;
+    min-height: 35px;
+    padding: 0 12px;
+    font-size: 8px;
+  }
+
+  .jerseys-toolbar {
+    gap: 14px;
+  }
+
+  .jerseys-toolbar-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .jerseys-search {
+    width: 100%;
+  }
+
+  .jerseys-sort {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .jerseys-sort > span {
+    font-size: 7px;
+  }
+
+  .jerseys-sort select {
+    max-width: 160px;
+    font-size: 9px;
+  }
+
+  .jerseys-mobile-filter-button {
+    min-height: 37px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 0 13px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #111;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .jerseys-filter-panel {
+    display: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    padding: 18px 0 25px;
+  }
+
+  .jerseys-filter-panel.filters-open {
+    display: grid;
+  }
+
+  .jerseys-filter-field select {
+    font-size: 10px;
+  }
+
+  .jerseys-price-field {
+    grid-column: span 2;
+  }
+
+  .jerseys-reset-button {
+    grid-column: span 2;
+  }
+
+  .jerseys-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .jersey-card-info {
+    padding: 12px 10px 11px;
+  }
+
+  .jersey-card-info h3 {
+    min-height: 34px;
+    font-size: 11px;
+  }
+
+  .jersey-card-team {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .jersey-card-price {
+    gap: 5px;
+  }
+
+  .jersey-card-price strong {
+    font-size: 14px;
+  }
+
+  .jersey-card-price del {
+    font-size: 9px;
+  }
+
+  .jersey-card-button {
+    min-height: 37px;
+    margin-top: 8px;
+    padding: 0 9px;
+    font-size: 7px;
+    letter-spacing: 0.7px;
+  }
+
+  .jersey-card-view {
+    display: none;
+  }
+
+  .jerseys-bottom-banner {
+    min-height: 240px;
+    margin-top: 50px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .jerseys-grid {
+    gap: 8px;
+  }
+
+  .jersey-card-info {
+    padding: 10px 8px;
+  }
+
+  .jersey-card-price strong {
+    font-size: 12px;
+  }
+
+  .jersey-card-button {
+    font-size: 6px;
+  }
+
+  .jerseys-hero-content h1 {
+    font-size: 55px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .jerseys-page *,
+  .jerseys-page *::before,
+  .jerseys-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

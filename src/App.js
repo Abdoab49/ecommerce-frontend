@@ -16,6 +16,7 @@ import Footer from './Components/Footer/Footer';
 import Shop from './pages/Shop';
 import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
+import Jerseys from './pages/Jerseys';
 import Cart from './Components/Cart/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -86,6 +87,12 @@ function App() {
                         <GiveawayPromo />
                       </>
                     }
+                  />
+
+                  {/* FOOTBALL JERSEYS STORE */}
+                  <Route
+                    path="/jerseys"
+                    element={<Jerseys />}
                   />
 
                   {/* SHOP CATEGORIES */}
