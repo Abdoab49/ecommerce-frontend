@@ -1,722 +1,616 @@
-/* =========================================
-   LANADA GIVEAWAY - MYSTERY PROMO BOX
-========================================= */
+/* ==========================================
+   LANADA NOIR
+   BLACK & WHITE PREMIUM REWARD EXPERIENCE
+========================================== */
 
-.lanada-giveaway-overlay {
+.lanada-noir-overlay,
+.lanada-noir-overlay * {
+  box-sizing: border-box;
+}
+
+.lanada-noir-overlay {
   position: fixed;
   inset: 0;
   z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background: rgba(8, 10, 9, 0.78);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
-  animation: lanadaOverlayIn 0.3s ease both;
+  padding: 22px;
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: noirFadeIn 0.3s ease both;
 }
 
-.lanada-giveaway-modal {
+/* MAIN MODAL */
+
+.lanada-noir-modal {
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
-  max-width: 460px;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  background: #f8f7f2;
-  color: #171a16;
-  border-radius: 5px;
-  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
-  animation: lanadaModalIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  max-width: 850px;
+  min-height: 520px;
+  overflow: hidden;
+  background: #fff;
+  color: #080808;
+  box-shadow: 0 35px 110px rgba(0, 0, 0, 0.65);
+  animation: noirModalIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-.lanada-giveaway-modal::-webkit-scrollbar {
-  width: 4px;
-}
-
-.lanada-giveaway-modal::-webkit-scrollbar-thumb {
-  background: #b6b9ae;
-  border-radius: 10px;
-}
-
-.lanada-giveaway-close {
+.lanada-noir-close {
   position: absolute;
-  top: 13px;
-  right: 15px;
-  z-index: 5;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(25, 30, 25, 0.16);
+  top: 17px;
+  right: 17px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dedede;
   border-radius: 50%;
-  background: transparent;
-  color: #20251f;
+  background: #fff;
+  color: #111;
   font-size: 25px;
   font-weight: 300;
   line-height: 1;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease,
-    transform 0.25s ease;
+  transition: all 0.25s ease;
 }
 
-.lanada-giveaway-close:hover {
-  background: #20291f;
+.lanada-noir-close:hover {
+  border-color: #000;
+  background: #000;
   color: #fff;
   transform: rotate(90deg);
 }
 
-.lanada-giveaway-content {
-  padding: 35px 38px 25px;
-  text-align: center;
-}
+/* BLACK PANEL */
 
-/* BRAND */
-
-.lanada-giveaway-brand {
+.lanada-noir-left {
+  position: relative;
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  color: #19231b;
-  font-size: 27px;
-  font-weight: 900;
-  letter-spacing: 5px;
-  line-height: 1.1;
-}
-
-.lanada-giveaway-brand span {
-  color: #777c70;
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 3px;
-}
-
-/* EYEBROW */
-
-.lanada-giveaway-eyebrow {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: 24px;
-  color: #7b826f;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-.lanada-eyebrow-line {
-  width: 23px;
-  height: 1px;
-  background: #c7c9bd;
-}
-
-/* GIFT VISUAL */
-
-.lanada-gift-visual {
-  position: relative;
-  width: 190px;
-  height: 155px;
-  margin: 11px auto 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.lanada-gift-glow {
-  position: absolute;
-  width: 145px;
-  height: 130px;
-  border-radius: 50%;
-  background: rgba(177, 153, 87, 0.17);
-  filter: blur(28px);
-  animation: lanadaGiftGlow 3s ease-in-out infinite alternate;
-}
-
-.lanada-gift-box {
-  position: relative;
-  z-index: 2;
-  width: 112px;
-  height: 100px;
-  margin-top: 23px;
-  animation: lanadaGiftFloat 3s ease-in-out infinite;
-}
-
-.lanada-gift-body {
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  bottom: 0;
-  height: 75px;
   overflow: hidden;
-  background: linear-gradient(135deg, #344a37, #1b2b20 75%);
-  box-shadow: inset 0 0 0 1px rgba(221, 196, 126, 0.45),
-    0 12px 18px rgba(18, 29, 20, 0.2);
+  padding: 65px 38px 48px;
+  background:
+    radial-gradient(
+      ellipse at 50% 46%,
+      rgba(255, 255, 255, 0.075),
+      transparent 48%
+    ),
+    #050505;
+  color: #fff;
 }
 
-.lanada-gift-ribbon {
+.lanada-noir-left::before {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 42px;
-  width: 22px;
-  background: linear-gradient(
-    90deg,
-    #c7aa67,
-    #ead69b 45%,
-    #b28d47
-  );
-}
-
-.lanada-gift-ribbon-horizontal {
-  position: absolute;
-  top: 27px;
-  left: 0;
-  right: 0;
-  height: 19px;
-  background: linear-gradient(
-    180deg,
-    #e8d49a,
-    #c1a05c 55%,
-    #ad8846
-  );
-}
-
-.lanada-gift-lid {
-  position: absolute;
-  z-index: 2;
-  top: 4px;
-  left: 0;
-  width: 112px;
-  height: 27px;
-  background: linear-gradient(135deg, #52664a, #243728);
-  border: 1px solid rgba(221, 196, 126, 0.65);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
-}
-
-.lanada-gift-bow {
-  position: absolute;
-  left: 50%;
-  top: -27px;
-  width: 52px;
-  height: 32px;
-  transform: translateX(-50%);
-}
-
-.lanada-gift-bow span {
-  position: absolute;
-  top: 4px;
-  width: 27px;
-  height: 21px;
-  border: 6px solid #c9aa66;
-  border-radius: 70% 20% 70% 20%;
-  background: #ead7a0;
-}
-
-.lanada-gift-bow span:first-child {
-  left: 0;
-  transform: rotate(25deg);
-}
-
-.lanada-gift-bow span:nth-child(2) {
-  right: 0;
-  transform: rotate(65deg) scaleX(-1);
-}
-
-.lanada-gift-bow i {
-  position: absolute;
-  top: 12px;
-  left: 21px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: #a9823f;
-  border: 2px solid #f0dda9;
-}
-
-.lanada-gift-shadow {
-  position: absolute;
-  z-index: 1;
-  bottom: 7px;
-  width: 115px;
-  height: 13px;
-  border-radius: 50%;
-  background: rgba(27, 35, 26, 0.16);
-  filter: blur(5px);
-}
-
-.lanada-gift-spark {
-  position: absolute;
-  z-index: 3;
-  color: #b69a58;
-  font-size: 23px;
-  animation: lanadaSparkle 2s ease-in-out infinite;
-}
-
-.lanada-spark-one {
-  top: 18px;
-  left: 23px;
-}
-
-.lanada-spark-two {
-  top: 38px;
-  right: 17px;
-  font-size: 27px;
-  animation-delay: 0.7s;
-}
-
-.lanada-spark-three {
-  bottom: 26px;
-  right: 34px;
-  font-size: 15px;
-  animation-delay: 1.2s;
-}
-
-/* HEADING */
-
-.lanada-giveaway-heading {
-  margin-top: 4px;
-}
-
-.lanada-giveaway-small-title {
-  margin: 0 0 8px;
-  color: #8e8058;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 3px;
-}
-
-.lanada-giveaway-heading h2 {
-  margin: 0;
-  color: #1d2920;
-  font-size: clamp(31px, 8vw, 39px);
-  font-weight: 900;
-  letter-spacing: 1px;
-  line-height: 0.98;
-}
-
-.lanada-giveaway-heading h2 span {
-  color: #9b8045;
-}
-
-.lanada-giveaway-description {
-  margin: 13px 0 0;
-  color: #73766d;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.8;
-}
-
-/* DISCOUNT CARD */
-
-.lanada-discount-card {
-  position: relative;
-  margin-top: 23px;
-  padding: 15px 12px 13px;
-  overflow: hidden;
-  background: #1e2c21;
-  color: #f6f3e8;
-}
-
-.lanada-discount-card::before,
-.lanada-discount-card::after {
-  position: absolute;
-  top: -25px;
-  width: 75px;
-  height: 75px;
+  inset: 17px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   content: "";
-  border: 1px solid rgba(221, 197, 128, 0.18);
-  border-radius: 50%;
+  pointer-events: none;
 }
 
-.lanada-discount-card::before {
-  left: -30px;
+.lanada-noir-topline {
+  position: absolute;
+  top: 37px;
+  left: 42px;
+  right: 42px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.lanada-discount-card::after {
-  right: -30px;
+.lanada-noir-topline span:first-child {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 6px;
 }
 
-.lanada-discount-label,
-.lanada-discount-caption {
-  display: block;
-  color: #c7c3ad;
+.lanada-noir-topline span:last-child {
+  color: #888;
   font-size: 8px;
-  font-weight: 700;
   letter-spacing: 2px;
 }
 
-.lanada-discount-value {
-  margin: 1px 0;
-  color: #e4cf91;
-  font-size: 58px;
+.lanada-noir-edition {
+  position: relative;
+  z-index: 2;
+  margin-top: 36px;
+  color: #a9a9a9;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-align: center;
+}
+
+.lanada-noir-number-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 37px;
+  color: #fff;
+}
+
+.lanada-noir-number {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(135px, 19vw, 190px);
   font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 1.15;
+  letter-spacing: -13px;
+  line-height: 0.83;
 }
 
-.lanada-discount-value span {
-  font-size: 34px;
-  vertical-align: 14px;
+.lanada-noir-percent {
+  margin-top: 9px;
+  font-size: 48px;
+  font-weight: 300;
 }
 
-.lanada-discount-value small {
-  margin-left: 6px;
-  color: #f7f4e9;
-  font-size: 13px;
+.lanada-noir-off {
+  position: relative;
+  z-index: 2;
+  margin-top: 17px;
+  color: #d4d4d4;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-align: center;
+}
+
+.lanada-noir-rule {
+  position: relative;
+  z-index: 2;
+  width: 45px;
+  height: 1px;
+  margin-top: 34px;
+  background: #fff;
+}
+
+.lanada-noir-manifesto {
+  position: relative;
+  z-index: 2;
+  margin: 22px 0 0;
+  color: #d5d5d5;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.lanada-noir-left-footer {
+  position: absolute;
+  right: 42px;
+  bottom: 37px;
+  left: 42px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.lanada-noir-outline {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lanada-noir-outline.one {
+  width: 410px;
+  height: 410px;
+}
+
+.lanada-noir-outline.two {
+  width: 470px;
+  height: 470px;
+}
+
+/* WHITE PANEL */
+
+.lanada-noir-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 65px 48px 42px;
+  background: #fff;
+  color: #080808;
+}
+
+.lanada-noir-brand {
+  margin-bottom: 36px;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 7px;
+}
+
+.lanada-noir-brand span {
+  color: #777;
+}
+
+.lanada-noir-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #777;
+  font-size: 8px;
   font-weight: 800;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
+}
+
+.lanada-noir-kicker span {
+  width: 20px;
+  height: 1px;
+  background: #111;
+}
+
+.lanada-noir-right h2 {
+  margin: 21px 0 0;
+  color: #080808;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 4.7vw, 52px);
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 0.99;
+}
+
+.lanada-noir-right h2 em {
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.lanada-noir-description {
+  max-width: 300px;
+  margin: 20px 0 29px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.9;
 }
 
 /* PROMO CODE */
 
-.lanada-code-section {
-  margin-top: 19px;
-}
-
-.lanada-code-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #72776c;
+.lanada-noir-code-heading {
+  margin-bottom: 10px;
+  color: #777;
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 2px;
 }
 
-.lanada-code-box {
-  min-height: 49px;
+.lanada-noir-code-card {
+  min-height: 54px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 7px 8px 7px 13px;
-  border: 1px dashed #a9a58f;
-  background: #f0efe7;
+  gap: 7px;
+  padding: 7px 7px 7px 13px;
+  border: 1px solid #e2e2e2;
+  background: #f7f7f7;
 }
 
-.lanada-code-value {
+.lanada-noir-code {
   min-width: 0;
   overflow: hidden;
-  color: #1c2c20;
-  font-size: clamp(14px, 4vw, 17px);
+  color: #090909;
+  font-size: clamp(12px, 1.8vw, 16px);
   font-weight: 900;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   white-space: nowrap;
 }
 
-.lanada-copy-button {
+.lanada-noir-copy {
   flex-shrink: 0;
-  min-width: 86px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 0 11px;
-  border: none;
-  background: #25382a;
+  min-width: 73px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #000;
+  background: #000;
   color: #fff;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: all 0.25s ease;
 }
 
-.lanada-copy-button:hover {
-  background: #405d43;
-  transform: translateY(-1px);
+.lanada-noir-copy:hover {
+  background: #fff;
+  color: #000;
 }
 
-.lanada-copy-button.is-copied {
-  background: #547846;
+.lanada-noir-copy.copied {
+  background: #fff;
+  color: #000;
 }
 
-.lanada-copy-button svg {
-  width: 14px;
-  height: 14px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+/* EXPIRATION */
 
-/* EXPIRY */
-
-.lanada-giveaway-expiry {
+.lanada-noir-expiry {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 9px;
-  margin-top: 16px;
-  color: #6c7167;
-  text-align: left;
+  gap: 11px;
+  margin-top: 19px;
 }
 
-.lanada-expiry-icon {
-  font-size: 23px;
-  color: #9a8150;
+.lanada-noir-expiry-mark {
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #bbb;
+  border-radius: 50%;
+  color: #555;
+  font-family: Georgia, serif;
+  font-size: 13px;
+  font-style: italic;
 }
 
-.lanada-giveaway-expiry div {
+.lanada-noir-expiry > div {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
-.lanada-giveaway-expiry strong {
-  color: #28372a;
-  font-size: 9px;
-  font-weight: 800;
+.lanada-noir-expiry strong {
+  color: #171717;
+  font-size: 8px;
+  font-weight: 900;
   letter-spacing: 1.3px;
 }
 
-.lanada-giveaway-expiry div span {
-  color: #777a71;
+.lanada-noir-expiry div span {
+  color: #858585;
   font-size: 10px;
 }
 
 /* CTA */
 
-.lanada-giveaway-shop-button {
+.lanada-noir-cta {
   width: 100%;
-  min-height: 47px;
+  min-height: 51px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 13px;
-  margin-top: 20px;
-  border: 1px solid #1c2c20;
-  background: #1c2c20;
+  gap: 17px;
+  margin-top: 25px;
+  border: 1px solid #000;
+  background: #000;
   color: #fff;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.7px;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: all 0.25s ease;
 }
 
-.lanada-giveaway-shop-button:hover {
-  background: transparent;
-  color: #1c2c20;
+.lanada-noir-cta:hover {
+  background: #fff;
+  color: #000;
 }
 
-.lanada-giveaway-shop-button span {
-  font-size: 18px;
-  line-height: 1;
+.lanada-noir-cta span {
+  font-size: 16px;
   transition: transform 0.25s ease;
 }
 
-.lanada-giveaway-shop-button:hover span {
-  transform: translateX(5px);
+.lanada-noir-cta:hover span {
+  transform: translate(3px, -3px);
 }
 
-/* FOOTER */
-
-.lanada-giveaway-footer {
-  margin: 17px 0 0;
-  color: #96968a;
+.lanada-noir-terms {
+  margin-top: 20px;
+  color: #aaa;
   font-size: 7px;
   font-weight: 700;
   letter-spacing: 1.5px;
+  text-align: center;
 }
 
-/* FLOATING GIFT BUTTON */
+/* FLOATING REWARD BUTTON */
 
-.lanada-giveaway-launcher {
+.lanada-noir-trigger {
   position: fixed;
-  z-index: 9998;
-  right: 22px;
+  right: 25px;
   bottom: 95px;
-  width: 68px;
-  height: 68px;
+  z-index: 9998;
+  width: 65px;
+  height: 65px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  border: 1px solid rgba(226, 210, 159, 0.85);
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 50%;
-  background: #203426;
-  color: #f0dda4;
-  box-shadow: 0 7px 28px rgba(0, 0, 0, 0.25);
+  background: #050505;
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  animation: lanadaLauncherPulse 2.5s ease-in-out infinite;
   transition: transform 0.25s ease, background 0.25s ease;
 }
 
-.lanada-giveaway-launcher:hover {
-  transform: scale(1.09);
-  background: #344e38;
+.lanada-noir-trigger:hover {
+  transform: translateY(-5px);
+  background: #292929;
 }
 
-.lanada-launcher-icon {
+.lanada-noir-trigger-icon {
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 25px;
+  font-weight: 700;
   line-height: 1;
 }
 
-.lanada-launcher-text {
-  font-size: 7px;
-  font-weight: 900;
+.lanada-noir-trigger-label {
+  font-size: 6px;
+  font-weight: 800;
   letter-spacing: 1px;
 }
 
 /* ANIMATIONS */
 
-@keyframes lanadaOverlayIn {
+@keyframes noirFadeIn {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
 }
 
-@keyframes lanadaModalIn {
+@keyframes noirModalIn {
   from {
     opacity: 0;
-    transform: translateY(25px) scale(0.96);
+    transform: translateY(18px) scale(0.985);
   }
-
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-@keyframes lanadaGiftFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
+/* TABLET & MOBILE */
 
-  50% {
-    transform: translateY(-7px) rotate(1deg);
-  }
-}
-
-@keyframes lanadaGiftGlow {
-  from {
-    opacity: 0.55;
-    transform: scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes lanadaSparkle {
-  0%,
-  100% {
-    opacity: 0.45;
-    transform: scale(0.8) rotate(0deg);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.2) rotate(20deg);
-  }
-}
-
-@keyframes lanadaLauncherPulse {
-  0%,
-  100% {
-    box-shadow: 0 7px 28px rgba(0, 0, 0, 0.25),
-      0 0 0 0 rgba(201, 170, 102, 0.2);
-  }
-
-  50% {
-    box-shadow: 0 7px 28px rgba(0, 0, 0, 0.25),
-      0 0 0 9px rgba(201, 170, 102, 0);
-  }
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 520px) {
-  .lanada-giveaway-overlay {
+@media (max-width: 700px) {
+  .lanada-noir-overlay {
     padding: 12px;
   }
 
-  .lanada-giveaway-modal {
-    max-width: 420px;
+  .lanada-noir-modal {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 430px;
     max-height: calc(100vh - 24px);
+    overflow-y: auto;
   }
 
-  .lanada-giveaway-content {
-    padding: 30px 23px 21px;
+  .lanada-noir-left {
+    min-height: 295px;
+    padding: 55px 25px 35px;
   }
 
-  .lanada-giveaway-brand {
-    font-size: 24px;
+  .lanada-noir-topline {
+    top: 26px;
+    left: 34px;
+    right: 34px;
   }
 
-  .lanada-gift-visual {
-    height: 138px;
-    transform: scale(0.92);
-    margin-top: 5px;
+  .lanada-noir-topline span:first-child {
+    font-size: 19px;
   }
 
-  .lanada-giveaway-heading h2 {
-    font-size: 34px;
+  .lanada-noir-edition {
+    margin-top: 22px;
+    font-size: 8px;
   }
 
-  .lanada-giveaway-description {
+  .lanada-noir-number-wrap {
+    margin-top: 25px;
+  }
+
+  .lanada-noir-number {
+    font-size: 112px;
+  }
+
+  .lanada-noir-percent {
+    font-size: 33px;
+  }
+
+  .lanada-noir-off {
+    margin-top: 12px;
+  }
+
+  .lanada-noir-rule {
+    margin-top: 20px;
+  }
+
+  .lanada-noir-manifesto {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+
+  .lanada-noir-left-footer {
+    display: none;
+  }
+
+  .lanada-noir-right {
+    padding: 34px 30px 27px;
+  }
+
+  .lanada-noir-brand {
+    margin-bottom: 24px;
+    font-size: 21px;
+  }
+
+  .lanada-noir-right h2 {
+    font-size: 42px;
+  }
+
+  .lanada-noir-description {
+    margin: 14px 0 21px;
+  }
+
+  .lanada-noir-close {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .lanada-noir-left {
+    min-height: 255px;
+  }
+
+  .lanada-noir-number {
+    font-size: 95px;
+  }
+
+  .lanada-noir-right {
+    padding: 28px 19px 23px;
+  }
+
+  .lanada-noir-right h2 {
+    font-size: 36px;
+  }
+
+  .lanada-noir-code {
     font-size: 11px;
+    letter-spacing: 0.4px;
   }
 
-  .lanada-discount-value {
-    font-size: 52px;
+  .lanada-noir-copy {
+    min-width: 65px;
+    padding: 0 8px;
   }
 
-  .lanada-giveaway-launcher {
+  .lanada-noir-trigger {
     right: 14px;
-    bottom: 85px;
-    width: 61px;
-    height: 61px;
+    bottom: 83px;
+    width: 57px;
+    height: 57px;
   }
 }
 
-@media (max-width: 360px) {
-  .lanada-giveaway-content {
-    padding-right: 17px;
-    padding-left: 17px;
-  }
-
-  .lanada-giveaway-heading h2 {
-    font-size: 30px;
-  }
-
-  .lanada-code-value {
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
-
-  .lanada-copy-button {
-    min-width: 75px;
-    padding: 0 7px;
-  }
-}
+/* ACCESSIBILITY */
 
 @media (prefers-reduced-motion: reduce) {
-  .lanada-giveaway-overlay,
-  .lanada-giveaway-modal,
-  .lanada-gift-box,
-  .lanada-gift-glow,
-  .lanada-gift-spark,
-  .lanada-giveaway-launcher {
-    animation: none;
-  }
-
-  .lanada-giveaway-modal *,
-  .lanada-giveaway-launcher {
-    scroll-behavior: auto;
-    transition: none;
+  .lanada-noir-overlay,
+  .lanada-noir-modal,
+  .lanada-noir-modal *,
+  .lanada-noir-trigger {
+    animation: none !important;
+    transition: none !important;
   }
 }
