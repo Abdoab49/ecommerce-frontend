@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css';
 
 const API = 'https://backend-3lyx.onrender.com/api';
@@ -62,7 +61,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // نفس الملف كيتحكم فالجوج صفحات حسب URL
   const isSignup = location.pathname.replace(/\/+$/, '') === '/signup';
 
   const [loginEmail, setLoginEmail] = useState('');
@@ -81,49 +79,68 @@ const Login = () => {
   const [signupLoading, setSignupLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const saveUserSession = (data) => {
+  // ✅ saveUserSession — kay7fad user + giveaway reward
+  const saveUserSession = (data, destination = '/orders') => {
+    if (!data?.userId || !data?.user) {
+      setError('Invalid server response.');
+      return;
+    }
+
     localStorage.setItem('lanada_user_id', data.userId);
     localStorage.setItem('lanada_user', JSON.stringify(data.user));
+
+    if (Object.prototype.hasOwnProperty.call(data, 'giveaway')) {
+      if (data.giveaway) {
+        localStorage.setItem(
+          'lanada_giveaway_reward',
+          JSON.stringify(data.giveaway)
+        );
+      } else {
+        localStorage.removeItem('lanada_giveaway_reward');
+      }
+    }
+
     window.dispatchEvent(new Event('userChanged'));
-    navigate('/orders');
+    window.dispatchEvent(new Event('giveawayRewardUpdated'));
+
+    navigate(destination);
   };
 
-  // GOOGLE LOGIN
-  const loginWithGoogle = useGoogleLogin({
-    flow: 'implicit',
-    onSuccess: async (tokenResponse) => {
-      setError('');
-      setLoginLoading(true);
+  // ✅ GOOGLE LOGIN — GoogleLogin component
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const credential = credentialResponse?.credential;
 
-      try {
-        const response = await fetch(`${API}/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            credential:
-              tokenResponse.id_token || tokenResponse.access_token
-          })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          setError(data.message || 'Google login failed.');
-          return;
-        }
-
-        saveUserSession(data);
-      } catch (err) {
-        console.error(err);
-        setError('Connection problem. Please try again.');
-      } finally {
-        setLoginLoading(false);
-      }
-    },
-    onError: () => {
-      setError('Google login cancelled or failed.');
+    if (!credential) {
+      setError('Google ID token was not received.');
+      return;
     }
-  });
+
+    setError('');
+    setLoginLoading(true);
+
+    try {
+      const response = await fetch(`${API}/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setError(data.message || 'Google login failed.');
+        return;
+      }
+
+      // Google user goes to Home to see the giveaway popup.
+      saveUserSession(data, '/');
+    } catch (err) {
+      console.error(err);
+      setError('Connection problem. Please try again.');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
 
   // EMAIL LOGIN
   const handleLogin = async (e) => {
@@ -148,7 +165,7 @@ const Login = () => {
         return;
       }
 
-      saveUserSession(data);
+      saveUserSession(data, '/orders');
     } catch (err) {
       console.error(err);
       setError('Connection problem. Please try again.');
@@ -198,7 +215,7 @@ const Login = () => {
         return;
       }
 
-      saveUserSession(data);
+      saveUserSession(data, '/orders');
     } catch (err) {
       console.error(err);
       setError('Connection problem. Please try again.');
@@ -248,14 +265,18 @@ const Login = () => {
 
             {!isSignup && (
               <>
-                <button
-                  type="button"
-                  className={styles.googleButton}
-                  onClick={() => loginWithGoogle()}
-                >
-                  <GoogleIcon />
-                  Continue with Google
-                </button>
+                <div className={styles.googleButton}>
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => {
+                      setError('Google login cancelled or failed.');
+                    }}
+                    text="signin_with"
+                    theme="outline"
+                    size="large"
+                    shape="rectangular"
+                  />
+                </div>
 
                 <div className={styles.divider}>
                   <span></span>

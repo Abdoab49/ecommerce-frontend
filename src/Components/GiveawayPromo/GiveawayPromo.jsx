@@ -1,202 +1,394 @@
+import React, { useCallback, useEffect, useState } from "react";
+import "./GiveawayPromo.css";
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Gift,
-  Sparkles,
-  ArrowRight,
-  Ticket,
-  X
-} from 'lucide-react';
+const REWARD_KEY = "lanada_giveaway_reward";
+const SESSION_KEY = "lanada_giveaway_session_token";
 
-import './GiveawayPromo.css';
+const getDismissKey = (code) => `lanada_giveaway_dismissed_${code}`;
 
-const GiveawayPromo = () => {
-  const navigate = useNavigate();
+const readRewardFromStorage = () => {
+  try {
+    const stored = localStorage.getItem(REWARD_KEY);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [promoCode, setPromoCode] = useState('');
-  const [error, setError] = useState('');
+    if (!stored) return null;
 
-  const handleOpenGift = () => {
-    setIsOpen(true);
-    setError('');
-  };
+    let parsed;
 
-  const handleCloseGift = () => {
-    setIsOpen(false);
-    setError('');
-  };
-
-  const handleContinue = (e) => {
-    e.preventDefault();
-
-    const code = promoCode.trim().toUpperCase();
-
-    if (!code) {
-      setError('Please enter your giveaway code.');
-      return;
+    try {
+      parsed = JSON.parse(stored);
+    } catch {
+      parsed = { code: stored };
     }
 
-    // Keep the entered code for the existing Cart promo validation.
-    localStorage.setItem('lanada_pending_promo', code);
+    const reward = parsed?.reward || parsed?.giveaway || parsed;
 
-    navigate('/cart');
+    if (!reward || typeof reward !== "object") return null;
+
+    const code = reward.code || reward.promoCode;
+
+    if (!code || !code.startsWith("LANADA-")) return null;
+
+    const status = String(reward.status || "available").toLowerCase();
+
+    if (status !== "available") return null;
+
+    if (reward.expiresAt) {
+      const expiry = new Date(reward.expiresAt);
+
+      if (Number.isNaN(expiry.getTime()) || expiry <= new Date()) {
+        return null;
+      }
+    }
+
+    return {
+      ...reward,
+      code,
+      discountPercent: Number(
+        reward.discountPercent || reward.discount || 20
+      ),
+    };
+  } catch (error) {
+    console.error("Unable to read Giveaway reward:", error);
+    return null;
+  }
+};
+
+const formatExpiryDate = (date) => {
+  if (!date) return "30 يوماً من تاريخ الإصدار";
+
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "30 يوماً من تاريخ الإصدار";
+  }
+
+  return parsedDate.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
+const getRemainingDays = (date) => {
+  if (!date) return null;
+
+  const expiry = new Date(date);
+  if (Number.isNaN(expiry.getTime())) return null;
+
+  const difference = expiry.getTime() - Date.now();
+
+  if (difference <= 0) return 0;
+
+  return Math.ceil(difference / (1000 * 60 * 60 * 24));
+};
+
+export default function GiveawayPromo() {
+  const [reward, setReward] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+
+  const loadReward = useCallback(() => {
+    const availableReward = readRewardFromStorage();
+
+    setReward(availableReward);
+    setCopied(false);
+
+    if (availableReward) {
+      const dismissed = localStorage.getItem(
+        getDismissKey(availableReward.code)
+      );
+
+      setIsOpen(!dismissed);
+    } else {
+      setIsOpen(false);
+    }
+
+    setIsChecking(false);
+  }, []);
+
+  useEffect(() => {
+    loadReward();
+
+    const handleStorageChange = (event) => {
+      if (!event || event.key === REWARD_KEY || event.key === null) {
+        loadReward();
+      }
+    };
+
+    const handleGiveawayUpdate = () => {
+      loadReward();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    window.addEventListener(
+      "lanada-giveaway-updated",
+      handleGiveawayUpdate
+    );
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+
+      window.removeEventListener(
+        "lanada-giveaway-updated",
+        handleGiveawayUpdate
+      );
+    };
+  }, [loadReward]);
+
+  const closePopup = () => {
+    if (reward?.code) {
+      localStorage.setItem(getDismissKey(reward.code), "true");
+    }
+
+    setIsOpen(false);
   };
 
+  const reopenPopup = () => {
+    setCopied(false);
+    setIsOpen(true);
+  };
+
+  const copyCode = async () => {
+    if (!reward?.code) return;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(reward.code);
+      } else {
+        const textArea = document.createElement("textarea");
+
+        textArea.value = reward.code;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        const successful = document.execCommand("copy");
+
+        document.body.removeChild(textArea);
+
+        if (!successful) {
+          throw new Error("Copy failed");
+        }
+      }
+
+      setCopied(true);
+
+      window.setTimeout(() => {
+        setCopied(false);
+      }, 2500);
+    } catch (error) {
+      console.error("Copy failed:", error);
+      alert("ما قدرناش ننسخو الكود. حاول تنسخو يدوياً.");
+    }
+  };
+
+  if (isChecking || !reward) {
+    return null;
+  }
+
+  const remainingDays = getRemainingDays(reward.expiresAt);
+
   return (
-    <section className="lanada-giveaway">
+    <>
+      {!isOpen && (
+        <button
+          type="button"
+          className="lanada-giveaway-launcher"
+          onClick={reopenPopup}
+          aria-label="Open your LANADA gift"
+        >
+          <span className="lanada-launcher-icon">🎁</span>
+          <span className="lanada-launcher-text">
+            YOUR GIFT
+          </span>
+        </button>
+      )}
 
-      <div className="giveaway-card">
-
-        {/* DECORATIVE BACKGROUND */}
-        <div className="giveaway-glow giveaway-glow-one" />
-        <div className="giveaway-glow giveaway-glow-two" />
-
-        {/* LEFT CONTENT */}
-        <div className="giveaway-content">
-
-          <div className="giveaway-eyebrow">
-            <Sparkles size={14} />
-            <span>LANADA EXCLUSIVE REWARDS</span>
-          </div>
-
-          <h2>
-            A GIFT IS
-            <br />
-            <span>WAITING FOR YOU.</span>
-          </h2>
-
-          <p className="giveaway-description">
-            Discover your exclusive reward and enjoy
-            something special from the LANADA collection.
-          </p>
-
-          <div className="giveaway-benefits">
-            <span>
-              <Ticket size={15} />
-              Exclusive promo codes
-            </span>
-
-            <span>
-              <Gift size={15} />
-              Special rewards
-            </span>
-          </div>
-
-          {!isOpen ? (
+      {isOpen && (
+        <div
+          className="lanada-giveaway-overlay"
+          onClick={closePopup}
+          role="presentation"
+        >
+          <section
+            className="lanada-giveaway-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lanada-giveaway-title"
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
-              className="giveaway-open-button"
-              onClick={handleOpenGift}
+              className="lanada-giveaway-close"
+              onClick={closePopup}
+              aria-label="Close giveaway"
             >
-              <span>REVEAL MY GIFT</span>
-              <ArrowRight size={18} />
+              &times;
             </button>
-          ) : (
-            <form
-              className="giveaway-code-form"
-              onSubmit={handleContinue}
-            >
-              <label htmlFor="lanada-giveaway-code">
-                ENTER YOUR PROMO CODE
-              </label>
 
-              <div className="giveaway-input-row">
-                <input
-                  id="lanada-giveaway-code"
-                  type="text"
-                  value={promoCode}
-                  onChange={(e) => {
-                    setPromoCode(e.target.value);
-                    setError('');
-                  }}
-                  placeholder="YOUR CODE"
-                  autoComplete="off"
-                  maxLength={40}
-                />
-
-                <button type="submit" aria-label="Continue to cart">
-                  <ArrowRight size={20} />
-                </button>
+            <div className="lanada-giveaway-content">
+              <div className="lanada-giveaway-brand">
+                LANADA
+                <span>EXCLUSIVE REWARDS</span>
               </div>
 
-              {error && (
-                <p className="giveaway-error" role="alert">
-                  {error}
+              <div className="lanada-giveaway-eyebrow">
+                <span className="lanada-eyebrow-line" />
+                A SPECIAL GIFT FOR YOU
+                <span className="lanada-eyebrow-line" />
+              </div>
+
+              <div className="lanada-gift-visual">
+                <div className="lanada-gift-glow" />
+
+                <div className="lanada-gift-spark lanada-spark-one">
+                  ✦
+                </div>
+
+                <div className="lanada-gift-spark lanada-spark-two">
+                  ✧
+                </div>
+
+                <div className="lanada-gift-spark lanada-spark-three">
+                  ✦
+                </div>
+
+                <div className="lanada-gift-box">
+                  <div className="lanada-gift-lid">
+                    <div className="lanada-gift-bow">
+                      <span />
+                      <span />
+                      <i />
+                    </div>
+                  </div>
+
+                  <div className="lanada-gift-body">
+                    <div className="lanada-gift-ribbon" />
+                    <div className="lanada-gift-ribbon-horizontal" />
+                  </div>
+                </div>
+
+                <div className="lanada-gift-shadow" />
+              </div>
+
+              <div className="lanada-giveaway-heading">
+                <p className="lanada-giveaway-small-title">
+                  YOU'VE UNLOCKED
                 </p>
-              )}
+
+                <h2 id="lanada-giveaway-title">
+                  SOMETHING
+                  <br />
+                  <span>SPECIAL.</span>
+                </h2>
+
+                <p className="lanada-giveaway-description">
+                  A little surprise from LANADA.
+                  <br />
+                  Enjoy an exclusive discount on your next order.
+                </p>
+              </div>
+
+              <div className="lanada-discount-card">
+                <span className="lanada-discount-label">
+                  YOUR EXCLUSIVE REWARD
+                </span>
+
+                <div className="lanada-discount-value">
+                  {reward.discountPercent}
+                  <span>%</span>
+                  <small>OFF</small>
+                </div>
+
+                <span className="lanada-discount-caption">
+                  ON YOUR NEXT PURCHASE
+                </span>
+              </div>
+
+              <div className="lanada-code-section">
+                <span className="lanada-code-label">
+                  YOUR PERSONAL PROMO CODE
+                </span>
+
+                <div className="lanada-code-box">
+                  <span className="lanada-code-value">
+                    {reward.code}
+                  </span>
+
+                  <button
+                    type="button"
+                    className={`lanada-copy-button ${
+                      copied ? "is-copied" : ""
+                    }`}
+                    onClick={copyCode}
+                  >
+                    {copied ? (
+                      <>
+                        <span>✓</span>
+                        COPIED
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <rect
+                            x="8"
+                            y="8"
+                            width="12"
+                            height="12"
+                            rx="2"
+                          />
+                          <path
+                            d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"
+                          />
+                        </svg>
+                        COPY
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <div className="lanada-giveaway-expiry">
+                <span className="lanada-expiry-icon">◷</span>
+
+                <div>
+                  <strong>
+                    {remainingDays !== null
+                      ? `${remainingDays} ${
+                          remainingDays === 1 ? "DAY" : "DAYS"
+                        } LEFT`
+                      : "LIMITED TIME OFFER"}
+                  </strong>
+
+                  <span>
+                    Expires: {formatExpiryDate(reward.expiresAt)}
+                  </span>
+                </div>
+              </div>
 
               <button
                 type="button"
-                className="giveaway-cancel"
-                onClick={handleCloseGift}
+                className="lanada-giveaway-shop-button"
+                onClick={closePopup}
               >
-                <X size={13} />
-                CLOSE
+                EXPLORE THE COLLECTION
+                <span>→</span>
               </button>
 
-              <p className="giveaway-hint">
-                Your code will be checked securely in your cart.
+              <p className="lanada-giveaway-footer">
+                ONE CODE. ONE ACCOUNT. ONE SPECIAL MOMENT.
               </p>
-            </form>
-          )}
-
-          <div className="giveaway-footer">
-            <span>01 / EXCLUSIVE DROP</span>
-            <span>MADE FOR YOU</span>
-          </div>
-
-        </div>
-
-        {/* RIGHT GIFT VISUAL */}
-        <div className="giveaway-visual">
-
-          <div className="giveaway-orbit orbit-one" />
-          <div className="giveaway-orbit orbit-two" />
-
-          <div className="giveaway-floating-label floating-label-top">
-            <Sparkles size={13} />
-            <span>UNLOCK SOMETHING SPECIAL</span>
-          </div>
-
-          <div className="giveaway-gift-box">
-            <div className="gift-box-top">
-              <div className="gift-ribbon-horizontal" />
-              <div className="gift-bow">
-                <span />
-                <span />
-              </div>
             </div>
-
-            <div className="gift-box-body">
-              <div className="gift-ribbon-vertical" />
-
-              <div className="gift-box-logo">
-                LANADA<span>.</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="giveaway-floating-label floating-label-bottom">
-            <Gift size={15} />
-            <span>YOUR NEXT REWARD</span>
-          </div>
-
+          </section>
         </div>
-
-        {/* DECORATIVE CORNER */}
-        <div className="giveaway-corner">L.</div>
-
-      </div>
-
-      <div className="giveaway-bottom-note">
-        <span>LANADA REWARDS PROGRAM</span>
-        <span>YOUR STYLE. YOUR REWARD.</span>
-      </div>
-
-    </section>
+      )}
+    </>
   );
-};
-
-export default GiveawayPromo;
+}
