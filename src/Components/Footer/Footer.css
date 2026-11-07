@@ -1,7 +1,7 @@
 
 /* =========================================
-   LANADA — LUXURY EDITORIAL FOOTER
-   Premium Black & White Design
+   LANADA — SIMPLE LUXURY FOOTER
+   BLACK & WHITE
 ========================================= */
 
 .lanada-footer,
@@ -10,176 +10,83 @@
 }
 
 .lanada-footer {
-  position: relative;
   width: 100%;
-  overflow: hidden;
+  padding: 65px 20px 24px;
   background: #050505;
-  color: #ffffff;
+  color: #fff;
   font-family: inherit;
 }
 
 .lanada-footer-container {
-  width: min(100% - 100px, 1450px);
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
-  padding-top: 85px;
 }
 
 /* =========================================
-   HEADER
+   CENTERED LOGO
 ========================================= */
 
-.lanada-footer-header {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  align-items: start;
-  gap: 80px;
-  padding-bottom: 65px;
-}
-
-.lanada-footer-brand {
+.lanada-footer-logo-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .lanada-footer-logo {
-  display: inline-flex;
-  align-items: center;
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.lanada-footer-logo > span {
-  font-size: 43px;
-  font-weight: 900;
-  letter-spacing: 7px;
-  line-height: 1;
-}
-
-.lanada-footer-logo .lanada-logo-dot {
-  color: #858585;
-}
-
-.lanada-footer-logo img {
   display: block;
   width: auto;
-  max-width: 230px;
+  max-width: 190px;
   max-height: 75px;
   object-fit: contain;
-  filter: grayscale(1) brightness(0) invert(1);
 }
 
-.lanada-footer-brand-caption {
-  margin: 15px 0 0;
-  color: #777777;
+.lanada-footer-logo-text {
+  color: #fff;
+  font-size: 39px;
+  font-weight: 900;
+  letter-spacing: 7px;
+}
+
+.lanada-footer-logo-text span {
+  color: #888;
+}
+
+.lanada-footer-tagline {
+  margin: 12px 0 0;
+  color: #858585;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 3px;
 }
 
-/* BRAND INTRO */
+/* =========================================
+   ABOUT LANADA
+========================================= */
 
-.lanada-footer-intro {
-  max-width: 520px;
-  margin-left: auto;
+.lanada-footer-about {
+  max-width: 650px;
+  margin: 55px auto 0;
+  text-align: center;
 }
 
-.lanada-footer-overline {
-  margin: 0 0 18px;
-  color: #999999;
-  font-size: 9px;
+.lanada-footer-about h2 {
+  margin: 0 0 15px;
+  color: #fff;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 3px;
 }
 
-.lanada-footer-intro h2 {
-  margin: 0;
-  color: #ffffff;
-  font-size: clamp(38px, 5.2vw, 69px);
-  font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 0.98;
-}
-
-.lanada-footer-intro h2 span {
-  color: #777777;
-}
-
-.lanada-footer-description {
-  max-width: 370px;
-  margin: 22px 0 0;
-  color: #929292;
+.lanada-footer-about p {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #999;
   font-size: 13px;
-  line-height: 1.9;
-}
-
-/* =========================================
-   DIVIDERS
-========================================= */
-
-.lanada-footer-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.19);
-}
-
-/* =========================================
-   MAIN LINKS
-========================================= */
-
-.lanada-footer-main {
-  display: grid;
-  grid-template-columns: 0.8fr 1fr 1fr 1.35fr;
-  gap: 45px;
-  padding: 65px 0 70px;
-}
-
-.lanada-footer-column h3 {
-  margin: 0 0 25px;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.lanada-footer-column ul {
-  display: flex;
-  flex-direction: column;
-  gap: 17px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.lanada-footer-column li {
-  margin: 0;
-  padding: 0;
-}
-
-.lanada-footer-column a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: #929292;
-  font-size: 12px;
-  text-decoration: none;
-  transition: color 0.25s ease, transform 0.25s ease;
-}
-
-.lanada-footer-column a span {
-  opacity: 0;
-  font-size: 11px;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.lanada-footer-column a:hover {
-  color: #ffffff;
-  transform: translateX(3px);
-}
-
-.lanada-footer-column a:hover span {
-  opacity: 1;
-  transform: translate(2px, -2px);
+  font-weight: 400;
+  line-height: 2;
 }
 
 /* =========================================
@@ -187,230 +94,223 @@
 ========================================= */
 
 .lanada-footer-newsletter {
-  max-width: 350px;
-  margin-left: auto;
+  max-width: 510px;
+  margin: 48px auto 0;
+  text-align: center;
 }
 
 .lanada-footer-newsletter h3 {
-  margin: 0;
-  color: #ffffff;
-  font-size: clamp(23px, 2.5vw, 33px);
-  font-weight: 900;
-  letter-spacing: -1px;
-  line-height: 1.12;
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
-.lanada-footer-newsletter > p:not(.lanada-footer-overline):not(.lanada-newsletter-message) {
-  margin: 15px 0 22px;
+.lanada-footer-newsletter > p {
+  max-width: 400px;
+  margin: 0 auto 23px;
   color: #929292;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.8;
 }
 
-.lanada-newsletter-form {
+/* EMAIL FIELD */
+
+.lanada-footer-email-form {
   width: 100%;
-  height: 49px;
+  min-height: 57px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #777777;
-  transition: border-color 0.25s ease;
+  gap: 10px;
+  padding: 6px 7px 6px 17px;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  background: #111;
+  transition: border-color 0.25s ease,
+    background 0.25s ease;
 }
 
-.lanada-newsletter-form:focus-within {
-  border-color: #ffffff;
+.lanada-footer-email-form:focus-within {
+  border-color: #fff;
+  background: #151515;
 }
 
-.lanada-newsletter-form input {
+.lanada-footer-email-input {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lanada-footer-email-input svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lanada-footer-email-input input {
   width: 100%;
   min-width: 0;
-  height: 100%;
-  padding: 0 10px 0 0;
-  border: 0;
+  height: 42px;
+  border: none;
   outline: none;
   background: transparent;
-  color: #ffffff;
+  color: #fff;
   font-family: inherit;
   font-size: 12px;
 }
 
-.lanada-newsletter-form input::placeholder {
-  color: #777777;
+.lanada-footer-email-input input::placeholder {
+  color: #777;
 }
 
-.lanada-newsletter-form button {
+.lanada-footer-email-submit {
   width: 43px;
-  height: 40px;
+  height: 43px;
   flex-shrink: 0;
-  border: 0;
-  background: #ffffff;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 3px;
+  background: #fff;
   color: #050505;
-  font-size: 23px;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background 0.25s ease,
+    color 0.25s ease;
 }
 
-.lanada-newsletter-form button:hover:not(:disabled) {
-  background: #bdbdbd;
+.lanada-footer-email-submit:hover:not(:disabled) {
+  background: #cfcfcf;
 }
 
-.lanada-newsletter-form button:disabled {
+.lanada-footer-email-submit:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.lanada-newsletter-note {
-  display: block;
-  margin-top: 13px;
-  color: #696969;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
+.lanada-footer-email-submit svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.lanada-newsletter-message {
-  margin: 10px 0 0;
-  color: #ffffff;
+.lanada-footer-loading {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.lanada-footer-note {
+  display: block;
+  margin-top: 13px;
+  color: #707070;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.lanada-footer-message {
+  margin: 13px 0 0;
+  color: #fff;
   font-size: 11px;
   line-height: 1.6;
 }
 
 /* =========================================
-   SOCIAL LINKS
+   NAVIGATION
 ========================================= */
 
-.lanada-footer-social-area {
+.lanada-footer-navigation {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  padding: 35px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 13px 34px;
+  margin-top: 47px;
 }
 
-.lanada-footer-social-area h3 {
-  margin: 0;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 1px;
-}
-
-.lanada-footer-social-links {
-  display: flex;
-  align-items: center;
-  gap: 35px;
-}
-
-.lanada-footer-social-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: #a0a0a0;
-  font-size: 11px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-.lanada-footer-social-links a span {
-  color: #ffffff;
-  transition: transform 0.25s ease;
-}
-
-.lanada-footer-social-links a:hover {
-  color: #ffffff;
-}
-
-.lanada-footer-social-links a:hover span {
-  transform: translate(3px, -3px);
-}
-
-/* =========================================
-   LARGE BRAND SIGNATURE
-========================================= */
-
-.lanada-footer-signature {
-  overflow: hidden;
-  padding: 30px 0 18px;
-  color: #ffffff;
-  font-size: clamp(85px, 17vw, 235px);
-  font-weight: 900;
-  letter-spacing: -0.075em;
-  line-height: 0.85;
-  text-align: center;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.lanada-footer-signature span {
-  color: #6b6b6b;
-}
-
-/* =========================================
-   BOTTOM COPYRIGHT
-========================================= */
-
-.lanada-footer-bottom {
-  min-height: 73px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.19);
-}
-
-.lanada-footer-bottom p {
-  margin: 0;
-  color: #777777;
-  font-size: 8px;
+.lanada-footer-navigation a {
+  color: #aaa;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 1.3px;
-}
-
-.lanada-footer-legal {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.lanada-footer-legal a {
-  color: #929292;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.4px;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.lanada-footer-legal a:hover {
-  color: #ffffff;
+.lanada-footer-navigation a:hover {
+  color: #fff;
 }
 
 /* =========================================
-   TABLET
+   CONTACT EMAIL
 ========================================= */
 
-@media (max-width: 1050px) {
-  .lanada-footer-container {
-    width: min(100% - 60px, 900px);
-  }
+.lanada-footer-contact {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 27px auto 0;
+  padding: 10px 17px;
+  border: 1px solid #444;
+  border-radius: 30px;
+  color: #ddd;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  transition: background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
 
-  .lanada-footer-main {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 50px 35px;
-  }
+.lanada-footer-contact:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #050505;
+}
 
-  .lanada-footer-newsletter {
-    margin-left: 0;
-  }
+.lanada-footer-contact svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-  .lanada-footer-header {
-    gap: 40px;
-  }
+/* =========================================
+   COPYRIGHT
+========================================= */
 
-  .lanada-footer-social-area {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+.lanada-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 45px;
+}
+
+.lanada-footer-bottom p {
+  margin: 0;
+  color: #707070;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
 }
 
 /* =========================================
@@ -418,143 +318,102 @@
 ========================================= */
 
 @media (max-width: 600px) {
-  .lanada-footer-container {
-    width: calc(100% - 38px);
-    padding-top: 55px;
+  .lanada-footer {
+    padding: 48px 20px 22px;
   }
 
-  .lanada-footer-header {
-    grid-template-columns: 1fr;
-    gap: 48px;
-    padding-bottom: 45px;
+  .lanada-footer-logo {
+    max-width: 150px;
+    max-height: 60px;
   }
 
-  .lanada-footer-logo > span {
-    font-size: 34px;
+  .lanada-footer-logo-text {
+    font-size: 32px;
     letter-spacing: 5px;
   }
 
-  .lanada-footer-logo img {
-    max-width: 190px;
-    max-height: 62px;
-  }
-
-  .lanada-footer-brand-caption {
+  .lanada-footer-tagline {
     font-size: 8px;
     letter-spacing: 2px;
   }
 
-  .lanada-footer-intro {
-    margin-left: 0;
+  .lanada-footer-about {
+    margin-top: 39px;
   }
 
-  .lanada-footer-intro h2 {
-    font-size: clamp(42px, 12vw, 58px);
-    letter-spacing: -2px;
-  }
-
-  .lanada-footer-description {
+  .lanada-footer-about h2 {
     font-size: 12px;
   }
 
-  .lanada-footer-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 42px 20px;
-    padding: 45px 0;
-  }
-
-  .lanada-footer-column h3 {
-    margin-bottom: 19px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-  }
-
-  .lanada-footer-column ul {
-    gap: 15px;
-  }
-
-  .lanada-footer-column a {
+  .lanada-footer-about p {
     font-size: 11px;
+    line-height: 1.9;
   }
 
   .lanada-footer-newsletter {
-    grid-column: 1 / -1;
-    max-width: 100%;
-    margin-top: 7px;
+    margin-top: 37px;
   }
 
   .lanada-footer-newsletter h3 {
-    font-size: 29px;
+    font-size: 20px;
   }
 
-  .lanada-footer-newsletter > p:not(.lanada-footer-overline):not(.lanada-newsletter-message) {
-    max-width: 330px;
+  .lanada-footer-newsletter > p {
+    font-size: 11px;
   }
 
-  .lanada-footer-social-area {
-    padding: 30px 0;
+  .lanada-footer-email-form {
+    min-height: 53px;
+    padding-left: 12px;
   }
 
-  .lanada-footer-social-area h3 {
-    font-size: 14px;
+  .lanada-footer-email-input input {
+    font-size: 11px;
   }
 
-  .lanada-footer-social-links {
-    width: 100%;
-    justify-content: space-between;
-    gap: 12px;
+  .lanada-footer-navigation {
+    gap: 17px 21px;
+    margin-top: 36px;
   }
 
-  .lanada-footer-social-links a {
-    font-size: 10px;
-  }
-
-  .lanada-footer-signature {
-    padding: 24px 0 15px;
-    font-size: 18vw;
-    letter-spacing: -0.08em;
+  .lanada-footer-navigation a {
+    font-size: 8px;
+    letter-spacing: 1px;
   }
 
   .lanada-footer-bottom {
-    min-height: auto;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-    padding: 22px 0 25px;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    margin-top: 36px;
+    text-align: center;
   }
 
   .lanada-footer-bottom p {
-    font-size: 8px;
-  }
-
-  .lanada-footer-legal {
-    gap: 20px;
+    font-size: 7px;
+    letter-spacing: 1px;
   }
 }
 
-/* =========================================
-   VERY SMALL MOBILE
-========================================= */
+/* SMALL MOBILE */
 
 @media (max-width: 360px) {
-  .lanada-footer-container {
-    width: calc(100% - 30px);
+  .lanada-footer {
+    padding-right: 15px;
+    padding-left: 15px;
   }
 
-  .lanada-footer-main {
-    gap: 38px 12px;
+  .lanada-footer-newsletter h3 {
+    font-size: 18px;
   }
 
-  .lanada-footer-column a {
-    font-size: 10px;
+  .lanada-footer-navigation {
+    column-gap: 15px;
   }
 
-  .lanada-footer-social-links {
-    flex-wrap: wrap;
-  }
-
-  .lanada-footer-signature {
-    font-size: 17vw;
+  .lanada-footer-navigation a {
+    font-size: 7px;
   }
 }
 
@@ -564,7 +423,7 @@
   .lanada-footer *,
   .lanada-footer *::before,
   .lanada-footer *::after {
-    scroll-behavior: auto !important;
     transition: none !important;
+    animation: none !important;
   }
 }
