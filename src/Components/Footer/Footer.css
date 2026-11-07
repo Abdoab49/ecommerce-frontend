@@ -427,3 +427,29 @@
     animation: none !important;
   }
 }
+
+/* FOOTER LOGO — SAME SIZE AS LOGIN */
+
+.lanada-footer-logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.lanada-footer-logo {
+  display: block;
+  width: 125px;
+  height: 75px;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 720px) {
+  .lanada-footer-logo {
+    width: 105px;
+    height: 65px;
+  }
+}
