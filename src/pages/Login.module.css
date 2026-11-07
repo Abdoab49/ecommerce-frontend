@@ -892,3 +892,36 @@
     font-size: 38px;
   }
 }
+
+.googleCustomButton {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 16px;
+
+  border: 1px solid #dadce0;
+  border-radius: 5px;
+
+  background: #fff;
+  color: #202124;
+
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.googleCustomButton:hover {
+  background: #f8f9fa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.googleCustomButton:focus-visible {
+  outline: 2px solid #4285f4;
+  outline-offset: 3px;
+}
