@@ -3,7 +3,8 @@ import "./GiveawayPromo.css";
 
 const REWARD_KEY = "lanada_giveaway_reward";
 
-const getDismissKey = (code) => `lanada_giveaway_dismissed_${code}`;
+const getDismissKey = (code) =>
+  `lanada_giveaway_dismissed_${code}`;
 
 function readReward() {
   try {
@@ -21,13 +22,17 @@ function readReward() {
     const reward = data?.reward || data?.giveaway || data;
     const code = reward?.code || reward?.promoCode;
 
-    if (!code || !String(code).startsWith("LANADA-")) return null;
+    if (!code || !String(code).startsWith("LANADA-")) {
+      return null;
+    }
 
     const status = String(reward.status || "available").toLowerCase();
+
     if (status !== "available") return null;
 
     if (reward.expiresAt) {
       const expiry = new Date(reward.expiresAt);
+
       if (Number.isNaN(expiry.getTime()) || expiry <= new Date()) {
         return null;
       }
@@ -50,7 +55,10 @@ function formatExpiry(dateValue) {
   if (!dateValue) return "30 days from issue date";
 
   const date = new Date(dateValue);
-  if (Number.isNaN(date.getTime())) return "Limited time";
+
+  if (Number.isNaN(date.getTime())) {
+    return "Limited time offer";
+  }
 
   return date.toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -63,9 +71,13 @@ function getDaysLeft(dateValue) {
   if (!dateValue) return null;
 
   const date = new Date(dateValue);
+
   if (Number.isNaN(date.getTime())) return null;
 
-  return Math.max(0, Math.ceil((date.getTime() - Date.now()) / 86400000));
+  return Math.max(
+    0,
+    Math.ceil((date.getTime() - Date.now()) / 86400000)
+  );
 }
 
 export default function GiveawayPromo() {
@@ -84,6 +96,7 @@ export default function GiveawayPromo() {
       const dismissed = localStorage.getItem(
         getDismissKey(availableReward.code)
       );
+
       setIsOpen(!dismissed);
     } else {
       setIsOpen(false);
@@ -110,8 +123,12 @@ export default function GiveawayPromo() {
 
   const closePopup = useCallback(() => {
     if (reward?.code) {
-      localStorage.setItem(getDismissKey(reward.code), "true");
+      localStorage.setItem(
+        getDismissKey(reward.code),
+        "true"
+      );
     }
+
     setIsOpen(false);
   }, [reward]);
 
@@ -122,7 +139,9 @@ export default function GiveawayPromo() {
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") closePopup();
+      if (event.key === "Escape") {
+        closePopup();
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -141,20 +160,28 @@ export default function GiveawayPromo() {
         await navigator.clipboard.writeText(reward.code);
       } else {
         const field = document.createElement("textarea");
+
         field.value = reward.code;
         field.style.position = "fixed";
         field.style.opacity = "0";
+
         document.body.appendChild(field);
         field.select();
 
-        const copiedSuccessfully = document.execCommand("copy");
+        const successful = document.execCommand("copy");
+
         document.body.removeChild(field);
 
-        if (!copiedSuccessfully) throw new Error("Copy failed");
+        if (!successful) {
+          throw new Error("Copy failed");
+        }
       }
 
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 2200);
+
+      window.setTimeout(() => {
+        setCopied(false);
+      }, 2200);
     } catch (error) {
       console.error("Unable to copy reward code:", error);
     }
@@ -166,23 +193,62 @@ export default function GiveawayPromo() {
 
   return (
     <>
+      {/* FLOATING GIFT BUTTON */}
+
       {!isOpen && (
         <button
           type="button"
           className="lanada-noir-trigger"
           onClick={() => setIsOpen(true)}
           aria-label="Open your LANADA reward"
+          title="Your LANADA Reward"
         >
-          <span className="lanada-noir-trigger-icon">L</span>
-          <span className="lanada-noir-trigger-label">YOUR REWARD</span>
+          <span className="lanada-trigger-ring" />
+
+          <svg
+            className="lanada-trigger-gift"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 10H21V21H3V10Z"
+            />
+
+            <path
+              d="M2 6H22V10H2V6Z"
+            />
+
+            <path
+              d="M12 6V21"
+            />
+
+            <path
+              d="M12 6H8.5C6.8 6 5.5 5 5.5 3.7C5.5 2.5 6.5 2 7.4 2C9.9 2 12 6 12 6Z"
+            />
+
+            <path
+              d="M12 6H15.5C17.2 6 18.5 5 18.5 3.7C18.5 2.5 17.5 2 16.6 2C14.1 2 12 6 12 6Z"
+            />
+          </svg>
+
+          <span className="lanada-trigger-label">
+            YOUR
+            <br />
+            REWARD
+          </span>
         </button>
       )}
+
+      {/* GIVEAWAY POPUP */}
 
       {isOpen && (
         <div
           className="lanada-noir-overlay"
           onMouseDown={(event) => {
-            if (event.target === event.currentTarget) closePopup();
+            if (event.target === event.currentTarget) {
+              closePopup();
+            }
           }}
         >
           <section
@@ -200,6 +266,8 @@ export default function GiveawayPromo() {
               ×
             </button>
 
+            {/* BLACK PANEL */}
+
             <div className="lanada-noir-left">
               <div className="lanada-noir-topline">
                 <span>LANADA</span>
@@ -214,10 +282,15 @@ export default function GiveawayPromo() {
                 <span className="lanada-noir-number">
                   {reward.discountPercent}
                 </span>
-                <span className="lanada-noir-percent">%</span>
+
+                <span className="lanada-noir-percent">
+                  %
+                </span>
               </div>
 
-              <div className="lanada-noir-off">OFF YOUR NEXT ORDER</div>
+              <div className="lanada-noir-off">
+                OFF YOUR NEXT ORDER
+              </div>
 
               <div className="lanada-noir-rule" />
 
@@ -235,6 +308,8 @@ export default function GiveawayPromo() {
               <div className="lanada-noir-outline one" />
               <div className="lanada-noir-outline two" />
             </div>
+
+            {/* WHITE PANEL */}
 
             <div className="lanada-noir-right">
               <div className="lanada-noir-brand">
@@ -264,11 +339,15 @@ export default function GiveawayPromo() {
               </div>
 
               <div className="lanada-noir-code-card">
-                <span className="lanada-noir-code">{reward.code}</span>
+                <span className="lanada-noir-code">
+                  {reward.code}
+                </span>
 
                 <button
                   type="button"
-                  className={`lanada-noir-copy ${copied ? "copied" : ""}`}
+                  className={`lanada-noir-copy ${
+                    copied ? "copied" : ""
+                  }`}
                   onClick={copyCode}
                 >
                   {copied ? "COPIED ✓" : "COPY"}
@@ -276,7 +355,10 @@ export default function GiveawayPromo() {
               </div>
 
               <div className="lanada-noir-expiry">
-                <span className="lanada-noir-expiry-mark">i</span>
+                <span className="lanada-noir-expiry-mark">
+                  i
+                </span>
+
                 <div>
                   <strong>
                     {daysLeft === null
@@ -285,7 +367,10 @@ export default function GiveawayPromo() {
                       ? "1 DAY REMAINING"
                       : `${daysLeft} DAYS REMAINING`}
                   </strong>
-                  <span>Valid until {formatExpiry(reward.expiresAt)}</span>
+
+                  <span>
+                    Valid until {formatExpiry(reward.expiresAt)}
+                  </span>
                 </div>
               </div>
 

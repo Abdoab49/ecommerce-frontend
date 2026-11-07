@@ -1,6 +1,6 @@
 /* ==========================================
-   LANADA NOIR
-   BLACK & WHITE PREMIUM REWARD EXPERIENCE
+   LANADA NOIR — PREMIUM GIFT BUTTON
+   BLACK & WHITE GIVEAWAY EXPERIENCE
 ========================================== */
 
 .lanada-noir-overlay,
@@ -8,53 +8,197 @@
   box-sizing: border-box;
 }
 
+/* ==========================================
+   FLOATING GIFT BUTTON
+========================================== */
+
+.lanada-noir-trigger {
+  position: fixed;
+  right: 25px;
+  bottom: 95px;
+  z-index: 9998;
+
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+
+  background: #050505;
+  color: #fff;
+
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.06),
+    0 0 25px rgba(255, 255, 255, 0.16),
+    0 10px 35px rgba(0, 0, 0, 0.55);
+
+  cursor: pointer;
+
+  isolation: isolate;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.lanada-noir-trigger:hover {
+  transform: translateY(-5px) scale(1.04);
+
+  background: #171717;
+
+  box-shadow:
+    0 0 0 5px rgba(255, 255, 255, 0.1),
+    0 0 35px rgba(255, 255, 255, 0.28),
+    0 14px 40px rgba(0, 0, 0, 0.65);
+}
+
+.lanada-trigger-ring {
+  position: absolute;
+  inset: -6px;
+
+  z-index: -1;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+
+  animation: lanadaGiftRing 3s ease-out infinite;
+}
+
+.lanada-trigger-gift {
+  width: 26px;
+  height: 26px;
+
+  stroke: #fff;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  transition:
+    transform 0.3s ease,
+    stroke-width 0.3s ease;
+}
+
+.lanada-noir-trigger:hover .lanada-trigger-gift {
+  transform: scale(1.1);
+  stroke-width: 1.6;
+}
+
+.lanada-trigger-label {
+  color: #fff;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 7px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* Ring animation */
+
+@keyframes lanadaGiftRing {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+/* ==========================================
+   POPUP OVERLAY
+========================================== */
+
 .lanada-noir-overlay {
   position: fixed;
   inset: 0;
+
   z-index: 99999;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 22px;
+
   background: rgba(0, 0, 0, 0.86);
+
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+
   animation: noirFadeIn 0.3s ease both;
 }
 
-/* MAIN MODAL */
+/* ==========================================
+   MAIN MODAL
+========================================== */
 
 .lanada-noir-modal {
   position: relative;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
+
   width: 100%;
   max-width: 850px;
   min-height: 520px;
+
   overflow: hidden;
+
   background: #fff;
   color: #080808;
+
   box-shadow: 0 35px 110px rgba(0, 0, 0, 0.65);
-  animation: noirModalIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  animation:
+    noirModalIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)
+    both;
 }
+
+/* CLOSE BUTTON */
 
 .lanada-noir-close {
   position: absolute;
+
   top: 17px;
   right: 17px;
+
   z-index: 10;
+
   width: 36px;
   height: 36px;
+
   display: grid;
   place-items: center;
+
   border: 1px solid #dedede;
   border-radius: 50%;
+
   background: #fff;
   color: #111;
+
   font-size: 25px;
   font-weight: 300;
   line-height: 1;
+
   cursor: pointer;
+
   transition: all 0.25s ease;
 }
 
@@ -62,20 +206,28 @@
   border-color: #000;
   background: #000;
   color: #fff;
+
   transform: rotate(90deg);
 }
 
-/* BLACK PANEL */
+/* ==========================================
+   LEFT BLACK PANEL
+========================================== */
 
 .lanada-noir-left {
   position: relative;
+
   min-height: 520px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   overflow: hidden;
+
   padding: 65px 38px 48px;
+
   background:
     radial-gradient(
       ellipse at 50% 46%,
@@ -83,23 +235,29 @@
       transparent 48%
     ),
     #050505;
+
   color: #fff;
 }
 
 .lanada-noir-left::before {
   position: absolute;
   inset: 17px;
+
   border: 1px solid rgba(255, 255, 255, 0.15);
+
   content: "";
   pointer-events: none;
 }
 
 .lanada-noir-topline {
   position: absolute;
+
   top: 37px;
   left: 42px;
   right: 42px;
+
   z-index: 2;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -120,26 +278,33 @@
 .lanada-noir-edition {
   position: relative;
   z-index: 2;
+
   margin-top: 36px;
+
   color: #a9a9a9;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3.5px;
+
   text-align: center;
 }
 
 .lanada-noir-number-wrap {
   position: relative;
   z-index: 2;
+
   display: flex;
   align-items: flex-start;
   justify-content: center;
+
   margin-top: 37px;
+
   color: #fff;
 }
 
 .lanada-noir-number {
   font-family: Arial, Helvetica, sans-serif;
+
   font-size: clamp(135px, 19vw, 190px);
   font-weight: 900;
   letter-spacing: -13px;
@@ -148,6 +313,7 @@
 
 .lanada-noir-percent {
   margin-top: 9px;
+
   font-size: 48px;
   font-weight: 300;
 }
@@ -155,44 +321,58 @@
 .lanada-noir-off {
   position: relative;
   z-index: 2;
+
   margin-top: 17px;
+
   color: #d4d4d4;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 4px;
+
   text-align: center;
 }
 
 .lanada-noir-rule {
   position: relative;
   z-index: 2;
+
   width: 45px;
   height: 1px;
+
   margin-top: 34px;
+
   background: #fff;
 }
 
 .lanada-noir-manifesto {
   position: relative;
   z-index: 2;
+
   margin: 22px 0 0;
+
   color: #d5d5d5;
+
   font-family: Georgia, "Times New Roman", serif;
   font-size: 18px;
   font-style: italic;
   line-height: 1.5;
   letter-spacing: 1px;
+
   text-align: center;
 }
 
 .lanada-noir-left-footer {
   position: absolute;
+
   right: 42px;
   bottom: 37px;
   left: 42px;
+
   z-index: 2;
+
   display: flex;
   justify-content: space-between;
+
   color: #777;
   font-size: 7px;
   font-weight: 600;
@@ -201,8 +381,10 @@
 
 .lanada-noir-outline {
   position: absolute;
+
   border: 1px solid rgba(255, 255, 255, 0.055);
   border-radius: 50%;
+
   pointer-events: none;
 }
 
@@ -216,19 +398,24 @@
   height: 470px;
 }
 
-/* WHITE PANEL */
+/* ==========================================
+   RIGHT WHITE PANEL
+========================================== */
 
 .lanada-noir-right {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   padding: 65px 48px 42px;
+
   background: #fff;
   color: #080808;
 }
 
 .lanada-noir-brand {
   margin-bottom: 36px;
+
   font-size: 25px;
   font-weight: 900;
   letter-spacing: 7px;
@@ -242,6 +429,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+
   color: #777;
   font-size: 8px;
   font-weight: 800;
@@ -251,12 +439,15 @@
 .lanada-noir-kicker span {
   width: 20px;
   height: 1px;
+
   background: #111;
 }
 
 .lanada-noir-right h2 {
   margin: 21px 0 0;
+
   color: #080808;
+
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(38px, 4.7vw, 52px);
   font-weight: 400;
@@ -266,6 +457,7 @@
 
 .lanada-noir-right h2 em {
   font-weight: 400;
+
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 6px;
@@ -273,16 +465,21 @@
 
 .lanada-noir-description {
   max-width: 300px;
+
   margin: 20px 0 29px;
+
   color: #777;
   font-size: 12px;
   line-height: 1.9;
 }
 
-/* PROMO CODE */
+/* ==========================================
+   PROMO CODE
+========================================== */
 
 .lanada-noir-code-heading {
   margin-bottom: 10px;
+
   color: #777;
   font-size: 8px;
   font-weight: 800;
@@ -291,19 +488,25 @@
 
 .lanada-noir-code-card {
   min-height: 54px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 7px;
+
   padding: 7px 7px 7px 13px;
+
   border: 1px solid #e2e2e2;
+
   background: #f7f7f7;
 }
 
 .lanada-noir-code {
   min-width: 0;
   overflow: hidden;
+
   color: #090909;
+
   font-size: clamp(12px, 1.8vw, 16px);
   font-weight: 900;
   letter-spacing: 1px;
@@ -312,16 +515,23 @@
 
 .lanada-noir-copy {
   flex-shrink: 0;
+
   min-width: 73px;
   height: 38px;
+
   padding: 0 12px;
+
   border: 1px solid #000;
+
   background: #000;
   color: #fff;
+
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 1px;
+
   cursor: pointer;
+
   transition: all 0.25s ease;
 }
 
@@ -335,23 +545,30 @@
   color: #000;
 }
 
-/* EXPIRATION */
+/* ==========================================
+   EXPIRATION
+========================================== */
 
 .lanada-noir-expiry {
   display: flex;
   align-items: center;
   gap: 11px;
+
   margin-top: 19px;
 }
 
 .lanada-noir-expiry-mark {
   width: 23px;
   height: 23px;
+
   display: grid;
   place-items: center;
+
   border: 1px solid #bbb;
   border-radius: 50%;
+
   color: #555;
+
   font-family: Georgia, serif;
   font-size: 13px;
   font-style: italic;
@@ -365,6 +582,7 @@
 
 .lanada-noir-expiry strong {
   color: #171717;
+
   font-size: 8px;
   font-weight: 900;
   letter-spacing: 1.3px;
@@ -375,23 +593,32 @@
   font-size: 10px;
 }
 
-/* CTA */
+/* ==========================================
+   CTA
+========================================== */
 
 .lanada-noir-cta {
   width: 100%;
   min-height: 51px;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 17px;
+
   margin-top: 25px;
+
   border: 1px solid #000;
+
   background: #000;
   color: #fff;
+
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 1.7px;
+
   cursor: pointer;
+
   transition: all 0.25s ease;
 }
 
@@ -411,60 +638,25 @@
 
 .lanada-noir-terms {
   margin-top: 20px;
+
   color: #aaa;
+
   font-size: 7px;
   font-weight: 700;
   letter-spacing: 1.5px;
+
   text-align: center;
 }
 
-/* FLOATING REWARD BUTTON */
-
-.lanada-noir-trigger {
-  position: fixed;
-  right: 25px;
-  bottom: 95px;
-  z-index: 9998;
-  width: 65px;
-  height: 65px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 50%;
-  background: #050505;
-  color: #fff;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease;
-}
-
-.lanada-noir-trigger:hover {
-  transform: translateY(-5px);
-  background: #292929;
-}
-
-.lanada-noir-trigger-icon {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 25px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.lanada-noir-trigger-label {
-  font-size: 6px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-/* ANIMATIONS */
+/* ==========================================
+   ANIMATIONS
+========================================== */
 
 @keyframes noirFadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -475,13 +667,16 @@
     opacity: 0;
     transform: translateY(18px) scale(0.985);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-/* TABLET & MOBILE */
+/* ==========================================
+   TABLET & MOBILE
+========================================== */
 
 @media (max-width: 700px) {
   .lanada-noir-overlay {
@@ -491,8 +686,10 @@
   .lanada-noir-modal {
     display: grid;
     grid-template-columns: 1fr;
+
     max-width: 430px;
     max-height: calc(100vh - 24px);
+
     overflow-y: auto;
   }
 
@@ -568,6 +765,8 @@
   }
 }
 
+/* SMALL MOBILE */
+
 @media (max-width: 380px) {
   .lanada-noir-left {
     min-height: 255px;
@@ -598,8 +797,9 @@
   .lanada-noir-trigger {
     right: 14px;
     bottom: 83px;
-    width: 57px;
-    height: 57px;
+
+    width: 62px;
+    height: 62px;
   }
 }
 
@@ -609,7 +809,8 @@
   .lanada-noir-overlay,
   .lanada-noir-modal,
   .lanada-noir-modal *,
-  .lanada-noir-trigger {
+  .lanada-noir-trigger,
+  .lanada-trigger-ring {
     animation: none !important;
     transition: none !important;
   }
