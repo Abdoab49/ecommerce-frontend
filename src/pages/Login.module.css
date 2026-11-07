@@ -925,3 +925,196 @@
   outline: 2px solid #4285f4;
   outline-offset: 3px;
 }
+
+
+/* =========================================
+   LANADA ORIGINAL LOGO
+========================================= */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  height: 75px;
+  margin-bottom: 65px;
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  width: 125px;
+  height: 75px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* =========================================
+   FIXED INPUT FIELDS — SINGLE BORDER
+========================================= */
+
+.inputWrap {
+  width: 100%;
+  min-width: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 15px;
+
+  border: 1px solid #dedede;
+  border-radius: 5px;
+
+  background: #ffffff;
+
+  box-shadow: none;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputWrap:hover {
+  border-color: #bcbcbc;
+}
+
+.inputWrap:focus-within {
+  border-color: #222222;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.045);
+}
+
+/* Input itself has no extra border */
+
+.inputWrap input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  background: transparent;
+  color: #111111;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+.inputWrap input:focus,
+.inputWrap input:focus-visible {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.inputWrap input::placeholder {
+  color: #aaaaaa;
+  opacity: 1;
+}
+
+/* Keep icons correctly aligned */
+
+.inputWrap > svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  fill: none;
+  stroke: #777777;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* =========================================
+   GOOGLE BUTTON — REMOVE DOUBLE FRAME
+========================================= */
+
+.googleButton {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+}
+
+.googleCustomButton {
+  width: 100%;
+  min-height: 49px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 0 16px;
+
+  border: 1px solid #dedede;
+  border-radius: 5px;
+
+  background: #ffffff;
+  color: #202124;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.googleCustomButton:hover {
+  background: #f8f8f8;
+  border-color: #999999;
+}
+
+.googleCustomButton svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   ACCESSIBILITY — NO SECOND INPUT FRAME
+========================================= */
+
+.authPage button:focus-visible,
+.authPage a:focus-visible {
+  outline: 2px solid #555555;
+  outline-offset: 3px;
+}
+
+.authPage input:focus-visible {
+  outline: none;
+}
+
+/* =========================================
+   MOBILE LOGO
+========================================= */
+
+@media (max-width: 720px) {
+  .brand {
+    height: 65px;
+    margin-bottom: 42px;
+  }
+
+  .brand img {
+    width: 105px;
+    height: 65px;
+  }
+}

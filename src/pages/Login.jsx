@@ -396,9 +396,16 @@ const Login = () => {
 
             {/* BRAND */}
 
-            <Link to="/" className={styles.brand}>
-              LANADA<span>.</span>
-            </Link>
+            <Link
+  to="/"
+  className={styles.brand}
+  aria-label="LANADA Home"
+>
+  <img
+    src="/logo512.png"
+    alt="LANADA"
+  />
+</Link>
 
             {/* HEADING */}
 
