@@ -181,7 +181,7 @@ function App() {
               </div>
 
               {/* LUXURY EDITORIAL FOOTER */}
-              <Footer />
+              <Footer logoSrc="/logo512.png" />
 
             </div>
 
