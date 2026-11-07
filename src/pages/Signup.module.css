@@ -684,3 +684,120 @@
     transition: none !important;
   }
 }
+
+
+/* =========================================
+   LANADA SIGNUP — CLEAN INPUT BORDERS
+   Keep Original Dimensions
+========================================= */
+
+/* Input container */
+.signupPage .inputWrapper {
+  width: 100%;
+  height: 49px;
+  min-height: 49px;
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 1px solid #dedede;
+  border-radius: 3px;
+
+  background: #ffffff;
+
+  outline: none;
+  box-shadow: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+/* Hover */
+.signupPage .inputWrapper:hover {
+  border-color: #b5b5b5;
+  background: #ffffff;
+}
+
+/* Focus — one clean border */
+.signupPage .inputWrapper:focus-within {
+  border: 1px solid #222222;
+  background: #ffffff;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Actual input */
+.signupPage .inputWrapper input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  background: transparent;
+  color: #111111;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+/* Remove browser's additional focus frame */
+.signupPage .inputWrapper input:focus,
+.signupPage .inputWrapper input:focus-visible,
+.signupPage .inputWrapper input:active {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Placeholder */
+.signupPage .inputWrapper input::placeholder {
+  color: #aaaaaa;
+  font-size: 11px;
+  opacity: 1;
+}
+
+/* Icons alignment */
+.signupPage .inputWrapper > svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  fill: none;
+  stroke: #777777;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Remove unwanted focus outline on wrapper */
+.signupPage .inputWrapper:focus {
+  outline: none;
+}
+
+/* Preserve original password button */
+.signupPage .inputWrapper .eyeButton {
+  flex-shrink: 0;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Keep original dimensions on mobile */
+@media (max-width: 380px) {
+  .signupPage .inputWrapper {
+    height: 46px;
+    min-height: 46px;
+    padding: 0 11px;
+  }
+}
