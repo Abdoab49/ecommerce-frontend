@@ -10,6 +10,7 @@ import BottomNavBar from './Components/BottomNavBar/BottomNavBar';
 import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 import GiveawayPromo from './Components/GiveawayPromo/GiveawayPromo';
+import Footer from './Components/Footer/Footer';
 
 /* PAGES */
 import Shop from './pages/Shop';
@@ -61,6 +62,7 @@ function App() {
               }}
             >
 
+              {/* MAIN PAGE CONTENT */}
               <div style={{ flex: 1 }}>
 
                 <Routes>
@@ -177,6 +179,9 @@ function App() {
                 </Routes>
 
               </div>
+
+              {/* LUXURY EDITORIAL FOOTER */}
+              <Footer />
 
             </div>
 
