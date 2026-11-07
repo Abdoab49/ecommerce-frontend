@@ -5,7 +5,7 @@
   overflow: hidden;
   white-space: nowrap;
   box-sizing: border-box;
-  border-bottom: solid 2px rgb(255, 255, 255);
+  border-bottom: solid 2px black;
   padding: 10px;
   position: relative;
 }
@@ -15,6 +15,7 @@
   padding-left: 100%;
   animation: scroll-left 20s linear infinite;
   font-family: 'Cinzel', serif;
+  color: white;
 }
 
 @keyframes scroll-left {
