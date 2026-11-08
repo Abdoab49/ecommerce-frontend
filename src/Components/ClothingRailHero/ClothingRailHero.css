@@ -1,0 +1,1411 @@
+
+/* =========================================
+   LANADA — INTERACTIVE CLOTHING RAIL
+   BLACK / WHITE / CHAMPAGNE
+========================================= */
+
+.lanada-rail-page,
+.lanada-rail-page * {
+  box-sizing: border-box;
+}
+
+.lanada-rail-page {
+  --rail-black: #080808;
+  --rail-white: #ffffff;
+  --rail-muted: #888888;
+  --rail-gold: #bd9a5e;
+
+  width: 100%;
+  min-height: 100vh;
+  padding: 65px clamp(18px, 5vw, 75px) 35px;
+  overflow: hidden;
+  background: #f6f5f2;
+  color: var(--rail-black);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.lanada-rail-header {
+  max-width: 1400px;
+  margin: 0 auto 45px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.lanada-rail-eyebrow {
+  color: #8b7654;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.lanada-rail-header h1 {
+  margin: 20px 0 12px;
+  color: #090909;
+  font-size: clamp(52px, 7.5vw, 100px);
+  font-weight: 950;
+  letter-spacing: -6px;
+  line-height: 0.83;
+}
+
+.lanada-rail-header h1 em {
+  color: #a88a5a;
+  font-style: normal;
+}
+
+.lanada-rail-header p {
+  margin: 18px 0 0;
+  color: #777777;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.lanada-add-button {
+  min-width: 154px;
+  min-height: 48px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  border: 1px solid #111111;
+  border-radius: 3px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.lanada-add-button:hover {
+  background: #ffffff;
+  color: #111111;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   UPLOAD FORM
+========================================= */
+
+.lanada-rail-upload {
+  max-width: 1400px;
+  margin: 0 auto 35px;
+  padding: 30px;
+  border: 1px solid #e0ded9;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.045);
+  animation: railFormEnter 0.35s ease both;
+}
+
+@keyframes railFormEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rail-upload-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.rail-upload-heading > div > span {
+  color: #a18a62;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.rail-upload-heading h2 {
+  margin: 8px 0 6px;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.rail-upload-heading p {
+  margin: 0;
+  color: #888888;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.rail-upload-number {
+  color: #aaaaaa;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.rail-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.rail-text-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rail-text-field > span,
+.rail-upload-label {
+  color: #6c6c6c;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.rail-text-field input,
+.rail-text-field select {
+  width: 100%;
+  height: 45px;
+  min-width: 0;
+  padding: 0 13px;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  outline: none;
+  background: #fafafa;
+  color: #111111;
+  font-family: inherit;
+  font-size: 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.rail-text-field input:focus,
+.rail-text-field select:focus {
+  border-color: #151515;
+  background: #ffffff;
+}
+
+.rail-text-field input::placeholder {
+  color: #aaaaaa;
+}
+
+.rail-description-field {
+  grid-column: 1 / -1;
+}
+
+/* IMAGE UPLOAD */
+
+.rail-image-upload-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.rail-upload-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.rail-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rail-upload-label i {
+  color: #a18a62;
+  font-size: 8px;
+  font-style: normal;
+}
+
+.rail-image-picker {
+  position: relative;
+  width: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  overflow: hidden;
+  padding: 15px;
+  border: 1px dashed #bdb9b1;
+  border-radius: 3px;
+  background: #faf9f6;
+  color: #222222;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rail-image-picker:hover {
+  border-color: #111111;
+  background: #ffffff;
+}
+
+.rail-image-picker.has-image {
+  min-height: 210px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #dedbd5;
+  background: #f4f3f0;
+}
+
+.rail-image-picker-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dedbd5;
+  border-radius: 50%;
+  color: #927950;
+}
+
+.rail-image-picker-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.rail-image-picker > strong {
+  color: #333333;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+
+.rail-image-picker > small {
+  color: #999999;
+  font-size: 8px;
+}
+
+.rail-image-picker > img {
+  width: 100%;
+  height: 190px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.rail-image-change {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.rail-upload-field input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rail-selected-file {
+  overflow: hidden;
+  color: #888888;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* UPLOAD FOOTER */
+
+.rail-upload-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.rail-upload-footer > span {
+  color: #888888;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+.rail-upload-footer button {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 2px;
+  background: #080808;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rail-upload-footer button:hover:not(:disabled) {
+  background: #8b7046;
+}
+
+.rail-upload-footer button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rail-upload-footer button span {
+  font-size: 17px;
+}
+
+/* =========================================
+   FEEDBACK
+========================================= */
+
+.lanada-rail-feedback {
+  max-width: 1400px;
+  margin: 0 auto 18px;
+  padding: 13px 16px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.lanada-rail-feedback.error {
+  border: 1px solid #e8c4c4;
+  background: #fff6f6;
+  color: #a42a2a;
+}
+
+.lanada-rail-feedback.success {
+  border: 1px solid #d8dfd1;
+  background: #f7faf4;
+  color: #41613b;
+}
+
+/* =========================================
+   RAIL META / CONTROLS
+========================================= */
+
+.lanada-rail-meta {
+  max-width: 1400px;
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.lanada-rail-meta-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rail-meta-label {
+  color: #898989;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.lanada-rail-meta strong {
+  color: #151515;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.rail-controls {
+  display: flex;
+  gap: 7px;
+}
+
+.rail-controls button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d5d3cf;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111111;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rail-controls button:hover {
+  border-color: #111111;
+  background: #111111;
+  color: #ffffff;
+}
+
+/* =========================================
+   RAIL STAGE
+========================================= */
+
+.lanada-rail-stage {
+  position: relative;
+  max-width: 1400px;
+  min-height: 470px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 5px;
+  background:
+    radial-gradient(
+      ellipse at 50% 30%,
+      #ffffff 0%,
+      #f5f4f0 55%,
+      #eae8e2 100%
+    );
+}
+
+.lanada-rail-stage::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.025),
+      transparent 14%,
+      transparent 86%,
+      rgba(0, 0, 0, 0.025)
+    );
+}
+
+/* METAL RAIL */
+
+.lanada-rail-bar {
+  position: absolute;
+  top: 32px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+  height: 8px;
+  border-radius: 10px;
+  background: linear-gradient(
+    to bottom,
+    #e7e5e0,
+    #a8a59e 45%,
+    #77746f 55%,
+    #e5e3df
+  );
+  box-shadow:
+    0 3px 5px rgba(0, 0, 0, 0.12),
+    0 12px 18px rgba(0, 0, 0, 0.04);
+}
+
+.rail-bar-end,
+.rail-bar-centre {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #88857e;
+  transform: translateY(-50%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.rail-bar-end.left {
+  left: 0;
+}
+
+.rail-bar-centre {
+  left: 50%;
+}
+
+.rail-bar-end.right {
+  right: 0;
+}
+
+/* =========================================
+   HORIZONTAL RAIL TRACK
+========================================= */
+
+.lanada-rail-track {
+  position: relative;
+  z-index: 3;
+  min-height: 465px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 36px 35px 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #aaa transparent;
+  overscroll-behavior-x: contain;
+}
+
+.lanada-rail-track::-webkit-scrollbar {
+  height: 5px;
+}
+
+.lanada-rail-track::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #aaaaaa;
+}
+
+/* =========================================
+   GARMENT PIECE
+========================================= */
+
+.lanada-rail-piece {
+  position: relative;
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0;
+  animation: garmentEnter 0.5s ease both;
+}
+
+.lanada-rail-piece:nth-child(2n) {
+  animation-delay: 0.06s;
+}
+
+.lanada-rail-piece:nth-child(3n) {
+  animation-delay: 0.12s;
+}
+
+@keyframes garmentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* HANGER */
+
+.lanada-hanger {
+  position: relative;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lanada-hanger-hook {
+  position: relative;
+  width: 12px;
+  height: 20px;
+  border: 2px solid #99968e;
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+}
+
+.lanada-hanger-hook::after {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 3px;
+  height: 12px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #777, #e7e5df, #777);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.lanada-hanger-frame {
+  position: relative;
+  width: 95%;
+  height: 23px;
+  margin-top: 1px;
+}
+
+.lanada-hanger-frame::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid #aaa79f;
+  border-radius: 50%;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.hanger-left,
+.hanger-right {
+  position: absolute;
+  top: 3px;
+  width: 53%;
+  height: 15px;
+  border-top: 3px solid #aaa79f;
+}
+
+.hanger-left {
+  left: 0;
+  transform: skewY(-17deg);
+}
+
+.hanger-right {
+  right: 0;
+  transform: skewY(17deg);
+}
+
+.hanger-bottom {
+  position: absolute;
+  right: 7px;
+  bottom: 2px;
+  left: 7px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #ddd, #999);
+}
+
+/* GARMENT PHOTO BUTTON */
+
+.lanada-garment-button {
+  position: relative;
+  width: 100%;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lanada-garment-image {
+  position: relative;
+  width: 100%;
+  height: 285px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 10px 8px;
+  overflow: hidden;
+  border-radius: 5px 5px 0 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.76),
+      rgba(238, 236, 231, 0.5)
+    );
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+}
+
+.lanada-garment-image::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(0, 0, 0, 0.055);
+  content: "";
+  pointer-events: none;
+}
+
+.lanada-garment-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 12px 8px rgba(0, 0, 0, 0.12));
+  transition: transform 0.4s ease;
+}
+
+.lanada-rail-piece:hover .lanada-garment-image img {
+  transform: scale(1.055);
+}
+
+.lanada-garment-view {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 9px 11px;
+  background: rgba(0, 0, 0, 0.84);
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.25s ease;
+}
+
+.lanada-rail-piece:hover .lanada-garment-view,
+.lanada-garment-button:focus-visible .lanada-garment-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* GARMENT INFO */
+
+.lanada-garment-info {
+  width: 100%;
+  min-height: 75px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 9px;
+  background: #ffffff;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.04);
+}
+
+.garment-number {
+  align-self: flex-start;
+  color: #ad9261;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-style: italic;
+}
+
+.garment-text {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.garment-text strong {
+  overflow: hidden;
+  color: #111111;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.garment-text small {
+  overflow: hidden;
+  color: #888888;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lanada-garment-info > b {
+  flex-shrink: 0;
+  color: #171717;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+/* PIECE ACTIONS */
+
+.lanada-piece-actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.lanada-piece-actions button {
+  min-height: 34px;
+  border: 1px solid #d2d0cb;
+  border-radius: 2px;
+  background: transparent;
+  color: #444444;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lanada-piece-actions > button:first-child {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 9px;
+}
+
+.lanada-piece-actions button:hover {
+  border-color: #111111;
+  background: #111111;
+  color: #ffffff;
+}
+
+.lanada-piece-actions .rail-delete-button {
+  width: 34px;
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+/* =========================================
+   EMPTY / LOADING STATE
+========================================= */
+
+.lanada-rail-empty {
+  position: relative;
+  z-index: 3;
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 22px 35px;
+  text-align: center;
+}
+
+.rail-empty-icon {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #d6d2c9;
+  border-radius: 50%;
+  color: #927950;
+}
+
+.rail-empty-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.lanada-rail-empty > span {
+  color: #927950;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.lanada-rail-empty h2 {
+  margin: 12px 0 8px;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.lanada-rail-empty p {
+  max-width: 390px;
+  margin: 0;
+  color: #888888;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.lanada-rail-empty > button {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 23px;
+  padding: 0 18px;
+  border: 0;
+  background: #111111;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lanada-rail-empty > button:hover {
+  background: #927950;
+}
+
+.rail-loading-spinner {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #dddddd;
+  border-top-color: #111111;
+  border-radius: 50%;
+  animation: railSpin 0.8s linear infinite;
+}
+
+@keyframes railSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lanada-rail-hint {
+  padding: 0 15px 15px;
+  color: #888888;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* =========================================
+   BOTTOM SIGNATURE
+========================================= */
+
+.lanada-rail-bottom {
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 22px auto 0;
+}
+
+.lanada-rail-bottom span {
+  color: #999999;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+/* =========================================
+   DETAIL MODAL
+========================================= */
+
+.lanada-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: detailFade 0.25s ease both;
+}
+
+@keyframes detailFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lanada-detail-modal {
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  min-height: 500px;
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
+  animation: detailEnter 0.35s ease both;
+}
+
+@keyframes detailEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lanada-detail-close {
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  z-index: 5;
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dddddd;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111111;
+  font-size: 23px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lanada-detail-close:hover {
+  border-color: #111111;
+  background: #111111;
+  color: #ffffff;
+}
+
+.lanada-detail-image-panel {
+  position: relative;
+  min-width: 0;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 30px 30px;
+  background:
+    radial-gradient(ellipse at center, #ffffff 0%, #f0efec 82%);
+}
+
+.lanada-detail-index {
+  position: absolute;
+  top: 25px;
+  left: 27px;
+  color: #999999;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.lanada-detail-photo {
+  width: 100%;
+  height: 365px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.lanada-detail-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 14px 14px rgba(0, 0, 0, 0.1));
+}
+
+.lanada-detail-side-switch {
+  display: flex;
+  gap: 27px;
+  margin-top: 20px;
+}
+
+.lanada-detail-side-switch button {
+  min-width: 55px;
+  padding: 8px 2px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: #999999;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  cursor: pointer;
+}
+
+.lanada-detail-side-switch button.active {
+  border-bottom-color: #111111;
+  color: #111111;
+}
+
+.lanada-detail-side-switch button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* DETAIL CONTENT */
+
+.lanada-detail-content {
+  align-self: center;
+  padding: 65px 40px 45px;
+}
+
+.lanada-detail-eyebrow {
+  color: #9c8051;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.lanada-detail-content h2 {
+  margin: 17px 0 12px;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.lanada-detail-description {
+  color: #858585;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.lanada-detail-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.lanada-detail-facts > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.lanada-detail-facts span {
+  color: #999999;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.lanada-detail-facts strong {
+  color: #222222;
+  font-size: 10px;
+  text-align: right;
+}
+
+.lanada-detail-price {
+  margin-top: 27px;
+  color: #111111;
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.lanada-detail-done {
+  width: 100%;
+  min-height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding: 0 15px;
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lanada-detail-done:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .lanada-rail-page {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+
+  .lanada-rail-header h1 {
+    font-size: 70px;
+  }
+
+  .lanada-detail-content {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+  .lanada-rail-page {
+    padding: 42px 14px 25px;
+  }
+
+  .lanada-rail-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 30px;
+  }
+
+  .lanada-rail-header h1 {
+    font-size: clamp(55px, 15vw, 78px);
+    letter-spacing: -4px;
+  }
+
+  .lanada-rail-header p {
+    font-size: 13px;
+  }
+
+  .lanada-add-button {
+    width: 100%;
+  }
+
+  .lanada-rail-upload {
+    padding: 20px 15px;
+  }
+
+  .rail-upload-heading h2 {
+    font-size: 25px;
+  }
+
+  .rail-upload-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .rail-description-field,
+  .rail-image-upload-row {
+    grid-column: auto;
+  }
+
+  .rail-image-upload-row {
+    grid-template-columns: 1fr;
+  }
+
+  .rail-upload-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rail-upload-footer button {
+    justify-content: space-between;
+  }
+
+  .lanada-rail-stage {
+    min-height: 410px;
+  }
+
+  .lanada-rail-track {
+    min-height: 405px;
+    gap: 7px;
+    padding: 38px 17px 19px;
+  }
+
+  .lanada-rail-piece {
+    width: 178px;
+    min-width: 178px;
+  }
+
+  .lanada-garment-image {
+    height: 245px;
+  }
+
+  .lanada-rail-empty {
+    min-height: 380px;
+  }
+
+  .lanada-rail-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .lanada-detail-overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .lanada-detail-modal {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin: auto;
+  }
+
+  .lanada-detail-image-panel {
+    min-height: 320px;
+    padding: 48px 22px 22px;
+  }
+
+  .lanada-detail-photo {
+    height: 235px;
+  }
+
+  .lanada-detail-content {
+    padding: 30px 23px 25px;
+  }
+
+  .lanada-detail-content h2 {
+    font-size: 32px;
+  }
+
+  .lanada-detail-facts {
+    margin-top: 20px;
+    padding-top: 18px;
+  }
+
+  .lanada-detail-price {
+    margin-top: 20px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  .lanada-rail-header h1 {
+    font-size: 52px;
+  }
+
+  .lanada-rail-stage {
+    min-height: 380px;
+  }
+
+  .lanada-rail-track {
+    min-height: 375px;
+  }
+
+  .lanada-rail-piece {
+    width: 165px;
+    min-width: 165px;
+  }
+
+  .lanada-garment-image {
+    height: 225px;
+  }
+
+  .garment-text strong {
+    font-size: 9px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+.lanada-rail-page button:focus-visible,
+.lanada-detail-overlay button:focus-visible {
+  outline: 2px solid #927950;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lanada-rail-page *,
+  .lanada-rail-page *::before,
+  .lanada-rail-page *::after,
+  .lanada-detail-overlay *,
+  .lanada-detail-overlay *::before,
+  .lanada-detail-overlay *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
