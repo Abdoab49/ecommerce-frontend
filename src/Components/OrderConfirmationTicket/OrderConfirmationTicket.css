@@ -1,0 +1,435 @@
+.lanada-ticket-page {
+  --ticket-background: #f8fafc;
+  --ticket-foreground: #171717;
+
+  min-height: 75vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px 48px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--ticket-background);
+  color: var(--ticket-foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.lanada-ticket {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 384px;
+  overflow: visible;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+  color: #171717;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+  animation: lanada-ticket-appear 500ms ease-out both;
+}
+
+@keyframes lanada-ticket-appear {
+  from {
+    opacity: 0;
+    transform: scale(.95) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Ticket cut-out effect */
+
+.lanada-ticket-cutout {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ticket-background);
+  transform: translateY(-50%);
+}
+
+.lanada-ticket-cutout-left {
+  left: -16px;
+}
+
+.lanada-ticket-cutout-right {
+  right: -16px;
+}
+
+/* Intro */
+
+.lanada-ticket-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 32px 28px;
+  text-align: center;
+}
+
+.lanada-ticket-success-circle {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 12px;
+  border-radius: 50%;
+  background: #eaf5e9;
+  color: #27833c;
+  animation: lanada-ticket-pop 500ms 200ms both;
+}
+
+.lanada-ticket-check {
+  display: block;
+  width: 40px;
+  height: 40px;
+  animation: lanada-ticket-check 500ms 350ms both;
+}
+
+@keyframes lanada-ticket-pop {
+  from {
+    opacity: 0;
+    transform: scale(.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lanada-ticket-check {
+  from {
+    opacity: 0;
+    transform: scale(.65);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lanada-ticket-intro h1 {
+  margin: 16px 0 0;
+  color: #171717;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -.4px;
+}
+
+.lanada-ticket-intro p {
+  margin: 5px 0 0;
+  color: #737373;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Content */
+
+.lanada-ticket-content {
+  padding: 0 32px 27px;
+}
+
+.lanada-ticket-dashed {
+  width: 100%;
+  border-top: 2px dashed #dedede;
+}
+
+.lanada-ticket-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px;
+  padding: 24px 0;
+}
+
+.lanada-ticket-label {
+  margin: 0 0 6px;
+  color: #737373;
+  font-size: 10px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: .65px;
+  text-transform: uppercase;
+}
+
+.lanada-ticket-id {
+  margin: 0;
+  color: #171717;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.lanada-ticket-amount-block {
+  text-align: right;
+}
+
+.lanada-ticket-amount {
+  margin: 0;
+  color: #171717;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Date */
+
+.lanada-ticket-date-block {
+  padding: 0 0 22px;
+}
+
+.lanada-ticket-date {
+  margin: 0;
+  color: #171717;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+/* Customer card */
+
+.lanada-ticket-customer {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 18px;
+  padding: 15px;
+  border-radius: 9px;
+  background: #f4f4f5;
+}
+
+.lanada-ticket-payment-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d4d4d8;
+  border-radius: 50%;
+  background: #fff;
+  color: #171717;
+}
+
+.lanada-ticket-payment-icon span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lanada-ticket-customer-name {
+  margin: 0 0 3px;
+  color: #171717;
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.lanada-ticket-subtitle {
+  margin: 2px 0 0;
+  color: #737373;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Address */
+
+.lanada-ticket-address {
+  padding: 0 0 16px;
+}
+
+.lanada-ticket-address > p:last-child {
+  margin: 0;
+  color: #525252;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Status */
+
+.lanada-ticket-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 0 20px;
+}
+
+.lanada-ticket-status .lanada-ticket-label {
+  margin: 0;
+}
+
+.lanada-ticket-status strong {
+  color: #4b7a43;
+  font-size: 9px;
+  letter-spacing: .8px;
+}
+
+/* Barcode */
+
+.lanada-ticket-barcode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0 0;
+}
+
+.lanada-ticket-barcode svg {
+  display: block;
+  width: 250px;
+  max-width: 100%;
+  height: 70px;
+  color: #171717;
+}
+
+.lanada-ticket-barcode p {
+  margin: 7px 0 0;
+  color: #525252;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 2.2px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* Buttons */
+
+.lanada-ticket-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 24px 24px;
+}
+
+.lanada-ticket-continue,
+.lanada-ticket-orders {
+  min-height: 43px;
+  padding: 11px 10px;
+  border: 1px solid #171717;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 9px;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: .45px;
+  text-transform: uppercase;
+  transition:
+    background .2s ease,
+    color .2s ease,
+    transform .2s ease;
+}
+
+.lanada-ticket-continue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  background: #171717;
+  color: #fff;
+}
+
+.lanada-ticket-continue:hover {
+  background: #363636;
+  transform: translateY(-1px);
+}
+
+.lanada-ticket-continue span {
+  font-size: 14px;
+}
+
+.lanada-ticket-orders {
+  background: #fff;
+  color: #171717;
+}
+
+.lanada-ticket-orders:hover {
+  background: #f4f4f5;
+  transform: translateY(-1px);
+}
+
+/* Confetti */
+
+.lanada-ticket-confetti {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.lanada-ticket-confetti span {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  opacity: 0;
+}
+
+@keyframes lanada-ticket-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 420px) {
+  .lanada-ticket-page {
+    padding: 22px 12px 35px;
+  }
+
+  .lanada-ticket-intro {
+    padding: 27px 22px 24px;
+  }
+
+  .lanada-ticket-content {
+    padding: 0 22px 23px;
+  }
+
+  .lanada-ticket-actions {
+    grid-template-columns: 1fr;
+    padding: 0 22px 22px;
+  }
+
+  .lanada-ticket-amount {
+    font-size: 16px;
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .lanada-ticket,
+  .lanada-ticket-success-circle,
+  .lanada-ticket-check {
+    animation: none !important;
+  }
+
+  .lanada-ticket-continue,
+  .lanada-ticket-orders {
+    transition: none;
+  }
+
+  .lanada-ticket-confetti {
+    display: none;
+  }
+}

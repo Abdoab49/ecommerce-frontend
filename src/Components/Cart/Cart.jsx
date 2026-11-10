@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { ShopContext } from '../../Context/ShopContext';
 import TruckButton from '../TruckButton/TruckButton';
 import { cities, getRegionsByCity } from '../../Data/moroccoCities';
 import Notification from '../Notification/Notification';
+import OrderConfirmationTicket from '../OrderConfirmationTicket/OrderConfirmationTicket';
+
 import styles from './Cart.module.css';
 
 const API = 'https://backend-3lyx.onrender.com/api';
@@ -20,18 +23,20 @@ const Cart = () => {
 
   const [notification, setNotification] = useState(null);
 
-  // ✅ Read Giveaway promo code automatically
+  // Giveaway promo code
   const [promoCode, setPromoCode] = useState(() => {
     return localStorage.getItem('lanada_pending_promo') || '';
   });
 
-  // ✅ JDID: appliedPromoCode
   const [appliedPromoCode, setAppliedPromoCode] = useState('');
 
   const [promoPercent, setPromoPercent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  // Actual confirmed order returned by backend
+  const [orderDetails, setOrderDetails] = useState(null);
 
   // SHIPPING INFORMATION
   const [fullName, setFullName] = useState('');
@@ -42,70 +47,115 @@ const Cart = () => {
 
   const [errors, setErrors] = useState({});
 
+  // =========================================
+  // USER
+  // =========================================
+
   const getUserId = () => {
     return localStorage.getItem('lanada_user_id');
   };
 
+  // =========================================
+  // HELPERS
+  // =========================================
+
   const extractPrice = (price) => {
-    if (typeof price === 'number') return price;
+    if (typeof price === 'number') {
+      return price;
+    }
+
     if (typeof price === 'string') {
       const value = parseFloat(price.replace(/[^0-9.]/g, ''));
+
       return Number.isNaN(value) ? 0 : value;
     }
+
     return 0;
   };
 
   const getProductImage = (item) => {
-    return item.image || item.img || '/Assets/ShoeStore/tshirt1.png';
+    return (
+      item.image ||
+      item.img ||
+      '/Assets/ShoeStore/tshirt1.png'
+    );
   };
 
   const subtotal = cartItems.reduce((sum, item) => {
     return sum + extractPrice(item.price) * (item.quantity || 1);
   }, 0);
 
-  const shippingFee = subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
+  const shippingFee =
+    subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
+
   const promoAmount = (subtotal * promoPercent) / 100;
-  const total = Math.max(0, subtotal + shippingFee - promoAmount);
+
+  const total = Math.max(
+    0,
+    subtotal + shippingFee - promoAmount
+  );
 
   const totalItems = cartItems.reduce((sum, item) => {
     return sum + (item.quantity || 1);
   }, 0);
 
   const showNotice = (type, title, message) => {
-    setNotification({ type, title, message });
+    setNotification({
+      type,
+      title,
+      message
+    });
   };
 
   // =========================================
-  // ✅ PROMO CODE VALIDATION (Giveaway + Normal)
+  // PROMO CODE VALIDATION
+  // GIVEAWAY + NORMAL PROMO
   // =========================================
 
   const applyPromoCode = async () => {
     const normalizedCode = promoCode.trim().toUpperCase();
 
     if (!normalizedCode) {
-      showNotice('error', 'Error', 'Please enter a promo code.');
+      showNotice(
+        'error',
+        'Error',
+        'Please enter a promo code.'
+      );
+
       return;
     }
 
     const userId = getUserId();
 
     if (!userId) {
-      showNotice('error', 'Login required', 'Please log in to apply a promo code.');
+      showNotice(
+        'error',
+        'Login required',
+        'Please log in to apply a promo code.'
+      );
+
       navigate('/login');
+
       return;
     }
 
     try {
-      // ✅ Ila bda b LANADA- → Giveaway endpoint
+      // LANADA Giveaway code
       const isGiveaway = normalizedCode.startsWith('LANADA-');
+
       const endpoint = isGiveaway
         ? `${API}/giveaway/check-code`
         : `${API}/promo/check-code`;
 
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: normalizedCode, userId })
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          code: normalizedCode,
+          userId
+        })
       });
 
       const result = await response.json();
@@ -114,47 +164,81 @@ const Cart = () => {
         const discount = Number(result.discountPercent) || 0;
 
         setPromoPercent(discount);
-        setAppliedPromoCode(normalizedCode); // ✅ JDID
+        setAppliedPromoCode(normalizedCode);
         setPromoCode('');
 
+        // Normal promo: preserve existing behavior
         if (!isGiveaway) {
-          // Normal promo: consume immediately (kima kan)
           localStorage.removeItem('lanada_pending_promo');
         }
 
-        showNotice('success', 'Success', `Promo code applied: -${discount}%`);
+        showNotice(
+          'success',
+          'Success',
+          `Promo code applied: -${discount}%`
+        );
       } else {
         setPromoPercent(0);
         setAppliedPromoCode('');
-        showNotice('error', 'Invalid code', result.message || 'Invalid or used code.');
+
+        showNotice(
+          'error',
+          'Invalid code',
+          result.message || 'Invalid or used code.'
+        );
       }
     } catch (error) {
       console.error('Promo error:', error);
-      showNotice('error', 'Connection error', 'Please try again.');
+
+      showNotice(
+        'error',
+        'Connection error',
+        'Please try again.'
+      );
     }
   };
+
+  // =========================================
+  // FORM VALIDATION
+  // =========================================
 
   const validateField = (name, value) => {
     let error = '';
 
     if (name === 'fullName') {
-      if (!value.trim()) error = 'Full name is required';
-      else if (value.trim().length < 3) error = 'At least 3 characters are required';
-      else if (!/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())) error = 'Please enter a valid name';
+      if (!value.trim()) {
+        error = 'Full name is required';
+      } else if (value.trim().length < 3) {
+        error = 'At least 3 characters are required';
+      } else if (!/^[a-zA-Z\u0600-\u06FF\s'-]+$/.test(value.trim())) {
+        error = 'Please enter a valid name';
+      }
     }
 
     if (name === 'phone') {
       const cleaned = value.replace(/[\s-]/g, '');
-      if (!cleaned) error = 'Phone number is required';
-      else if (!/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)) error = 'Enter a valid Moroccan phone number';
+
+      if (!cleaned) {
+        error = 'Phone number is required';
+      } else if (!/^(?:\+212|0)(?:[5-7]\d{8})$/.test(cleaned)) {
+        error = 'Enter a valid Moroccan phone number';
+      }
     }
 
-    if (name === 'city' && !value.trim()) error = 'City is required';
-    if (name === 'region' && !value.trim()) error = 'Region is required';
+    if (name === 'city' && !value.trim()) {
+      error = 'City is required';
+    }
+
+    if (name === 'region' && !value.trim()) {
+      error = 'Region is required';
+    }
 
     if (name === 'address') {
-      if (!value.trim()) error = 'Address is required';
-      else if (value.trim().length < 5) error = 'Address must be at least 5 characters';
+      if (!value.trim()) {
+        error = 'Address is required';
+      } else if (value.trim().length < 5) {
+        error = 'Address must be at least 5 characters';
+      }
     }
 
     return error;
@@ -170,11 +254,13 @@ const Cart = () => {
     };
 
     setErrors(next);
+
     return !Object.values(next).some(Boolean);
   };
 
   const changeField = (name, value, setter) => {
     setter(value);
+
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -184,27 +270,45 @@ const Cart = () => {
   };
 
   // =========================================
-  // ✅ CHECKOUT (with promoCode)
+  // CHECKOUT
   // =========================================
 
   const handleCheckout = async () => {
-    if (loading) return;
+    if (loading || orderSuccess) {
+      return;
+    }
 
     const userId = getUserId();
 
     if (!userId) {
-      showNotice('error', 'Login required', 'Please log in before placing an order.');
+      showNotice(
+        'error',
+        'Login required',
+        'Please log in before placing an order.'
+      );
+
       navigate('/login');
+
       return;
     }
 
     if (!cartItems.length) {
-      showNotice('error', 'Empty cart', 'Your cart is empty.');
+      showNotice(
+        'error',
+        'Empty cart',
+        'Your cart is empty.'
+      );
+
       return;
     }
 
     if (!validateAll()) {
-      showNotice('error', 'Missing information', 'Please complete the shipping information.');
+      showNotice(
+        'error',
+        'Missing information',
+        'Please complete the shipping information.'
+      );
+
       return;
     }
 
@@ -222,16 +326,28 @@ const Cart = () => {
 
       const response = await fetch(`${API}/orders`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
         body: JSON.stringify({
           userId,
+
           items: orderItems,
+
           subtotal,
+
           shipping: shippingFee,
+
           discountPercent: promoPercent,
+
           discountAmount: promoAmount,
+
           totalAmount: total,
+
           paymentMethod: 'cash_on_delivery',
+
           shippingAddress: {
             fullName,
             phone,
@@ -240,59 +356,156 @@ const Cart = () => {
             street: address,
             country: 'Morocco'
           },
-          // ✅ JDID: promoCode (Giveaway wla normal)
+
+          // Normal promo or Giveaway code
           promoCode: appliedPromoCode
         })
       });
 
       const result = await response.json();
 
+      // =====================================
+      // ORDER SUCCESS
+      // =====================================
+
       if (response.ok) {
+        /*
+          Support the backend order object.
+
+          The backend may return:
+          { order: {...} }
+
+          Or directly:
+          { _id, totalAmount, createdAt, ... }
+        */
+
+        const savedOrder =
+          result.order ||
+          result.data?.order ||
+          result.data ||
+          result;
+
+        // Preserve real backend order information.
+        // Use checkout values only when a field is absent.
+        const confirmedOrder = {
+          ...savedOrder,
+
+          totalAmount:
+            savedOrder.totalAmount ??
+            result.totalAmount ??
+            total,
+
+          createdAt:
+            savedOrder.createdAt ||
+            result.createdAt ||
+            new Date().toISOString(),
+
+          paymentMethod:
+            savedOrder.paymentMethod ||
+            'cash_on_delivery',
+
+          shippingAddress:
+            savedOrder.shippingAddress ||
+            {
+              fullName,
+              phone,
+              city,
+              region,
+              street: address,
+              country: 'Morocco'
+            }
+        };
+
+        // Save the confirmed order for the ticket.
+        setOrderDetails(confirmedOrder);
+
+        // Trigger TruckButton success animation.
         setOrderSuccess(true);
 
-        // ✅ JDID: Ila kan Giveaway code — ms7o mn localStorage
+        // =================================
+        // GIVEAWAY CLEANUP
+        // Only after successful order
+        // =================================
+
         if (appliedPromoCode.startsWith('LANADA-')) {
           localStorage.removeItem('lanada_giveaway_reward');
+
           localStorage.removeItem('lanada_pending_promo');
+
           localStorage.removeItem('lanada_giveaway_seen_for');
-          window.dispatchEvent(new Event('giveawayRewardUpdated'));
+
+          window.dispatchEvent(
+            new Event('giveawayRewardUpdated')
+          );
         }
       } else {
-        showNotice('error', 'Order failed', result.message || 'Unable to place your order.');
+        showNotice(
+          'error',
+          'Order failed',
+          result.message || 'Unable to place your order.'
+        );
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      showNotice('error', 'Connection error', error.message || 'Please try again.');
+
+      showNotice(
+        'error',
+        'Connection error',
+        error.message || 'Please try again.'
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  // =========================================
+  // TRUCK BUTTON ANIMATION COMPLETE
+  // =========================================
+
   const handleAnimationComplete = () => {
+    // Do not show confirmation without a confirmed order.
+    if (!orderDetails || !orderSuccess) {
+      return;
+    }
+
+    // Clear cart after animation completes.
     clearCart();
+
+    // Show Thank You ticket.
     setShowSuccessMessage(true);
   };
 
+  // =========================================
+  // SUCCESS PAGE
+  // =========================================
+
   if (showSuccessMessage) {
     return (
-      <div className={styles.successPage}>
-        <div className={styles.successCard}>
-          <span className={styles.successMark}>✓</span>
-          <p className={styles.overline}>LANADA ORDER</p>
-          <h1>Order placed.</h1>
-          <p>Thank you for your order. We will contact you shortly.</p>
-          <button onClick={() => navigate('/shop')}>Continue shopping</button>
-        </div>
-      </div>
+      <OrderConfirmationTicket
+        order={orderDetails}
+        onContinueShopping={() => navigate('/shop')}
+        onViewOrders={() => navigate('/orders')}
+      />
     );
   }
+
+  // =========================================
+  // EMPTY CART
+  // =========================================
 
   if (!cartItems.length) {
     return (
       <div className={styles.emptyPage}>
-        <p className={styles.overline}>LANADA / CART</p>
+        <p className={styles.overline}>
+          LANADA / CART
+        </p>
+
         <h1>Your cart is empty.</h1>
-        <p>Looks like you haven’t added anything to your bag yet.</p>
+
+        <p>
+          Looks like you haven’t added anything to your bag yet.
+        </p>
+
         <button onClick={() => navigate('/')}>
           Continue shopping <span>→</span>
         </button>
@@ -300,8 +513,14 @@ const Cart = () => {
     );
   }
 
+  // =========================================
+  // MAIN CART
+  // =========================================
+
   return (
     <div className={styles.cartPage}>
+
+      {/* Notification */}
       {notification && (
         <Notification
           type={notification.type}
@@ -311,56 +530,93 @@ const Cart = () => {
         />
       )}
 
+      {/* Promo strip */}
       <div className={styles.promoStrip}>
         COMPLIMENTARY SHIPPING ON ORDERS OVER 500 DH
       </div>
 
+      {/* Header */}
       <header className={styles.cartHeader}>
-        <button className={styles.backButton} onClick={() => navigate('/')}>
+
+        <button
+          className={styles.backButton}
+          onClick={() => navigate('/')}
+        >
           ← <span>CONTINUE SHOPPING</span>
         </button>
-        <div className={styles.wordmark}>LANADA<span>.</span></div>
+
+        <div className={styles.wordmark}>
+          LANADA<span>.</span>
+        </div>
+
         <div className={styles.headerBag}>
           BAG <b>{String(totalItems).padStart(2, '0')}</b>
         </div>
+
       </header>
 
+      {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         HOME <span>/</span> CART
       </div>
 
+      {/* Main layout */}
       <main className={styles.layout}>
+
+        {/* PRODUCTS SECTION */}
         <section className={styles.productsSection}>
+
           <div className={styles.sectionHeading}>
+
             <div>
-              <p className={styles.overline}>YOUR SELECTION</p>
+              <p className={styles.overline}>
+                YOUR SELECTION
+              </p>
+
               <h1>
                 Shopping bag
-                <sup>{String(totalItems).padStart(2, '0')}</sup>
+                <sup>
+                  {String(totalItems).padStart(2, '0')}
+                </sup>
               </h1>
             </div>
+
             <button
               className={styles.clearButton}
               onClick={() => {
-                if (window.confirm('Remove all items from your cart?')) {
+                if (
+                  window.confirm(
+                    'Remove all items from your cart?'
+                  )
+                ) {
                   clearCart();
                 }
               }}
             >
               ⌫ <span>DELETE ALL</span>
             </button>
+
           </div>
 
+          {/* Product list */}
           <div className={styles.productList}>
+
             {cartItems.map((item, index) => {
               const quantity = item.quantity || 1;
+
               const price = extractPrice(item.price);
 
               return (
                 <article
                   className={styles.productRow}
-                  key={item.id || item._id || `${item.name}-${index}`}
+                  key={
+                    item.id ||
+                    item._id ||
+                    `${item.name}-${index}`
+                  }
                 >
+
+                  {/* Product image */}
                   <div className={styles.productPhoto}>
                     <img
                       src={getProductImage(item)}
@@ -368,24 +624,52 @@ const Cart = () => {
                     />
                   </div>
 
+                  {/* Product information */}
                   <div className={styles.productInfo}>
+
                     <span className={styles.categoryTag}>
                       {(item.category || 'ESSENTIAL').toUpperCase()}
                     </span>
-                    <h2>{item.name || item.title || 'Product'}</h2>
+
+                    <h2>
+                      {item.name || item.title || 'Product'}
+                    </h2>
+
                     <div className={styles.productMeta}>
-                      {item.color && <span>Color: <b>{item.color}</b></span>}
-                      {item.size && <span>Size: <b>{item.size}</b></span>}
-                      {!item.color && !item.size && <span>LANADA COLLECTION</span>}
+
+                      {item.color && (
+                        <span>
+                          Color: <b>{item.color}</b>
+                        </span>
+                      )}
+
+                      {item.size && (
+                        <span>
+                          Size: <b>{item.size}</b>
+                        </span>
+                      )}
+
+                      {!item.color && !item.size && (
+                        <span>LANADA COLLECTION</span>
+                      )}
+
                     </div>
-                    <div className={styles.mobilePrice}>{price.toFixed(2)} DH</div>
+
+                    <div className={styles.mobilePrice}>
+                      {price.toFixed(2)} DH
+                    </div>
+
                   </div>
 
+                  {/* Desktop price */}
                   <div className={styles.productPrice}>
-                    {price.toFixed(2)}<small> DH</small>
+                    {price.toFixed(2)}
+                    <small> DH</small>
                   </div>
 
+                  {/* Quantity */}
                   <div className={styles.quantityControl}>
+
                     <button
                       type="button"
                       aria-label="Decrease quantity"
@@ -394,7 +678,11 @@ const Cart = () => {
                     >
                       −
                     </button>
-                    <span>{String(quantity).padStart(2, '0')}</span>
+
+                    <span>
+                      {String(quantity).padStart(2, '0')}
+                    </span>
+
                     <button
                       type="button"
                       aria-label="Increase quantity"
@@ -402,8 +690,10 @@ const Cart = () => {
                     >
                       +
                     </button>
+
                   </div>
 
+                  {/* Remove product */}
                   <button
                     type="button"
                     className={styles.removeButton}
@@ -412,52 +702,102 @@ const Cart = () => {
                   >
                     ×
                   </button>
+
                 </article>
               );
             })}
+
           </div>
 
+          {/* Shipping help */}
           <div className={styles.shippingNote}>
+
             <span>↗</span>
+
             <div>
               <b>Need help with your order?</b>
-              <p>Our team is here to help you with sizing, delivery and returns.</p>
+
+              <p>
+                Our team is here to help you with sizing,
+                delivery and returns.
+              </p>
             </div>
+
           </div>
+
         </section>
 
+        {/* SUMMARY SECTION */}
         <aside className={styles.summaryColumn}>
+
           <div className={styles.summaryCard}>
-            <p className={styles.overline}>THE DETAILS</p>
+
+            <p className={styles.overline}>
+              THE DETAILS
+            </p>
+
             <h2>Summary</h2>
 
+            {/* Summary lines */}
             <div className={styles.summaryLines}>
+
               <div>
                 <span>Total items</span>
-                <b>{String(totalItems).padStart(2, '0')} items</b>
+
+                <b>
+                  {String(totalItems).padStart(2, '0')} items
+                </b>
               </div>
+
               <div>
                 <span>Subtotal</span>
-                <b>{subtotal.toFixed(2)} DH</b>
+
+                <b>
+                  {subtotal.toFixed(2)} DH
+                </b>
               </div>
+
               <div>
                 <span>Est. delivery</span>
-                <b>{shippingFee === 0 ? 'FREE' : `${shippingFee.toFixed(2)} DH`}</b>
+
+                <b>
+                  {shippingFee === 0
+                    ? 'FREE'
+                    : `${shippingFee.toFixed(2)} DH`}
+                </b>
               </div>
+
               {promoPercent > 0 && (
                 <div className={styles.discountLine}>
-                  <span>Discount ({promoPercent}%)</span>
-                  <b>-{promoAmount.toFixed(2)} DH</b>
+
+                  <span>
+                    Discount ({promoPercent}%)
+                  </span>
+
+                  <b>
+                    -{promoAmount.toFixed(2)} DH
+                  </b>
+
                 </div>
               )}
+
             </div>
 
+            {/* Final total */}
             <div className={styles.totalLine}>
+
               <span>Final payment</span>
-              <strong>{total.toFixed(2)}<small> DH</small></strong>
+
+              <strong>
+                {total.toFixed(2)}
+                <small> DH</small>
+              </strong>
+
             </div>
 
+            {/* Promo code */}
             <div className={styles.promoBox}>
+
               <input
                 type="text"
                 value={promoCode}
@@ -467,120 +807,260 @@ const Cart = () => {
                   setPromoPercent(0);
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') applyPromoCode();
+                  if (e.key === 'Enter') {
+                    applyPromoCode();
+                  }
                 }}
                 placeholder="Enter promo code"
                 aria-label="Promo code"
                 autoComplete="off"
               />
-              <button type="button" onClick={applyPromoCode}>
+
+              <button
+                type="button"
+                onClick={applyPromoCode}
+              >
                 APPLY
               </button>
+
             </div>
 
+            {/* Free shipping message */}
             {shippingFee === 0 && (
               <p className={styles.freeShipping}>
                 ✓ You qualify for complimentary shipping.
               </p>
             )}
 
+            {/* SHIPPING FORM */}
             <div className={styles.shippingForm}>
+
               <div className={styles.shippingFormHeading}>
-                <span className={styles.overline}>DELIVERY DETAILS</span>
-                <h3>Where should we send it?</h3>
+
+                <span className={styles.overline}>
+                  DELIVERY DETAILS
+                </span>
+
+                <h3>
+                  Where should we send it?
+                </h3>
+
               </div>
 
+              {/* Full name */}
               <input
                 type="text"
                 value={fullName}
-                onChange={(e) => changeField('fullName', e.target.value, setFullName)}
-                onBlur={() => setErrors((p) => ({ ...p, fullName: validateField('fullName', fullName) }))}
+                onChange={(e) =>
+                  changeField(
+                    'fullName',
+                    e.target.value,
+                    setFullName
+                  )
+                }
+                onBlur={() =>
+                  setErrors((previous) => ({
+                    ...previous,
+                    fullName: validateField('fullName', fullName)
+                  }))
+                }
                 placeholder="Full name *"
                 className={errors.fullName ? styles.invalid : ''}
               />
-              {errors.fullName && <small>{errors.fullName}</small>}
 
+              {errors.fullName && (
+                <small>{errors.fullName}</small>
+              )}
+
+              {/* Phone */}
               <input
                 type="tel"
                 value={phone}
-                onChange={(e) => changeField('phone', e.target.value, setPhone)}
-                onBlur={() => setErrors((p) => ({ ...p, phone: validateField('phone', phone) }))}
+                onChange={(e) =>
+                  changeField(
+                    'phone',
+                    e.target.value,
+                    setPhone
+                  )
+                }
+                onBlur={() =>
+                  setErrors((previous) => ({
+                    ...previous,
+                    phone: validateField('phone', phone)
+                  }))
+                }
                 placeholder="Phone number *"
                 className={errors.phone ? styles.invalid : ''}
               />
-              {errors.phone && <small>{errors.phone}</small>}
 
+              {errors.phone && (
+                <small>{errors.phone}</small>
+              )}
+
+              {/* City */}
               <select
                 value={city}
                 onChange={(e) => {
-                  changeField('city', e.target.value, setCity);
+                  changeField(
+                    'city',
+                    e.target.value,
+                    setCity
+                  );
+
                   setRegion('');
-                  setErrors((prev) => ({ ...prev, region: '' }));
+
+                  setErrors((previous) => ({
+                    ...previous,
+                    region: ''
+                  }));
                 }}
-                onBlur={() => setErrors((p) => ({ ...p, city: validateField('city', city) }))}
+                onBlur={() =>
+                  setErrors((previous) => ({
+                    ...previous,
+                    city: validateField('city', city)
+                  }))
+                }
                 className={errors.city ? styles.invalid : ''}
               >
-                <option value="">Select city *</option>
-                {cities.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
-              {errors.city && <small>{errors.city}</small>}
 
+                <option value="">
+                  Select city *
+                </option>
+
+                {cities.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+
+              </select>
+
+              {errors.city && (
+                <small>{errors.city}</small>
+              )}
+
+              {/* Region */}
               {city && (
                 <>
                   <select
                     value={region}
-                    onChange={(e) => changeField('region', e.target.value, setRegion)}
-                    onBlur={() => setErrors((p) => ({ ...p, region: validateField('region', region) }))}
+                    onChange={(e) =>
+                      changeField(
+                        'region',
+                        e.target.value,
+                        setRegion
+                      )
+                    }
+                    onBlur={() =>
+                      setErrors((previous) => ({
+                        ...previous,
+                        region: validateField('region', region)
+                      }))
+                    }
                     className={errors.region ? styles.invalid : ''}
                   >
-                    <option value="">Select region *</option>
-                    {getRegionsByCity(city).map((r) => <option key={r} value={r}>{r}</option>)}
+
+                    <option value="">
+                      Select region *
+                    </option>
+
+                    {getRegionsByCity(city).map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
+
                   </select>
-                  {errors.region && <small>{errors.region}</small>}
+
+                  {errors.region && (
+                    <small>{errors.region}</small>
+                  )}
                 </>
               )}
 
+              {/* Delivery address */}
               <textarea
                 value={address}
-                onChange={(e) => changeField('address', e.target.value, setAddress)}
-                onBlur={() => setErrors((p) => ({ ...p, address: validateField('address', address) }))}
+                onChange={(e) =>
+                  changeField(
+                    'address',
+                    e.target.value,
+                    setAddress
+                  )
+                }
+                onBlur={() =>
+                  setErrors((previous) => ({
+                    ...previous,
+                    address: validateField('address', address)
+                  }))
+                }
                 placeholder="Full delivery address *"
                 rows="2"
                 className={errors.address ? styles.invalid : ''}
               />
-              {errors.address && <small>{errors.address}</small>}
+
+              {errors.address && (
+                <small>{errors.address}</small>
+              )}
+
             </div>
 
+            {/* CHECKOUT */}
             <div className={styles.checkoutArea}>
+
               <TruckButton
                 defaultText={loading ? 'Processing...' : 'CHECKOUT  →'}
                 successText="ORDER PLACED"
                 onClick={handleCheckout}
                 trigger={orderSuccess}
                 onComplete={handleAnimationComplete}
-                disabled={loading}
+                disabled={loading || orderSuccess}
               />
-              <p>Secure checkout · Cash on delivery</p>
+
+              <p>
+                Secure checkout · Cash on delivery
+              </p>
+
             </div>
+
           </div>
 
+          {/* TRUST NOTES */}
           <div className={styles.trustNotes}>
+
             <div>
               <span>◇</span>
-              <p><b>SECURE PAYMENT</b><small>Your details are protected</small></p>
+
+              <p>
+                <b>SECURE PAYMENT</b>
+                <small>Your details are protected</small>
+              </p>
             </div>
+
             <div>
               <span>↗</span>
-              <p><b>DELIVERY ACROSS MOROCCO</b><small>Carefully packed, always</small></p>
+
+              <p>
+                <b>DELIVERY ACROSS MOROCCO</b>
+                <small>Carefully packed, always</small>
+              </p>
             </div>
+
           </div>
+
         </aside>
+
       </main>
 
+      {/* Footer */}
       <footer className={styles.cartFooter}>
         LANADA<span>.</span>
-        <small>MADE FOR EVERYDAY MOVEMENT.</small>
+
+        <small>
+          MADE FOR EVERYDAY MOVEMENT.
+        </small>
       </footer>
+
     </div>
   );
 };
