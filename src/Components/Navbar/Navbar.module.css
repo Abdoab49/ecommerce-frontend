@@ -1,4 +1,5 @@
 /* Navbar.module.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 *,
@@ -11,7 +12,8 @@
 
 /* ============================================
    NAVBAR
-   ============================================ */
+============================================ */
+
 .navbar {
     font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
     background: hsl(0, 0%, 0%);
@@ -30,7 +32,8 @@
 
 /* ============================================
    MENU TOGGLE (Hamburger)
-   ============================================ */
+============================================ */
+
 .menuToggle {
     display: none;
     flex-direction: column;
@@ -47,25 +50,39 @@
 }
 
 /* ============================================
-   LOGO
-   ============================================ */
+   LOGO — LANADA HD DISPLAY
+   Original image: 192 x 192px
+============================================ */
+
 .logo {
-    transition: 0.35s ease;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
 }
 
 .logo:hover {
-    opacity: 0.5;
+    opacity: 1;
 }
 
 .logo img {
-    width: 40px;
-    height: auto;
+    width: 48px;
+    height: 48px;
+    max-width: none;
     display: block;
+    object-fit: contain;
+    object-position: center;
+    opacity: 1;
+    filter: none;
+    image-rendering: auto;
+    backface-visibility: hidden;
+    -webkit-user-drag: none;
 }
 
 /* ============================================
    MENU ITEMS
-   ============================================ */
+============================================ */
+
 .menuItems {
     display: flex;
     gap: 1.2rem;
@@ -108,7 +125,8 @@
 
 /* ============================================
    CART
-   ============================================ */
+============================================ */
+
 .cart {
     position: relative;
 }
@@ -143,7 +161,8 @@
 
 /* ============================================
    RIGHT SECTION (Login/Logout + Cart)
-   ============================================ */
+============================================ */
+
 .rightSection {
     display: flex;
     align-items: center;
@@ -163,7 +182,8 @@
 
 /* ============================================
    ICON LINK (Login/Logout)
-   ============================================ */
+============================================ */
+
 .iconLink {
     display: inline-flex;
     align-items: center;
@@ -188,35 +208,38 @@
 
 /* ============================================
    MOBILE ONLY
-   ============================================ */
+============================================ */
+
 .mobileOnly {
     display: none;
 }
 
 /* ============================================
-   ✅ MEDIA QUERIES — MOBILE
-   ============================================ */
+   MEDIA QUERIES — TABLET & MOBILE
+============================================ */
+
 @media (max-width: 768px) {
+
     .navbar {
         padding: 0.8rem 1rem;
     }
 
-    /* ❌ Hayed Menu Toggle */
+    /* Hide menu toggle */
     .menuToggle {
         display: none !important;
     }
 
-    /* ❌ Hayed Menu Items */
+    /* Hide menu items */
     .menuItems {
         display: none !important;
     }
 
-    /* ❌ Hayed mobileOnly */
+    /* Hide mobileOnly */
     .mobileOnly {
         display: none !important;
     }
 
-    /* ✅ Logo f l'yaser */
+    /* Logo */
     .logo {
         position: static !important;
         transform: none !important;
@@ -224,10 +247,11 @@
     }
 
     .logo img {
-        width: 35px;
+        width: 40px;
+        height: 40px;
     }
 
-    /* ✅ RightSection f l'imin */
+    /* Right section */
     .rightSection {
         display: flex !important;
         align-items: center;
@@ -235,7 +259,7 @@
         margin-left: auto;
     }
 
-    /* ✅ Navbar Container — space-between */
+    /* Navbar container */
     .navbarContainer {
         display: flex !important;
         justify-content: space-between;
@@ -259,13 +283,19 @@
     }
 }
 
+/* ============================================
+   SMALL MOBILE
+============================================ */
+
 @media (max-width: 576px) {
+
     .navbar {
         padding: 0.6rem 0.8rem;
     }
 
     .logo img {
-        width: 30px;
+        width: 36px;
+        height: 36px;
     }
 
     .cart img {
@@ -286,7 +316,12 @@
     }
 }
 
+/* ============================================
+   EXTRA SMALL MOBILE
+============================================ */
+
 @media (max-width: 480px) {
+
     .rightSection {
         gap: 6px;
     }
