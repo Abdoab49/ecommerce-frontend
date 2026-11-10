@@ -21,9 +21,13 @@ const Cart = () => {
     clearCart
   } = useContext(ShopContext);
 
+  // =========================================
+  // STATE
+  // =========================================
+
   const [notification, setNotification] = useState(null);
 
-  // Giveaway promo code
+  // Read pending Giveaway promo automatically
   const [promoCode, setPromoCode] = useState(() => {
     return localStorage.getItem('lanada_pending_promo') || '';
   });
@@ -31,11 +35,15 @@ const Cart = () => {
   const [appliedPromoCode, setAppliedPromoCode] = useState('');
 
   const [promoPercent, setPromoPercent] = useState(0);
+
   const [loading, setLoading] = useState(false);
+
+  // Preserve original TruckButton animation states
   const [orderSuccess, setOrderSuccess] = useState(false);
+
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  // Actual confirmed order returned by backend
+  // Store the actual order returned by the backend
   const [orderDetails, setOrderDetails] = useState(null);
 
   // SHIPPING INFORMATION
@@ -121,7 +129,6 @@ const Cart = () => {
         'Error',
         'Please enter a promo code.'
       );
-
       return;
     }
 
@@ -135,7 +142,6 @@ const Cart = () => {
       );
 
       navigate('/login');
-
       return;
     }
 
@@ -167,7 +173,7 @@ const Cart = () => {
         setAppliedPromoCode(normalizedCode);
         setPromoCode('');
 
-        // Normal promo: preserve existing behavior
+        // Preserve normal promo behavior
         if (!isGiveaway) {
           localStorage.removeItem('lanada_pending_promo');
         }
@@ -274,9 +280,7 @@ const Cart = () => {
   // =========================================
 
   const handleCheckout = async () => {
-    if (loading || orderSuccess) {
-      return;
-    }
+    if (loading) return;
 
     const userId = getUserId();
 
@@ -288,7 +292,6 @@ const Cart = () => {
       );
 
       navigate('/login');
-
       return;
     }
 
@@ -298,7 +301,6 @@ const Cart = () => {
         'Empty cart',
         'Your cart is empty.'
       );
-
       return;
     }
 
@@ -308,7 +310,6 @@ const Cart = () => {
         'Missing information',
         'Please complete the shipping information.'
       );
-
       return;
     }
 
@@ -326,26 +327,17 @@ const Cart = () => {
 
       const response = await fetch(`${API}/orders`, {
         method: 'POST',
-
         headers: {
           'Content-Type': 'application/json'
         },
-
         body: JSON.stringify({
           userId,
-
           items: orderItems,
-
           subtotal,
-
           shipping: shippingFee,
-
           discountPercent: promoPercent,
-
           discountAmount: promoAmount,
-
           totalAmount: total,
-
           paymentMethod: 'cash_on_delivery',
 
           shippingAddress: {
@@ -357,7 +349,6 @@ const Cart = () => {
             country: 'Morocco'
           },
 
-          // Normal promo or Giveaway code
           promoCode: appliedPromoCode
         })
       });
@@ -365,28 +356,17 @@ const Cart = () => {
       const result = await response.json();
 
       // =====================================
-      // ORDER SUCCESS
+      // SUCCESSFUL ORDER
       // =====================================
 
       if (response.ok) {
-        /*
-          Support the backend order object.
-
-          The backend may return:
-          { order: {...} }
-
-          Or directly:
-          { _id, totalAmount, createdAt, ... }
-        */
-
+        // Support either { order: {...} } or a direct order response
         const savedOrder =
           result.order ||
           result.data?.order ||
           result.data ||
           result;
 
-        // Preserve real backend order information.
-        // Use checkout values only when a field is absent.
         const confirmedOrder = {
           ...savedOrder,
 
@@ -416,22 +396,20 @@ const Cart = () => {
             }
         };
 
-        // Save the confirmed order for the ticket.
+        // Save actual order for Thank You ticket
         setOrderDetails(confirmedOrder);
 
-        // Trigger TruckButton success animation.
+        // Trigger original TruckButton animation
         setOrderSuccess(true);
 
         // =================================
         // GIVEAWAY CLEANUP
-        // Only after successful order
+        // Preserve existing behavior
         // =================================
 
         if (appliedPromoCode.startsWith('LANADA-')) {
           localStorage.removeItem('lanada_giveaway_reward');
-
           localStorage.removeItem('lanada_pending_promo');
-
           localStorage.removeItem('lanada_giveaway_seen_for');
 
           window.dispatchEvent(
@@ -459,24 +437,23 @@ const Cart = () => {
   };
 
   // =========================================
-  // TRUCK BUTTON ANIMATION COMPLETE
+  // TRUCK ANIMATION COMPLETE
   // =========================================
 
   const handleAnimationComplete = () => {
-    // Do not show confirmation without a confirmed order.
     if (!orderDetails || !orderSuccess) {
       return;
     }
 
-    // Clear cart after animation completes.
+    // Clear cart only after truck animation
     clearCart();
 
-    // Show Thank You ticket.
+    // Display Thank You ticket
     setShowSuccessMessage(true);
   };
 
   // =========================================
-  // SUCCESS PAGE
+  // THANK YOU PAGE
   // =========================================
 
   if (showSuccessMessage) {
@@ -514,13 +491,12 @@ const Cart = () => {
   }
 
   // =========================================
-  // MAIN CART
+  // CART PAGE
   // =========================================
 
   return (
     <div className={styles.cartPage}>
 
-      {/* Notification */}
       {notification && (
         <Notification
           type={notification.type}
@@ -530,12 +506,12 @@ const Cart = () => {
         />
       )}
 
-      {/* Promo strip */}
+      {/* PROMO STRIP */}
       <div className={styles.promoStrip}>
         COMPLIMENTARY SHIPPING ON ORDERS OVER 500 DH
       </div>
 
-      {/* Header */}
+      {/* HEADER */}
       <header className={styles.cartHeader}>
 
         <button
@@ -555,15 +531,14 @@ const Cart = () => {
 
       </header>
 
-      {/* Breadcrumb */}
+      {/* BREADCRUMB */}
       <div className={styles.breadcrumb}>
         HOME <span>/</span> CART
       </div>
 
-      {/* Main layout */}
       <main className={styles.layout}>
 
-        {/* PRODUCTS SECTION */}
+        {/* PRODUCTS */}
         <section className={styles.productsSection}>
 
           <div className={styles.sectionHeading}>
@@ -598,12 +573,10 @@ const Cart = () => {
 
           </div>
 
-          {/* Product list */}
           <div className={styles.productList}>
 
             {cartItems.map((item, index) => {
               const quantity = item.quantity || 1;
-
               const price = extractPrice(item.price);
 
               return (
@@ -616,7 +589,6 @@ const Cart = () => {
                   }
                 >
 
-                  {/* Product image */}
                   <div className={styles.productPhoto}>
                     <img
                       src={getProductImage(item)}
@@ -624,7 +596,6 @@ const Cart = () => {
                     />
                   </div>
 
-                  {/* Product information */}
                   <div className={styles.productInfo}>
 
                     <span className={styles.categoryTag}>
@@ -661,13 +632,12 @@ const Cart = () => {
 
                   </div>
 
-                  {/* Desktop price */}
                   <div className={styles.productPrice}>
                     {price.toFixed(2)}
                     <small> DH</small>
                   </div>
 
-                  {/* Quantity */}
+                  {/* QUANTITY */}
                   <div className={styles.quantityControl}>
 
                     <button
@@ -693,7 +663,7 @@ const Cart = () => {
 
                   </div>
 
-                  {/* Remove product */}
+                  {/* REMOVE */}
                   <button
                     type="button"
                     className={styles.removeButton}
@@ -709,7 +679,7 @@ const Cart = () => {
 
           </div>
 
-          {/* Shipping help */}
+          {/* SHIPPING NOTE */}
           <div className={styles.shippingNote}>
 
             <span>↗</span>
@@ -727,7 +697,7 @@ const Cart = () => {
 
         </section>
 
-        {/* SUMMARY SECTION */}
+        {/* SUMMARY */}
         <aside className={styles.summaryColumn}>
 
           <div className={styles.summaryCard}>
@@ -738,7 +708,6 @@ const Cart = () => {
 
             <h2>Summary</h2>
 
-            {/* Summary lines */}
             <div className={styles.summaryLines}>
 
               <div>
@@ -783,7 +752,7 @@ const Cart = () => {
 
             </div>
 
-            {/* Final total */}
+            {/* TOTAL */}
             <div className={styles.totalLine}>
 
               <span>Final payment</span>
@@ -795,7 +764,7 @@ const Cart = () => {
 
             </div>
 
-            {/* Promo code */}
+            {/* PROMO CODE */}
             <div className={styles.promoBox}>
 
               <input
@@ -825,7 +794,6 @@ const Cart = () => {
 
             </div>
 
-            {/* Free shipping message */}
             {shippingFee === 0 && (
               <p className={styles.freeShipping}>
                 ✓ You qualify for complimentary shipping.
@@ -847,7 +815,7 @@ const Cart = () => {
 
               </div>
 
-              {/* Full name */}
+              {/* FULL NAME */}
               <input
                 type="text"
                 value={fullName}
@@ -859,8 +827,8 @@ const Cart = () => {
                   )
                 }
                 onBlur={() =>
-                  setErrors((previous) => ({
-                    ...previous,
+                  setErrors((prev) => ({
+                    ...prev,
                     fullName: validateField('fullName', fullName)
                   }))
                 }
@@ -872,7 +840,7 @@ const Cart = () => {
                 <small>{errors.fullName}</small>
               )}
 
-              {/* Phone */}
+              {/* PHONE */}
               <input
                 type="tel"
                 value={phone}
@@ -884,8 +852,8 @@ const Cart = () => {
                   )
                 }
                 onBlur={() =>
-                  setErrors((previous) => ({
-                    ...previous,
+                  setErrors((prev) => ({
+                    ...prev,
                     phone: validateField('phone', phone)
                   }))
                 }
@@ -897,7 +865,7 @@ const Cart = () => {
                 <small>{errors.phone}</small>
               )}
 
-              {/* City */}
+              {/* CITY */}
               <select
                 value={city}
                 onChange={(e) => {
@@ -909,14 +877,14 @@ const Cart = () => {
 
                   setRegion('');
 
-                  setErrors((previous) => ({
-                    ...previous,
+                  setErrors((prev) => ({
+                    ...prev,
                     region: ''
                   }));
                 }}
                 onBlur={() =>
-                  setErrors((previous) => ({
-                    ...previous,
+                  setErrors((prev) => ({
+                    ...prev,
                     city: validateField('city', city)
                   }))
                 }
@@ -939,7 +907,7 @@ const Cart = () => {
                 <small>{errors.city}</small>
               )}
 
-              {/* Region */}
+              {/* REGION */}
               {city && (
                 <>
                   <select
@@ -952,8 +920,8 @@ const Cart = () => {
                       )
                     }
                     onBlur={() =>
-                      setErrors((previous) => ({
-                        ...previous,
+                      setErrors((prev) => ({
+                        ...prev,
                         region: validateField('region', region)
                       }))
                     }
@@ -978,7 +946,7 @@ const Cart = () => {
                 </>
               )}
 
-              {/* Delivery address */}
+              {/* ADDRESS */}
               <textarea
                 value={address}
                 onChange={(e) =>
@@ -989,8 +957,8 @@ const Cart = () => {
                   )
                 }
                 onBlur={() =>
-                  setErrors((previous) => ({
-                    ...previous,
+                  setErrors((prev) => ({
+                    ...prev,
                     address: validateField('address', address)
                   }))
                 }
@@ -1005,7 +973,11 @@ const Cart = () => {
 
             </div>
 
-            {/* CHECKOUT */}
+            {/* =================================
+                ORIGINAL TRUCK BUTTON
+                KEEP ITS ORIGINAL ANIMATION
+            ================================= */}
+
             <div className={styles.checkoutArea}>
 
               <TruckButton
@@ -1014,7 +986,7 @@ const Cart = () => {
                 onClick={handleCheckout}
                 trigger={orderSuccess}
                 onComplete={handleAnimationComplete}
-                disabled={loading || orderSuccess}
+                disabled={loading}
               />
 
               <p>
@@ -1052,7 +1024,7 @@ const Cart = () => {
 
       </main>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <footer className={styles.cartFooter}>
         LANADA<span>.</span>
 
