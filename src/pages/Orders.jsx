@@ -1,7 +1,14 @@
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useLayoutEffect
+} from 'react';
 
-import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import Icon from '@mdi/react';
+
 import {
   mdiArrowLeft,
   mdiMagnify,
@@ -11,25 +18,43 @@ import {
   mdiCheckCircle,
   mdiHomeOutline,
   mdiMapMarker,
-  mdiPhone,
-  mdiMessageOutline,
   mdiReceiptTextOutline,
-  mdiClose,
   mdiRefresh,
-  mdiCalendarOutline,
   mdiMapOutline,
-  mdiClockOutline,
-  mdiChevronRight,
 } from '@mdi/js';
 
 const API_URL = 'https://backend-3lyx.onrender.com/api/orders';
 
+// =========================================
+// ORDER STATUS
+// =========================================
+
 const STATUS_STEPS = [
-  { key: 'pending', label: 'Order placed', icon: mdiCheckCircle },
-  { key: 'processing', label: 'Processing', icon: mdiPackageVariantClosed },
-  { key: 'shipped', label: 'Out for delivery', icon: mdiTruckFast },
-  { key: 'delivered', label: 'Delivered', icon: mdiHomeOutline },
+  {
+    key: 'pending',
+    label: 'Order placed',
+    icon: mdiCheckCircle
+  },
+  {
+    key: 'processing',
+    label: 'Processing',
+    icon: mdiPackageVariantClosed
+  },
+  {
+    key: 'shipped',
+    label: 'Out for delivery',
+    icon: mdiTruckFast
+  },
+  {
+    key: 'delivered',
+    label: 'Delivered',
+    icon: mdiHomeOutline
+  },
 ];
+
+// =========================================
+// FILTERS
+// =========================================
 
 const FILTERS = [
   { key: 'all', label: 'All Orders' },
@@ -38,6 +63,10 @@ const FILTERS = [
   { key: 'return', label: 'Return' },
   { key: 'cancelled', label: 'Cancelled' },
 ];
+
+// =========================================
+// HELPERS
+// =========================================
 
 const money = (value) =>
   `${Number(value || 0).toFixed(2)} DH`;
@@ -66,7 +95,14 @@ const getStatusClass = (status) => {
   if (status === 'delivered') return 'success';
   if (status === 'shipped') return 'transit';
   if (status === 'cancelled') return 'cancelled';
-  if (status === 'returned' || status === 'return') return 'returned';
+
+  if (
+    status === 'returned' ||
+    status === 'return'
+  ) {
+    return 'returned';
+  }
+
   return 'pending';
 };
 
@@ -98,15 +134,28 @@ const getSubtotal = (order) =>
 
 const getTotal = (order) => {
   const subtotal = getSubtotal(order);
-  const shippingFee = subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
 
-  return Number(order.totalAmount || subtotal + shippingFee);
+  const shippingFee =
+    subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
+
+  return Number(
+    order.totalAmount || subtotal + shippingFee
+  );
 };
 
 const getImage = (item) =>
   item.image || '/Assets/ShoeStore/tshirt1.png';
 
-const IconButton = ({ path, label, onClick, className = '' }) => (
+// =========================================
+// ICON BUTTON
+// =========================================
+
+const IconButton = ({
+  path,
+  label,
+  onClick,
+  className = ''
+}) => (
   <button
     type="button"
     className={`orders-icon-button ${className}`}
@@ -118,6 +167,10 @@ const IconButton = ({ path, label, onClick, className = '' }) => (
   </button>
 );
 
+// =========================================
+// ORDERS COMPONENT
+// =========================================
+
 const Orders = () => {
   const navigate = useNavigate();
 
@@ -128,20 +181,69 @@ const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [search, setSearch] = useState('');
 
+  // =========================================
+  // SCROLL TO TOP WHEN OPENING TRACK ORDER
+  // OR RETURNING TO ORDERS LIST
+  // =========================================
+
+  useLayoutEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo(0, 0);
+
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      // Main application scroll container
+      const appContent = document.querySelector('.app-content');
+
+      if (appContent) {
+        appContent.scrollTop = 0;
+        appContent.scrollTo(0, 0);
+      }
+
+      // Orders page container
+      const ordersPage = document.querySelector('.lanada-orders');
+
+      if (ordersPage) {
+        ordersPage.scrollTop = 0;
+      }
+    };
+
+    scrollToTop();
+
+    const frame = window.requestAnimationFrame(() => {
+      scrollToTop();
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [selectedOrder]);
+
+  // =========================================
+  // BODY BACKGROUND
+  // =========================================
+
   useEffect(() => {
     const previousBackground = document.body.style.background;
     const previousColor = document.body.style.backgroundColor;
 
     document.body.style.background = '#e9e5e1';
     document.body.style.backgroundColor = '#e9e5e1';
+
     document.body.classList.add('orders-active');
 
     return () => {
       document.body.style.background = previousBackground;
       document.body.style.backgroundColor = previousColor;
+
       document.body.classList.remove('orders-active');
     };
   }, []);
+
+  // =========================================
+  // FETCH ORDERS
+  // =========================================
 
   const fetchOrders = async () => {
     const userId = localStorage.getItem('lanada_user_id');
@@ -164,10 +266,14 @@ const Orders = () => {
       }
 
       const data = await response.json();
+
       setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Orders error:', err);
-      setError('Something went wrong. Please try again.');
+
+      setError(
+        'Something went wrong. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -176,6 +282,10 @@ const Orders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  // =========================================
+  // FILTER ORDERS
+  // =========================================
 
   const filteredOrders = useMemo(() => {
     let result = [...orders];
@@ -186,11 +296,15 @@ const Orders = () => {
       );
     } else if (activeFilter === 'shipping') {
       result = result.filter((order) =>
-        ['pending', 'processing'].includes(getStatus(order))
+        ['pending', 'processing'].includes(
+          getStatus(order)
+        )
       );
     } else if (activeFilter === 'return') {
       result = result.filter((order) =>
-        ['return', 'returned'].includes(getStatus(order))
+        ['return', 'returned'].includes(
+          getStatus(order)
+        )
       );
     } else if (activeFilter === 'cancelled') {
       result = result.filter(
@@ -203,12 +317,16 @@ const Orders = () => {
 
       result = result.filter((order) => {
         const id = getOrderId(order).toLowerCase();
+
         const names = getItems(order)
           .map((item) => item.name || '')
           .join(' ')
           .toLowerCase();
 
-        return id.includes(term) || names.includes(term);
+        return (
+          id.includes(term) ||
+          names.includes(term)
+        );
       });
     }
 
@@ -219,8 +337,14 @@ const Orders = () => {
     );
   }, [orders, activeFilter, search]);
 
+  // =========================================
+  // FILTER COUNTS
+  // =========================================
+
   const getFilterCount = (filter) => {
-    if (filter === 'all') return orders.length;
+    if (filter === 'all') {
+      return orders.length;
+    }
 
     if (filter === 'transit') {
       return orders.filter(
@@ -230,13 +354,17 @@ const Orders = () => {
 
     if (filter === 'shipping') {
       return orders.filter((order) =>
-        ['pending', 'processing'].includes(getStatus(order))
+        ['pending', 'processing'].includes(
+          getStatus(order)
+        )
       ).length;
     }
 
     if (filter === 'return') {
       return orders.filter((order) =>
-        ['return', 'returned'].includes(getStatus(order))
+        ['return', 'returned'].includes(
+          getStatus(order)
+        )
       ).length;
     }
 
@@ -249,12 +377,20 @@ const Orders = () => {
     return 0;
   };
 
+  // =========================================
+  // DOWNLOAD INVOICE
+  // =========================================
+
   const handleDownloadInvoice = (order) => {
     const orderId = getOrderId(order);
     const items = getItems(order);
     const shipping = order.shippingAddress || {};
+
     const subtotal = getSubtotal(order);
-    const shippingFee = subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
+
+    const shippingFee =
+      subtotal > 500 ? 0 : subtotal > 0 ? 20 : 0;
+
     const total = getTotal(order);
 
     const safe = (value) =>
@@ -272,7 +408,10 @@ const Orders = () => {
         <td>${safe(item.size || '—')}</td>
         <td>${Number(item.quantity || 1)}</td>
         <td>${money(item.price)}</td>
-        <td>${money(Number(item.price || 0) * Number(item.quantity || 1))}</td>
+        <td>${money(
+          Number(item.price || 0) *
+          Number(item.quantity || 1)
+        )}</td>
       </tr>
     `).join('');
 
@@ -284,8 +423,12 @@ const Orders = () => {
       <head>
         <meta charset="UTF-8" />
         <title>LANADA Invoice #${shortId}</title>
+
         <style>
-          * { box-sizing: border-box; }
+          * {
+            box-sizing: border-box;
+          }
+
           body {
             font-family: Arial, sans-serif;
             color: #222;
@@ -293,6 +436,7 @@ const Orders = () => {
             max-width: 900px;
             margin: auto;
           }
+
           .logo {
             display: block;
             width: 120px;
@@ -300,48 +444,70 @@ const Orders = () => {
             object-fit: contain;
             margin: 0 auto 25px;
           }
+
           .header {
             display: flex;
             justify-content: space-between;
             border-bottom: 2px solid #222;
             padding-bottom: 20px;
           }
-          h1 { font-size: 26px; margin: 0 0 8px; }
-          .muted { color: #777; font-size: 13px; }
-          .section { margin-top: 28px; }
+
+          h1 {
+            font-size: 26px;
+            margin: 0 0 8px;
+          }
+
+          .muted {
+            color: #777;
+            font-size: 13px;
+          }
+
+          .section {
+            margin-top: 28px;
+          }
+
           h3 {
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #777;
           }
+
           table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
           }
+
           th, td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
             font-size: 13px;
           }
-          th { background: #f4f1ed; }
+
+          th {
+            background: #f4f1ed;
+          }
+
           .totals {
             width: 300px;
             margin: 25px 0 0 auto;
           }
+
           .row {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
           }
+
           .grand {
             border-top: 2px solid #222;
             font-size: 20px;
             font-weight: bold;
             padding-top: 14px;
           }
+
           .footer {
             margin-top: 45px;
             padding-top: 20px;
@@ -350,36 +516,71 @@ const Orders = () => {
             color: #888;
             font-size: 12px;
           }
-          @media print { body { padding: 15px; } }
+
+          @media print {
+            body {
+              padding: 15px;
+            }
+          }
         </style>
       </head>
+
       <body>
-        <img class="logo" src="https://www.lanada.shop/Assets/logo1.png" alt="LANADA" />
+
+        <img
+          class="logo"
+          src="https://www.lanada.shop/Assets/logo1.png"
+          alt="LANADA"
+        />
+
         <div class="header">
+
           <div>
             <h1>Order Invoice</h1>
-            <div class="muted">Thank you for shopping with LANADA</div>
+
+            <div class="muted">
+              Thank you for shopping with LANADA
+            </div>
           </div>
+
           <div style="text-align:right">
+
             <strong>#${shortId}</strong>
-            <p class="muted">${safe(formatDate(order.createdAt))}</p>
+
+            <p class="muted">
+              ${safe(formatDate(order.createdAt))}
+            </p>
+
           </div>
+
         </div>
 
         <div class="section">
+
           <h3>Customer details</h3>
-          <p><strong>${safe(shipping.fullName)}</strong></p>
+
+          <p>
+            <strong>${safe(shipping.fullName)}</strong>
+          </p>
+
           <p>${safe(shipping.phone)}</p>
-          <p>${safe([
-            shipping.street,
-            shipping.city,
-            shipping.region
-          ].filter(Boolean).join(', '))}</p>
+
+          <p>
+            ${safe([
+              shipping.street,
+              shipping.city,
+              shipping.region
+            ].filter(Boolean).join(', '))}
+          </p>
+
         </div>
 
         <div class="section">
+
           <h3>Products</h3>
+
           <table>
+
             <thead>
               <tr>
                 <th>Product</th>
@@ -389,24 +590,47 @@ const Orders = () => {
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody>${itemsHTML}</tbody>
+
+            <tbody>
+              ${itemsHTML}
+            </tbody>
+
           </table>
+
         </div>
 
         <div class="totals">
-          <div class="row"><span>Subtotal</span><strong>${money(subtotal)}</strong></div>
-          <div class="row"><span>Shipping</span><strong>${money(shippingFee)}</strong></div>
-          <div class="row grand"><span>Total</span><span>${money(total)}</span></div>
+
+          <div class="row">
+            <span>Subtotal</span>
+            <strong>${money(subtotal)}</strong>
+          </div>
+
+          <div class="row">
+            <span>Shipping</span>
+            <strong>${money(shippingFee)}</strong>
+          </div>
+
+          <div class="row grand">
+            <span>Total</span>
+            <span>${money(total)}</span>
+          </div>
+
         </div>
 
         <div class="footer">
           LANADA — www.lanada.shop
         </div>
+
       </body>
       </html>
     `;
 
-    const printWindow = window.open('', '_blank', 'width=850,height=900');
+    const printWindow = window.open(
+      '',
+      '_blank',
+      'width=850,height=900'
+    );
 
     if (!printWindow) {
       alert('Please allow pop-ups to print your invoice.');
@@ -423,38 +647,62 @@ const Orders = () => {
     };
   };
 
+  // =========================================
+  // STATUS BADGE
+  // =========================================
+
   const renderStatus = (status) => (
     <span className={`orders-status ${getStatusClass(status)}`}>
       {getStatusLabel(status)}
     </span>
   );
 
+  // =========================================
+  // ORDER CARD
+  // =========================================
+
   const renderOrderCard = (order) => {
     const orderId = getOrderId(order);
     const status = getStatus(order);
     const items = getItems(order);
+
     const firstItem = items[0] || {};
+
     const count = items.reduce(
-      (sum, item) => sum + Number(item.quantity || 1),
+      (sum, item) =>
+        sum + Number(item.quantity || 1),
       0
     );
 
     return (
-      <article className="orders-card" key={orderId}>
+      <article
+        className="orders-card"
+        key={orderId}
+      >
+
         <div className="orders-product-image">
+
           <img
             src={getImage(firstItem)}
             alt={firstItem.name || 'Product'}
             onError={(event) => {
-              event.currentTarget.src = '/Assets/ShoeStore/tshirt1.png';
+              event.currentTarget.src =
+                '/Assets/ShoeStore/tshirt1.png';
             }}
           />
+
         </div>
 
         <div className="orders-card-info">
+
           <div className="orders-card-heading">
-            <h3>{firstItem.name || 'Your order'}</h3>
+
+            <h3>
+              {firstItem.name || 'Your order'}
+            </h3>
+
             {renderStatus(status)}
+
           </div>
 
           <p className="orders-price">
@@ -462,13 +710,19 @@ const Orders = () => {
           </p>
 
           <div className="orders-card-meta">
+
             <span>
               Total {count} {count === 1 ? 'product' : 'products'}:
             </span>
-            <strong>{money(getTotal(order))}</strong>
+
+            <strong>
+              {money(getTotal(order))}
+            </strong>
+
           </div>
 
           <div className="orders-card-actions">
+
             {status !== 'cancelled' && (
               <button
                 className="orders-track-button"
@@ -495,11 +749,15 @@ const Orders = () => {
                 Continue Shopping
               </button>
             )}
+
           </div>
 
           <div className="orders-card-date">
-            Order #{orderId.slice(-8).toUpperCase()} · {formatDate(order.createdAt)}
+            Order #{orderId.slice(-8).toUpperCase()}
+            {' '}·{' '}
+            {formatDate(order.createdAt)}
           </div>
+
         </div>
 
         <button
@@ -509,11 +767,19 @@ const Orders = () => {
           title="Download invoice"
           aria-label="Download invoice"
         >
-          <Icon path={mdiReceiptTextOutline} size={0.9} />
+          <Icon
+            path={mdiReceiptTextOutline}
+            size={0.9}
+          />
         </button>
+
       </article>
     );
   };
+
+  // =========================================
+  // TRACKING PAGE
+  // =========================================
 
   const renderTracking = (order) => {
     const orderId = getOrderId(order);
@@ -521,14 +787,21 @@ const Orders = () => {
     const currentStep = STATUS_STEPS.findIndex(
       (step) => step.key === status
     );
+
     const progress = Math.max(currentStep, 0);
+
     const items = getItems(order);
     const shipping = order.shippingAddress || {};
+
     const isCancelled = status === 'cancelled';
 
     return (
       <div className="orders-tracking-page">
+
+        {/* TRACKING HEADER */}
+
         <div className="orders-tracking-top">
+
           <IconButton
             path={mdiArrowLeft}
             label="Back to orders"
@@ -545,24 +818,40 @@ const Orders = () => {
             label="More options"
             onClick={() => handleDownloadInvoice(order)}
           />
+
         </div>
 
+        {/* MAP */}
+
         <div className="orders-map">
+
           <div className="map-road road-one" />
           <div className="map-road road-two" />
           <div className="map-road road-three" />
           <div className="map-road road-four" />
           <div className="map-road road-five" />
+
           <div className="map-block block-one" />
           <div className="map-block block-two" />
           <div className="map-block block-three" />
           <div className="map-block block-four" />
           <div className="map-block block-five" />
 
-          <div className="map-street-label label-one">CITY CENTER</div>
-          <div className="map-street-label label-two">MAIN STREET</div>
-          <div className="map-street-label label-three">RESIDENTIAL AREA</div>
-          <div className="map-street-label label-four">LANADA ROUTE</div>
+          <div className="map-street-label label-one">
+            CITY CENTER
+          </div>
+
+          <div className="map-street-label label-two">
+            MAIN STREET
+          </div>
+
+          <div className="map-street-label label-three">
+            RESIDENTIAL AREA
+          </div>
+
+          <div className="map-street-label label-four">
+            LANADA ROUTE
+          </div>
 
           <svg
             className="orders-map-route"
@@ -582,57 +871,105 @@ const Orders = () => {
           </svg>
 
           <div className="map-location start">
-            <Icon path={mdiHomeOutline} size={1} />
+            <Icon
+              path={mdiHomeOutline}
+              size={1}
+            />
           </div>
 
           <div className="map-location destination">
-            <Icon path={mdiTruckFast} size={1.15} />
+            <Icon
+              path={mdiTruckFast}
+              size={1.15}
+            />
           </div>
 
           <div className="map-note">
-            <Icon path={mdiMapOutline} size={0.7} />
+            <Icon
+              path={mdiMapOutline}
+              size={0.7}
+            />
+
             <span>Delivery route preview</span>
           </div>
+
         </div>
 
+        {/* TRACKING DETAILS */}
+
         <div className="orders-tracking-sheet">
+
           <div className="orders-sheet-handle" />
 
+          {/* Order heading */}
+
           <div className="orders-shipment-heading">
+
             <div>
-              <span className="orders-muted-label">Tracking ID</span>
-              <h2>#{orderId.slice(-8).toUpperCase()}</h2>
+              <span className="orders-muted-label">
+                Tracking ID
+              </span>
+
+              <h2>
+                #{orderId.slice(-8).toUpperCase()}
+              </h2>
             </div>
+
             {renderStatus(status)}
+
           </div>
+
+          {/* Product */}
 
           {items.length > 0 && (
             <div className="orders-shipment-product">
+
               <div className="orders-shipment-image">
+
                 <img
                   src={getImage(items[0])}
                   alt={items[0].name || 'Product'}
                 />
+
               </div>
 
               <div className="orders-shipment-product-info">
-                <span className="orders-muted-label">Your package</span>
-                <strong>{items[0].name || 'LANADA product'}</strong>
+
+                <span className="orders-muted-label">
+                  Your package
+                </span>
+
+                <strong>
+                  {items[0].name || 'LANADA product'}
+                </strong>
+
                 <span>
                   {items.reduce(
-                    (sum, item) => sum + Number(item.quantity || 1),
+                    (sum, item) =>
+                      sum + Number(item.quantity || 1),
                     0
-                  )} products · {money(getTotal(order))}
+                  )}{' '}
+                  products · {money(getTotal(order))}
                 </span>
+
               </div>
+
             </div>
           )}
 
+          {/* TIMELINE */}
+
           <div className="orders-timeline">
+
             {STATUS_STEPS.map((step, index) => {
-              const completed = !isCancelled && index < progress;
-              const active = !isCancelled && index === progress;
-              const pending = !isCancelled && index > progress;
+              const completed =
+                !isCancelled && index < progress;
+
+              const active =
+                !isCancelled && index === progress;
+
+              const pending =
+                !isCancelled && index > progress;
 
               return (
                 <div
@@ -643,6 +980,7 @@ const Orders = () => {
                   }`}
                   key={step.key}
                 >
+
                   <div className="orders-timeline-marker">
                     <Icon
                       path={step.icon}
@@ -651,7 +989,9 @@ const Orders = () => {
                   </div>
 
                   <div className="orders-timeline-content">
+
                     <strong>{step.label}</strong>
+
                     <span>
                       {index === 0
                         ? formatDate(order.createdAt)
@@ -661,15 +1001,22 @@ const Orders = () => {
                         ? 'Current status'
                         : 'Waiting for update'}
                     </span>
+
                   </div>
 
                   {active && (
-                    <span className="orders-current-label">NOW</span>
+                    <span className="orders-current-label">
+                      NOW
+                    </span>
                   )}
+
                 </div>
               );
             })}
+
           </div>
+
+          {/* Cancelled */}
 
           {isCancelled && (
             <div className="orders-cancelled-notice">
@@ -677,9 +1024,15 @@ const Orders = () => {
             </div>
           )}
 
+          {/* Delivery service */}
+
           <div className="orders-delivery-contact">
+
             <div className="orders-contact-avatar">
-              <Icon path={mdiPackageVariantClosed} size={1} />
+              <Icon
+                path={mdiPackageVariantClosed}
+                size={1}
+              />
             </div>
 
             <div className="orders-contact-info">
@@ -688,34 +1041,64 @@ const Orders = () => {
             </div>
 
             <span className="orders-contact-note">
-              {status === 'shipped' ? 'On the way' : 'Order support'}
+              {status === 'shipped'
+                ? 'On the way'
+                : 'Order support'}
             </span>
+
           </div>
 
+          {/* Address */}
+
           <div className="orders-delivery-address">
+
             <div className="orders-address-icon">
-              <Icon path={mdiMapMarker} size={1} />
+              <Icon
+                path={mdiMapMarker}
+                size={1}
+              />
             </div>
+
             <div>
-              <span className="orders-muted-label">Delivery address</span>
-              <strong>{shipping.fullName || 'Customer'}</strong>
+
+              <span className="orders-muted-label">
+                Delivery address
+              </span>
+
+              <strong>
+                {shipping.fullName || 'Customer'}
+              </strong>
+
               <p>
                 {[
                   shipping.street,
                   shipping.city,
                   shipping.region,
-                ].filter(Boolean).join(', ') || 'Address not available'}
+                ].filter(Boolean).join(', ') ||
+                  'Address not available'}
               </p>
-              {shipping.phone && <p>{shipping.phone}</p>}
+
+              {shipping.phone && (
+                <p>{shipping.phone}</p>
+              )}
+
             </div>
+
           </div>
 
+          {/* ACTION BUTTONS */}
+
           <div className="orders-tracking-bottom-actions">
+
             <button
               className="orders-secondary-button"
               onClick={() => handleDownloadInvoice(order)}
             >
-              <Icon path={mdiReceiptTextOutline} size={0.8} />
+              <Icon
+                path={mdiReceiptTextOutline}
+                size={0.8}
+              />
+
               Invoice
             </button>
 
@@ -725,15 +1108,28 @@ const Orders = () => {
             >
               Back to My Orders
             </button>
+
           </div>
+
         </div>
+
       </div>
     );
   };
 
+  // =========================================
+  // MAIN PAGE
+  // =========================================
+
   return (
-    <div className="lanada-orders">
+    <div
+      className={`lanada-orders ${
+        selectedOrder ? 'tracking-active' : ''
+      }`}
+    >
+
       <style>{`
+
         .lanada-orders {
           --orders-bg: #e9e5e1;
           --orders-card: #ffffff;
@@ -741,6 +1137,7 @@ const Orders = () => {
           --orders-muted: #8c8781;
           --orders-line: #ebe7e2;
           --orders-accent: #b87555;
+
           min-height: 100vh;
           background: var(--orders-bg);
           color: var(--orders-ink);
@@ -748,13 +1145,17 @@ const Orders = () => {
           font-family: Arial, Helvetica, sans-serif;
         }
 
-        .lanada-orders * { box-sizing: border-box; }
+        .lanada-orders * {
+          box-sizing: border-box;
+        }
 
         .orders-container {
           width: 100%;
           max-width: 1120px;
           margin: 0 auto;
         }
+
+        /* TOP */
 
         .orders-page-top {
           display: flex;
@@ -795,7 +1196,11 @@ const Orders = () => {
           background: #f7f3ef;
         }
 
-        .orders-heading { margin-bottom: 24px; }
+        /* HEADING */
+
+        .orders-heading {
+          margin-bottom: 24px;
+        }
 
         .orders-heading h1 {
           font-size: clamp(34px, 5vw, 48px);
@@ -810,6 +1215,8 @@ const Orders = () => {
           color: #88817b;
           font-size: 13px;
         }
+
+        /* SEARCH */
 
         .orders-search {
           height: 48px;
@@ -836,7 +1243,11 @@ const Orders = () => {
           font-size: 13px;
         }
 
-        .orders-search input::placeholder { color: #aaa39c; }
+        .orders-search input::placeholder {
+          color: #aaa39c;
+        }
+
+        /* FILTERS */
 
         .orders-filters {
           display: flex;
@@ -846,7 +1257,9 @@ const Orders = () => {
           scrollbar-width: none;
         }
 
-        .orders-filters::-webkit-scrollbar { display: none; }
+        .orders-filters::-webkit-scrollbar {
+          display: none;
+        }
 
         .orders-filter {
           flex: 0 0 auto;
@@ -872,6 +1285,8 @@ const Orders = () => {
           font-size: 10px;
           opacity: .7;
         }
+
+        /* LIST */
 
         .orders-list {
           display: flex;
@@ -916,7 +1331,9 @@ const Orders = () => {
           object-fit: contain;
         }
 
-        .orders-card-info { min-width: 0; }
+        .orders-card-info {
+          min-width: 0;
+        }
 
         .orders-card-heading {
           display: flex;
@@ -938,6 +1355,8 @@ const Orders = () => {
           font-size: 14px;
           font-weight: 600;
         }
+
+        /* STATUS */
 
         .orders-status {
           flex: 0 0 auto;
@@ -987,6 +1406,8 @@ const Orders = () => {
           font-size: 14px;
         }
 
+        /* CARD ACTIONS */
+
         .orders-card-actions {
           display: flex;
           flex-wrap: wrap;
@@ -1025,7 +1446,9 @@ const Orders = () => {
           color: #725b49;
         }
 
-        .orders-secondary-button:hover { background: #e3d7ca; }
+        .orders-secondary-button:hover {
+          background: #e3d7ca;
+        }
 
         .orders-card-date {
           margin-top: 10px;
@@ -1050,6 +1473,8 @@ const Orders = () => {
           background: #f8f4ef;
           color: #a8423d;
         }
+
+        /* EMPTY / ERROR */
 
         .orders-empty,
         .orders-error,
@@ -1112,10 +1537,14 @@ const Orders = () => {
         }
 
         @keyframes ordersSpin {
-          to { transform: rotate(360deg); }
+          to {
+            transform: rotate(360deg);
+          }
         }
 
-        /* TRACKING VIEW */
+        /* =================================
+           TRACKING VIEW
+        ================================= */
 
         .orders-tracking-page {
           max-width: 850px;
@@ -1135,7 +1564,9 @@ const Orders = () => {
           background: #f5f1eb;
         }
 
-        .orders-tracking-title { text-align: center; }
+        .orders-tracking-title {
+          text-align: center;
+        }
 
         .orders-tracking-title h1 {
           font-size: 16px;
@@ -1149,6 +1580,8 @@ const Orders = () => {
           color: #a19a92;
           margin: 0;
         }
+
+        /* MAP */
 
         .orders-map {
           position: relative;
@@ -1215,11 +1648,40 @@ const Orders = () => {
           border-radius: 8px;
         }
 
-        .block-one { width: 85px; height: 48px; left: 7%; top: 8%; }
-        .block-two { width: 100px; height: 54px; right: 8%; top: 13%; }
-        .block-three { width: 90px; height: 55px; left: 42%; top: 48%; }
-        .block-four { width: 80px; height: 45px; left: 9%; bottom: 9%; }
-        .block-five { width: 95px; height: 55px; right: 7%; bottom: 8%; }
+        .block-one {
+          width: 85px;
+          height: 48px;
+          left: 7%;
+          top: 8%;
+        }
+
+        .block-two {
+          width: 100px;
+          height: 54px;
+          right: 8%;
+          top: 13%;
+        }
+
+        .block-three {
+          width: 90px;
+          height: 55px;
+          left: 42%;
+          top: 48%;
+        }
+
+        .block-four {
+          width: 80px;
+          height: 45px;
+          left: 9%;
+          bottom: 9%;
+        }
+
+        .block-five {
+          width: 95px;
+          height: 55px;
+          right: 7%;
+          bottom: 8%;
+        }
 
         .map-street-label {
           position: absolute;
@@ -1229,10 +1691,25 @@ const Orders = () => {
           font-weight: 600;
         }
 
-        .label-one { left: 8%; top: 27%; }
-        .label-two { right: 8%; top: 42%; }
-        .label-three { left: 35%; bottom: 10%; }
-        .label-four { right: 12%; bottom: 27%; }
+        .label-one {
+          left: 8%;
+          top: 27%;
+        }
+
+        .label-two {
+          right: 8%;
+          top: 42%;
+        }
+
+        .label-three {
+          left: 35%;
+          bottom: 10%;
+        }
+
+        .label-four {
+          right: 12%;
+          bottom: 27%;
+        }
 
         .orders-map-route {
           position: absolute;
@@ -1286,6 +1763,8 @@ const Orders = () => {
           z-index: 3;
         }
 
+        /* TRACKING SHEET */
+
         .orders-tracking-sheet {
           position: relative;
           margin-top: -1px;
@@ -1322,6 +1801,8 @@ const Orders = () => {
           font-size: 17px;
           letter-spacing: .3px;
         }
+
+        /* SHIPMENT PRODUCT */
 
         .orders-shipment-product {
           display: flex;
@@ -1367,6 +1848,8 @@ const Orders = () => {
           color: #99918a;
           font-size: 10px;
         }
+
+        /* TIMELINE */
 
         .orders-timeline {
           padding: 15px 14px 7px;
@@ -1457,6 +1940,8 @@ const Orders = () => {
           margin-top: 12px;
         }
 
+        /* DELIVERY CONTACT */
+
         .orders-delivery-contact {
           display: flex;
           align-items: center;
@@ -1494,7 +1979,11 @@ const Orders = () => {
           color: #99918a;
         }
 
-        .orders-contact-note { margin-left: auto; }
+        .orders-contact-note {
+          margin-left: auto;
+        }
+
+        /* DELIVERY ADDRESS */
 
         .orders-delivery-address {
           display: flex;
@@ -1528,20 +2017,53 @@ const Orders = () => {
           line-height: 1.5;
         }
 
+        /* BOTTOM ACTIONS */
+
         .orders-tracking-bottom-actions {
           display: flex;
           gap: 9px;
           margin-top: 17px;
         }
 
-        .orders-tracking-bottom-actions button { flex: 1; }
+        .orders-tracking-bottom-actions button {
+          flex: 1;
+        }
+
+        /* =================================
+           IMPORTANT: TRACKING OPENS AT TOP
+        ================================= */
+
+        .lanada-orders.tracking-active {
+          padding-top: 0 !important;
+        }
+
+        .orders-tracking-page {
+          margin-top: 0;
+          scroll-margin-top: 0;
+        }
+
+        .orders-tracking-top {
+          position: relative;
+          top: 0;
+        }
+
+        /* =================================
+           TABLET AND MOBILE
+        ================================= */
 
         @media (max-width: 650px) {
+
           .lanada-orders {
             padding: 22px 12px 45px;
           }
 
-          .orders-heading h1 { font-size: 36px; }
+          .lanada-orders.tracking-active {
+            padding-top: 0 !important;
+          }
+
+          .orders-heading h1 {
+            font-size: 36px;
+          }
 
           .orders-card {
             grid-template-columns: 88px minmax(0, 1fr);
@@ -1566,8 +2088,13 @@ const Orders = () => {
             margin: 0 0 5px;
           }
 
-          .orders-card-meta { font-size: 10px; }
-          .orders-card-meta strong { font-size: 12px; }
+          .orders-card-meta {
+            font-size: 10px;
+          }
+
+          .orders-card-meta strong {
+            font-size: 12px;
+          }
 
           .orders-track-button,
           .orders-secondary-button {
@@ -1582,13 +2109,21 @@ const Orders = () => {
             pointer-events: none;
           }
 
-          .orders-card { position: relative; }
+          .orders-card {
+            position: relative;
+          }
 
-          .orders-tracking-page { border-radius: 20px; }
+          .orders-tracking-page {
+            border-radius: 20px;
+          }
 
-          .orders-map { height: 245px; }
+          .orders-map {
+            height: 245px;
+          }
 
-          .orders-tracking-sheet { padding: 13px 14px 18px; }
+          .orders-tracking-sheet {
+            padding: 13px 14px 18px;
+          }
 
           .orders-tracking-bottom-actions {
             flex-direction: column;
@@ -1596,6 +2131,7 @@ const Orders = () => {
         }
 
         @media (max-width: 380px) {
+
           .orders-card {
             grid-template-columns: 75px minmax(0, 1fr);
             gap: 9px;
@@ -1612,44 +2148,73 @@ const Orders = () => {
             gap: 3px;
           }
         }
+
       `}</style>
 
       <div className="orders-container">
+
         {!selectedOrder ? (
           <>
+
+            {/* ORDERS LIST HEADER */}
+
             <div className="orders-page-top">
-              <div className="orders-brand">LANADA</div>
+
+              <div className="orders-brand">
+                LANADA
+              </div>
 
               <div className="orders-top-actions">
+
                 <IconButton
                   path={mdiRefresh}
                   label="Refresh orders"
                   onClick={fetchOrders}
                 />
+
                 <IconButton
                   path={mdiDotsVertical}
                   label="More"
                   onClick={() => navigate('/')}
                 />
+
               </div>
+
             </div>
+
+            {/* HEADING */}
 
             <div className="orders-heading">
               <h1>My Order</h1>
-              <p>All your purchases, together in one place.</p>
+              <p>
+                All your purchases, together in one place.
+              </p>
             </div>
 
+            {/* SEARCH */}
+
             <label className="orders-search">
-              <Icon path={mdiMagnify} size={0.9} />
+
+              <Icon
+                path={mdiMagnify}
+                size={0.9}
+              />
+
               <input
                 type="search"
                 placeholder="Search your orders..."
                 value={search}
-                onChange={(event) => setSearch(event.target.value)}
+                onChange={(event) =>
+                  setSearch(event.target.value)
+                }
               />
+
             </label>
 
+            {/* FILTERS */}
+
             <div className="orders-filters">
+
               {FILTERS.map((filter) => (
                 <button
                   type="button"
@@ -1660,61 +2225,103 @@ const Orders = () => {
                   onClick={() => setActiveFilter(filter.key)}
                 >
                   {filter.label}
+
                   <span className="orders-filter-count">
                     {getFilterCount(filter.key)}
                   </span>
                 </button>
               ))}
+
             </div>
+
+            {/* LOADING */}
 
             {loading ? (
               <div className="orders-loading">
                 <div className="orders-spinner" />
                 <p>Loading your orders...</p>
               </div>
+
             ) : error ? (
+
+              /* ERROR */
+
               <div className="orders-error">
+
                 <h2>Something went wrong</h2>
+
                 <p>{error}</p>
+
                 <button
                   className="orders-primary-button"
                   onClick={fetchOrders}
                 >
                   Try again
                 </button>
+
               </div>
+
             ) : filteredOrders.length === 0 ? (
+
+              /* EMPTY */
+
               <div className="orders-empty">
+
                 <div className="orders-empty-icon">
-                  <Icon path={mdiPackageVariantClosed} size={1.5} />
+                  <Icon
+                    path={mdiPackageVariantClosed}
+                    size={1.5}
+                  />
                 </div>
+
                 <h2>No orders found</h2>
+
                 <p>
                   {orders.length === 0
                     ? 'Your orders will appear here when you make a purchase.'
                     : 'There are no orders in this category.'}
                 </p>
+
                 <button
                   className="orders-primary-button"
                   onClick={() => {
                     setActiveFilter('all');
                     setSearch('');
-                    if (orders.length === 0) navigate('/');
+
+                    if (orders.length === 0) {
+                      navigate('/');
+                    }
                   }}
                 >
-                  {orders.length === 0 ? 'Start Shopping' : 'View All Orders'}
+                  {orders.length === 0
+                    ? 'Start Shopping'
+                    : 'View All Orders'}
                 </button>
+
               </div>
+
             ) : (
+
+              /* ORDER CARDS */
+
               <div className="orders-list">
                 {filteredOrders.map(renderOrderCard)}
               </div>
+
             )}
+
           </>
+
         ) : (
+
+          /* TRACKING PAGE */
+
           renderTracking(selectedOrder)
+
         )}
+
       </div>
+
     </div>
   );
 };
