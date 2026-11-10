@@ -1,46 +1,104 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useLayoutEffect
+} from 'react';
+
 import './OrderConfirmationTicket.css';
 
-// Success icon
-const CheckCircleIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lanada-ticket-check"
-    aria-hidden="true"
-  >
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-    <polyline points="22 4 12 14.01 9 11.01" />
-  </svg>
-);
+// =========================================
+// PROFESSIONAL TICKET ICONS
+// =========================================
 
-// Cash on Delivery icon
-const CashIcon = () => (
-  <div className="lanada-ticket-payment-icon">
-    <span>DH</span>
-  </div>
-);
+const TicketIcon = ({ name, size = 20 }) => {
+  const icons = {
+    check: (
+      <>
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+        <path d="m9 11 3 3L22 4" />
+      </>
+    ),
 
-// Dashed separator
-const DashedLine = () => (
-  <div className="lanada-ticket-dashed" aria-hidden="true" />
-);
+    receipt: (
+      <>
+        <path d="M4 3h16v18l-3-2-3 2-2-2-3 2-2-2-3 2V3Z" />
+        <path d="M8 8h8M8 12h8M8 16h4" />
+      </>
+    ),
 
-// Generate a stable barcode from the order ID
-const hashCode = (value) =>
-  value.split('').reduce((result, character) => {
+    wallet: (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="M3 9h18M16 14h2" />
+      </>
+    ),
+
+    calendar: (
+      <>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4M8 3v4M3 10h18" />
+        <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01" />
+      </>
+    ),
+
+    user: (
+      <>
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </>
+    ),
+
+    phone: (
+      <>
+        <rect x="5" y="2" width="14" height="20" rx="2.5" />
+        <path d="M11 18h2" />
+      </>
+    ),
+
+    pin: (
+      <>
+        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </>
+    ),
+
+    package: (
+      <>
+        <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+        <path d="M3 8v9l9 5 9-5V8M12 13v9" />
+      </>
+    )
+  };
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {icons[name] || null}
+    </svg>
+  );
+};
+
+// =========================================
+// BARCODE
+// =========================================
+
+const hashCode = (value) => {
+  return value.split('').reduce((result, character) => {
     result = ((result << 5) - result) + character.charCodeAt(0);
     return result | 0;
   }, 0);
+};
 
-// Barcode
 const Barcode = ({ value }) => {
   const bars = useMemo(() => {
     if (!value) return [];
@@ -60,21 +118,26 @@ const Barcode = ({ value }) => {
   if (!value) return null;
 
   const spacing = 1.5;
+
   const totalWidth =
-    bars.reduce((total, bar) => total + bar.width + spacing, 0) - spacing;
+    bars.reduce(
+      (total, bar) => total + bar.width + spacing,
+      0
+    ) - spacing;
 
   const svgWidth = 250;
-  const svgHeight = 70;
+  const svgHeight = 65;
 
   let currentX = (svgWidth - totalWidth) / 2;
 
   return (
     <div className="lanada-ticket-barcode">
+
       <svg
-        xmlns="http://www.w3.org/2000/svg"
         width={svgWidth}
         height={svgHeight}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        role="img"
         aria-label={`Decorative barcode for order ${value}`}
       >
         {bars.map((bar, index) => {
@@ -85,9 +148,9 @@ const Barcode = ({ value }) => {
             <rect
               key={index}
               x={x}
-              y="10"
+              y="7"
               width={bar.width}
-              height="50"
+              height="49"
               fill="currentColor"
             />
           );
@@ -95,45 +158,52 @@ const Barcode = ({ value }) => {
       </svg>
 
       <p>{value}</p>
+
     </div>
   );
 };
 
-// Confetti animation
+// =========================================
+// CONFETTI
+// =========================================
+
 const ConfettiExplosion = () => {
   const colors = [
-    '#ef4444',
-    '#3b82f6',
-    '#22c55e',
-    '#eab308',
-    '#8b5cf6',
-    '#f97316'
+    '#171717',
+    '#b9a477',
+    '#8da58b',
+    '#d9c7a1',
+    '#a8b5a3'
   ];
 
-  const pieces = useMemo(
-    () =>
-      Array.from({ length: 100 }, (_, index) => ({
-        left: `${Math.random() * 100}%`,
-        top: `${-20 + Math.random() * 10}%`,
-        backgroundColor: colors[index % colors.length],
-        transform: `rotate(${Math.random() * 360}deg)`,
-        animation: `lanada-ticket-fall ${
-          2.5 + Math.random() * 2.5
-        }s ${Math.random() * 2}s linear forwards`
-      })),
-    []
-  );
+  const pieces = useMemo(() => {
+    return Array.from({ length: 85 }, (_, index) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${-15 + Math.random() * 10}%`,
+      backgroundColor: colors[index % colors.length],
+      transform: `rotate(${Math.random() * 360}deg)`,
+      animation: `lanada-ticket-fall ${
+        2.5 + Math.random() * 2
+      }s ${Math.random() * 1.5}s linear forwards`
+    }));
+  }, []);
 
   return (
     <div className="lanada-ticket-confetti" aria-hidden="true">
       {pieces.map((piece, index) => (
-        <span key={index} style={piece} />
+        <span
+          key={index}
+          style={piece}
+        />
       ))}
     </div>
   );
 };
 
-// Format Moroccan currency
+// =========================================
+// FORMAT HELPERS
+// =========================================
+
 const formatAmount = (amount) => {
   const numericAmount = Number(amount);
 
@@ -147,7 +217,6 @@ const formatAmount = (amount) => {
   })} DH`;
 };
 
-// Format date
 const formatDate = (value) => {
   const date = value ? new Date(value) : new Date();
 
@@ -167,7 +236,10 @@ const formatDate = (value) => {
     .replace(',', ' •');
 };
 
-// Main confirmation ticket
+// =========================================
+// ORDER CONFIRMATION TICKET
+// =========================================
+
 const OrderConfirmationTicket = ({
   order,
   onContinueShopping,
@@ -175,16 +247,30 @@ const OrderConfirmationTicket = ({
 }) => {
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    const showTimer = window.setTimeout(
-      () => setShowConfetti(true),
-      100
-    );
+  // Scroll page and app container to the top
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
 
-    const hideTimer = window.setTimeout(
-      () => setShowConfetti(false),
-      6000
-    );
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    const appContent = document.querySelector('.app-content');
+
+    if (appContent) {
+      appContent.scrollTop = 0;
+      appContent.scrollTo(0, 0);
+    }
+  }, []);
+
+  // Confetti timers
+  useEffect(() => {
+    const showTimer = window.setTimeout(() => {
+      setShowConfetti(true);
+    }, 100);
+
+    const hideTimer = window.setTimeout(() => {
+      setShowConfetti(false);
+    }, 5500);
 
     return () => {
       window.clearTimeout(showTimer);
@@ -192,6 +278,7 @@ const OrderConfirmationTicket = ({
     };
   }, []);
 
+  // Actual backend data
   const shipping = order?.shippingAddress || {};
 
   const realOrderId =
@@ -204,9 +291,18 @@ const OrderConfirmationTicket = ({
     ? String(realOrderId).slice(-12).toUpperCase()
     : 'CONFIRMED';
 
-  const amount = order?.totalAmount ?? order?.total ?? 0;
+  const barcodeValue = realOrderId
+    ? String(realOrderId)
+    : ticketId;
 
-  const date = order?.createdAt || order?.date;
+  const amount =
+    order?.totalAmount ??
+    order?.total ??
+    0;
+
+  const date =
+    order?.createdAt ||
+    order?.date;
 
   const customerName =
     shipping.fullName ||
@@ -248,14 +344,18 @@ const OrderConfirmationTicket = ({
 
         {/* Ticket cut-out effect */}
         <span className="lanada-ticket-cutout lanada-ticket-cutout-left" />
-
         <span className="lanada-ticket-cutout lanada-ticket-cutout-right" />
 
-        {/* Thank You */}
+        {/* Brand */}
+        <div className="lanada-ticket-brand">
+          LANADA<span>.</span>
+        </div>
+
+        {/* Success */}
         <div className="lanada-ticket-intro">
 
           <div className="lanada-ticket-success-circle">
-            <CheckCircleIcon />
+            <TicketIcon name="check" size={39} />
           </div>
 
           <h1>Thank you!</h1>
@@ -268,107 +368,135 @@ const OrderConfirmationTicket = ({
 
         <div className="lanada-ticket-content">
 
-          <DashedLine />
+          {/* Order ID */}
+          <div className="lanada-ticket-info-row">
 
-          {/* Order ID and Amount */}
-          <div className="lanada-ticket-summary">
-
-            <div>
-              <p className="lanada-ticket-label">
-                Order ID
-              </p>
-
-              <p className="lanada-ticket-id">
-                {ticketId}
-              </p>
+            <div className="lanada-ticket-icon">
+              <TicketIcon name="receipt" />
             </div>
 
-            <div className="lanada-ticket-amount-block">
+            <div className="lanada-ticket-info-text">
+              <span>Order ID</span>
+              <strong className="lanada-ticket-order-id">
+                {ticketId}
+              </strong>
+            </div>
 
-              <p className="lanada-ticket-label">
-                Amount
-              </p>
+          </div>
 
-              <p className="lanada-ticket-amount">
+          {/* Amount */}
+          <div className="lanada-ticket-info-row">
+
+            <div className="lanada-ticket-icon">
+              <TicketIcon name="wallet" />
+            </div>
+
+            <div className="lanada-ticket-info-text">
+              <span>Total amount</span>
+              <strong className="lanada-ticket-amount">
                 {formatAmount(amount)}
-              </p>
-
+              </strong>
             </div>
 
           </div>
 
           {/* Date */}
-          <div className="lanada-ticket-date-block">
+          <div className="lanada-ticket-info-row">
 
-            <p className="lanada-ticket-label">
-              Date &amp; Time
-            </p>
+            <div className="lanada-ticket-icon">
+              <TicketIcon name="calendar" />
+            </div>
 
-            <p className="lanada-ticket-date">
-              {formatDate(date)}
-            </p>
-
-          </div>
-
-          {/* Customer and Payment */}
-          <div className="lanada-ticket-customer">
-
-            <CashIcon />
-
-            <div>
-              <p className="lanada-ticket-customer-name">
-                {customerName}
-              </p>
-
-              <p className="lanada-ticket-subtitle">
-                {paymentLabel}
-              </p>
-
-              {phone && (
-                <p className="lanada-ticket-subtitle">
-                  {phone}
-                </p>
-              )}
+            <div className="lanada-ticket-info-text">
+              <span>Date &amp; Time</span>
+              <strong>{formatDate(date)}</strong>
             </div>
 
           </div>
 
-          {/* Delivery address */}
-          {address && (
-            <div className="lanada-ticket-address">
+          {/* Customer */}
+          <div className="lanada-ticket-info-row">
 
-              <p className="lanada-ticket-label">
-                Delivery Address
-              </p>
+            <div className="lanada-ticket-icon">
+              <TicketIcon name="user" />
+            </div>
 
-              <p>{address}</p>
+            <div className="lanada-ticket-info-text">
+              <span>Customer</span>
+              <strong>{customerName}</strong>
+            </div>
+
+          </div>
+
+          {/* Phone */}
+          {phone && (
+            <div className="lanada-ticket-info-row">
+
+              <div className="lanada-ticket-icon">
+                <TicketIcon name="phone" />
+              </div>
+
+              <div className="lanada-ticket-info-text">
+                <span>Phone number</span>
+                <strong>{phone}</strong>
+              </div>
 
             </div>
           )}
 
-          {/* Order status */}
-          <div className="lanada-ticket-status">
+          {/* Delivery address */}
+          {address && (
+            <div className="lanada-ticket-info-row">
 
-            <span className="lanada-ticket-label">
-              Order status
-            </span>
+              <div className="lanada-ticket-icon">
+                <TicketIcon name="pin" />
+              </div>
 
-            <strong>
-              {status.toUpperCase()}
-            </strong>
+              <div className="lanada-ticket-info-text">
+                <span>Delivery address</span>
+                <strong>{address}</strong>
+              </div>
+
+            </div>
+          )}
+
+          {/* Payment */}
+          <div className="lanada-ticket-payment">
+
+            <div className="lanada-ticket-payment-icon">
+              <TicketIcon name="wallet" size={21} />
+            </div>
+
+            <div className="lanada-ticket-payment-text">
+              <span>Payment method</span>
+              <strong>{paymentLabel}</strong>
+            </div>
+
+            <div className="lanada-ticket-payment-badge">
+              COD
+            </div>
 
           </div>
 
-          <DashedLine />
+          {/* Status */}
+          <div className="lanada-ticket-status">
+
+            <div className="lanada-ticket-status-icon">
+              <TicketIcon name="package" size={17} />
+            </div>
+
+            <span>Order status</span>
+
+            <strong>{status.toUpperCase()}</strong>
+
+          </div>
 
           {/* Barcode */}
-          <Barcode
-            value={realOrderId ? String(realOrderId) : ticketId}
-          />
+          <Barcode value={barcodeValue} />
 
         </div>
 
-        {/* Buttons */}
+        {/* Actions */}
         <div className="lanada-ticket-actions">
 
           <button
@@ -376,7 +504,8 @@ const OrderConfirmationTicket = ({
             onClick={onContinueShopping}
             className="lanada-ticket-continue"
           >
-            Continue Shopping <span>→</span>
+            Continue Shopping
+            <span>→</span>
           </button>
 
           <button

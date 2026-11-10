@@ -810,3 +810,71 @@
     font-size: 22px;
   }
 }
+
+/* =========================================
+   LANADA PROFESSIONAL CART ICONS
+========================================= */
+
+.cartIcon {
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: middle;
+  transition: transform .2s ease, color .2s ease;
+}
+
+.backButton,
+.clearButton,
+.removeButton,
+.quantityControl button,
+.headerBag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.backButton .cartIcon {
+  width: 17px;
+  height: 17px;
+}
+
+.clearButton .cartIcon {
+  width: 15px;
+  height: 15px;
+}
+
+.clearButton:hover .cartIcon {
+  transform: scale(1.08);
+}
+
+.removeButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background .2s ease, color .2s ease;
+}
+
+.removeButton:hover {
+  background: #f3f3f3;
+}
+
+.removeButton .cartIcon {
+  pointer-events: none;
+}
+
+.quantityControl button .cartIcon {
+  pointer-events: none;
+}
+
+.headerBag .cartIcon {
+  width: 17px;
+  height: 17px;
+}
+
+.shippingNote > span,
+.trustNotes > div > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 25px;
+  color: #555;
+}

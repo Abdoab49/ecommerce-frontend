@@ -11,6 +11,101 @@ import styles from './Cart.module.css';
 
 const API = 'https://backend-3lyx.onrender.com/api';
 
+// =========================================
+// PROFESSIONAL SVG ICONS
+// =========================================
+
+const CartIcon = ({ name, size = 18 }) => {
+  const paths = {
+    back: (
+      <>
+        <path d="M19 12H5" />
+        <path d="m12 19-7-7 7-7" />
+      </>
+    ),
+
+    bag: (
+      <>
+        <path d="M5 8h14l1 13H4L5 8Z" />
+        <path d="M9 8a3 3 0 0 1 6 0" />
+      </>
+    ),
+
+    trash: (
+      <>
+        <path d="M3 6h18" />
+        <path d="M8 6V4h8v2" />
+        <path d="m19 6-1 14H6L5 6" />
+        <path d="M10 11v5M14 11v5" />
+      </>
+    ),
+
+    close: (
+      <>
+        <path d="m18 6-12 12M6 6l12 12" />
+      </>
+    ),
+
+    plus: (
+      <>
+        <path d="M12 5v14M5 12h14" />
+      </>
+    ),
+
+    minus: (
+      <>
+        <path d="M5 12h14" />
+      </>
+    ),
+
+    support: (
+      <>
+        <path d="M3 13v-2a9 9 0 0 1 18 0v2" />
+        <path d="M3 13h4v6H5a2 2 0 0 1-2-2v-4Z" />
+        <path d="M21 13h-4v6h2a2 2 0 0 0 2-2v-4Z" />
+        <path d="M17 19a5 5 0 0 1-5 2" />
+      </>
+    ),
+
+    shield: (
+      <>
+        <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+        <path d="m9 12 2 2 4-4" />
+      </>
+    ),
+
+    truck: (
+      <>
+        <path d="M3 6h11v12H3z" />
+        <path d="M14 10h4l3 4v4h-7z" />
+        <circle cx="7.5" cy="19" r="1.5" />
+        <circle cx="17.5" cy="19" r="1.5" />
+      </>
+    )
+  };
+
+  return (
+    <svg
+      className="cartIcon"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {paths[name]}
+    </svg>
+  );
+};
+
+// =========================================
+// CART COMPONENT
+// =========================================
+
 const Cart = () => {
   const navigate = useNavigate();
 
@@ -27,7 +122,6 @@ const Cart = () => {
 
   const [notification, setNotification] = useState(null);
 
-  // Read pending Giveaway promo automatically
   const [promoCode, setPromoCode] = useState(() => {
     return localStorage.getItem('lanada_pending_promo') || '';
   });
@@ -38,15 +132,15 @@ const Cart = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // Preserve original TruckButton animation states
+  // Original TruckButton animation state
   const [orderSuccess, setOrderSuccess] = useState(false);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  // Store the actual order returned by the backend
+  // Real order data
   const [orderDetails, setOrderDetails] = useState(null);
 
-  // SHIPPING INFORMATION
+  // Shipping information
   const [fullName, setFullName] = useState('');
   const [city, setCity] = useState('');
   const [region, setRegion] = useState('');
@@ -117,7 +211,6 @@ const Cart = () => {
 
   // =========================================
   // PROMO CODE VALIDATION
-  // GIVEAWAY + NORMAL PROMO
   // =========================================
 
   const applyPromoCode = async () => {
@@ -129,6 +222,7 @@ const Cart = () => {
         'Error',
         'Please enter a promo code.'
       );
+
       return;
     }
 
@@ -142,11 +236,11 @@ const Cart = () => {
       );
 
       navigate('/login');
+
       return;
     }
 
     try {
-      // LANADA Giveaway code
       const isGiveaway = normalizedCode.startsWith('LANADA-');
 
       const endpoint = isGiveaway
@@ -155,9 +249,11 @@ const Cart = () => {
 
       const response = await fetch(endpoint, {
         method: 'POST',
+
         headers: {
           'Content-Type': 'application/json'
         },
+
         body: JSON.stringify({
           code: normalizedCode,
           userId
@@ -170,10 +266,11 @@ const Cart = () => {
         const discount = Number(result.discountPercent) || 0;
 
         setPromoPercent(discount);
+
         setAppliedPromoCode(normalizedCode);
+
         setPromoCode('');
 
-        // Preserve normal promo behavior
         if (!isGiveaway) {
           localStorage.removeItem('lanada_pending_promo');
         }
@@ -185,6 +282,7 @@ const Cart = () => {
         );
       } else {
         setPromoPercent(0);
+
         setAppliedPromoCode('');
 
         showNotice(
@@ -280,7 +378,9 @@ const Cart = () => {
   // =========================================
 
   const handleCheckout = async () => {
-    if (loading) return;
+    if (loading || orderSuccess) {
+      return;
+    }
 
     const userId = getUserId();
 
@@ -292,6 +392,7 @@ const Cart = () => {
       );
 
       navigate('/login');
+
       return;
     }
 
@@ -301,6 +402,7 @@ const Cart = () => {
         'Empty cart',
         'Your cart is empty.'
       );
+
       return;
     }
 
@@ -310,6 +412,7 @@ const Cart = () => {
         'Missing information',
         'Please complete the shipping information.'
       );
+
       return;
     }
 
@@ -327,17 +430,26 @@ const Cart = () => {
 
       const response = await fetch(`${API}/orders`, {
         method: 'POST',
+
         headers: {
           'Content-Type': 'application/json'
         },
+
         body: JSON.stringify({
           userId,
+
           items: orderItems,
+
           subtotal,
+
           shipping: shippingFee,
+
           discountPercent: promoPercent,
+
           discountAmount: promoAmount,
+
           totalAmount: total,
+
           paymentMethod: 'cash_on_delivery',
 
           shippingAddress: {
@@ -355,12 +467,7 @@ const Cart = () => {
 
       const result = await response.json();
 
-      // =====================================
-      // SUCCESSFUL ORDER
-      // =====================================
-
       if (response.ok) {
-        // Support either { order: {...} } or a direct order response
         const savedOrder =
           result.order ||
           result.data?.order ||
@@ -396,20 +503,17 @@ const Cart = () => {
             }
         };
 
-        // Save actual order for Thank You ticket
         setOrderDetails(confirmedOrder);
 
-        // Trigger original TruckButton animation
+        // Keep original TruckButton success animation
         setOrderSuccess(true);
 
-        // =================================
-        // GIVEAWAY CLEANUP
-        // Preserve existing behavior
-        // =================================
-
+        // Giveaway cleanup after successful order
         if (appliedPromoCode.startsWith('LANADA-')) {
           localStorage.removeItem('lanada_giveaway_reward');
+
           localStorage.removeItem('lanada_pending_promo');
+
           localStorage.removeItem('lanada_giveaway_seen_for');
 
           window.dispatchEvent(
@@ -445,10 +549,22 @@ const Cart = () => {
       return;
     }
 
-    // Clear cart only after truck animation
     clearCart();
 
-    // Display Thank You ticket
+    // Scroll to top before showing confirmation
+    window.scrollTo(0, 0);
+
+    document.documentElement.scrollTop = 0;
+
+    document.body.scrollTop = 0;
+
+    const appContent = document.querySelector('.app-content');
+
+    if (appContent) {
+      appContent.scrollTop = 0;
+      appContent.scrollTo(0, 0);
+    }
+
     setShowSuccessMessage(true);
   };
 
@@ -491,12 +607,13 @@ const Cart = () => {
   }
 
   // =========================================
-  // CART PAGE
+  // MAIN CART
   // =========================================
 
   return (
     <div className={styles.cartPage}>
 
+      {/* Notification */}
       {notification && (
         <Notification
           type={notification.type}
@@ -506,19 +623,21 @@ const Cart = () => {
         />
       )}
 
-      {/* PROMO STRIP */}
+      {/* Promo strip */}
       <div className={styles.promoStrip}>
         COMPLIMENTARY SHIPPING ON ORDERS OVER 500 DH
       </div>
 
-      {/* HEADER */}
+      {/* Header */}
       <header className={styles.cartHeader}>
 
         <button
           className={styles.backButton}
           onClick={() => navigate('/')}
         >
-          ← <span>CONTINUE SHOPPING</span>
+          <CartIcon name="back" />
+
+          <span>CONTINUE SHOPPING</span>
         </button>
 
         <div className={styles.wordmark}>
@@ -526,19 +645,23 @@ const Cart = () => {
         </div>
 
         <div className={styles.headerBag}>
-          BAG <b>{String(totalItems).padStart(2, '0')}</b>
+          <CartIcon name="bag" />
+
+          BAG
+
+          <b>{String(totalItems).padStart(2, '0')}</b>
         </div>
 
       </header>
 
-      {/* BREADCRUMB */}
+      {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         HOME <span>/</span> CART
       </div>
 
       <main className={styles.layout}>
 
-        {/* PRODUCTS */}
+        {/* PRODUCTS SECTION */}
         <section className={styles.productsSection}>
 
           <div className={styles.sectionHeading}>
@@ -550,6 +673,7 @@ const Cart = () => {
 
               <h1>
                 Shopping bag
+
                 <sup>
                   {String(totalItems).padStart(2, '0')}
                 </sup>
@@ -568,15 +692,19 @@ const Cart = () => {
                 }
               }}
             >
-              ⌫ <span>DELETE ALL</span>
+              <CartIcon name="trash" />
+
+              <span>DELETE ALL</span>
             </button>
 
           </div>
 
+          {/* Product list */}
           <div className={styles.productList}>
 
             {cartItems.map((item, index) => {
               const quantity = item.quantity || 1;
+
               const price = extractPrice(item.price);
 
               return (
@@ -589,6 +717,7 @@ const Cart = () => {
                   }
                 >
 
+                  {/* Product image */}
                   <div className={styles.productPhoto}>
                     <img
                       src={getProductImage(item)}
@@ -596,6 +725,7 @@ const Cart = () => {
                     />
                   </div>
 
+                  {/* Product information */}
                   <div className={styles.productInfo}>
 
                     <span className={styles.categoryTag}>
@@ -632,12 +762,13 @@ const Cart = () => {
 
                   </div>
 
+                  {/* Desktop price */}
                   <div className={styles.productPrice}>
                     {price.toFixed(2)}
                     <small> DH</small>
                   </div>
 
-                  {/* QUANTITY */}
+                  {/* Quantity controls */}
                   <div className={styles.quantityControl}>
 
                     <button
@@ -646,7 +777,7 @@ const Cart = () => {
                       disabled={quantity <= 1}
                       onClick={() => updateQuantity(index, quantity - 1)}
                     >
-                      −
+                      <CartIcon name="minus" size={15} />
                     </button>
 
                     <span>
@@ -658,19 +789,19 @@ const Cart = () => {
                       aria-label="Increase quantity"
                       onClick={() => updateQuantity(index, quantity + 1)}
                     >
-                      +
+                      <CartIcon name="plus" size={15} />
                     </button>
 
                   </div>
 
-                  {/* REMOVE */}
+                  {/* Remove product */}
                   <button
                     type="button"
                     className={styles.removeButton}
                     aria-label="Remove product"
                     onClick={() => removeFromCart(index)}
                   >
-                    ×
+                    <CartIcon name="close" size={19} />
                   </button>
 
                 </article>
@@ -679,10 +810,12 @@ const Cart = () => {
 
           </div>
 
-          {/* SHIPPING NOTE */}
+          {/* Shipping help */}
           <div className={styles.shippingNote}>
 
-            <span>↗</span>
+            <span>
+              <CartIcon name="support" size={20} />
+            </span>
 
             <div>
               <b>Need help with your order?</b>
@@ -697,7 +830,7 @@ const Cart = () => {
 
         </section>
 
-        {/* SUMMARY */}
+        {/* SUMMARY SECTION */}
         <aside className={styles.summaryColumn}>
 
           <div className={styles.summaryCard}>
@@ -708,6 +841,7 @@ const Cart = () => {
 
             <h2>Summary</h2>
 
+            {/* Summary lines */}
             <div className={styles.summaryLines}>
 
               <div>
@@ -752,7 +886,7 @@ const Cart = () => {
 
             </div>
 
-            {/* TOTAL */}
+            {/* Total */}
             <div className={styles.totalLine}>
 
               <span>Final payment</span>
@@ -764,7 +898,7 @@ const Cart = () => {
 
             </div>
 
-            {/* PROMO CODE */}
+            {/* Promo code */}
             <div className={styles.promoBox}>
 
               <input
@@ -772,7 +906,9 @@ const Cart = () => {
                 value={promoCode}
                 onChange={(e) => {
                   setPromoCode(e.target.value);
+
                   setAppliedPromoCode('');
+
                   setPromoPercent(0);
                 }}
                 onKeyDown={(e) => {
@@ -794,6 +930,7 @@ const Cart = () => {
 
             </div>
 
+            {/* Free shipping */}
             {shippingFee === 0 && (
               <p className={styles.freeShipping}>
                 ✓ You qualify for complimentary shipping.
@@ -815,7 +952,7 @@ const Cart = () => {
 
               </div>
 
-              {/* FULL NAME */}
+              {/* Full name */}
               <input
                 type="text"
                 value={fullName}
@@ -840,7 +977,7 @@ const Cart = () => {
                 <small>{errors.fullName}</small>
               )}
 
-              {/* PHONE */}
+              {/* Phone */}
               <input
                 type="tel"
                 value={phone}
@@ -865,7 +1002,7 @@ const Cart = () => {
                 <small>{errors.phone}</small>
               )}
 
-              {/* CITY */}
+              {/* City */}
               <select
                 value={city}
                 onChange={(e) => {
@@ -907,7 +1044,7 @@ const Cart = () => {
                 <small>{errors.city}</small>
               )}
 
-              {/* REGION */}
+              {/* Region */}
               {city && (
                 <>
                   <select
@@ -946,7 +1083,7 @@ const Cart = () => {
                 </>
               )}
 
-              {/* ADDRESS */}
+              {/* Delivery address */}
               <textarea
                 value={address}
                 onChange={(e) =>
@@ -973,11 +1110,7 @@ const Cart = () => {
 
             </div>
 
-            {/* =================================
-                ORIGINAL TRUCK BUTTON
-                KEEP ITS ORIGINAL ANIMATION
-            ================================= */}
-
+            {/* ORIGINAL TRUCK BUTTON — KEEP AS IT IS */}
             <div className={styles.checkoutArea}>
 
               <TruckButton
@@ -997,11 +1130,13 @@ const Cart = () => {
 
           </div>
 
-          {/* TRUST NOTES */}
+          {/* Trust notes */}
           <div className={styles.trustNotes}>
 
             <div>
-              <span>◇</span>
+              <span>
+                <CartIcon name="shield" size={20} />
+              </span>
 
               <p>
                 <b>SECURE PAYMENT</b>
@@ -1010,7 +1145,9 @@ const Cart = () => {
             </div>
 
             <div>
-              <span>↗</span>
+              <span>
+                <CartIcon name="truck" size={20} />
+              </span>
 
               <p>
                 <b>DELIVERY ACROSS MOROCCO</b>
@@ -1024,7 +1161,7 @@ const Cart = () => {
 
       </main>
 
-      {/* FOOTER */}
+      {/* Footer */}
       <footer className={styles.cartFooter}>
         LANADA<span>.</span>
 
