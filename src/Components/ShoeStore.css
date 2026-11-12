@@ -884,84 +884,67 @@ body {
 }
 
 
-/* ============================================
-   LANADA PREMIUM PROMO BADGE
-============================================ */
 
-.products-container .el-wrapper .box-up {
-    position: relative;
-}
+/* ============================================
+   LANADA MINI PREMIUM PROMO BADGE
+============================================ */
 
 .product-promo-badge {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 9px;
+    right: 9px;
     z-index: 20;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
 
-    min-width: 58px;
-    padding: 8px 9px;
+    min-width: 43px;
+    padding: 5px 6px;
 
     background: #050505;
     color: #ffffff;
 
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: 3px;
 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.15);
     pointer-events: none;
 }
 
 .promo-label {
     font-family: Arial, sans-serif;
-    font-size: 8px;
+    font-size: 6px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     line-height: 1.2;
 }
 
 .promo-percentage {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 23px;
+    font-size: 17px;
     font-weight: 400;
     line-height: 1;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
-/* OLD PRICE */
-
-.products-container .cart .price .old-price {
-    display: inline-block;
-    margin-left: 8px;
-    color: #888888;
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    text-decoration: line-through;
-}
-
-/* MOBILE */
-
+/* Mobile */
 @media (max-width: 550px) {
     .product-promo-badge {
-        top: 7px;
-        right: 7px;
-        min-width: 45px;
-        padding: 6px 7px;
+        top: 6px;
+        right: 6px;
+        min-width: 36px;
+        padding: 4px 5px;
     }
 
     .promo-label {
-        font-size: 7px;
+        font-size: 5px;
     }
 
     .promo-percentage {
-        font-size: 18px;
+        font-size: 14px;
     }
 }
 
@@ -969,11 +952,12 @@ body {
     .product-promo-badge {
         top: 5px;
         right: 5px;
-        min-width: 39px;
-        padding: 5px;
+        min-width: 32px;
+        padding: 4px;
     }
 
     .promo-percentage {
-        font-size: 16px;
+        font-size: 12px;
     }
 }
+
