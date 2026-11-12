@@ -14,12 +14,30 @@ const ShoeStore = ({ sortOption = 'default' }) => {
     });
     const [clickedButton, setClickedButton] = useState(null);
 
+    // Calculate discount percentage
+    const getDiscountPercentage = (oldPrice, newPrice) => {
+        if (
+            !Number.isFinite(oldPrice) ||
+            !Number.isFinite(newPrice) ||
+            oldPrice <= 0 ||
+            oldPrice <= newPrice
+        ) {
+            return 0;
+        }
+
+        return Math.round(
+            ((oldPrice - newPrice) / oldPrice) * 100
+        );
+    };
+
+    // Go to size selection
     const goToSizeSelection = (product) => {
         navigate('/size-selection', {
             state: { product }
         });
     };
 
+    // Add product to cart
     const addToCart = async (productName, price, productId, e) => {
         e.stopPropagation();
 
@@ -30,7 +48,7 @@ const ShoeStore = ({ sortOption = 'default' }) => {
             id: productId,
             name: productName,
             title: productName,
-            price,
+            price: price,
             quantity: 1,
             size: 'M',
             category: 'shoestore',
@@ -168,14 +186,21 @@ const ShoeStore = ({ sortOption = 'default' }) => {
         );
     }
 
+    // PRODUCT CARD
     const ProductCard = ({ product }) => {
         const price = product.price;
         const oldPrice = product.old_price;
+
+        const discountPercentage = getDiscountPercentage(
+            oldPrice,
+            price
+        );
 
         return (
             <div className="page-wrapper">
                 <div className="page-inner">
                     <div className="row">
+
                         <div
                             className="el-wrapper"
                             onClick={() =>
@@ -187,7 +212,23 @@ const ShoeStore = ({ sortOption = 'default' }) => {
                             }
                             style={{ cursor: 'pointer' }}
                         >
+
+                            {/* PRODUCT IMAGE */}
                             <div className="box-up">
+
+                                {/* PROMO BADGE */}
+                                {discountPercentage > 0 && (
+                                    <div className="product-promo-badge">
+                                        <span className="promo-label">
+                                            PROMO
+                                        </span>
+
+                                        <span className="promo-percentage">
+                                            -{discountPercentage}%
+                                        </span>
+                                    </div>
+                                )}
+
                                 <img
                                     className="img"
                                     src={product.img}
@@ -218,19 +259,20 @@ const ShoeStore = ({ sortOption = 'default' }) => {
                                 </div>
                             </div>
 
+                            {/* PRODUCT PRICE AND CART */}
                             <div className="box-down">
+
                                 <div className="h-bg">
                                     <div className="h-bg-inner"></div>
                                 </div>
 
                                 <div className="cart">
+
                                     <span className="price">
                                         {price} DH
 
                                         {oldPrice > price && (
-                                            <span
-                                                className="old-price"
-                                            >
+                                            <span className="old-price">
                                                 {oldPrice} DH
                                             </span>
                                         )}
@@ -255,6 +297,7 @@ const ShoeStore = ({ sortOption = 'default' }) => {
                                             Add in cart
                                         </span>
                                     </div>
+
                                 </div>
                             </div>
 
@@ -268,7 +311,7 @@ const ShoeStore = ({ sortOption = 'default' }) => {
     return (
         <div className="products-container">
 
-            {/* ALL PRODUCTS - ALWAYS TWO COLUMNS */}
+            {/* ALL PRODUCTS - TWO COLUMNS */}
             <div className="products-wrapper">
                 {products.map(product => (
                     <ProductCard
@@ -278,6 +321,7 @@ const ShoeStore = ({ sortOption = 'default' }) => {
                 ))}
             </div>
 
+            {/* CART NOTIFICATION */}
             {notification.show && (
                 <div className="cart-notification">
                     {notification.message}
