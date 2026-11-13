@@ -6,7 +6,7 @@ import styles from './ProductGrid.module.css';
 const ProductGrid = () => {
     const navigate = useNavigate();
 
-    // Calculate automatic discount
+    // AUTOMATIC DISCOUNT CALCULATION
     const getDiscountPercentage = (oldPrice, price) => {
         const oldValue = Number(oldPrice);
         const newValue = Number(price);
@@ -29,119 +29,119 @@ const ProductGrid = () => {
     const products = [
         {
             id: 45,
-            src: "/Assets/tshirt/tshirt1.png",
-            title: "MOROCCO",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt1.png',
+            title: 'MOROCCO',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt1.png",
-                "/Assets/tshirt/tshirt1_2.png",
-                "/Assets/tshirt/tshirt1_3.png",
-                "/Assets/tshirt/tshirt1_4.png"
+                '/Assets/tshirt/tshirt1.png',
+                '/Assets/tshirt/tshirt1_2.png',
+                '/Assets/tshirt/tshirt1_3.png',
+                '/Assets/tshirt/tshirt1_4.png'
             ]
         },
         {
             id: 46,
-            src: "/Assets/tshirt/tshirt2.png",
-            title: "ARGENTINA",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt2.png',
+            title: 'ARGENTINA',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt2.png",
-                "/Assets/tshirt/tshirt2_2.png",
-                "/Assets/tshirt/tshirt2_3.png",
-                "/Assets/tshirt/tshirt2_4.png"
+                '/Assets/tshirt/tshirt2.png',
+                '/Assets/tshirt/tshirt2_2.png',
+                '/Assets/tshirt/tshirt2_3.png',
+                '/Assets/tshirt/tshirt2_4.png'
             ]
         },
         {
             id: 47,
-            src: "/Assets/tshirt/tshirt3.png",
-            title: "BRAZIL",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt3.png',
+            title: 'BRAZIL',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt3.png",
-                "/Assets/tshirt/tshirt3_2.png",
-                "/Assets/tshirt/tshirt3_3.png",
-                "/Assets/tshirt/tshirt3_4.png"
+                '/Assets/tshirt/tshirt3.png',
+                '/Assets/tshirt/tshirt3_2.png',
+                '/Assets/tshirt/tshirt3_3.png',
+                '/Assets/tshirt/tshirt3_4.png'
             ]
         },
         {
             id: 48,
-            src: "/Assets/tshirt/tshirt4.png",
-            title: "SPAIN",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt4.png',
+            title: 'SPAIN',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt4.png",
-                "/Assets/tshirt/tshirt4_2.png",
-                "/Assets/tshirt/tshirt4_3.png",
-                "/Assets/tshirt/tshirt4_4.png"
+                '/Assets/tshirt/tshirt4.png',
+                '/Assets/tshirt/tshirt4_2.png',
+                '/Assets/tshirt/tshirt4_3.png',
+                '/Assets/tshirt/tshirt4_4.png'
             ]
         },
         {
             id: 49,
-            src: "/Assets/tshirt/tshirt5.png",
-            title: "FRANCE",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt5.png',
+            title: 'FRANCE',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt5.png",
-                "/Assets/tshirt/tshirt5_2.png",
-                "/Assets/tshirt/tshirt5_3.png",
-                "/Assets/tshirt/tshirt5_4.png"
+                '/Assets/tshirt/tshirt5.png',
+                '/Assets/tshirt/tshirt5_2.png',
+                '/Assets/tshirt/tshirt5_3.png',
+                '/Assets/tshirt/tshirt5_4.png'
             ]
         },
         {
             id: 50,
-            src: "/Assets/tshirt/tshirt6.png",
-            title: "GERMANY",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt6.png',
+            title: 'GERMANY',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt6.png",
-                "/Assets/tshirt/tshirt6_2.png",
-                "/Assets/tshirt/tshirt6_3.png",
-                "/Assets/tshirt/tshirt6_4.png"
+                '/Assets/tshirt/tshirt6.png',
+                '/Assets/tshirt/tshirt6_2.png',
+                '/Assets/tshirt/tshirt6_3.png',
+                '/Assets/tshirt/tshirt6_4.png'
             ]
         },
         {
             id: 51,
-            src: "/Assets/tshirt/tshirt7.png",
-            title: "ENGLAND",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt7.png',
+            title: 'ENGLAND',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt7.png",
-                "/Assets/tshirt/tshirt7_2.png",
-                "/Assets/tshirt/tshirt7_3.png",
-                "/Assets/tshirt/tshirt7_4.png"
+                '/Assets/tshirt/tshirt7.png',
+                '/Assets/tshirt/tshirt7_2.png',
+                '/Assets/tshirt/tshirt7_3.png',
+                '/Assets/tshirt/tshirt7_4.png'
             ]
         },
         {
             id: 52,
-            src: "/Assets/tshirt/tshirt8.png",
-            title: "ITALY",
-            description: "National Team Jersey",
+            src: '/Assets/tshirt/tshirt8.png',
+            title: 'ITALY',
+            description: 'National Team Jersey',
             price: 45,
             oldPrice: 70,
             images: [
-                "/Assets/tshirt/tshirt8.png",
-                "/Assets/tshirt/tshirt8_2.png",
-                "/Assets/tshirt/tshirt8_3.png",
-                "/Assets/tshirt/tshirt8_4.png"
+                '/Assets/tshirt/tshirt8.png',
+                '/Assets/tshirt/tshirt8_2.png',
+                '/Assets/tshirt/tshirt8_3.png',
+                '/Assets/tshirt/tshirt8_4.png'
             ]
         }
     ];
 
-    // PRODUCT DATA FOR SIZE SELECTION
+    // OPEN SIZE SELECTION
     const handleProductClick = (product) => {
         const productData = {
             id: product.id,
@@ -156,20 +156,17 @@ const ProductGrid = () => {
         };
 
         navigate('/size-selection', {
-            state: { product: productData }
+            state: {
+                product: productData
+            }
         });
-    };
-
-    // ADD TO CART / SIZE SELECTION
-    const handleAddToCart = (product, event) => {
-        event.stopPropagation();
-        handleProductClick(product);
     };
 
     return (
         <div className={styles.productGridWrapper}>
 
             <div className={styles.wrapper}>
+
                 {products.map((product) => {
                     const discount = getDiscountPercentage(
                         product.oldPrice,
@@ -177,16 +174,28 @@ const ProductGrid = () => {
                     );
 
                     return (
-                        <div
+                        <article
                             key={product.id}
                             className={styles.card}
                             onClick={() => handleProductClick(product)}
-                            style={{ cursor: 'pointer' }}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(event) => {
+                                if (
+                                    event.key === 'Enter' ||
+                                    event.key === ' '
+                                ) {
+                                    event.preventDefault();
+                                    handleProductClick(product);
+                                }
+                            }}
+                            aria-label={`View ${product.title} product`}
                         >
 
-                            {/* PRODUCT IMAGE + PROMO */}
+                            {/* PRODUCT IMAGE */}
                             <div className={styles.card__imageWrapper}>
 
+                                {/* AUTOMATIC PROMO BADGE */}
                                 {discount > 0 && (
                                     <div className={styles.card__promoBadge}>
                                         <span className={styles.card__promoLabel}>
@@ -219,6 +228,7 @@ const ProductGrid = () => {
                                     {product.description}
                                 </p>
 
+                                {/* PRICES */}
                                 <div className={styles.priceContainer}>
 
                                     {product.oldPrice > product.price && (
@@ -233,22 +243,13 @@ const ProductGrid = () => {
 
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className={styles.card__btn}
-                                    onClick={(event) =>
-                                        handleAddToCart(product, event)
-                                    }
-                                >
-                                    Add to Cart
-                                </button>
-
                             </div>
-                        </div>
+
+                        </article>
                     );
                 })}
-            </div>
 
+            </div>
         </div>
     );
 };
