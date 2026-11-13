@@ -1,20 +1,15 @@
-
 /* =========================================
    LANADA LEGAL PAGES
-   PREMIUM BLACK & WHITE DESIGN
+   BLACK & WHITE DESIGN
 ========================================= */
-
-.lanada-legal-page,
-.lanada-legal-page * {
-    box-sizing: border-box;
-}
 
 .lanada-legal-page {
     width: 100%;
     min-height: 100vh;
-    background: #ffffff;
-    color: #111111;
-    font-family: Arial, sans-serif;
+    background: #050505;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
 /* =========================================
@@ -22,53 +17,71 @@
 ========================================= */
 
 .lanada-legal-hero {
-    position: relative;
     width: 100%;
-    min-height: 350px;
+    min-height: 390px;
     padding: 0 7%;
+    background: #050505;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden;
-    background: #050505;
-    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
 }
+
+/* =========================================
+   TOP BAR
+========================================= */
 
 .lanada-legal-topbar {
     width: 100%;
-    min-height: 76px;
+    min-height: 95px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
 }
+
+/* LOGO */
 
 .lanada-legal-brand {
-    color: #ffffff;
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
+    outline: none;
 }
 
-.lanada-legal-brand span {
-    color: #888888;
+.lanada-legal-logo {
+    display: block;
+    width: 110px;
+    height: 65px;
+    object-fit: contain;
+    object-position: left center;
+    background: transparent;
+    border: none;
 }
+
+/* BACK BUTTON */
 
 .lanada-legal-back {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 9px;
-    padding: 10px 15px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 30px;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 18px;
     background: transparent;
     color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.5px;
     cursor: pointer;
-    transition: 0.25s ease;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.lanada-legal-back span {
+    font-size: 17px;
+    line-height: 1;
 }
 
 .lanada-legal-back:hover {
@@ -76,175 +89,219 @@
     color: #050505;
 }
 
-.lanada-legal-back span {
-    font-size: 17px;
-}
+/* =========================================
+   HERO CONTENT
+========================================= */
 
 .lanada-legal-hero-content {
     width: 100%;
-    max-width: 850px;
-    padding: 60px 0 55px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 65px 0;
 }
 
 .lanada-legal-eyebrow {
-    display: inline-block;
-    margin-bottom: 17px;
-    color: #aaaaaa;
-    font-size: 10px;
+    margin: 0 0 20px;
+    color: #a6a6a6;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 4px;
+    text-transform: uppercase;
 }
 
 .lanada-legal-hero-content h1 {
+    max-width: 900px;
     margin: 0;
     color: #ffffff;
-    font-family: Georgia, serif;
-    font-size: clamp(37px, 6vw, 72px);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -1.5px;
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -3px;
+    text-transform: uppercase;
 }
 
-.lanada-legal-hero-content p {
-    max-width: 580px;
-    margin: 20px 0 0;
-    color: #aaaaaa;
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-.lanada-legal-hero-bottom {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 17px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    color: #858585;
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+.lanada-legal-subtitle {
+    max-width: 620px;
+    margin: 22px 0 0;
+    color: #b8b8b8;
+    font-size: 15px;
+    line-height: 1.8;
 }
 
 /* =========================================
-   MAIN CONTENT
+   HERO BOTTOM
+========================================= */
+
+.lanada-legal-hero-bottom {
+    width: 100%;
+    min-height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
+    color: #999999;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.lanada-legal-updated {
+    color: #bdbdbd;
+    text-align: right;
+}
+
+/* =========================================
+   MAIN CONTAINER
 ========================================= */
 
 .lanada-legal-container {
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 25px;
+    padding: 0 35px;
 }
+
+/* =========================================
+   BREADCRUMB
+========================================= */
 
 .lanada-legal-breadcrumb {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
-    padding: 25px 0;
-    border-bottom: 1px solid #eeeeee;
+    padding: 28px 0;
     color: #999999;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
 }
 
 .lanada-legal-breadcrumb a {
-    color: #777777;
+    color: #ffffff;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: opacity 0.2s ease;
 }
 
 .lanada-legal-breadcrumb a:hover {
-    color: #000000;
+    opacity: 0.6;
 }
 
-.lanada-legal-breadcrumb span:last-child {
-    color: #111111;
-}
-
-.lanada-legal-content {
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 48px 0 60px;
+.lanada-legal-breadcrumb > span:last-child {
+    color: #999999;
 }
 
 /* =========================================
-   SECTIONS
+   CONTENT
 ========================================= */
 
+.lanada-legal-content {
+    width: 100%;
+    padding: 55px 0 75px;
+    color: #dddddd;
+}
+
+/* INTRO */
+
 .legal-intro {
-    margin-bottom: 45px;
-    padding: 25px 28px;
-    background: #f6f6f6;
-    border-left: 3px solid #111111;
-}
-
-.legal-intro p {
-    margin: 0;
-    color: #444444;
-    font-size: 14px;
-    line-height: 2;
-}
-
-.legal-section {
-    margin: 0 0 38px;
-}
-
-.legal-section h2 {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    margin: 0 0 15px;
-    color: #111111;
-    font-family: Georgia, serif;
-    font-size: 23px;
-    font-weight: 500;
-    line-height: 1.4;
-}
-
-.legal-section-number {
-    color: #aaaaaa;
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.legal-section p {
-    margin: 0 0 13px;
-    color: #666666;
-    font-size: 13px;
-    line-height: 2;
-}
-
-.legal-section ul {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 15px 0;
-    padding-left: 21px;
-}
-
-.legal-section li {
-    padding-left: 4px;
-    color: #666666;
-    font-size: 13px;
+    max-width: 850px;
+    margin-bottom: 65px;
+    color: #eeeeee;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 1.9;
 }
 
-.legal-section li::marker {
-    color: #111111;
+/* SECTIONS */
+
+.legal-section {
+    position: relative;
+    margin-bottom: 55px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.legal-updated {
-    margin-top: 35px;
-    padding-top: 20px;
-    border-top: 1px solid #eeeeee;
-    color: #999999;
+.legal-section:last-child {
+    border-bottom: none;
+}
+
+.legal-section-number {
+    display: block;
+    margin-bottom: 15px;
+    color: #888888;
     font-size: 10px;
     font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.legal-section h2 {
+    margin: 0 0 20px;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.4px;
+}
+
+.legal-section h3 {
+    margin: 25px 0 12px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.legal-section p {
+    max-width: 850px;
+    margin: 0 0 17px;
+    color: #c4c4c4;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.9;
+}
+
+.legal-section ul,
+.legal-section ol {
+    margin: 18px 0;
+    padding-left: 22px;
+    color: #c4c4c4;
+}
+
+.legal-section li {
+    margin-bottom: 12px;
+    padding-left: 5px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.legal-section li::marker {
+    color: #ffffff;
+}
+
+.legal-section a,
+.lanada-legal-content a {
+    color: #ffffff;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+    text-underline-offset: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.legal-section a:hover,
+.lanada-legal-content a:hover {
+    opacity: 0.65;
+}
+
+/* UPDATED DATE */
+
+.legal-updated {
+    margin-top: 30px;
+    color: #888888;
+    font-size: 11px;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 /* =========================================
@@ -253,61 +310,120 @@
 
 .lanada-legal-bottom-nav {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 15px 30px;
-    padding: 25px 0;
-    border-top: 1px solid #eeeeee;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 35px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
 }
 
 .lanada-legal-bottom-nav a {
-    color: #555555;
-    font-size: 9px;
+    color: #c4c4c4;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.3px;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
 }
 
 .lanada-legal-bottom-nav a:hover {
-    color: #000000;
+    color: #ffffff;
 }
 
+/* =========================================
+   COPYRIGHT
+========================================= */
+
 .lanada-legal-copyright {
+    min-height: 75px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 18px 0 25px;
-    border-top: 1px solid #eeeeee;
-    color: #999999;
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
+    gap: 15px;
+    color: #888888;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .lanada-legal-hero {
+        min-height: 340px;
+        padding: 0 5%;
+    }
+
+    .lanada-legal-topbar {
+        min-height: 80px;
+    }
+
+    .lanada-legal-logo {
+        width: 95px;
+        height: 55px;
+    }
+
+    .lanada-legal-hero-content {
+        padding: 55px 0;
+    }
+
+    .lanada-legal-hero-content h1 {
+        font-size: clamp(38px, 8vw, 58px);
+        letter-spacing: -2px;
+    }
+
+    .lanada-legal-container {
+        padding: 0 25px;
+    }
+
+    .lanada-legal-content {
+        padding: 45px 0 60px;
+    }
+
+    .legal-intro {
+        font-size: 16px;
+        margin-bottom: 50px;
+    }
+
+    .legal-section {
+        margin-bottom: 40px;
+    }
+
+    .lanada-legal-bottom-nav {
+        gap: 20px;
+    }
 }
 
 /* =========================================
    MOBILE
 ========================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+
     .lanada-legal-hero {
         min-height: 310px;
         padding: 0 20px;
     }
 
     .lanada-legal-topbar {
-        min-height: 65px;
+        min-height: 72px;
     }
 
-    .lanada-legal-brand {
-        font-size: 21px;
-        letter-spacing: 4px;
+    .lanada-legal-logo {
+        width: 85px;
+        height: 48px;
     }
 
     .lanada-legal-back {
-        padding: 8px 11px;
+        padding: 9px 12px;
+        gap: 7px;
         font-size: 9px;
+        letter-spacing: 1px;
     }
 
     .lanada-legal-hero-content {
@@ -315,77 +431,79 @@
     }
 
     .lanada-legal-eyebrow {
-        font-size: 8px;
-        letter-spacing: 2.5px;
+        margin-bottom: 15px;
+        font-size: 9px;
+        letter-spacing: 3px;
     }
 
     .lanada-legal-hero-content h1 {
-        font-size: clamp(35px, 10vw, 52px);
+        font-size: 39px;
+        line-height: 1.12;
+        letter-spacing: -1.5px;
     }
 
-    .lanada-legal-hero-content p {
-        font-size: 12px;
+    .lanada-legal-subtitle {
+        font-size: 13px;
+        line-height: 1.7;
     }
 
     .lanada-legal-hero-bottom {
-        font-size: 7px;
-        letter-spacing: 0.7px;
+        min-height: 48px;
+        font-size: 8px;
+        letter-spacing: 1px;
     }
 
     .lanada-legal-container {
-        padding: 0 17px;
+        padding: 0 20px;
     }
 
     .lanada-legal-breadcrumb {
-        gap: 8px;
-        font-size: 8px;
+        padding: 22px 0;
+        font-size: 9px;
     }
 
     .lanada-legal-content {
-        padding: 30px 0 40px;
+        padding: 35px 0 45px;
     }
 
     .legal-intro {
-        padding: 19px;
-    }
-
-    .legal-intro p {
-        font-size: 12px;
+        font-size: 15px;
+        line-height: 1.8;
+        margin-bottom: 40px;
     }
 
     .legal-section {
-        margin-bottom: 30px;
+        margin-bottom: 35px;
+        padding-bottom: 25px;
     }
 
     .legal-section h2 {
         font-size: 19px;
     }
 
+    .legal-section h3 {
+        font-size: 15px;
+    }
+
     .legal-section p,
     .legal-section li {
-        font-size: 12px;
+        font-size: 13px;
+        line-height: 1.8;
     }
 
     .lanada-legal-bottom-nav {
-        gap: 16px;
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px 0;
     }
 
     .lanada-legal-bottom-nav a {
-        font-size: 8px;
+        font-size: 10px;
     }
 
     .lanada-legal-copyright {
-        justify-content: center;
-        text-align: center;
-        font-size: 7px;
-    }
-}
-
-/* ACCESSIBILITY */
-
-@media (prefers-reduced-motion: reduce) {
-    .lanada-legal-page * {
-        scroll-behavior: auto;
-        transition: none !important;
+        min-height: 65px;
+        font-size: 8px;
+        letter-spacing: 0.8px;
     }
 }
