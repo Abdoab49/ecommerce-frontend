@@ -16,12 +16,13 @@ const Footer = ({
 
     const year = new Date().getFullYear();
 
+    // NEWSLETTER SUBMISSION
     const handleNewsletter = async (event) => {
         event.preventDefault();
 
         const cleanEmail = email.trim().toLowerCase();
 
-        // Validate email
+        // Email validation
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!cleanEmail || !emailPattern.test(cleanEmail)) {
@@ -37,24 +38,33 @@ const Footer = ({
             setMessage('');
             setMessageType('');
 
-            // Option 1: Submit to your backend through the supplied callback
+            // Submit through backend callback
             if (typeof onNewsletterSubmit === 'function') {
                 await onNewsletterSubmit(cleanEmail);
 
                 setMessageType('success');
-                setMessage('Thank you! You have successfully joined LANADA.');
+                setMessage(
+                    'Thank you! You have successfully joined LANADA.'
+                );
+
                 setEmail('');
                 return;
             }
 
-            // Option 2: Open a prepared email if a contact address exists
+            // Open email application
             if (contactEmail) {
                 const subject = encodeURIComponent(
                     'LANADA Newsletter Subscription'
                 );
 
                 const body = encodeURIComponent(
-                    `Hello LANADA,\n\nPlease add this email to your newsletter:\n${cleanEmail}\n\nThank you.`
+                    `Hello LANADA,
+
+Please add this email to your newsletter:
+
+${cleanEmail}
+
+Thank you.`
                 );
 
                 const mailtoUrl =
@@ -64,16 +74,15 @@ const Footer = ({
 
                 setMessageType('info');
                 setMessage(
-                    'Your email app is opening. Send the message to complete your request.'
+                    'Your email application is opening. Send the message to complete your request.'
                 );
 
                 return;
             }
 
-            // No newsletter backend configured
             setMessageType('error');
             setMessage(
-                'Newsletter is not connected yet. Please try again later.'
+                'Newsletter service is not connected yet. Please try again later.'
             );
 
         } catch (error) {
@@ -83,6 +92,7 @@ const Footer = ({
             setMessage(
                 error?.message || 'Something went wrong. Please try again.'
             );
+
         } finally {
             setLoading(false);
         }
@@ -96,6 +106,7 @@ const Footer = ({
                 {/* LOGO */}
 
                 <div className="lanada-footer-logo-area">
+
                     {!logoError && logoSrc ? (
                         <img
                             src={logoSrc}
@@ -112,11 +123,12 @@ const Footer = ({
                     <p className="lanada-footer-tagline">
                         THE ART OF EVERYDAY STYLE.
                     </p>
+
                 </div>
 
                 {/* ABOUT */}
 
-                <section className="lanada-footer-about" id="about">
+                <section className="lanada-footer-about">
                     <h2>ABOUT LANADA</h2>
 
                     <p>
@@ -126,11 +138,20 @@ const Footer = ({
                         is timeless, effortless and uniquely yours.
                         Discover a collection made for the way you live.
                     </p>
+
+                    <Link
+                        to="/about"
+                        className="lanada-footer-about-link"
+                    >
+                        DISCOVER OUR STORY
+                        <span aria-hidden="true"> →</span>
+                    </Link>
                 </section>
 
                 {/* NEWSLETTER */}
 
                 <section className="lanada-footer-newsletter">
+
                     <h3>STAY IN TOUCH.</h3>
 
                     <p>
@@ -143,6 +164,7 @@ const Footer = ({
                         onSubmit={handleNewsletter}
                         noValidate
                     >
+
                         <div className="lanada-footer-email-input">
 
                             <svg
@@ -156,13 +178,14 @@ const Footer = ({
                                     height="14"
                                     rx="2"
                                 />
+
                                 <path d="m4 7 8 6 8-6" />
                             </svg>
 
                             <input
                                 type="email"
                                 name="newsletterEmail"
-                                placeholder="Enter your email to continue"
+                                placeholder="Enter your email address"
                                 aria-label="Enter your email address"
                                 autoComplete="email"
                                 value={email}
@@ -181,7 +204,7 @@ const Footer = ({
                             type="submit"
                             className="lanada-footer-email-submit"
                             disabled={loading}
-                            aria-label="Continue with email"
+                            aria-label="Subscribe"
                         >
                             {loading ? (
                                 <span className="lanada-footer-spinner"></span>
@@ -195,6 +218,7 @@ const Footer = ({
                                 </svg>
                             )}
                         </button>
+
                     </form>
 
                     {message && (
@@ -210,15 +234,23 @@ const Footer = ({
                     <span className="lanada-footer-note">
                         NO SPAM. JUST WHAT YOU LOVE.
                     </span>
+
                 </section>
 
-                {/* NAVIGATION */}
+                {/* FOOTER NAVIGATION */}
 
-                <nav className="lanada-footer-navigation">
+                <nav
+                    className="lanada-footer-navigation"
+                    aria-label="Footer navigation"
+                >
                     <Link to="/shop">SHOP</Link>
-                    <Link to="/#about">ABOUT</Link>
+
+                    <Link to="/about">ABOUT</Link>
+
                     <Link to="/orders">MY ORDERS</Link>
+
                     <Link to="/privacy">PRIVACY POLICY</Link>
+
                     <Link to="/terms">TERMS & CONDITIONS</Link>
                 </nav>
 
@@ -240,6 +272,7 @@ const Footer = ({
                                 height="14"
                                 rx="2"
                             />
+
                             <path d="m4 7 8 6 8-6" />
                         </svg>
 
@@ -250,6 +283,7 @@ const Footer = ({
                 {/* COPYRIGHT */}
 
                 <div className="lanada-footer-bottom">
+
                     <p>
                         © {year} LANADA. ALL RIGHTS RESERVED.
                     </p>
@@ -257,9 +291,11 @@ const Footer = ({
                     <p>
                         MADE FOR YOUR STYLE.
                     </p>
+
                 </div>
 
             </div>
+
         </footer>
     );
 };

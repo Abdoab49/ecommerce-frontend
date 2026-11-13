@@ -475,3 +475,34 @@
         animation: none !important;
     }
 }
+
+
+/* =========================================
+   ABOUT PAGE LINK
+========================================= */
+
+.lanada-footer-about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 16px;
+
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+
+    transition:
+        opacity 0.2s ease,
+        gap 0.2s ease;
+}
+
+.lanada-footer-about-link:hover {
+    opacity: 0.65;
+    gap: 12px;
+}
+
+.lanada-footer-about-link span {
+    font-size: 15px;
+}

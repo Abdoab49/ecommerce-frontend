@@ -1,9 +1,17 @@
 
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-/* COMPONENTS */
+import {
+    BrowserRouter,
+    Routes,
+    Route
+} from 'react-router-dom';
+
+/* =========================================
+   GLOBAL COMPONENTS
+========================================= */
+
 import Navbar from './Components/Navbar/Navbar';
 import MyOrdersButton from './Components/MyOrdersButton/MyOrdersButton';
 import BottomNavBar from './Components/BottomNavBar/BottomNavBar';
@@ -12,189 +20,256 @@ import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 import GiveawayPromo from './Components/GiveawayPromo/GiveawayPromo';
 import Footer from './Components/Footer/Footer';
 
-/* PAGES */
+/* =========================================
+   MAIN PAGES
+========================================= */
+
 import Shop from './pages/Shop';
 import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
+
 import Cart from './Components/Cart/Cart';
+
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+
 import Orders from './pages/Orders';
 import Admin from './pages/Admin';
 import SizeSelection from './Components/SizeSelection';
+
 import Casquette from './pages/Casquette';
 import Mens from './pages/Mens';
 import Jackets from './pages/Jackets';
 import Shoes from './pages/Shoes';
 import HealthCheck from './pages/HealthCheck';
 
-/* BANNERS */
+/* =========================================
+   LEGAL & INFORMATION PAGES
+========================================= */
+
+import About from './pages/About';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
+
+/* =========================================
+   BANNERS
+========================================= */
+
 import kid_banner from './Components/Assets/banner_kids.png';
 
-/* CONTEXT */
+/* =========================================
+   CONTEXT
+========================================= */
+
 import ShopContextProvider from './Context/ShopContext';
 
+
 function App() {
-  return (
-    <ShopContextProvider>
-      <BrowserRouter>
+    return (
+        <ShopContextProvider>
 
-        <ScrollToTop />
+            <BrowserRouter>
 
-        <div className="app-background">
+                {/* SCROLL TO TOP */}
+                <ScrollToTop />
 
-          <div id="stars"></div>
+                <div className="app-background">
 
-          <div className="app-content">
+                    <div id="stars"></div>
 
-            {/* GLOBAL COMPONENTS */}
-            <Navbar />
-            <NotificationBell />
-            <MyOrdersButton />
+                    <div className="app-content">
 
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '100vh'
-              }}
-            >
+                        {/* GLOBAL COMPONENTS */}
 
-              {/* MAIN PAGE CONTENT */}
-              <div style={{ flex: 1 }}>
+                        <Navbar />
+                        <NotificationBell />
+                        <MyOrdersButton />
 
-                <Routes>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                minHeight: '100vh'
+                            }}
+                        >
 
-                  {/* HOME + GIVEAWAY */}
-                  <Route
-                    path="/"
-                    element={
-                      <>
-                        <Shop />
-                        <GiveawayPromo />
-                      </>
-                    }
-                  />
+                            {/* MAIN CONTENT */}
 
-                  <Route
-                    path="/shop"
-                    element={
-                      <>
-                        <Shop />
-                        <GiveawayPromo />
-                      </>
-                    }
-                  />
+                            <div style={{ flex: 1 }}>
 
-                  {/* SHOP CATEGORIES */}
-                  <Route
-                    path="/mens"
-                    element={<Mens />}
-                  />
+                                <Routes>
 
-                  <Route
-                    path="/womens"
-                    element={<Jackets />}
-                  />
+                                    {/* HOME */}
 
-                  <Route
-                    path="/kids"
-                    element={
-                      <ShopCategory
-                        banner={kid_banner}
-                        category="kid"
-                      />
-                    }
-                  />
+                                    <Route
+                                        path="/"
+                                        element={
+                                            <>
+                                                <Shop />
+                                                <GiveawayPromo />
+                                            </>
+                                        }
+                                    />
 
-                  <Route
-                    path="/shoes"
-                    element={<Shoes />}
-                  />
+                                    <Route
+                                        path="/shop"
+                                        element={
+                                            <>
+                                                <Shop />
+                                                <GiveawayPromo />
+                                            </>
+                                        }
+                                    />
 
-                  <Route
-                    path="/casquette"
-                    element={<Casquette />}
-                  />
+                                    {/* SHOP CATEGORIES */}
 
-                  {/* PRODUCT */}
-                  <Route
-                    path="/product/:productId"
-                    element={<Product />}
-                  />
+                                    <Route
+                                        path="/mens"
+                                        element={<Mens />}
+                                    />
 
-                  {/* CART */}
-                  <Route
-                    path="/cart"
-                    element={<Cart />}
-                  />
+                                    <Route
+                                        path="/womens"
+                                        element={<Jackets />}
+                                    />
 
-                  {/* AUTHENTICATION */}
-                  <Route
-                    path="/login"
-                    element={<Login />}
-                  />
+                                    <Route
+                                        path="/kids"
+                                        element={
+                                            <ShopCategory
+                                                banner={kid_banner}
+                                                category="kid"
+                                            />
+                                        }
+                                    />
 
-                  <Route
-                    path="/signup"
-                    element={<Signup />}
-                  />
+                                    <Route
+                                        path="/shoes"
+                                        element={<Shoes />}
+                                    />
 
-                  <Route
-                    path="/forgot-password"
-                    element={<ForgotPassword />}
-                  />
+                                    <Route
+                                        path="/casquette"
+                                        element={<Casquette />}
+                                    />
 
-                  <Route
-                    path="/reset-password/:token"
-                    element={<ResetPassword />}
-                  />
+                                    {/* PRODUCT */}
 
-                  {/* ORDERS */}
-                  <Route
-                    path="/orders"
-                    element={<Orders />}
-                  />
+                                    <Route
+                                        path="/product/:productId"
+                                        element={<Product />}
+                                    />
 
-                  {/* ADMIN */}
-                  <Route
-                    path="/admin"
-                    element={<Admin />}
-                  />
+                                    {/* CART */}
 
-                  {/* SIZE SELECTION */}
-                  <Route
-                    path="/size-selection"
-                    element={<SizeSelection />}
-                  />
+                                    <Route
+                                        path="/cart"
+                                        element={<Cart />}
+                                    />
 
-                  {/* HEALTH CHECK */}
-                  <Route
-                    path="/health"
-                    element={<HealthCheck />}
-                  />
+                                    {/* AUTHENTICATION */}
 
-                </Routes>
+                                    <Route
+                                        path="/login"
+                                        element={<Login />}
+                                    />
 
-              </div>
+                                    <Route
+                                        path="/signup"
+                                        element={<Signup />}
+                                    />
 
-              {/* LUXURY EDITORIAL FOOTER */}
-              <Footer logoSrc="/logo512.png" />
+                                    <Route
+                                        path="/forgot-password"
+                                        element={<ForgotPassword />}
+                                    />
 
-            </div>
+                                    <Route
+                                        path="/reset-password/:token"
+                                        element={<ResetPassword />}
+                                    />
 
-            {/* MOBILE NAVIGATION */}
-            <BottomNavBar />
+                                    {/* ORDERS */}
 
-          </div>
+                                    <Route
+                                        path="/orders"
+                                        element={<Orders />}
+                                    />
 
-        </div>
+                                    {/* ADMIN */}
 
-      </BrowserRouter>
-    </ShopContextProvider>
-  );
+                                    <Route
+                                        path="/admin"
+                                        element={<Admin />}
+                                    />
+
+                                    {/* SIZE SELECTION */}
+
+                                    <Route
+                                        path="/size-selection"
+                                        element={<SizeSelection />}
+                                    />
+
+                                    {/* HEALTH CHECK */}
+
+                                    <Route
+                                        path="/health"
+                                        element={<HealthCheck />}
+                                    />
+
+                                    {/* =================================
+                                        ABOUT LANADA
+                                    ================================= */}
+
+                                    <Route
+                                        path="/about"
+                                        element={<About />}
+                                    />
+
+                                    {/* =================================
+                                        PRIVACY POLICY
+                                    ================================= */}
+
+                                    <Route
+                                        path="/privacy"
+                                        element={<PrivacyPolicy />}
+                                    />
+
+                                    {/* =================================
+                                        TERMS & CONDITIONS
+                                    ================================= */}
+
+                                    <Route
+                                        path="/terms"
+                                        element={<TermsConditions />}
+                                    />
+
+                                </Routes>
+
+                            </div>
+
+                            {/* GLOBAL FOOTER */}
+
+                            <Footer
+                                logoSrc="/logo512.png"
+                            />
+
+                        </div>
+
+                        {/* MOBILE NAVIGATION */}
+
+                        <BottomNavBar />
+
+                    </div>
+
+                </div>
+
+            </BrowserRouter>
+
+        </ShopContextProvider>
+    );
 }
 
 export default App;
