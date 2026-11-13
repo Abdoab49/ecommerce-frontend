@@ -1,82 +1,334 @@
 
-/* ============================================
-   MEN PAGE
-============================================ */
+/* =====================================================
+   LANADA MEN PAGE
+   PREMIUM EDITORIAL DESIGN
+===================================================== */
 
 .mens-page {
+    --men-black: #080808;
+    --men-white: #f5f5f2;
+    --men-muted: #929292;
+    --men-line: rgba(255, 255, 255, 0.14);
+
+    width: 100%;
     min-height: 100vh;
-    background: transparent;
-    padding-bottom: 60px;
-    width: 100%;
+    overflow: hidden;
+    padding-bottom: 0;
+    background: var(--men-black);
+    color: var(--men-white);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.mens-header {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background: #000;
+.mens-page *,
+.mens-page *::before,
+.mens-page *::after {
+    box-sizing: border-box;
 }
 
-.mens-banner {
+.mens-page a {
+    color: inherit;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.mens-hero {
     position: relative;
     width: 100%;
-    height: 250px;
+    min-height: clamp(430px, 48vw, 650px);
     overflow: hidden;
-    margin: 0;
-    padding: 0;
+    background: #090909;
 }
 
-.banner-img {
+.mens-hero-image,
+.mens-hero-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mens-hero-image {
+    overflow: hidden;
+}
+
+.mens-hero-img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center 38%;
+    transform: scale(1.015);
+    animation: mensHeroReveal 1.2s ease-out both;
 }
 
-/* ============================================
-   CONTENT
-============================================ */
+@keyframes mensHeroReveal {
+    from {
+        opacity: 0.6;
+        transform: scale(1.07);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.015);
+    }
+}
+
+.mens-hero-overlay {
+    z-index: 1;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.91) 0%,
+            rgba(0, 0, 0, 0.77) 34%,
+            rgba(0, 0, 0, 0.24) 75%,
+            rgba(0, 0, 0, 0.35) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            transparent 35%,
+            rgba(0, 0, 0, 0.12) 100%
+        );
+}
+
+/* =====================================================
+   HERO CONTENT
+===================================================== */
+
+.mens-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1600px;
+    min-height: inherit;
+    margin: 0 auto;
+    padding: 100px 7% 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mens-hero-copy {
+    width: min(720px, 80%);
+}
+
+.mens-hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.mens-hero-eyebrow span {
+    width: 30px;
+    height: 1px;
+    background: #ffffff;
+}
+
+.mens-hero-copy h1 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(65px, 9.5vw, 132px);
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: -5px;
+}
+
+.mens-hero-copy h1 em {
+    color: #ffffff;
+    font-weight: 400;
+}
+
+.mens-hero-description {
+    max-width: 410px;
+    margin: 28px 0 27px;
+    color: rgba(255, 255, 255, 0.77);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.mens-hero-button {
+    width: fit-content;
+    min-height: 49px;
+    padding: 0 21px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    background: #ffffff;
+    border: 1px solid #ffffff;
+    color: #080808 !important;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    text-decoration: none;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        gap 0.25s ease;
+}
+
+.mens-hero-button:hover {
+    gap: 36px;
+    background: transparent;
+    color: #ffffff !important;
+}
+
+/* =====================================================
+   HERO SIDE DETAIL
+===================================================== */
+
+.mens-hero-side {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin-right: 2%;
+}
+
+.mens-hero-side-number {
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+}
+
+.mens-hero-side-line {
+    width: 1px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.mens-hero-side-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+}
+
+/* =====================================================
+   HERO BOTTOM
+===================================================== */
+
+.mens-hero-bottom {
+    position: absolute;
+    z-index: 3;
+    right: 7%;
+    bottom: 0;
+    left: 7%;
+    min-height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+.mens-hero-bottom a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.mens-hero-bottom a:hover {
+    opacity: 0.6;
+}
+
+.mens-hero-bottom-center {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
 
 .mens-content {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 20px;
-    background: transparent;
+    padding: 85px 7% 100px;
+    background: var(--men-black);
 }
 
-.mens-content h2 {
-    font-size: 26px;
-    font-weight: 700;
-    text-align: center;
-    margin: 0 0 12px;
-    color: #1a1a2e;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 2px;
-}
+/* =====================================================
+   SECTION HEADING
+===================================================== */
 
-/* ============================================
-   NEW SORT BAR
-============================================ */
-
-.mens-sort-bar {
-    width: 100%;
+.mens-section-heading {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin: 0;
-    padding: 15px 0 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    gap: 25px;
+    padding-bottom: 35px;
 }
 
-/* Showing products */
+.mens-section-eyebrow {
+    display: block;
+    margin-bottom: 15px;
+    color: #999999;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.mens-section-heading h2 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(35px, 5vw, 58px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -1.8px;
+    text-align: left;
+}
+
+.mens-section-heading h2 span {
+    color: #888888;
+}
+
+.mens-section-heading > p {
+    margin: 0 0 3px;
+    color: #919191;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.8;
+    text-align: right;
+}
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.mens-toolbar {
+    width: 100%;
+    min-height: 76px;
+    margin-bottom: 32px;
+    padding: 13px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--men-line);
+    border-bottom: 1px solid var(--men-line);
+}
 
 .mens-results-label {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 13px;
     min-width: 0;
 }
 
@@ -86,133 +338,134 @@
     flex-shrink: 0;
     border-radius: 50%;
     background: #ffffff;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+}
+
+.mens-results-label > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .mens-results-text {
     color: #ffffff;
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     letter-spacing: 1.5px;
-    line-height: 1.4;
 }
 
-/* Sort control */
+.mens-results-subtext {
+    color: #777777;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+}
+
+/* =====================================================
+   SORT CONTROL
+===================================================== */
 
 .mens-sort-control {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 13px;
+    gap: 15px;
     flex-shrink: 0;
 }
 
 .mens-sort-label {
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    font-size: 11px;
+    color: #888888;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.5px;
     white-space: nowrap;
 }
 
-/* Select trigger */
-
 .mens-select-trigger {
+    width: 215px;
+    height: 44px;
+    padding: 0 15px;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    gap: 22px;
-    width: 215px;
-    height: 43px;
-    padding: 0 14px;
+    gap: 15px;
 
-    color: #111111;
-    background: #ffffff;
+    color: #ffffff;
+    background: #111111;
 
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
+    border: 1px solid #414141;
+    border-radius: 0;
 
-    font-family: Arial, sans-serif;
-    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
     font-weight: 600;
-    text-align: left;
+    letter-spacing: 0.2px;
 
+    text-align: left;
     cursor: pointer;
     outline: none;
 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
-
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .mens-select-trigger:hover {
-    background: #f8f8f8;
-    border-color: #bdbdbd;
+    background: #191919;
+    border-color: #888888;
 }
 
 .mens-select-trigger:focus-visible {
-    border-color: #111111;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 3px;
 }
 
 .mens-select-trigger[data-state="open"] {
-    border-color: #111111;
+    border-color: #ffffff;
 }
 
-.mens-select-trigger-icon {
+.mens-select-trigger > span:last-child {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #111111;
-    transition: transform 0.2s ease;
+    color: #ffffff;
 }
 
-.mens-select-trigger[data-state="open"] .mens-select-trigger-icon {
-    transform: rotate(180deg);
-}
-
-/* ============================================
-   DROPDOWN CONTENT
-============================================ */
+/* =====================================================
+   DROPDOWN
+===================================================== */
 
 .mens-select-content {
     z-index: 9999;
-    min-width: 215px;
     width: var(--radix-select-trigger-width);
+    min-width: 215px;
     max-height: 320px;
     overflow: hidden;
 
     padding: 6px;
 
-    color: #111111;
-    background: #ffffff;
+    color: #ffffff;
+    background: #111111;
 
-    border: 1px solid #e8e8e8;
-    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+    border-radius: 0;
 
-    box-shadow:
-        0 4px 10px rgba(0, 0, 0, 0.05),
-        0 15px 35px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
 
     transform-origin: var(--radix-select-content-transform-origin);
-
-    animation: mens-select-open 0.17s ease-out;
+    animation: mens-select-open 0.18s ease-out;
 }
 
 @keyframes mens-select-open {
     from {
         opacity: 0;
-        transform: translateY(-5px) scale(0.98);
+        transform: translateY(-5px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
@@ -220,43 +473,34 @@
     padding: 3px;
 }
 
-/* Dropdown heading */
-
 .mens-select-heading {
-    padding: 9px 10px 11px;
-    margin-bottom: 4px;
-
-    color: #999999;
-    border-bottom: 1px solid #eeeeee;
-
-    font-family: Arial, sans-serif;
-    font-size: 9px;
+    padding: 11px 10px 13px;
+    margin-bottom: 5px;
+    color: #777777;
+    border-bottom: 1px solid #303030;
+    font-size: 8px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.6px;
 }
-
-/* Dropdown options */
 
 .mens-select-item {
     position: relative;
+    min-height: 42px;
+    width: 100%;
+    padding: 0 38px 0 11px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    width: 100%;
-    min-height: 41px;
-
-    padding: 0 34px 0 11px;
-
-    color: #555555;
+    color: #bcbcbc;
     background: transparent;
 
     border: none;
-    border-radius: 6px;
+    border-radius: 0;
 
-    font-family: Arial, sans-serif;
-    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
     font-weight: 500;
 
     outline: none;
@@ -270,156 +514,327 @@
 
 .mens-select-item:hover,
 .mens-select-item[data-highlighted] {
-    color: #111111;
-    background: #f3f3f3;
+    color: #ffffff;
+    background: #252525;
 }
 
 .mens-select-item[data-state="checked"] {
-    color: #000000;
-    background: #f5f5f5;
+    color: #ffffff;
+    background: #202020;
     font-weight: 700;
 }
 
 .mens-select-item-check {
     position: absolute;
-    right: 11px;
-
+    top: 50%;
+    right: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    color: #000000;
+    color: #ffffff;
+    transform: translateY(-50%);
 }
 
 .mens-select-scroll {
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    height: 20px;
-    color: #777777;
+    color: #aaaaaa;
     cursor: default;
 }
 
-/* ============================================
-   SHOES CARD SECTION
-============================================ */
+/* =====================================================
+   PRODUCT GROUPS
+===================================================== */
 
-.mens-shoescard {
+.mens-product-groups {
     width: 100%;
-    margin-top: 40px;
-    padding: 0 20px;
+    min-width: 0;
 }
 
-/* ============================================
-   RESPONSIVE - TABLET
-============================================ */
+/*
+   ShoeStore and ShoesCard preserve their own product
+   rendering, grid, pricing and sorting implementation.
+*/
 
-@media (min-width: 769px) and (max-width: 1024px) {
+/* =====================================================
+   BRAND STATEMENT
+===================================================== */
 
-    .mens-banner {
-        height: 240px;
+.mens-brand-statement {
+    position: relative;
+    min-height: 290px;
+    padding: 65px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at center,
+            #1b1b1b 0%,
+            #0c0c0c 58%,
+            #080808 100%
+        );
+    border-top: 1px solid var(--men-line);
+    text-align: center;
+}
+
+.mens-brand-overline {
+    margin-bottom: 20px;
+    color: #929292;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.mens-brand-statement h2 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 7vw, 78px);
+    font-weight: 400;
+    letter-spacing: -2.5px;
+    line-height: 1;
+}
+
+.mens-brand-statement h2 em {
+    color: #888888;
+    font-weight: 400;
+}
+
+.mens-brand-statement > a {
+    min-height: 43px;
+    margin-top: 28px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 19px;
+    border: 1px solid #777777;
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.mens-brand-statement > a:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #080808;
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1024px) {
+
+    .mens-hero {
+        min-height: 480px;
+    }
+
+    .mens-hero-content {
+        padding-right: 6%;
+        padding-left: 6%;
     }
 
     .mens-content {
-        padding: 0 24px;
+        padding-right: 5%;
+        padding-left: 5%;
     }
 
-    .mens-content h2 {
-        font-size: 26px;
+    .mens-hero-copy h1 {
+        font-size: clamp(65px, 10vw, 105px);
     }
 
 }
 
-/* ============================================
-   RESPONSIVE - MOBILE
-============================================ */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media (max-width: 768px) {
 
-    .mens-page {
-        padding-bottom: 40px;
+    .mens-hero {
+        min-height: 460px;
     }
 
-    .mens-banner {
-        height: 200px;
+    .mens-hero-img {
+        object-position: center;
     }
 
-    .mens-content {
-        padding: 0 16px;
+    .mens-hero-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.83) 0%,
+                rgba(0, 0, 0, 0.55) 65%,
+                rgba(0, 0, 0, 0.35) 100%
+            ),
+            linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.8),
+                transparent 65%
+            );
     }
 
-    .mens-content h2 {
-        font-size: 22px;
+    .mens-hero-content {
+        min-height: inherit;
+        padding: 65px 6% 80px;
     }
 
-    .mens-sort-bar {
-        gap: 12px;
-        padding: 13px 0 11px;
+    .mens-hero-copy {
+        width: 100%;
     }
 
-    .mens-results-text {
-        font-size: 10px;
+    .mens-hero-copy h1 {
+        font-size: clamp(59px, 12vw, 88px);
+        letter-spacing: -3px;
+    }
+
+    .mens-hero-description {
+        max-width: 360px;
+        font-size: 13px;
+    }
+
+    .mens-hero-side {
+        display: none;
+    }
+
+    .mens-hero-bottom {
+        right: 6%;
+        left: 6%;
+        min-height: 50px;
+        font-size: 7px;
         letter-spacing: 1px;
     }
 
-    .mens-sort-control {
-        gap: 8px;
+    .mens-content {
+        padding: 60px 5% 70px;
     }
 
-    .mens-sort-label {
-        font-size: 10px;
+    .mens-section-heading {
+        padding-bottom: 27px;
+    }
+
+    .mens-section-heading h2 {
+        font-size: 40px;
+    }
+
+    .mens-section-heading > p {
+        font-size: 12px;
+    }
+
+    .mens-toolbar {
+        min-height: 68px;
+        gap: 12px;
     }
 
     .mens-select-trigger {
         width: 190px;
-        height: 41px;
-        gap: 12px;
-        padding: 0 11px;
-        font-size: 12px;
+        height: 42px;
     }
 
     .mens-select-content {
         min-width: 190px;
     }
 
-    .mens-shoescard {
-        margin-top: 30px;
-        padding: 0 16px;
-    }
-
 }
 
-/* ============================================
+/* =====================================================
    SMALL MOBILE
-============================================ */
+===================================================== */
 
-@media (max-width: 480px) {
+@media (max-width: 550px) {
 
-    .mens-page {
-        padding-bottom: 30px;
+    .mens-hero {
+        min-height: 410px;
     }
 
-    .mens-banner {
-        height: 160px;
+    .mens-hero-content {
+        padding: 60px 23px 75px;
+    }
+
+    .mens-hero-eyebrow {
+        margin-bottom: 21px;
+        gap: 9px;
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+
+    .mens-hero-eyebrow span {
+        width: 22px;
+    }
+
+    .mens-hero-copy h1 {
+        font-size: clamp(54px, 13vw, 74px);
+        letter-spacing: -2px;
+    }
+
+    .mens-hero-description {
+        max-width: 300px;
+        margin: 22px 0;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .mens-hero-button {
+        min-height: 45px;
+        padding: 0 14px;
+        gap: 15px;
+        font-size: 8px;
+    }
+
+    .mens-hero-bottom {
+        right: 23px;
+        left: 23px;
+        min-height: 45px;
+        gap: 8px;
+        font-size: 6px;
+        letter-spacing: 0.6px;
     }
 
     .mens-content {
-        padding: 0 12px;
+        padding: 48px 15px 55px;
     }
 
-    .mens-content h2 {
-        font-size: 18px;
+    .mens-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 13px;
+        padding-bottom: 23px;
     }
 
-    .mens-sort-bar {
+    .mens-section-eyebrow {
+        margin-bottom: 12px;
+        font-size: 8px;
+    }
+
+    .mens-section-heading h2 {
+        font-size: 35px;
+        letter-spacing: -1px;
+    }
+
+    .mens-section-heading > p {
+        font-size: 11px;
+        text-align: left;
+    }
+
+    .mens-toolbar {
+        min-height: 65px;
+        padding: 12px 0;
         align-items: center;
         gap: 8px;
-        padding: 12px 0 10px;
+        margin-bottom: 24px;
     }
 
     .mens-results-label {
-        gap: 7px;
+        gap: 8px;
     }
 
     .mens-results-indicator {
@@ -428,7 +843,12 @@
     }
 
     .mens-results-text {
-        font-size: 9px;
+        font-size: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    .mens-results-subtext {
+        font-size: 7px;
         letter-spacing: 0.7px;
     }
 
@@ -437,146 +857,92 @@
     }
 
     .mens-sort-label {
-        font-size: 9px;
-        letter-spacing: 0.7px;
+        display: none;
     }
 
     .mens-select-trigger {
-        width: 158px;
-        height: 38px;
-        gap: 7px;
+        width: 157px;
+        height: 39px;
+        gap: 8px;
         padding: 0 9px;
-        border-radius: 7px;
-        font-size: 11px;
-    }
-
-    .mens-select-content {
-        min-width: 158px;
-    }
-
-    .mens-select-item {
-        min-height: 39px;
-        font-size: 11px;
-    }
-
-    .mens-select-heading {
-        font-size: 8px;
-    }
-
-    .mens-shoescard {
-        margin-top: 20px;
-        padding: 0 12px;
-    }
-
-}
-
-/* ============================================
-   EXTRA SMALL MOBILE
-============================================ */
-
-@media (max-width: 380px) {
-
-    .mens-page {
-        padding-bottom: 20px;
-    }
-
-    .mens-banner {
-        height: 140px;
-    }
-
-    .mens-content {
-        padding: 0 10px;
-    }
-
-    .mens-content h2 {
-        font-size: 16px;
-    }
-
-    .mens-sort-bar {
-        gap: 5px;
-    }
-
-    .mens-results-text {
-        font-size: 8px;
-        letter-spacing: 0.5px;
-    }
-
-    .mens-sort-label {
-        font-size: 8px;
-    }
-
-    .mens-select-trigger {
-        width: 145px;
-        height: 36px;
-        padding: 0 8px;
         font-size: 10px;
     }
 
     .mens-select-content {
-        min-width: 145px;
+        min-width: 157px;
     }
 
-    .mens-shoescard {
-        margin-top: 20px;
-        padding: 0 10px;
+    .mens-select-item {
+        min-height: 39px;
+        font-size: 10px;
+    }
+
+    .mens-brand-statement {
+        min-height: 240px;
+        padding: 50px 15px;
+    }
+
+    .mens-brand-statement h2 {
+        font-size: 43px;
+        letter-spacing: -1px;
     }
 
 }
 
-@media (max-width: 320px) {
+/* =====================================================
+   EXTRA SMALL MOBILE
+===================================================== */
 
-    .mens-banner {
-        height: 120px;
+@media (max-width: 360px) {
+
+    .mens-hero {
+        min-height: 370px;
     }
 
-    .mens-content h2 {
-        font-size: 14px;
+    .mens-hero-copy h1 {
+        font-size: 51px;
     }
 
     .mens-results-text {
         font-size: 7px;
     }
 
-    .mens-sort-label {
-        display: none;
+    .mens-results-subtext {
+        font-size: 6px;
     }
 
     .mens-select-trigger {
         width: 140px;
+        font-size: 9px;
+    }
+
+    .mens-select-content {
+        min-width: 140px;
+    }
+
+    .mens-section-heading h2 {
+        font-size: 31px;
+    }
+
+    .mens-brand-statement h2 {
+        font-size: 37px;
     }
 
 }
 
-/* ============================================
-   LANDSCAPE
-============================================ */
-
-@media (orientation: landscape) and (max-height: 500px) {
-
-    .mens-banner {
-        height: 160px;
-    }
-
-    .mens-content h2 {
-        font-size: 20px;
-    }
-
-}
-
-/* ============================================
+/* =====================================================
    REDUCED MOTION
-============================================ */
+===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .mens-select-content {
-        animation: none;
-    }
-
-    .mens-select-trigger,
-    .mens-select-trigger-icon,
-    .mens-select-item {
-        transition: none;
+    .mens-page *,
+    .mens-page *::before,
+    .mens-page *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 
 }
