@@ -1,51 +1,193 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&display=swap');
+
+/* ============================================
+   LANADA — LUXURY MARQUEE
+============================================ */
 
 .ticker-container {
+    position: relative;
     width: 100%;
     overflow: hidden;
+    padding: 19px 0;
+
+    background: #050505;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
     white-space: nowrap;
-    position: relative;
-    padding: 20px 0;
+    isolation: isolate;
 }
+
+/* Soft fade on both edges */
+
+.ticker-container::before,
+.ticker-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    width: 90px;
+    height: 100%;
+    pointer-events: none;
+}
+
+.ticker-container::before {
+    left: 0;
+    background: linear-gradient(
+        to right,
+        #050505 0%,
+        rgba(5, 5, 5, 0) 100%
+    );
+}
+
+.ticker-container::after {
+    right: 0;
+    background: linear-gradient(
+        to left,
+        #050505 0%,
+        rgba(5, 5, 5, 0) 100%
+    );
+}
+
+/* Moving track */
 
 .ticker-track {
     display: flex;
     align-items: center;
+    gap: 14px;
+
     width: max-content;
-    animation: infiniteScroll 20s linear infinite;
+    will-change: transform;
+
+    animation: lanadaMarquee 32s linear infinite;
 }
+
+/* Individual items */
 
 .ticker-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    margin-right: 20px;
-    padding: 10px 24px;
-    border: 1px solid #fffffe;
-    border-radius: 50px;
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 700;
-    white-space: nowrap;
 
-    /* ✅ الخط ديال Cinzel */
-    font-family: "Cinzel", serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
+    min-height: 43px;
+    padding: 9px 25px;
+
+    color: #ffffff;
+    background: transparent;
+
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50px;
+
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 2.5px;
+    line-height: 1.4;
+    text-transform: uppercase;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+
+    white-space: nowrap;
 }
 
-@keyframes infiniteScroll {
-    0% {
+/* Premium hover */
+
+.ticker-item:hover {
+    color: #050505;
+    background: #ffffff;
+    border-color: #ffffff;
+}
+
+/* Infinite animation */
+
+@keyframes lanadaMarquee {
+    from {
         transform: translateX(0);
     }
-    100% {
+
+    to {
         transform: translateX(-50%);
     }
 }
 
+/* Pause on hover */
+
+.ticker-container:hover .ticker-track {
+    animation-play-state: paused;
+}
+
+/* ============================================
+   TABLET
+============================================ */
+
 @media (max-width: 768px) {
+    .ticker-container {
+        padding: 14px 0;
+    }
+
+    .ticker-track {
+        gap: 10px;
+        animation-duration: 26s;
+    }
+
     .ticker-item {
-        font-size: 12px;
-        padding: 6px 14px;
-        margin-right: 10px;
+        min-height: 36px;
+        padding: 7px 17px;
+        font-size: 10px;
+        letter-spacing: 1.8px;
+    }
+
+    .ticker-container::before,
+    .ticker-container::after {
+        width: 45px;
+    }
+}
+
+/* ============================================
+   MOBILE
+============================================ */
+
+@media (max-width: 480px) {
+    .ticker-container {
+        padding: 12px 0;
+    }
+
+    .ticker-track {
+        gap: 8px;
+        animation-duration: 23s;
+    }
+
+    .ticker-item {
+        min-height: 32px;
+        padding: 6px 13px;
+        font-size: 9px;
+        letter-spacing: 1.2px;
+        border-radius: 30px;
+    }
+
+    .ticker-container::before,
+    .ticker-container::after {
+        width: 25px;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY
+============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation-play-state: paused;
+    }
+
+    .ticker-item {
+        transition: none;
     }
 }

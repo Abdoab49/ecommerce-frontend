@@ -1,33 +1,45 @@
-import React from 'react';
 
+import React from 'react';
 import './Carousel.css';
 
 const textItems = [
-    "The best Quality You Can Get❤️‍🔥",
-    "Good Prices✌🏻",
-    "Sale💯",
-    "Latest Models🥶",
-    "dima raja😍"
+    'The best Quality You Can Get ❤️‍🔥',
+    'Good Prices ✌🏻',
+    'Sale 💯',
+    'Latest Models 🥶',
+    'New Modul 😍'
 ];
 
 const Carousel = () => {
-
-    const repeatedItems = [...textItems, ...textItems, ...textItems, ...textItems];
-
     return (
-
-        <div className="ticker-container">
-
+        <div
+            className="ticker-container"
+            aria-label="LANADA store highlights"
+        >
             <div className="ticker-track">
 
-                {repeatedItems.map((item, index) => (
-                    <div className="ticker-item" key={index}>
+                {/* Original items */}
+                {textItems.map((item, index) => (
+                    <div
+                        className="ticker-item"
+                        key={`original-${index}`}
+                    >
+                        {item}
+                    </div>
+                ))}
+
+                {/* Duplicate items for seamless animation */}
+                {textItems.map((item, index) => (
+                    <div
+                        className="ticker-item"
+                        key={`duplicate-${index}`}
+                        aria-hidden="true"
+                    >
                         {item}
                     </div>
                 ))}
 
             </div>
-
         </div>
     );
 };
