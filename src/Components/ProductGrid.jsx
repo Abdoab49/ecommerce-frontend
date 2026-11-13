@@ -1,22 +1,38 @@
-// src/Components/ProductGrid/ProductGrid.jsx
-import React, { useContext, useState } from 'react';
+
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShopContext } from '../Context/ShopContext';
 import styles from './ProductGrid.module.css';
 
 const ProductGrid = () => {
     const navigate = useNavigate();
-    const { addToCart } = useContext(ShopContext);
-    const [notification, setNotification] = useState({ show: false, message: '' });
 
-    // ✅ منتجات كأس العالم — مع 4 صور لكل منتج
+    // Calculate automatic discount
+    const getDiscountPercentage = (oldPrice, price) => {
+        const oldValue = Number(oldPrice);
+        const newValue = Number(price);
+
+        if (
+            !Number.isFinite(oldValue) ||
+            !Number.isFinite(newValue) ||
+            oldValue <= 0 ||
+            oldValue <= newValue
+        ) {
+            return 0;
+        }
+
+        return Math.round(
+            ((oldValue - newValue) / oldValue) * 100
+        );
+    };
+
+    // WORLD CUP PRODUCTS
     const products = [
-        { 
-            id: 45, 
-            src: "/Assets/tshirt/tshirt1.png", 
-            title: "MOROCCO", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 45,
+            src: "/Assets/tshirt/tshirt1.png",
+            title: "MOROCCO",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt1.png",
@@ -25,12 +41,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt1_4.png"
             ]
         },
-        { 
-            id: 46, 
-            src: "/Assets/tshirt/tshirt2.png", 
-            title: "ARGENTINA", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 46,
+            src: "/Assets/tshirt/tshirt2.png",
+            title: "ARGENTINA",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt2.png",
@@ -39,12 +55,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt2_4.png"
             ]
         },
-        { 
-            id: 47, 
-            src: "/Assets/tshirt/tshirt3.png", 
-            title: "BRAZIL", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 47,
+            src: "/Assets/tshirt/tshirt3.png",
+            title: "BRAZIL",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt3.png",
@@ -53,12 +69,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt3_4.png"
             ]
         },
-        { 
-            id: 48, 
-            src: "/Assets/tshirt/tshirt4.png", 
-            title: "SPAIN", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 48,
+            src: "/Assets/tshirt/tshirt4.png",
+            title: "SPAIN",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt4.png",
@@ -67,12 +83,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt4_4.png"
             ]
         },
-        { 
-            id: 49, 
-            src: "/Assets/tshirt/tshirt5.png", 
-            title: "FRANCE", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 49,
+            src: "/Assets/tshirt/tshirt5.png",
+            title: "FRANCE",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt5.png",
@@ -81,12 +97,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt5_4.png"
             ]
         },
-        { 
-            id: 50, 
-            src: "/Assets/tshirt/tshirt6.png", 
-            title: "GERMANY", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 50,
+            src: "/Assets/tshirt/tshirt6.png",
+            title: "GERMANY",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt6.png",
@@ -95,12 +111,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt6_4.png"
             ]
         },
-        { 
-            id: 51, 
-            src: "/Assets/tshirt/tshirt7.png", 
-            title: "ENGLAND", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 51,
+            src: "/Assets/tshirt/tshirt7.png",
+            title: "ENGLAND",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt7.png",
@@ -109,12 +125,12 @@ const ProductGrid = () => {
                 "/Assets/tshirt/tshirt7_4.png"
             ]
         },
-        { 
-            id: 52, 
-            src: "/Assets/tshirt/tshirt8.png", 
-            title: "ITALY", 
-            description: "National Team Jersey", 
-            price: 45, 
+        {
+            id: 52,
+            src: "/Assets/tshirt/tshirt8.png",
+            title: "ITALY",
+            description: "National Team Jersey",
+            price: 45,
             oldPrice: 70,
             images: [
                 "/Assets/tshirt/tshirt8.png",
@@ -125,6 +141,7 @@ const ProductGrid = () => {
         }
     ];
 
+    // PRODUCT DATA FOR SIZE SELECTION
     const handleProductClick = (product) => {
         const productData = {
             id: product.id,
@@ -135,93 +152,103 @@ const ProductGrid = () => {
             img: product.src,
             description: product.description,
             category: 'men',
-            images: product.images || [product.src]   // ✅ 4 صور
+            images: product.images || [product.src]
         };
-        navigate('/size-selection', { state: { product: productData } });
+
+        navigate('/size-selection', {
+            state: { product: productData }
+        });
     };
 
+    // ADD TO CART / SIZE SELECTION
     const handleAddToCart = (product, event) => {
         event.stopPropagation();
-        
-        const productData = {
-            id: product.id,
-            name: product.title,
-            company: 'National Team',
-            price: product.price,
-            old_price: product.oldPrice,
-            img: product.src,
-            description: product.description,
-            category: 'men',
-            images: product.images || [product.src]   // ✅ 4 صور
-        };
-        
-        navigate('/size-selection', { state: { product: productData } });
+        handleProductClick(product);
     };
-
-    const firstRow = products.slice(0, 4);
-    const secondRow = products.slice(4, 8);
 
     return (
         <div className={styles.productGridWrapper}>
-            <div className={styles.wrapper}>
-                {firstRow.map((product) => (
-                    <div 
-                        key={product.id} 
-                        className={styles.card}
-                        onClick={() => handleProductClick(product)}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <img src={product.src} className={styles.card__img} alt={product.title} />
-                        <div className={styles.card__body}>
-                            <h2 className={styles.card__title}>{product.title}</h2>
-                            <p className={styles.card__description}>{product.description}</p>
-                            <div className={styles.priceContainer}>
-                                <span className={styles.oldPrice}>{product.oldPrice} DH</span>
-                                <span className={styles.currentPrice}>{product.price} DH</span>
-                            </div>
-                            <button 
-                                className={styles.card__btn}
-                                onClick={(e) => handleAddToCart(product, e)}
-                            >
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
 
             <div className={styles.wrapper}>
-                {secondRow.map((product) => (
-                    <div 
-                        key={product.id} 
-                        className={styles.card}
-                        onClick={() => handleProductClick(product)}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <img src={product.src} className={styles.card__img} alt={product.title} />
-                        <div className={styles.card__body}>
-                            <h2 className={styles.card__title}>{product.title}</h2>
-                            <p className={styles.card__description}>{product.description}</p>
-                            <div className={styles.priceContainer}>
-                                <span className={styles.oldPrice}>{product.oldPrice} DH</span>
-                                <span className={styles.currentPrice}>{product.price} DH</span>
+                {products.map((product) => {
+                    const discount = getDiscountPercentage(
+                        product.oldPrice,
+                        product.price
+                    );
+
+                    return (
+                        <div
+                            key={product.id}
+                            className={styles.card}
+                            onClick={() => handleProductClick(product)}
+                            style={{ cursor: 'pointer' }}
+                        >
+
+                            {/* PRODUCT IMAGE + PROMO */}
+                            <div className={styles.card__imageWrapper}>
+
+                                {discount > 0 && (
+                                    <div className={styles.card__promoBadge}>
+                                        <span className={styles.card__promoLabel}>
+                                            PROMO
+                                        </span>
+
+                                        <span className={styles.card__promoPercentage}>
+                                            -{discount}%
+                                        </span>
+                                    </div>
+                                )}
+
+                                <img
+                                    src={product.src}
+                                    className={styles.card__img}
+                                    alt={product.title}
+                                    loading="lazy"
+                                />
+
                             </div>
-                            <button 
-                                className={styles.card__btn}
-                                onClick={(e) => handleAddToCart(product, e)}
-                            >
-                                Add to Cart
-                            </button>
+
+                            {/* PRODUCT DETAILS */}
+                            <div className={styles.card__body}>
+
+                                <h2 className={styles.card__title}>
+                                    {product.title}
+                                </h2>
+
+                                <p className={styles.card__description}>
+                                    {product.description}
+                                </p>
+
+                                <div className={styles.priceContainer}>
+
+                                    {product.oldPrice > product.price && (
+                                        <span className={styles.oldPrice}>
+                                            {product.oldPrice} DH
+                                        </span>
+                                    )}
+
+                                    <span className={styles.currentPrice}>
+                                        {product.price} DH
+                                    </span>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    className={styles.card__btn}
+                                    onClick={(event) =>
+                                        handleAddToCart(product, event)
+                                    }
+                                >
+                                    Add to Cart
+                                </button>
+
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
-            {notification.show && (
-                <div className={styles.notification}>
-                    {notification.message}
-                </div>
-            )}
         </div>
     );
 };

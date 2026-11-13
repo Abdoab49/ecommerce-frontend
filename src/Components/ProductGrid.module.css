@@ -354,3 +354,99 @@
     font-family: "Fjalla One", sans-serif !important;
   }
 }
+
+
+/* =========================================
+   LANADA WORLD CUP - PROMO BADGE
+========================================= */
+
+.card__imageWrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Keep product image responsive */
+
+.card__imageWrapper .card__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* MINI PREMIUM PROMO */
+
+.card__promoBadge {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+    min-width: 43px;
+    padding: 5px 6px;
+
+    background: #050505;
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.15);
+
+    pointer-events: none;
+}
+
+.card__promoLabel {
+    font-family: Arial, sans-serif;
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.card__promoPercentage {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.3px;
+}
+
+/* MOBILE */
+
+@media (max-width: 550px) {
+    .card__promoBadge {
+        top: 6px;
+        right: 6px;
+        min-width: 36px;
+        padding: 4px 5px;
+    }
+
+    .card__promoLabel {
+        font-size: 5px;
+    }
+
+    .card__promoPercentage {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 380px) {
+    .card__promoBadge {
+        top: 5px;
+        right: 5px;
+        min-width: 32px;
+        padding: 4px;
+    }
+
+    .card__promoPercentage {
+        font-size: 12px;
+    }
+}
