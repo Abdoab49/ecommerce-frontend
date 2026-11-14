@@ -1,113 +1,60 @@
-
 import React from 'react';
 import styles from './LogoSlider.module.css';
 
-const firstRowImages = [
+const LogoSlider = () => {
+  // مصفوفة الصور للشريط الأول (مسار مباشر)
+  const images = [
     '/Assets/ShoeStore/logo1.png',
     '/Assets/ShoeStore/logo2.png',
     '/Assets/ShoeStore/logo3.png',
     '/Assets/ShoeStore/logo4.png',
     '/Assets/ShoeStore/logo5.png',
     '/Assets/ShoeStore/logo6.png',
-    '/Assets/ShoeStore/logo7.png',
-];
-
-const secondRowImages = [
+    '/Assets/ShoeStore/logo7.png'
+  ];
+  
+  // مصفوفة الصور للشريط الثاني
+  const images2 = [
     '/Assets/ShoeStore/logo8.png',
     '/Assets/ShoeStore/logo9.png',
     '/Assets/ShoeStore/logo10.png',
     '/Assets/ShoeStore/logo11.png',
-    '/Assets/ShoeStore/logo12.png',
-];
+    '/Assets/ShoeStore/logo12.png'
+  ];
 
-/**
- * Renders one continuous, responsive logo marquee.
- */
-const LogoRow = ({ images, reverse = false, rowLabel }) => {
-    return (
-        <div
-            className={styles.slider}
-            role="group"
-            aria-label={rowLabel}
-        >
-            <div
-                className={`${styles.sliderTrack} ${
-                    reverse ? styles.reverse : ''
-                }`}
+  return (
+    <>
+      {/* الشريط الأول */}
+      <div className={styles.slider} style={{ '--items': images.length }}>
+        <div className={styles.sliderTrack}>
+          {images.map((img, index) => (
+            <div 
+              key={index} 
+              className={styles.sliderItem} 
+              style={{ '--index': index + 1 }}
             >
-                {/* Original logos */}
-                <div className={styles.sliderGroup}>
-                    {images.map((image, index) => (
-                        <div
-                            className={styles.sliderItem}
-                            key={`${image}-${index}`}
-                        >
-                            <img
-                                src={image}
-                                alt={`Brand logo ${index + 1}`}
-                                loading="lazy"
-                                decoding="async"
-                                draggable="false"
-                            />
-                        </div>
-                    ))}
-                </div>
-
-                {/* Duplicate logos for seamless animation */}
-                <div
-                    className={styles.sliderGroup}
-                    aria-hidden="true"
-                >
-                    {images.map((image, index) => (
-                        <div
-                            className={styles.sliderItem}
-                            key={`duplicate-${image}-${index}`}
-                        >
-                            <img
-                                src={image}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                draggable="false"
-                            />
-                        </div>
-                    ))}
-                </div>
+              <img src={img} alt="" />
             </div>
+          ))}
         </div>
-    );
-};
+      </div>
 
-const LogoSlider = () => {
-    return (
-        <section
-            className={styles.logoSliderSection}
-            aria-label="Our brands"
-        >
-            <div className={styles.sliderHeading}>
-                <span className={styles.headingLine} />
-
-                <span className={styles.headingText}>
-                    DISCOVER OUR BRANDS
-                </span>
-
-                <span className={styles.headingLine} />
+      {/* الشريط الثاني (عكسي) */}
+      <div className={styles.slider} style={{ '--items': images2.length }} data-reverse>
+        <div className={styles.sliderTrack}>
+          {images2.map((img, index) => (
+            <div 
+              key={index} 
+              className={styles.sliderItem} 
+              style={{ '--index': index + 1 }}
+            >
+              <img src={img} alt="" />
             </div>
-
-            <div className={styles.sliderRows}>
-                <LogoRow
-                    images={firstRowImages}
-                    rowLabel="Brand logos row one"
-                />
-
-                <LogoRow
-                    images={secondRowImages}
-                    reverse
-                    rowLabel="Brand logos row two"
-                />
-            </div>
-        </section>
-    );
+          ))}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default LogoSlider;

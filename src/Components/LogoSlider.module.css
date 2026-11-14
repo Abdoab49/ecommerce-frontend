@@ -1,359 +1,125 @@
-
-/* =====================================================
-   LANADA LOGO SLIDER
-   Responsive Premium Brand Marquee
-===================================================== */
-
-.logoSliderSection {
-    --logo-size: clamp(105px, 15vw, 210px);
-    --logo-height: clamp(65px, 9vw, 125px);
-    --logo-gap: clamp(18px, 3vw, 45px);
-    --row-gap: clamp(10px, 2vw, 22px);
-    --animation-duration: 35s;
-
-    position: relative;
-    isolation: isolate;
-    width: 100%;
-    padding: clamp(35px, 5vw, 65px) 0;
-    overflow: hidden;
-    background: transparent;
-}
-
-/* =====================================================
-   HEADING
-===================================================== */
-
-.sliderHeading {
-    width: 100%;
-    max-width: 650px;
-    margin: 0 auto clamp(25px, 4vw, 45px);
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(12px, 2vw, 22px);
-}
-
-.headingLine {
-    flex: 1;
-    max-width: 110px;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.headingText {
-    color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(8px, 1vw, 11px);
-    font-weight: 700;
-    letter-spacing: clamp(1.5px, 0.3vw, 3px);
-    white-space: nowrap;
-    text-align: center;
-}
-
-/* =====================================================
-   SLIDER ROWS
-===================================================== */
-
-.sliderRows {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--row-gap);
-}
-
-/* =====================================================
-   SLIDER
-===================================================== */
+/* LogoSlider.module.css */
 
 .slider {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-
-    -webkit-mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        #000 7%,
-        #000 93%,
-        transparent 100%
-    );
-
-    mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        #000 7%,
-        #000 93%,
-        transparent 100%
-    );
+  overflow: hidden;
+  --size: 300px;
+  --spacing: 16px;
+  --duration: 20s;
+  --track-size: calc((var(--size) + var(--spacing)) * (var(--items) - 1));
+  max-inline-size: var(--track-size);
+  margin-block: 42px;
+  margin-inline: auto;
 }
-
-/* =====================================================
-   ANIMATED TRACK
-===================================================== */
 
 .sliderTrack {
-    display: flex;
-    width: max-content;
-    will-change: transform;
-    animation: logoMarquee var(--animation-duration) linear infinite;
+  display: grid;
+  container-type: inline-size;
+  width: max-content;
+  grid-template-columns: [track] var(--track-size) [stick] 0px;
 }
 
-.sliderTrack.reverse {
-    animation-direction: reverse;
+/* اتجاه عكسي للعناصر */
+.slider[data-reverse] .sliderItem {
+  animation-direction: reverse;
 }
-
-@keyframes logoMarquee {
-    from {
-        transform: translate3d(0, 0, 0);
-    }
-
-    to {
-        transform: translate3d(-50%, 0, 0);
-    }
-}
-
-/* =====================================================
-   LOGO GROUP
-===================================================== */
-
-.sliderGroup {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: var(--logo-gap);
-
-    /*
-      Equal padding on both groups makes the
-      half-track animation loop seamlessly.
-    */
-    padding-right: var(--logo-gap);
-}
-
-/* =====================================================
-   LOGO ITEM
-===================================================== */
 
 .sliderItem {
-    flex: 0 0 var(--logo-size);
-    width: var(--logo-size);
-    height: var(--logo-height);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-    background: transparent;
+  grid-area: stick;
+  width: var(--size);
+  aspect-ratio: 4 / 3;
+  animation: move var(--duration) linear infinite;
+  animation-delay: calc((var(--duration) / var(--items) * var(--index)) * -1);
+  background-color: rgb(0, 0, 0);
 }
 
-.sliderItem img {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-    object-position: center;
-
-    user-select: none;
-    -webkit-user-drag: none;
-
-    opacity: 0.85;
-
-    filter: grayscale(100%);
-    transition:
-        opacity 0.3s ease,
-        filter 0.3s ease,
-        transform 0.3s ease;
+.sliderItem.isVideo {
+  aspect-ratio: 16 / 9;
 }
 
-/* Hover effect */
-
-.sliderItem:hover img {
-    opacity: 1;
-    filter: grayscale(0%);
-    transform: scale(1.07);
+@keyframes move {
+  to {
+    transform: translateX(calc(-100cqw - 100%));
+  }
 }
 
-/* Pause animation while hovering */
+/* ===== MEDIA QUERIES ===== */
 
-.slider:hover .sliderTrack {
-    animation-play-state: paused;
-}
-
-/* =====================================================
-   LARGE DESKTOP
-===================================================== */
-
-@media (min-width: 1600px) {
-    .logoSliderSection {
-        --logo-size: 225px;
-        --logo-height: 135px;
-        --logo-gap: 55px;
-        --animation-duration: 42s;
-    }
-}
-
-/* =====================================================
-   LAPTOP
-===================================================== */
-
+/* شاشات كبيرة */
 @media (max-width: 1200px) {
-    .logoSliderSection {
-        --logo-size: clamp(130px, 17vw, 180px);
-        --logo-height: clamp(85px, 10vw, 110px);
-        --logo-gap: 28px;
-        --animation-duration: 33s;
-    }
+  .slider {
+    --size: 260px;
+    --spacing: 14px;
+    --duration: 18s;
+  }
 }
 
-/* =====================================================
-   TABLET
-===================================================== */
-
+/* شاشات متوسطة */
 @media (max-width: 992px) {
-    .logoSliderSection {
-        --logo-size: 150px;
-        --logo-height: 95px;
-        --logo-gap: 25px;
-        --row-gap: 13px;
-        --animation-duration: 30s;
-
-        padding: 35px 0;
-    }
+  .slider {
+    --size: 220px;
+    --spacing: 12px;
+    --duration: 16s;
+  }
 }
 
-/* =====================================================
-   SMALL TABLET
-===================================================== */
-
+/* شاشات صغيرة */
 @media (max-width: 768px) {
-    .logoSliderSection {
-        --logo-size: 125px;
-        --logo-height: 80px;
-        --logo-gap: 20px;
-        --animation-duration: 27s;
-
-        padding: 32px 0;
-    }
-
-    .slider {
-        -webkit-mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            #000 4%,
-            #000 96%,
-            transparent 100%
-        );
-
-        mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            #000 4%,
-            #000 96%,
-            transparent 100%
-        );
-    }
+  .slider {
+    --size: 180px;
+    --spacing: 10px;
+    --duration: 14s;
+  }
 }
 
-/* =====================================================
-   MOBILE
-===================================================== */
-
+/* شاشات موبايل */
 @media (max-width: 576px) {
-    .logoSliderSection {
-        --logo-size: 105px;
-        --logo-height: 68px;
-        --logo-gap: 17px;
-        --row-gap: 10px;
-        --animation-duration: 24s;
-
-        padding: 28px 0;
-    }
-
-    .sliderHeading {
-        margin-bottom: 22px;
-        gap: 11px;
-    }
-
-    .headingLine {
-        max-width: 55px;
-    }
-
-    .headingText {
-        font-size: 8px;
-        letter-spacing: 1.5px;
-    }
-
-    .sliderItem img {
-        opacity: 0.9;
-    }
+  .slider {
+    --size: 140px;
+    --spacing: 8px;
+    --duration: 12s;
+  }
 }
 
-/* =====================================================
-   SMALL MOBILE
-===================================================== */
-
+/* شاشات موبايل صغيرة */
 @media (max-width: 400px) {
-    .logoSliderSection {
-        --logo-size: 88px;
-        --logo-height: 58px;
-        --logo-gap: 14px;
-        --row-gap: 8px;
-        --animation-duration: 22s;
-
-        padding: 24px 0;
-    }
-
-    .sliderHeading {
-        margin-bottom: 18px;
-    }
-
-    .headingLine {
-        max-width: 35px;
-    }
-
-    .headingText {
-        font-size: 7px;
-        letter-spacing: 1.2px;
-    }
+  .slider {
+    --size: 110px;
+    --spacing: 6px;
+    --duration: 10s;
+  }
 }
 
-/* =====================================================
-   EXTRA SMALL MOBILE
-===================================================== */
-
-@media (max-width: 320px) {
-    .logoSliderSection {
-        --logo-size: 76px;
-        --logo-height: 50px;
-        --logo-gap: 12px;
-        --animation-duration: 20s;
-    }
+/* تنسيق الصور */
+.sliderItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
 }
 
-/* =====================================================
-   REDUCED MOTION ACCESSIBILITY
-===================================================== */
+/* إضافة تأثير عند hover */
+.sliderItem img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
 
-@media (prefers-reduced-motion: reduce) {
-    .sliderTrack {
-        animation: none;
-        transform: none;
-    }
+/* تنسيق الصور */
+.sliderItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
 
-    .sliderGroup:nth-child(2) {
-        display: none;
-    }
+/* إزالة الخلفية الملونة */
+.sliderItem {
+  background-color: transparent;
+}
 
-    .slider {
-        overflow-x: auto;
-        scrollbar-width: none;
-    }
-
-    .slider::-webkit-scrollbar {
-        display: none;
-    }
+/* إضافة تأثير عند hover */
+.sliderItem img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
 }
