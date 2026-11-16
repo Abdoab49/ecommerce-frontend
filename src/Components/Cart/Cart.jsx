@@ -382,19 +382,11 @@ const Cart = () => {
       return;
     }
 
-    const userId = getUserId();
 
-    if (!userId) {
-      showNotice(
-        'error',
-        'Login required',
-        'Please log in before placing an order.'
-      );
+const userId = getUserId();
 
-      navigate('/login');
 
-      return;
-    }
+
 
     if (!cartItems.length) {
       showNotice(
