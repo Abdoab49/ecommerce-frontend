@@ -1,150 +1,277 @@
-// src/Components/BannerVideo/BannerVideo.jsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './BannerVideo.module.css';
 
+const VIDEOS = [
+  {
+    id: 1,
+    src: '/Assets/Videos/banner1.mp4',
+    alt: 'Banner 1',
+  },
+  {
+    id: 2,
+    src: '/Assets/Videos/banner2.mp4',
+    alt: 'Banner 2',
+  },
+  {
+    id: 3,
+    src: '/Assets/Videos/banner3.mp4',
+    alt: 'Banner 3',
+  },
+];
+
+const AUTO_SLIDE_DELAY = 4000;
+const SWIPE_THRESHOLD = 50;
+
 const BannerVideo = () => {
-  const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // ✅ Touch/Swipe refs
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
+  const videoRefs = useRef([]);
+  const pointerStartX = useRef(null);
+  const pointerEndX = useRef(null);
+  const isDragging = useRef(false);
   const isPaused = useRef(false);
+  const resumeTimer = useRef(null);
 
-  // ✅ 3 vidéos — koul wa7da 1080×1350 (portrait 4:5)
-  const videos = [
-    { id: 1, src: '/Assets/Videos/banner1.mp4', alt: 'Banner 1' },
-    { id: 2, src: '/Assets/Videos/banner2.mp4', alt: 'Banner 2' },
-    { id: 3, src: '/Assets/Videos/banner3.mp4', alt: 'Banner 3' }
-  ];
+  // =========================================
+  // PAUSE / RESUME AUTOPLAY
+  // =========================================
 
-  // ✅ Autoplay + loop + muted (bla tawa9of)
+  const pauseAutoplay = () => {
+    isPaused.current = true;
+
+    if (resumeTimer.current) {
+      clearTimeout(resumeTimer.current);
+      resumeTimer.current = null;
+    }
+  };
+
+  const resumeAutoplay = () => {
+    if (resumeTimer.current) {
+      clearTimeout(resumeTimer.current);
+    }
+
+    resumeTimer.current = setTimeout(() => {
+      isPaused.current = false;
+      resumeTimer.current = null;
+    }, 700);
+  };
+
+  // =========================================
+  // NEXT / PREVIOUS SLIDE
+  // =========================================
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
+  };
+
+  const previousSlide = () => {
+    setCurrentIndex(
+      (prev) => (prev - 1 + VIDEOS.length) % VIDEOS.length
+    );
+  };
+
+  // =========================================
+  // AUTOPLAY CAROUSEL
+  // =========================================
+
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const interval = setInterval(() => {
+      if (!isPaused.current) {
+        nextSlide();
+      }
+    }, AUTO_SLIDE_DELAY);
 
-    const videoElements = container.querySelectorAll('video');
-    videoElements.forEach((video) => {
+    return () => clearInterval(interval);
+  }, []);
+
+  // =========================================
+  // VIDEO PERFORMANCE
+  // Play active video only
+  // =========================================
+
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+
       video.muted = true;
-      video.loop = true;
       video.playsInline = true;
-      video.autoplay = true;
+      video.loop = true;
 
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.log('Autoplay blocked:', error);
-        });
+      if (index === currentIndex) {
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Browser may block autoplay.
+            // The video can retry when allowed.
+          });
+        }
+      } else {
+        video.pause();
       }
     });
   }, [currentIndex]);
 
-  // ✅ Carousel — kaytharek koul 4 seconds (kayw9ef melli tlams)
+  // =========================================
+  // CLEANUP TIMERS
+  // =========================================
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isPaused.current) {
-        setCurrentIndex((prev) => (prev + 1) % videos.length);
+    return () => {
+      if (resumeTimer.current) {
+        clearTimeout(resumeTimer.current);
       }
-    }, 4000);
 
-    return () => clearInterval(interval);
-  }, [videos.length]);
+      videoRefs.current.forEach((video) => {
+        if (video) video.pause();
+      });
+    };
+  }, []);
 
-  // ✅ TOUCH START — melli tbda tlams
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchEndX.current = e.touches[0].clientX;
-    isPaused.current = true;   // ✅ W9ef carousel melli tlams
-  };
+  // =========================================
+  // POINTER DOWN
+  // Touch + Mouse + Stylus
+  // =========================================
 
-  // ✅ TOUCH MOVE — melli kaytharek l'id
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  // ✅ TOUCH END — melli t7ayed l'id
-  const handleTouchEnd = () => {
-    const swipeDistance = touchStartX.current - touchEndX.current;
-    const minSwipe = 50;   // ✅ Minimum 50px bach ykoun swipe
-
-    if (swipeDistance > minSwipe) {
-      // ✅ Swipe l'isar → vidéo jaya
-      setCurrentIndex((prev) => (prev + 1) % videos.length);
-    } else if (swipeDistance < -minSwipe) {
-      // ✅ Swipe l'imin → vidéo qbel
-      setCurrentIndex((prev) => (prev - 1 + videos.length) % videos.length);
+  const handlePointerDown = (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) {
+      return;
     }
 
-    // ✅ Rje3 carousel ba3d 500ms
-    setTimeout(() => {
-      isPaused.current = false;
-    }, 500);
-  };
+    pointerStartX.current = e.clientX;
+    pointerEndX.current = e.clientX;
 
-  // ✅ MOUSE (l'desktop) — bach ykhdem hta b l'mouse
-  const handleMouseDown = (e) => {
-    touchStartX.current = e.clientX;
-    touchEndX.current = e.clientX;
-    isPaused.current = true;
-  };
+    isDragging.current = true;
 
-  const handleMouseMove = (e) => {
-    if (isPaused.current) {
-      touchEndX.current = e.clientX;
+    pauseAutoplay();
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch (error) {
+      // Pointer capture may not be available.
     }
   };
 
-  const handleMouseUp = () => {
-    const swipeDistance = touchStartX.current - touchEndX.current;
-    const minSwipe = 50;
+  // =========================================
+  // POINTER MOVE
+  // =========================================
 
-    if (swipeDistance > minSwipe) {
-      setCurrentIndex((prev) => (prev + 1) % videos.length);
-    } else if (swipeDistance < -minSwipe) {
-      setCurrentIndex((prev) => (prev - 1 + videos.length) % videos.length);
-    }
+  const handlePointerMove = (e) => {
+    if (!isDragging.current) return;
 
-    setTimeout(() => {
-      isPaused.current = false;
-    }, 500);
+    pointerEndX.current = e.clientX;
   };
 
-  const handleMouseLeave = () => {
-    if (isPaused.current) {
-      isPaused.current = false;
+  // =========================================
+  // POINTER UP
+  // =========================================
+
+  const handlePointerUp = () => {
+    if (!isDragging.current) return;
+
+    const startX = pointerStartX.current;
+    const endX = pointerEndX.current;
+
+    if (startX !== null && endX !== null) {
+      const distance = startX - endX;
+
+      if (distance > SWIPE_THRESHOLD) {
+        nextSlide();
+      } else if (distance < -SWIPE_THRESHOLD) {
+        previousSlide();
+      }
+    }
+
+    isDragging.current = false;
+    pointerStartX.current = null;
+    pointerEndX.current = null;
+
+    resumeAutoplay();
+  };
+
+  // =========================================
+  // POINTER CANCEL
+  // =========================================
+
+  const handlePointerCancel = () => {
+    isDragging.current = false;
+
+    pointerStartX.current = null;
+    pointerEndX.current = null;
+
+    resumeAutoplay();
+  };
+
+  // =========================================
+  // KEYBOARD SUPPORT
+  // =========================================
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowRight') {
+      pauseAutoplay();
+      previousSlide();
+      resumeAutoplay();
+    }
+
+    if (e.key === 'ArrowLeft') {
+      pauseAutoplay();
+      nextSlide();
+      resumeAutoplay();
     }
   };
+
+  // =========================================
+  // RENDER
+  // =========================================
 
   return (
-    <div className={styles.bannerContainer} ref={containerRef}>
+    <section
+      className={styles.bannerContainer}
+      aria-label="Promotional video carousel"
+    >
       <div
         className={styles.bannerCarousel}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+        onKeyDown={handleKeyDown}
+        onMouseEnter={pauseAutoplay}
+        onMouseLeave={resumeAutoplay}
+        onFocus={pauseAutoplay}
+        onBlur={resumeAutoplay}
+        tabIndex={0}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Promotional banners"
       >
-        {videos.map((video, index) => (
+        {VIDEOS.map((video, index) => (
           <div
             key={video.id}
-            className={`${styles.bannerItem} ${index === currentIndex ? styles.active : ''}`}
+            className={`${styles.bannerItem} ${
+              index === currentIndex ? styles.active : ''
+            }`}
+            aria-hidden={index !== currentIndex}
           >
             <video
+              ref={(element) => {
+                videoRefs.current[index] = element;
+              }}
               className={styles.bannerVideo}
               src={video.src}
               muted
               loop
-              autoPlay
               playsInline
-              preload="auto"
+              autoPlay={index === currentIndex}
+              preload={index === currentIndex ? 'auto' : 'none'}
+              disablePictureInPicture
+              aria-label={video.alt}
             />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

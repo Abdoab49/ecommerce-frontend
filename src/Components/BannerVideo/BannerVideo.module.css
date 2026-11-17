@@ -1,81 +1,151 @@
-/* ============================================
-   BANNER VIDEO — CAROUSEL (3 vidéos 1080×1350)
-   Swipe only — bla boutons + bla dots
-   ============================================ */
+
+/* =========================================
+   BANNER VIDEO CAROUSEL
+   Responsive: Mobile / Tablet / Laptop / Desktop
+   Video format: 1080 x 1350 (4:5)
+========================================= */
 
 .bannerContainer {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: clamp(10px, 2.5vw, 28px);
+  box-sizing: border-box;
   position: relative;
 }
 
+/* =========================================
+   CAROUSEL
+========================================= */
+
 .bannerCarousel {
   position: relative;
+
   width: 100%;
-  aspect-ratio: 1080 / 1350;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-width: 1080px;
+
+  aspect-ratio: 4 / 5;
+
   margin: 0 auto;
+
+  overflow: hidden;
+
+  background: #000;
+
+  border-radius: clamp(10px, 1.5vw, 20px);
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.16),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+
   cursor: grab;
+
   user-select: none;
   -webkit-user-select: none;
-  touch-action: pan-y;         /* ✅ Khass bach swipe ykhdem */
+
+  touch-action: pan-y;
+
+  -webkit-tap-highlight-color: transparent;
+
+  outline: none;
 }
+
+/* Mouse dragging */
 
 .bannerCarousel:active {
   cursor: grabbing;
 }
 
+/* Keyboard focus */
+
+.bannerCarousel:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* =========================================
+   SLIDES
+========================================= */
+
 .bannerItem {
   position: absolute;
-  top: 0;
-  left: 0;
+
+  inset: 0;
+
   width: 100%;
   height: 100%;
+
   opacity: 0;
-  transition: opacity 0.8s ease-in-out;
+
+  visibility: hidden;
+
+  transition:
+    opacity 0.75s ease-in-out,
+    visibility 0.75s ease-in-out;
+
   pointer-events: none;
+
+  background: #000;
 }
 
 .bannerItem.active {
   opacity: 1;
+
+  visibility: visible;
+
   pointer-events: auto;
+
+  z-index: 2;
 }
 
-/* ✅ Vidéo KAMLA (bla m9atta) */
+/* =========================================
+   VIDEO
+========================================= */
+
 .bannerVideo {
+  display: block;
+
   width: 100%;
   height: 100%;
+
   object-fit: contain;
-  display: block;
+  object-position: center;
+
   background: #000;
-  pointer-events: none;      /* ✅ Bach touch ykhdem */
+
+  border: 0;
+
+  pointer-events: none;
+
+  -webkit-user-drag: none;
 }
 
-/* ============================================
-   ✅ MEDIA QUERIES — KOUL L'AHJAM
-   ============================================ */
+/* =========================================
+   LARGE DESKTOP
+   1920px and above
+========================================= */
 
-@media (min-width: 1400px) {
+@media (min-width: 1920px) {
   .bannerContainer {
-    max-width: 1080px;
-    padding: 50px 30px;
+    max-width: 1160px;
+    padding: 32px;
   }
 
   .bannerCarousel {
     max-width: 1080px;
-    border-radius: 18px;
+    border-radius: 20px;
   }
 }
 
-@media (min-width: 1025px) and (max-width: 1399px) {
+/* =========================================
+   DESKTOP
+   1200px - 1919px
+========================================= */
+
+@media (min-width: 1200px) and (max-width: 1919px) {
   .bannerContainer {
-    max-width: 1080px;
-    padding: 40px 20px;
+    max-width: 1120px;
+    padding: 28px;
   }
 
   .bannerCarousel {
@@ -83,68 +153,144 @@
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .bannerContainer {
-    max-width: 90%;
-    padding: 30px 16px;
-  }
+/* =========================================
+   LAPTOP
+   992px - 1199px
+========================================= */
 
-  .bannerCarousel {
-    border-radius: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .bannerContainer {
-    max-width: 95%;
-    padding: 24px 16px;
-  }
-
-  .bannerCarousel {
-    border-radius: 14px;
-  }
-}
-
-@media (max-width: 480px) {
+@media (min-width: 992px) and (max-width: 1199px) {
   .bannerContainer {
     max-width: 100%;
-    padding: 20px 12px;
+    padding: 24px;
   }
 
   .bannerCarousel {
+    max-width: 950px;
+  }
+}
+
+/* =========================================
+   TABLET LANDSCAPE
+   768px - 991px
+========================================= */
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .bannerContainer {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .bannerCarousel {
+    max-width: 850px;
+    border-radius: 16px;
+  }
+}
+
+/* =========================================
+   TABLET PORTRAIT
+   481px - 767px
+========================================= */
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .bannerContainer {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .bannerCarousel {
+    width: 100%;
+    max-width: 680px;
+    border-radius: 14px;
+  }
+}
+
+/* =========================================
+   MOBILE
+   381px - 480px
+========================================= */
+
+@media (min-width: 381px) and (max-width: 480px) {
+  .bannerContainer {
+    width: 100%;
+    padding: 12px 10px;
+  }
+
+  .bannerCarousel {
+    width: 100%;
     border-radius: 12px;
   }
 }
 
-@media (max-width: 380px) {
+/* =========================================
+   SMALL MOBILE
+   321px - 380px
+========================================= */
+
+@media (min-width: 321px) and (max-width: 380px) {
   .bannerContainer {
-    max-width: 100%;
-    padding: 16px 10px;
+    width: 100%;
+    padding: 10px 8px;
   }
 
   .bannerCarousel {
+    width: 100%;
     border-radius: 10px;
   }
 }
 
+/* =========================================
+   VERY SMALL MOBILE
+   320px and below
+========================================= */
+
 @media (max-width: 320px) {
   .bannerContainer {
-    padding: 12px 8px;
+    width: 100%;
+    padding: 8px 6px;
   }
 
   .bannerCarousel {
+    width: 100%;
     border-radius: 8px;
+  }
+
+  .bannerItem {
+    transition: opacity 0.55s ease-in-out;
   }
 }
 
+/* =========================================
+   LANDSCAPE PHONES
+========================================= */
+
 @media (max-height: 500px) and (orientation: landscape) {
   .bannerContainer {
-    padding: 16px 12px;
-    max-width: 500px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .bannerCarousel {
-    aspect-ratio: 1080 / 1350;
-    border-radius: 12px;
+    max-width: 420px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .bannerItem {
+    transition: none;
+  }
+}
+
+/* =========================================
+   HIGH-DPI SCREENS
+========================================= */
+
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+  .bannerVideo {
+    image-rendering: auto;
   }
 }
