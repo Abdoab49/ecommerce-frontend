@@ -1,13 +1,11 @@
-// src/Components/Navbar/Navbar.jsx
-
-import React, { useContext, useState, useEffect } from 'react';
+﻿import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import cart_icon from '../Assets/cart_icon.png';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
+import { useTranslation } from 'react-i18next';
 
-// Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +19,29 @@ const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const { t, i18n } = useTranslation();
+
+    const currentLanguage = (
+        i18n.resolvedLanguage ||
+        i18n.language ||
+        'en'
+    ).split('-')[0];
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(prev => !prev);
+    };
+
+    const handleLanguageChange = (event) => {
+        const language = event.target.value;
+
+        i18n.changeLanguage(language);
+        closeMenu();
+    };
+
     // Load user
     useEffect(() => {
         const userData = localStorage.getItem('lanada_user');
@@ -28,7 +49,7 @@ const Navbar = () => {
         if (userData) {
             try {
                 setUser(JSON.parse(userData));
-            } catch (error) {
+            } catch {
                 setUser(null);
             }
         } else {
@@ -44,7 +65,7 @@ const Navbar = () => {
             if (userData) {
                 try {
                     setUser(JSON.parse(userData));
-                } catch (error) {
+                } catch {
                     setUser(null);
                 }
             } else {
@@ -61,14 +82,6 @@ const Navbar = () => {
         };
     }, []);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(prev => !prev);
-    };
-
-    const closeMenu = () => {
-        setIsMenuOpen(false);
-    };
-
     // Logout
     const handleLogout = () => {
         localStorage.removeItem('lanada_user_id');
@@ -80,6 +93,11 @@ const Navbar = () => {
         window.dispatchEvent(new Event('userChanged'));
 
         navigate('/login');
+    };
+
+    const handleNavigation = (menuName) => {
+        setMenu(menuName);
+        closeMenu();
     };
 
     return (
@@ -106,7 +124,7 @@ const Navbar = () => {
                     <span></span>
                 </div>
 
-                {/* Logo - New public path */}
+                {/* Logo */}
                 <div className={styles.logo}>
                     <Link to="/" onClick={closeMenu}>
                         <img
@@ -130,12 +148,9 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'shop' ? styles.active : ''
                             }`}
-                            onClick={() => {
-                                setMenu('shop');
-                                closeMenu();
-                            }}
+                            onClick={() => handleNavigation('shop')}
                         >
-                            SHOP
+                            {t('nav.shop')}
                         </Link>
                     </li>
 
@@ -145,12 +160,9 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'mens' ? styles.active : ''
                             }`}
-                            onClick={() => {
-                                setMenu('mens');
-                                closeMenu();
-                            }}
+                            onClick={() => handleNavigation('mens')}
                         >
-                            MEN
+                            {t('nav.men')}
                         </Link>
                     </li>
 
@@ -160,12 +172,9 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'womens' ? styles.active : ''
                             }`}
-                            onClick={() => {
-                                setMenu('womens');
-                                closeMenu();
-                            }}
+                            onClick={() => handleNavigation('womens')}
                         >
-                            JACKETS
+                            {t('nav.jackets')}
                         </Link>
                     </li>
 
@@ -175,12 +184,9 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'casquette' ? styles.active : ''
                             }`}
-                            onClick={() => {
-                                setMenu('casquette');
-                                closeMenu();
-                            }}
+                            onClick={() => handleNavigation('casquette')}
                         >
-                            CASQUETTE
+                            {t('nav.caps')}
                         </Link>
                     </li>
 
@@ -190,16 +196,12 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'shoes' ? styles.active : ''
                             }`}
-                            onClick={() => {
-                                setMenu('shoes');
-                                closeMenu();
-                            }}
+                            onClick={() => handleNavigation('shoes')}
                         >
-                            SHOES
+                            {t('nav.shoes')}
                         </Link>
                     </li>
 
-                    {/* User name - only when logged in */}
                     {user && (
                         <li>
                             <Link
@@ -207,7 +209,8 @@ const Navbar = () => {
                                 className={styles.link}
                                 onClick={closeMenu}
                             >
-                                {user.fullName?.split(' ')[0] || 'My Account'}
+                                {user.fullName?.split(' ')[0] ||
+                                    t('common.account')}
                             </Link>
                         </li>
                     )}
@@ -216,14 +219,29 @@ const Navbar = () => {
                 {/* Right section */}
                 <div className={styles.rightSection}>
 
+                    {/* Language selector */}
+                    <div className="lanada-language-switcher">
+                        <span aria-hidden="true">🌐</span>
+
+                        <select
+                            value={currentLanguage}
+                            onChange={handleLanguageChange}
+                            aria-label="Select website language"
+                        >
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+
                     {/* Login / Logout */}
                     {user ? (
                         <button
                             type="button"
                             onClick={handleLogout}
                             className={styles.iconLink}
-                            title="Logout"
-                            aria-label="Logout"
+                            title={t('auth.logout')}
+                            aria-label={t('auth.logout')}
                         >
                             <FontAwesomeIcon
                                 icon={faRightFromBracket}
@@ -234,8 +252,8 @@ const Navbar = () => {
                         <Link
                             to="/login"
                             className={styles.iconLink}
-                            title="Login"
-                            aria-label="Login"
+                            title={t('auth.login')}
+                            aria-label={t('auth.login')}
                         >
                             <FontAwesomeIcon
                                 icon={faUser}
@@ -246,10 +264,13 @@ const Navbar = () => {
 
                     {/* Cart */}
                     <div className={styles.cart}>
-                        <Link to="/cart" aria-label="Shopping cart">
+                        <Link
+                            to="/cart"
+                            aria-label={t('nav.cart')}
+                        >
                             <img
                                 src={cart_icon}
-                                alt="Cart"
+                                alt={t('nav.cart')}
                             />
                         </Link>
 

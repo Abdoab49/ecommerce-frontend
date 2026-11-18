@@ -1,0 +1,95 @@
+﻿/* =========================================
+   LANADA LANGUAGE SWITCHER
+========================================= */
+
+.lanada-language-switcher {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 10px;
+    min-width: 120px;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #222222;
+    flex-shrink: 0;
+}
+
+.lanada-language-switcher select {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #222222;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lanada-language-switcher option {
+    background: #ffffff;
+    color: #222222;
+}
+
+/* RTL */
+
+html[dir="rtl"],
+html[dir="rtl"] body {
+    direction: rtl;
+}
+
+html[dir="rtl"] .lanada-language-switcher {
+    direction: rtl;
+}
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea {
+    text-align: right;
+}
+
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] input[type="tel"],
+html[dir="rtl"] input[type="url"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* LTR */
+
+html[dir="ltr"],
+html[dir="ltr"] body {
+    direction: ltr;
+}
+
+html[dir="ltr"] .lanada-language-switcher {
+    direction: ltr;
+}
+
+/* Small screens */
+
+@media (max-width: 768px) {
+    .lanada-language-switcher {
+        min-width: 105px;
+        padding: 6px 8px;
+    }
+
+    .lanada-language-switcher select {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .lanada-language-switcher {
+        min-width: 92px;
+        gap: 4px;
+        padding: 5px 6px;
+    }
+
+    .lanada-language-switcher select {
+        font-size: 11px;
+    }
+}
