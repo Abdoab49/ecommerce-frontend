@@ -1,4 +1,5 @@
-﻿import React, { useContext, useState, useEffect } from 'react';
+
+import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import cart_icon from '../Assets/cart_icon.png';
 
@@ -6,6 +7,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 import { useTranslation } from 'react-i18next';
 
+// Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -27,18 +29,13 @@ const Navbar = () => {
         'en'
     ).split('-')[0];
 
-    const closeMenu = () => {
-        setIsMenuOpen(false);
-    };
-
-    const toggleMenu = () => {
-        setIsMenuOpen(prev => !prev);
-    };
-
-    const handleLanguageChange = (event) => {
+    // Change language
+    const handleLanguageChange = async (event) => {
         const language = event.target.value;
 
-        i18n.changeLanguage(language);
+        await i18n.changeLanguage(language);
+
+        localStorage.setItem('lanada_language', language);
         closeMenu();
     };
 
@@ -49,7 +46,7 @@ const Navbar = () => {
         if (userData) {
             try {
                 setUser(JSON.parse(userData));
-            } catch {
+            } catch (error) {
                 setUser(null);
             }
         } else {
@@ -65,7 +62,7 @@ const Navbar = () => {
             if (userData) {
                 try {
                     setUser(JSON.parse(userData));
-                } catch {
+                } catch (error) {
                     setUser(null);
                 }
             } else {
@@ -82,6 +79,14 @@ const Navbar = () => {
         };
     }, []);
 
+    const toggleMenu = () => {
+        setIsMenuOpen(prev => !prev);
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
     // Logout
     const handleLogout = () => {
         localStorage.removeItem('lanada_user_id');
@@ -95,6 +100,7 @@ const Navbar = () => {
         navigate('/login');
     };
 
+    // Navigation helper
     const handleNavigation = (menuName) => {
         setMenu(menuName);
         closeMenu();
@@ -202,6 +208,7 @@ const Navbar = () => {
                         </Link>
                     </li>
 
+                    {/* User account */}
                     {user && (
                         <li>
                             <Link
@@ -214,25 +221,49 @@ const Navbar = () => {
                             </Link>
                         </li>
                     )}
+
+                    {/* Language selector */}
+                    <li className="lanada-language-item">
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '7px',
+                                padding: '7px 9px',
+                                border: '1px solid #dedede',
+                                borderRadius: '8px',
+                                background: '#fff',
+                                margin: '4px 0'
+                            }}
+                        >
+                            <span aria-hidden="true">🌐</span>
+
+                            <select
+                                value={currentLanguage}
+                                onChange={handleLanguageChange}
+                                aria-label="Select website language"
+                                style={{
+                                    border: 'none',
+                                    outline: 'none',
+                                    background: 'transparent',
+                                    color: '#222',
+                                    fontSize: '13px',
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    fontFamily: 'inherit',
+                                    minWidth: '95px'
+                                }}
+                            >
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                                <option value="ar">العربية</option>
+                            </select>
+                        </div>
+                    </li>
                 </ul>
 
                 {/* Right section */}
                 <div className={styles.rightSection}>
-
-                    {/* Language selector */}
-                    <div className="lanada-language-switcher">
-                        <span aria-hidden="true">🌐</span>
-
-                        <select
-                            value={currentLanguage}
-                            onChange={handleLanguageChange}
-                            aria-label="Select website language"
-                        >
-                            <option value="en">English</option>
-                            <option value="fr">Français</option>
-                            <option value="ar">العربية</option>
-                        </select>
-                    </div>
 
                     {/* Login / Logout */}
                     {user ? (
@@ -240,8 +271,8 @@ const Navbar = () => {
                             type="button"
                             onClick={handleLogout}
                             className={styles.iconLink}
-                            title={t('auth.logout')}
-                            aria-label={t('auth.logout')}
+                            title={t('auth.logout', 'Logout')}
+                            aria-label={t('auth.logout', 'Logout')}
                         >
                             <FontAwesomeIcon
                                 icon={faRightFromBracket}
