@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,7 +12,10 @@ const MyOrdersButton = () => {
   const [user, setUser] = useState(null);
   const [ordersCount, setOrdersCount] = useState(0);
 
+  // =========================================
   // USER DATA
+  // =========================================
+
   const readUser = () => {
     const userData = localStorage.getItem('lanada_user');
 
@@ -34,7 +36,10 @@ const MyOrdersButton = () => {
     readUser();
   }, [location.pathname]);
 
+  // =========================================
   // LOGIN / LOGOUT LISTENER
+  // =========================================
+
   useEffect(() => {
     const handleUserChange = () => readUser();
 
@@ -47,7 +52,10 @@ const MyOrdersButton = () => {
     };
   }, []);
 
+  // =========================================
   // FETCH ACTIVE ORDERS
+  // =========================================
+
   useEffect(() => {
     const userId = localStorage.getItem('lanada_user_id');
 
@@ -62,7 +70,9 @@ const MyOrdersButton = () => {
       try {
         const response = await fetch(
           `${API}/orders?userId=${encodeURIComponent(userId)}`,
-          { signal: controller.signal }
+          {
+            signal: controller.signal
+          }
         );
 
         if (!response.ok) {
@@ -98,14 +108,23 @@ const MyOrdersButton = () => {
     fetchOrdersCount();
 
     return () => controller.abort();
-
   }, [location.pathname, user]);
 
+  // =========================================
   // SHOW ONLY ON HOME
-  if (location.pathname !== '/') return null;
+  // =========================================
 
+  if (location.pathname !== '/') {
+    return null;
+  }
+
+  // =========================================
   // HIDE IF NOT LOGGED IN
-  if (!user) return null;
+  // =========================================
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <StyledWrapper>
@@ -143,15 +162,20 @@ const MyOrdersButton = () => {
 };
 
 // =========================================
-// LANADA — MINIMAL BLACK & WHITE BUTTON
+// LANADA — MY ORDERS BUTTON
 // =========================================
 
 const StyledWrapper = styled.div`
   position: fixed;
+
+  /* DESKTOP POSITION */
   right: 24px;
-  top: 52%;
+  top: calc(52% - 44px);
+
   transform: translateY(-50%);
   z-index: 999;
+
+  pointer-events: none;
 
   .my-orders-button {
     position: relative;
@@ -173,15 +197,16 @@ const StyledWrapper = styled.div`
     border-radius: 50px;
 
     cursor: pointer;
+    pointer-events: auto;
 
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 
     font-family: Arial, Helvetica, sans-serif;
 
     transition:
-      background .2s ease,
-      transform .2s ease,
-      box-shadow .2s ease;
+      background 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
 
     -webkit-tap-highlight-color: transparent;
   }
@@ -205,11 +230,11 @@ const StyledWrapper = styled.div`
     font-size: 10px;
     font-weight: 700;
 
-    letter-spacing: .55px;
+    letter-spacing: 0.55px;
     white-space: nowrap;
   }
 
-  /* PACKAGE */
+  /* PACKAGE ICON */
 
   .orders-package-icon {
     display: flex;
@@ -253,14 +278,16 @@ const StyledWrapper = styled.div`
     background: #262626;
     border-color: #262626;
 
-    box-shadow: 0 7px 17px rgba(0,0,0,.17);
+    box-shadow: 0 7px 17px rgba(0, 0, 0, 0.17);
   }
 
   /* CLICK */
 
   .my-orders-button:active {
-    transform: scale(.96);
+    transform: scale(0.96);
   }
+
+  /* ACCESSIBILITY */
 
   .my-orders-button:focus-visible {
     outline: 2px solid #000000;
@@ -274,7 +301,7 @@ const StyledWrapper = styled.div`
     top: auto;
 
     bottom: calc(
-      118px + env(safe-area-inset-bottom)
+      160px + env(safe-area-inset-bottom)
     );
 
     transform: none;
@@ -282,6 +309,7 @@ const StyledWrapper = styled.div`
     .my-orders-button {
       min-width: 132px;
       height: 34px;
+
       padding: 0 11px;
       gap: 7px;
     }
@@ -291,7 +319,7 @@ const StyledWrapper = styled.div`
     }
 
     .my-orders-button:active {
-      transform: scale(.96);
+      transform: scale(0.96);
     }
   }
 
@@ -301,12 +329,13 @@ const StyledWrapper = styled.div`
     right: 9px;
 
     bottom: calc(
-      108px + env(safe-area-inset-bottom)
+      148px + env(safe-area-inset-bottom)
     );
 
     .my-orders-button {
       min-width: 122px;
       height: 32px;
+
       padding: 0 9px;
       gap: 6px;
     }
