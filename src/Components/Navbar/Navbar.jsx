@@ -1,11 +1,9 @@
-
-import React, { useContext, useState, useEffect } from 'react';
+﻿import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import cart_icon from '../Assets/cart_icon.png';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
-import { useTranslation } from 'react-i18next';
 
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,24 +18,6 @@ const Navbar = () => {
     const { cartCount } = useContext(ShopContext);
     const navigate = useNavigate();
     const location = useLocation();
-
-    const { t, i18n } = useTranslation();
-
-    const currentLanguage = (
-        i18n.resolvedLanguage ||
-        i18n.language ||
-        'en'
-    ).split('-')[0];
-
-    // Change language
-    const handleLanguageChange = async (event) => {
-        const language = event.target.value;
-
-        await i18n.changeLanguage(language);
-
-        localStorage.setItem('lanada_language', language);
-        closeMenu();
-    };
 
     // Load user
     useEffect(() => {
@@ -100,12 +80,6 @@ const Navbar = () => {
         navigate('/login');
     };
 
-    // Navigation helper
-    const handleNavigation = (menuName) => {
-        setMenu(menuName);
-        closeMenu();
-    };
-
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbarContainer}>
@@ -154,9 +128,12 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'shop' ? styles.active : ''
                             }`}
-                            onClick={() => handleNavigation('shop')}
+                            onClick={() => {
+                                setMenu('shop');
+                                closeMenu();
+                            }}
                         >
-                            {t('nav.shop')}
+                            SHOP
                         </Link>
                     </li>
 
@@ -166,9 +143,12 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'mens' ? styles.active : ''
                             }`}
-                            onClick={() => handleNavigation('mens')}
+                            onClick={() => {
+                                setMenu('mens');
+                                closeMenu();
+                            }}
                         >
-                            {t('nav.men')}
+                            MEN
                         </Link>
                     </li>
 
@@ -178,9 +158,12 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'womens' ? styles.active : ''
                             }`}
-                            onClick={() => handleNavigation('womens')}
+                            onClick={() => {
+                                setMenu('womens');
+                                closeMenu();
+                            }}
                         >
-                            {t('nav.jackets')}
+                            JACKETS
                         </Link>
                     </li>
 
@@ -190,9 +173,12 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'casquette' ? styles.active : ''
                             }`}
-                            onClick={() => handleNavigation('casquette')}
+                            onClick={() => {
+                                setMenu('casquette');
+                                closeMenu();
+                            }}
                         >
-                            {t('nav.caps')}
+                            CASQUETTE
                         </Link>
                     </li>
 
@@ -202,13 +188,16 @@ const Navbar = () => {
                             className={`${styles.link} ${
                                 menu === 'shoes' ? styles.active : ''
                             }`}
-                            onClick={() => handleNavigation('shoes')}
+                            onClick={() => {
+                                setMenu('shoes');
+                                closeMenu();
+                            }}
                         >
-                            {t('nav.shoes')}
+                            SHOES
                         </Link>
                     </li>
 
-                    {/* User account */}
+                    {/* User name - only when logged in */}
                     {user && (
                         <li>
                             <Link
@@ -216,50 +205,10 @@ const Navbar = () => {
                                 className={styles.link}
                                 onClick={closeMenu}
                             >
-                                {user.fullName?.split(' ')[0] ||
-                                    t('common.account')}
+                                {user.fullName?.split(' ')[0] || 'My Account'}
                             </Link>
                         </li>
                     )}
-
-                    {/* Language selector */}
-                    <li className="lanada-language-item">
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '7px',
-                                padding: '7px 9px',
-                                border: '1px solid #dedede',
-                                borderRadius: '8px',
-                                background: '#fff',
-                                margin: '4px 0'
-                            }}
-                        >
-                            <span aria-hidden="true">🌐</span>
-
-                            <select
-                                value={currentLanguage}
-                                onChange={handleLanguageChange}
-                                aria-label="Select website language"
-                                style={{
-                                    border: 'none',
-                                    outline: 'none',
-                                    background: 'transparent',
-                                    color: '#222',
-                                    fontSize: '13px',
-                                    fontWeight: 600,
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit',
-                                    minWidth: '95px'
-                                }}
-                            >
-                                <option value="en">English</option>
-                                <option value="fr">Français</option>
-                                <option value="ar">العربية</option>
-                            </select>
-                        </div>
-                    </li>
                 </ul>
 
                 {/* Right section */}
@@ -271,8 +220,8 @@ const Navbar = () => {
                             type="button"
                             onClick={handleLogout}
                             className={styles.iconLink}
-                            title={t('auth.logout', 'Logout')}
-                            aria-label={t('auth.logout', 'Logout')}
+                            title="Logout"
+                            aria-label="Logout"
                         >
                             <FontAwesomeIcon
                                 icon={faRightFromBracket}
@@ -283,8 +232,8 @@ const Navbar = () => {
                         <Link
                             to="/login"
                             className={styles.iconLink}
-                            title={t('auth.login')}
-                            aria-label={t('auth.login')}
+                            title="Login"
+                            aria-label="Login"
                         >
                             <FontAwesomeIcon
                                 icon={faUser}
@@ -295,13 +244,10 @@ const Navbar = () => {
 
                     {/* Cart */}
                     <div className={styles.cart}>
-                        <Link
-                            to="/cart"
-                            aria-label={t('nav.cart')}
-                        >
+                        <Link to="/cart" aria-label="Shopping cart">
                             <img
                                 src={cart_icon}
-                                alt={t('nav.cart')}
+                                alt="Cart"
                             />
                         </Link>
 
