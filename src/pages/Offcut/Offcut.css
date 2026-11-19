@@ -1,49 +1,848 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&family=UnifrakturMaguntia&display=swap");
 
-:root{--bg:#0b0b0c;--ink:#f1efec;--mute:#8d8a86;--red:#b3121b}
-.offcut-page *{box-sizing:border-box;margin:0;padding:0}
-.offcut-page{height:100vh;overflow:hidden;background:var(--bg)}
-.offcut-page{color:var(--ink);font-family:"Inter","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none}
-.offcut-page button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-.offcut-page #art{position:fixed;width:1500px;height:1000px;left:0;top:0;transform-origin:0 0;background:radial-gradient(ellipse 70% 55% at 50% 40%,#18181a 0%,#0b0b0c 100%)}
-.offcut-page .ui{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
-.offcut-page .dim{transition:opacity .7s cubic-bezier(.2,.8,.2,1),filter .7s}
-.offcut-page .dimmer{transition:opacity .7s cubic-bezier(.2,.8,.2,1)}
-.offcut-page.open .dim{opacity:.12;filter:blur(2px)}
-.offcut-page.open .dimmer{opacity:0;pointer-events:none}
-.offcut-page .dim.dimmer{transition:opacity .7s cubic-bezier(.2,.8,.2,1),filter .7s}
-.offcut-page .pill{height:34px;padding:0 20px;border:1px solid rgba(241,239,236,.6);border-radius:40px;display:inline-grid;place-items:center;transition:background .25s,color .25s}
-.pill:hover{background:var(--ink);color:var(--bg)}
-.offcut-page #about,.offcut-page #contact{position:absolute;top:46px}
-.offcut-page #about{left:46px}.offcut-page #contact{right:46px}
-.offcut-page #logo{position:absolute;left:50%;top:26px;transform:translateX(-50%);font-family:"UnifrakturMaguntia",serif;font-size:64px;line-height:1;letter-spacing:.01em;color:var(--ink)}
-.offcut-page #rail{position:absolute;left:150px;right:150px;top:254px;height:12px;border-radius:6px;background:linear-gradient(to bottom,#fafafa 0%,#b9bcc1 28%,#5d6066 55%,#a9adb3 78%,#e6e7e9 100%);box-shadow:0 10px 18px rgba(0,0,0,.45)}
-.offcut-page #rail:before,.offcut-page #rail:after{content:"";position:absolute;width:16px;height:30px;top:-9px;border-radius:5px;background:linear-gradient(90deg,#8d9096,#f3f3f4 45%,#7a7d83)}
-.offcut-page #rail:before{left:-14px}.offcut-page #rail:after{right:-14px}
-.offcut-page #rack{position:absolute;left:0;top:0;width:1500px;height:1000px;background:transparent}
-.offcut-page .g{position:absolute;top:236px;width:289px;height:300px;margin-left:-144.5px;perspective:900px;cursor:pointer;transition:left .75s cubic-bezier(.2,.8,.2,1)}
-.g i{position:absolute;inset:0;display:block;background-repeat:no-repeat;transform-origin:50% 4%;transform:rotateY(-74deg);filter:brightness(.82) drop-shadow(0 18px 18px rgba(0,0,0,.5));transition:transform .75s cubic-bezier(.2,.8,.2,1),filter .75s}
-.g.face i{transform:rotateY(0deg);filter:brightness(1) drop-shadow(0 22px 26px rgba(0,0,0,.55))}
-.offcut-page #cap{position:absolute;top:552px;left:750px;transform:translateX(-50%);text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);white-space:nowrap;pointer-events:none;opacity:0;transition:left .75s cubic-bezier(.2,.8,.2,1),opacity .35s}
-#cap.on{opacity:1}#cap b{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
-.offcut-page #avail{position:absolute;left:50%;top:790px;transform:translateX(-50%)}
-.offcut-page #band{position:absolute;left:0;right:0;bottom:0;height:46px;background:var(--red);overflow:hidden;display:flex;align-items:center}
-.offcut-page #track{display:flex;white-space:nowrap;font-size:13px;font-weight:600;letter-spacing:.14em;color:var(--ink);animation:marquee 22s linear infinite}
-#track span{padding-right:22px}
-@keyframes marquee{to{transform:translateX(-50%)}}
-.offcut-page #det{position:absolute;inset:0;pointer-events:none}
-.offcut-page.open #det{pointer-events:auto}
-.offcut-page .hit{position:absolute;inset:0;background:transparent}
-.offcut-page #big2,.offcut-page #big{position:absolute;left:50%;top:244px;width:473px;height:492px;margin-left:-236.5px;background-repeat:no-repeat;opacity:0;pointer-events:none}
-.offcut-page #big2{transform-origin:center}
-.offcut-page #big{transform-origin:50% 4%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
-.offcut-page .arr{position:absolute;top:452px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(241,239,236,.5);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .4s .25s,background .2s,color .2s}
-.offcut-page #prev{left:calc(50% - 300px)}.offcut-page #next{left:calc(50% + 254px)}
-.arr:hover{background:var(--ink);color:var(--bg)}
-.arr svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
-.offcut-page #info{position:absolute;left:50%;top:770px;transform:translateX(-50%);text-align:center;opacity:0;pointer-events:none;transition:opacity .5s .25s}
-.offcut-page #num{font-size:11px;letter-spacing:.16em;color:var(--mute)}
-.offcut-page #name{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;font-size:40px;line-height:1.15;color:var(--ink);margin:8px 0 6px}
-.offcut-page #price{font-size:13px;letter-spacing:.08em;color:var(--mute);margin-bottom:18px}
-.offcut-page #close{position:absolute;right:46px;top:46px;opacity:0;pointer-events:none;transition:opacity .4s .25s}
-.offcut-page.open #info,.offcut-page.open .arr,.offcut-page.open #close{opacity:1;pointer-events:auto}
+/* =========================================
+   OFFCUT — GLOBAL VARIABLES
+========================================= */
+
+:root {
+  --bg: #0b0b0c;
+  --ink: #f1efec;
+  --mute: #8d8a86;
+  --red: #b3121b;
+
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* =========================================
+   BASE
+========================================= */
+
+.offcut-page,
+.offcut-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.offcut-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100%;
+  overflow: hidden;
+
+  background: var(--bg);
+  color: var(--ink);
+
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  overscroll-behavior: none;
+}
+
+.offcut-page button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.offcut-page button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* =========================================
+   MAIN ARTBOARD
+========================================= */
+
+.offcut-page #art {
+  position: fixed;
+
+  width: 1500px;
+  height: 1000px;
+
+  left: 0;
+  top: 0;
+
+  transform-origin: 0 0;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 40%,
+      #18181a 0%,
+      #0b0b0c 100%
+    );
+}
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+.offcut-page .ui {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.offcut-page .dim {
+  transition:
+    opacity .7s var(--ease),
+    filter .7s;
+}
+
+.offcut-page .dimmer {
+  transition: opacity .7s var(--ease);
+}
+
+.offcut-page.open .dim {
+  opacity: .12;
+  filter: blur(2px);
+}
+
+.offcut-page.open .dimmer {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.offcut-page .dim.dimmer {
+  transition:
+    opacity .7s var(--ease),
+    filter .7s;
+}
+
+/* =========================================
+   PILL BUTTONS
+========================================= */
+
+.offcut-page .pill {
+  min-height: 34px;
+  padding: 0 20px;
+
+  border: 1px solid rgba(241, 239, 236, .6);
+  border-radius: 40px;
+
+  display: inline-grid;
+  place-items: center;
+
+  transition:
+    background .25s,
+    color .25s,
+    border-color .25s;
+}
+
+.offcut-page .pill:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* =========================================
+   ABOUT / CONTACT
+========================================= */
+
+.offcut-page #about,
+.offcut-page #contact {
+  position: absolute;
+  top: 46px;
+  z-index: 10;
+}
+
+.offcut-page #about {
+  left: 46px;
+}
+
+.offcut-page #contact {
+  right: 46px;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.offcut-page #logo {
+  position: absolute;
+
+  left: 50%;
+  top: 26px;
+
+  transform: translateX(-50%);
+
+  font-family: "UnifrakturMaguntia", serif;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: .01em;
+
+  color: var(--ink);
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   METAL RAIL
+========================================= */
+
+.offcut-page #rail {
+  position: absolute;
+
+  left: 150px;
+  right: 150px;
+  top: 254px;
+
+  height: 12px;
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #fafafa 0%,
+      #b9bcc1 28%,
+      #5d6066 55%,
+      #a9adb3 78%,
+      #e6e7e9 100%
+    );
+
+  box-shadow: 0 10px 18px rgba(0, 0, 0, .45);
+}
+
+.offcut-page #rail::before,
+.offcut-page #rail::after {
+  content: "";
+
+  position: absolute;
+
+  width: 16px;
+  height: 30px;
+
+  top: -9px;
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #8d9096,
+      #f3f3f4 45%,
+      #7a7d83
+    );
+}
+
+.offcut-page #rail::before {
+  left: -14px;
+}
+
+.offcut-page #rail::after {
+  right: -14px;
+}
+
+/* =========================================
+   CLOTHING RACK
+========================================= */
+
+.offcut-page #rack {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 1500px;
+  height: 1000px;
+
+  background: transparent;
+}
+
+.offcut-page .g {
+  position: absolute;
+
+  top: 236px;
+
+  width: 289px;
+  height: 300px;
+
+  margin-left: -144.5px;
+
+  perspective: 900px;
+
+  cursor: pointer;
+
+  transition: left .75s var(--ease);
+}
+
+.offcut-page .g i {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  background-repeat: no-repeat;
+
+  transform-origin: 50% 4%;
+  transform: rotateY(-74deg);
+
+  filter:
+    brightness(.82)
+    drop-shadow(0 18px 18px rgba(0, 0, 0, .5));
+
+  transition:
+    transform .75s var(--ease),
+    filter .75s var(--ease);
+}
+
+.offcut-page .g.face i {
+  transform: rotateY(0deg);
+
+  filter:
+    brightness(1)
+    drop-shadow(0 22px 26px rgba(0, 0, 0, .55));
+}
+
+/* =========================================
+   PRODUCT CAPTION
+========================================= */
+
+.offcut-page #cap {
+  position: absolute;
+
+  top: 552px;
+  left: 750px;
+
+  transform: translateX(-50%);
+
+  text-align: center;
+
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+
+  color: var(--mute);
+
+  white-space: nowrap;
+  pointer-events: none;
+
+  opacity: 0;
+
+  transition:
+    left .75s var(--ease),
+    opacity .35s;
+}
+
+.offcut-page #cap.on {
+  opacity: 1;
+}
+
+.offcut-page #cap b {
+  display: block;
+
+  color: var(--ink);
+
+  font-weight: 500;
+
+  margin-bottom: 4px;
+}
+
+/* =========================================
+   AVAILABILITY
+========================================= */
+
+.offcut-page #avail {
+  position: absolute;
+
+  left: 50%;
+  top: 790px;
+
+  transform: translateX(-50%);
+}
+
+/* =========================================
+   RED MARQUEE
+========================================= */
+
+.offcut-page #band {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 46px;
+
+  background: var(--red);
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+}
+
+.offcut-page #track {
+  display: flex;
+
+  width: max-content;
+
+  white-space: nowrap;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .14em;
+
+  color: var(--ink);
+
+  animation: offcut-marquee 22s linear infinite;
+
+  will-change: transform;
+}
+
+.offcut-page #track span {
+  flex-shrink: 0;
+  padding-right: 22px;
+}
+
+@keyframes offcut-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =========================================
+   PRODUCT DETAIL OVERLAY
+========================================= */
+
+.offcut-page #det {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+}
+
+.offcut-page.open #det {
+  pointer-events: auto;
+}
+
+.offcut-page .hit {
+  position: absolute;
+  inset: 0;
+
+  background: transparent;
+}
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.offcut-page #big2,
+.offcut-page #big {
+  position: absolute;
+
+  left: 50%;
+  top: 244px;
+
+  width: 473px;
+  height: 492px;
+
+  margin-left: -236.5px;
+
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.offcut-page #big2 {
+  transform-origin: center;
+}
+
+.offcut-page #big {
+  transform-origin: 50% 4%;
+
+  filter:
+    drop-shadow(0 30px 40px rgba(0, 0, 0, .6));
+}
+
+/* =========================================
+   PREVIOUS / NEXT BUTTONS
+========================================= */
+
+.offcut-page .arr {
+  position: absolute;
+
+  top: 452px;
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(241, 239, 236, .5);
+
+  display: grid;
+  place-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .4s .25s,
+    background .2s,
+    color .2s,
+    border-color .2s;
+}
+
+.offcut-page #prev {
+  left: calc(50% - 300px);
+}
+
+.offcut-page #next {
+  left: calc(50% + 254px);
+}
+
+.offcut-page .arr:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.offcut-page .arr svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+/* =========================================
+   PRODUCT INFORMATION
+========================================= */
+
+.offcut-page #info {
+  position: absolute;
+
+  left: 50%;
+  top: 770px;
+
+  transform: translateX(-50%);
+
+  text-align: center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity .5s .25s;
+}
+
+.offcut-page #num {
+  font-size: 11px;
+  letter-spacing: .16em;
+
+  color: var(--mute);
+}
+
+.offcut-page #name {
+  font-family: "Instrument Serif", serif;
+
+  font-style: italic;
+  font-weight: 400;
+
+  font-size: 40px;
+  line-height: 1.15;
+
+  color: var(--ink);
+
+  margin: 8px 0 6px;
+}
+
+.offcut-page #price {
+  font-size: 13px;
+  letter-spacing: .08em;
+
+  color: var(--mute);
+
+  margin-bottom: 18px;
+}
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.offcut-page #close {
+  position: absolute;
+
+  right: 46px;
+  top: 46px;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity .4s .25s;
+}
+
+/* =========================================
+   OPEN STATE
+========================================= */
+
+.offcut-page.open #info,
+.offcut-page.open .arr,
+.offcut-page.open #close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1024px) {
+  .offcut-page #logo {
+    font-size: 58px;
+  }
+
+  .offcut-page #about {
+    left: 28px;
+  }
+
+  .offcut-page #contact {
+    right: 28px;
+  }
+
+  .offcut-page #close {
+    right: 28px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .offcut-page {
+    min-height: 100dvh;
+    height: 100dvh;
+  }
+
+  .offcut-page #logo {
+    top: 22px;
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  .offcut-page #about,
+  .offcut-page #contact {
+    top: 25px;
+  }
+
+  .offcut-page #about {
+    left: 16px;
+  }
+
+  .offcut-page #contact {
+    right: 16px;
+  }
+
+  .offcut-page .ui {
+    font-size: 10px;
+    letter-spacing: .09em;
+  }
+
+  .offcut-page .pill {
+    min-height: 38px;
+    padding: 0 13px;
+  }
+
+  .offcut-page #band {
+    height: 38px;
+  }
+
+  .offcut-page #track {
+    font-size: 11px;
+  }
+
+  .offcut-page #info {
+    width: calc(100% - 32px);
+  }
+
+  .offcut-page #name {
+    font-size: clamp(30px, 8vw, 38px);
+  }
+
+  .offcut-page #num {
+    font-size: 10px;
+  }
+
+  .offcut-page #price {
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .offcut-page #close {
+    right: 16px;
+    top: 75px;
+  }
+
+  .offcut-page .arr {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .offcut-page #logo {
+    font-size: 44px;
+  }
+
+  .offcut-page #about {
+    left: 12px;
+  }
+
+  .offcut-page #contact {
+    right: 12px;
+  }
+
+  .offcut-page .ui {
+    font-size: 9px;
+    letter-spacing: .07em;
+  }
+
+  .offcut-page .pill {
+    min-height: 36px;
+    padding: 0 10px;
+  }
+
+  .offcut-page #name {
+    font-size: 31px;
+  }
+
+  .offcut-page #band {
+    height: 34px;
+  }
+
+  .offcut-page #track {
+    font-size: 10px;
+    letter-spacing: .1em;
+  }
+
+  .offcut-page .arr {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* =========================================
+   EXTRA SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  .offcut-page #logo {
+    font-size: 39px;
+  }
+
+  .offcut-page #about {
+    left: 9px;
+  }
+
+  .offcut-page #contact {
+    right: 9px;
+  }
+
+  .offcut-page .ui {
+    font-size: 8px;
+  }
+
+  .offcut-page .pill {
+    padding: 0 8px;
+  }
+
+  .offcut-page #name {
+    font-size: 28px;
+  }
+}
+
+/* =========================================
+   VERY SMALL SCREENS
+========================================= */
+
+@media (max-width: 320px) {
+  .offcut-page #logo {
+    font-size: 35px;
+  }
+
+  .offcut-page #name {
+    font-size: 26px;
+  }
+
+  .offcut-page #band {
+    height: 32px;
+  }
+}
+
+/* =========================================
+   LANDSCAPE MOBILE
+========================================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .offcut-page #logo {
+    top: 10px;
+    font-size: 38px;
+  }
+
+  .offcut-page #about,
+  .offcut-page #contact {
+    top: 15px;
+  }
+
+  .offcut-page #close {
+    top: 15px;
+  }
+
+  .offcut-page #band {
+    height: 30px;
+  }
+}
+
+/* =========================================
+   TOUCH DEVICES
+========================================= */
+
+@media (hover: none) and (pointer: coarse) {
+  .offcut-page .pill:hover,
+  .offcut-page .arr:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .offcut-page button {
+    touch-action: manipulation;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .offcut-page *,
+  .offcut-page *::before,
+  .offcut-page *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
