@@ -9,9 +9,9 @@
 .offcut-page .ui{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .offcut-page .dim{transition:opacity .7s cubic-bezier(.2,.8,.2,1),filter .7s}
 .offcut-page .dimmer{transition:opacity .7s cubic-bezier(.2,.8,.2,1)}
-.offcut-page.open .offcut-page .dim{opacity:.12;filter:blur(2px)}
-.offcut-page.open .offcut-page .dimmer{opacity:0;pointer-events:none}
-.dim.offcut-page .dimmer{transition:opacity .7s cubic-bezier(.2,.8,.2,1),filter .7s}
+.offcut-page.open .dim{opacity:.12;filter:blur(2px)}
+.offcut-page.open .dimmer{opacity:0;pointer-events:none}
+.offcut-page .dim.dimmer{transition:opacity .7s cubic-bezier(.2,.8,.2,1),filter .7s}
 .offcut-page .pill{height:34px;padding:0 20px;border:1px solid rgba(241,239,236,.6);border-radius:40px;display:inline-grid;place-items:center;transition:background .25s,color .25s}
 .pill:hover{background:var(--ink);color:var(--bg)}
 .offcut-page #about,.offcut-page #contact{position:absolute;top:46px}
@@ -32,7 +32,7 @@
 #track span{padding-right:22px}
 @keyframes marquee{to{transform:translateX(-50%)}}
 .offcut-page #det{position:absolute;inset:0;pointer-events:none}
-.offcut-page.open .offcut-page #det{pointer-events:auto}
+.offcut-page.open #det{pointer-events:auto}
 .offcut-page .hit{position:absolute;inset:0;background:transparent}
 .offcut-page #big2,.offcut-page #big{position:absolute;left:50%;top:244px;width:473px;height:492px;margin-left:-236.5px;background-repeat:no-repeat;opacity:0;pointer-events:none}
 .offcut-page #big2{transform-origin:center}
@@ -46,4 +46,4 @@
 .offcut-page #name{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;font-size:40px;line-height:1.15;color:var(--ink);margin:8px 0 6px}
 .offcut-page #price{font-size:13px;letter-spacing:.08em;color:var(--mute);margin-bottom:18px}
 .offcut-page #close{position:absolute;right:46px;top:46px;opacity:0;pointer-events:none;transition:opacity .4s .25s}
-.offcut-page.open .offcut-page #info,.offcut-page.open .arr,.offcut-page.open .offcut-page #close{opacity:1;pointer-events:auto}
+.offcut-page.open #info,.offcut-page.open .arr,.offcut-page.open #close{opacity:1;pointer-events:auto}

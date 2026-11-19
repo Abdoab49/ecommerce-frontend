@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 
@@ -52,6 +51,12 @@ import HealthCheck from './pages/HealthCheck';
 import About from './pages/About';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
+
+/* =========================================
+   OFF-CUT PAGE
+========================================= */
+
+import Offcut from './pages/Offcut/Offcut';
 
 /* =========================================
    BANNERS
@@ -244,6 +249,15 @@ function App() {
                                     <Route
                                         path="/terms"
                                         element={<TermsConditions />}
+                                    />
+
+                                    {/* =================================
+                                        OFF-CUT
+                                    ================================= */}
+
+                                    <Route
+                                        path="/offcut"
+                                        element={<Offcut />}
                                     />
 
                                 </Routes>

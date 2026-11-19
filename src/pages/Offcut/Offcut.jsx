@@ -29,7 +29,19 @@ export default function Offcut() {
   const art=root.querySelector('#art'),rack=root.querySelector('#rack'),cap=root.querySelector('#cap'),capName=cap.querySelector('b'),capPrice=cap.querySelector('span'),big=root.querySelector('#big'),big2=root.querySelector('#big2');
   const num=root.querySelector('#num'),name=root.querySelector('#name'),price=root.querySelector('#price');
   const G=[];let hov=-1,opened=-1;
-  function fit(){const k=Math.min(innerWidth/1500,innerHeight/1000);art.style.transform=`scale(${k})`;art.style.left=`${(innerWidth-1500*k)/2}px`;art.style.top=`${(innerHeight-1000*k)/2}px`}
+  function fit() {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const k = Math.min(
+      viewportWidth / 1500,
+      viewportHeight / 1000
+    );
+
+    art.style.transform = `scale(${k})`;
+    art.style.left = `${(viewportWidth - 1500 * k) / 2}px`;
+    art.style.top = `${(viewportHeight - 1000 * k) / 2}px`;
+  }
   function paint(el,k){const ew=el.offsetWidth,eh=el.offsetHeight,sx=ew/BW,sy=eh/CH,col=k%5,row=Math.floor(k/5),xb=col*CW-PAD,yb=ROWY[row];el.style.backgroundImage=`url("${SHEET}")`;el.style.backgroundSize=`${SW/BW*ew}px ${SH/CH*eh}px`;el.style.backgroundPosition=`${-xb*sx}px ${-yb*sy}px`;el.style.clipPath=clips[k]}
   function layout(){G.forEach((el,k)=>{let x=CX+(k-(N-1)/2)*SLOT;if(hov>=0&&k!==hov)x+=Math.sign(k-hov)*OPEN;el.style.left=`${x}px`;el.classList.toggle('face',k===hov)});if(hov>=0){cap.style.left=G[hov].style.left;capName.textContent=products[hov][0];capPrice.textContent=products[hov][1];cap.classList.add('on')}else cap.classList.remove('on')}
   for(let k=0;k<N;k++){const g=document.createElement('div'),i=document.createElement('i');g.className='g';g.appendChild(i);rack.appendChild(g);paint(i,k);g.addEventListener('pointerenter',()=>{if(opened<0){hov=k;layout()}});g.addEventListener('click',()=>openG(k));G.push(g)}
@@ -42,8 +54,15 @@ export default function Offcut() {
   root.querySelector('#prev').addEventListener('click',()=>step(-1));root.querySelector('#next').addEventListener('click',()=>step(1));root.querySelector('#close').addEventListener('click',closeG);root.querySelector('.hit').addEventListener('click',closeG);
   const onKeyDown = e=>{if(opened>=0){if(e.key==='ArrowRight')step(1);else if(e.key==='ArrowLeft')step(-1);else if(e.key==='Escape')closeG();return}if(e.key==='ArrowRight'){hov=Math.min(N-1,hov+1);layout()}else if(e.key==='ArrowLeft'){hov=hov<0?N-1:Math.max(0,hov-1);layout()}else if(e.key==='Enter'&&hov>=0)openG(hov)};
   window.__closet={openG,step,closeG,setHov(k){hov=k;layout()}};
-  fit();window.addEventListener('resize',fit);layout();
-  return () => { window.removeEventListener('keydown', onKeyDown); window.removeEventListener('resize', fit); };
+  fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('keydown', onKeyDown);
+  layout();
+  return () => {
+    window.removeEventListener('keydown', onKeyDown);
+    window.removeEventListener('resize', fit);
+    delete window.__closet;
+  };
 }
   }, []);
 
