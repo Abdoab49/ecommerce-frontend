@@ -59,12 +59,6 @@ import TermsConditions from './pages/TermsConditions';
 import Offcut from './pages/Offcut/Offcut';
 
 /* =========================================
-   NIGHT '26 SHELL PAGE
-========================================= */
-
-import Night26 from './pages/Night26/Night26';
-
-/* =========================================
    BANNERS
 ========================================= */
 
@@ -230,39 +224,40 @@ function App() {
                                         element={<HealthCheck />}
                                     />
 
-                                    {/* ABOUT LANADA */}
+                                    {/* =================================
+                                        ABOUT LANADA
+                                    ================================= */}
 
                                     <Route
                                         path="/about"
                                         element={<About />}
                                     />
 
-                                    {/* PRIVACY POLICY */}
+                                    {/* =================================
+                                        PRIVACY POLICY
+                                    ================================= */}
 
                                     <Route
                                         path="/privacy"
                                         element={<PrivacyPolicy />}
                                     />
 
-                                    {/* TERMS & CONDITIONS */}
+                                    {/* =================================
+                                        TERMS & CONDITIONS
+                                    ================================= */}
 
                                     <Route
                                         path="/terms"
                                         element={<TermsConditions />}
                                     />
 
-                                    {/* OFF-CUT */}
+                                    {/* =================================
+                                        OFF-CUT
+                                    ================================= */}
 
                                     <Route
                                         path="/offcut"
                                         element={<Offcut />}
-                                    />
-
-                                    {/* NIGHT '26 SHELL */}
-
-                                    <Route
-                                        path="/night-26-shell"
-                                        element={<Night26 />}
                                     />
 
                                 </Routes>
