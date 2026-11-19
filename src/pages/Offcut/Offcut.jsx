@@ -71,7 +71,7 @@ export default function Offcut() {
 
 <div id="art">
   <div id="about" className="ui dim">About</div>
-  <div id="logo" className="dim">Offcut</div>
+  <div id="logo" className="dim">Lanada</div>
   <div id="contact" className="ui dim dimmer">Contact</div>
   <div id="rail" className="dim"></div>
   <div id="rack" className="dim"></div>
