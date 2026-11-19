@@ -197,22 +197,6 @@ const Navbar = () => {
                         </Link>
                     </li>
 
-                    {/* OFFCUT */}
-                    <li>
-                        <Link
-                            to="/offcut"
-                            className={`${styles.link} ${
-                                location.pathname === '/offcut' ? styles.active : ''
-                            }`}
-                            onClick={() => {
-                                setMenu('offcut');
-                                closeMenu();
-                            }}
-                        >
-                            OFFCUT
-                        </Link>
-                    </li>
-
                     {/* User name - only when logged in */}
                     {user && (
                         <li>
