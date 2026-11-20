@@ -25,8 +25,9 @@ const H = (file) =>
     )}&w=900&q=85`;
 
 const USD_TO_MAD = 9.96;
-
 const mad = (usd) => Math.round(usd * USD_TO_MAD);
+
+const SIZE_OPTIONS = ["M", "L", "XL", "XXL"];
 
 /* =========================================
    NIGHT 26 COLLECTION
@@ -90,9 +91,7 @@ const raw = [
 ];
 
 const LOOKS = raw.map(([name, file, tone, items], index) => {
-    const image = file.startsWith("/")
-        ? file
-        : H(file);
+    const image = file.startsWith("/") ? file : H(file);
 
     return {
         name,
@@ -129,10 +128,7 @@ function values(a) {
         if (a <= depth[k][0]) {
             const previous = depth[k - 1];
             const next = depth[k];
-
-            const t =
-                (a - previous[0]) /
-                (next[0] - previous[0]);
+            const t = (a - previous[0]) / (next[0] - previous[0]);
 
             return previous.slice(1).map((value, index) =>
                 value + (next[index + 1] - value) * t
@@ -149,49 +145,29 @@ function values(a) {
 
 function I({ type }) {
     const paths = {
-        menu: (
-            <path d="M4 7h16M4 17h16" />
-        ),
-
+        menu: <path d="M4 7h16M4 17h16" />,
         search: (
             <>
                 <circle cx="10.8" cy="10.8" r="6.3" />
                 <path d="m16 16 4 4" />
             </>
         ),
-
         user: (
             <>
                 <circle cx="12" cy="8" r="3.5" />
                 <path d="M4.5 20c.8-3.5 3.2-5.2 7.5-5.2s6.7 1.7 7.5 5.2" />
             </>
         ),
-
         bag: (
             <>
                 <path d="M5 8h14l-1 13H6L5 8Z" />
                 <path d="M9 8V6a3 3 0 0 1 6 0v2" />
             </>
         ),
-
-        left: (
-            <path d="M19 12H5m7-7-7 7 7 7" />
-        ),
-
-        right: (
-            <path d="M5 12h14m-7-7 7 7-7 7" />
-        ),
-
-        pause: (
-            <path d="M8 6v12M16 6v12" />
-        ),
-
-        play: (
-            <path
-                d="m9 6 10 6-10 6V6Z"
-                fill="currentColor"
-            />
-        )
+        left: <path d="M19 12H5m7-7-7 7 7 7" />,
+        right: <path d="M5 12h14m-7-7 7 7-7 7" />,
+        pause: <path d="M8 6v12M16 6v12" />,
+        play: <path d="m9 6 10 6-10 6V6Z" fill="currentColor" />
     };
 
     return (
@@ -228,11 +204,10 @@ function Thumbnail({ piece }) {
 }
 
 /* =========================================
-   MAIN NIGHT 26 COMPONENT
+   MAIN COMPONENT
 ========================================= */
 
 export default function Night26() {
-
     const ctx = useContext(ShopContext) || {};
 
     const {
@@ -240,10 +215,6 @@ export default function Night26() {
         cartItems = [],
         removeFromCart
     } = ctx;
-
-    /* =====================================
-       REFERENCES
-    ===================================== */
 
     const runway = useRef(null);
     const models = useRef([]);
@@ -257,23 +228,14 @@ export default function Night26() {
     const activeRef = useRef(2);
     const goRef = useRef(() => {});
 
-    /* =====================================
-       STATE
-    ===================================== */
-
     const [active, setActive] = useState(2);
-
     const [geom, setGeom] = useState({});
-
     const [playing, setPlaying] = useState(true);
     const [progress, setProgress] = useState(0);
-
     const [busy, setBusy] = useState(false);
     const [pins, setPins] = useState(true);
-
     const [hover, setHover] = useState(-1);
     const [pinOpen, setPinOpen] = useState(-1);
-
     const [toast, setToast] = useState("");
 
     const [pointer, setPointer] = useState({
@@ -285,37 +247,48 @@ export default function Night26() {
     const [flyers, setFlyers] = useState([]);
     const [sweep, setSweep] = useState(false);
 
-    /* =====================================
-       ACTIVE LOOK
-    ===================================== */
+    // Each product has its own selected size.
+    const [selectedSizes, setSelectedSizes] = useState({});
 
     const look = LOOKS[active];
     const pieces = look.pieces;
 
     /* =====================================
-       CART
+       SIZE HELPERS
     ===================================== */
 
-    const inBag = useMemo(() => {
-        const map = new Map();
+    const getSize = (piece) => selectedSizes[piece.id] || "M";
 
-        cartItems.forEach((item, index) => {
-            if (String(item.id || "").startsWith("night26-")) {
-                map.set(String(item.id), {
-                    it: item,
-                    i: index
-                });
-            }
-        });
+    const changeSize = (piece, size) => {
+        setSelectedSizes((previous) => ({
+            ...previous,
+            [piece.id]: size
+        }));
+    };
 
-        return map;
+    /* =====================================
+       CART HELPERS
+    ===================================== */
+
+    const findCartItem = useCallback((piece, size) => {
+        return cartItems
+            .map((item, index) => ({ item, index }))
+            .find(({ item }) =>
+                String(item.id) === String(piece.id) &&
+                String(item.size || "") === String(size)
+            );
     }, [cartItems]);
 
-    const count = [...inBag.values()].reduce(
-        (total, value) =>
-            total + (value.it.quantity || 1),
-        0
-    );
+    const isPieceInBag = useCallback((piece, size = getSize(piece)) => {
+        return Boolean(findCartItem(piece, size));
+    }, [findCartItem, selectedSizes]);
+
+    const count = cartItems.reduce((total, item) => {
+        if (String(item.id || "").startsWith("night26-")) {
+            return total + Number(item.quantity || 1);
+        }
+        return total;
+    }, 0);
 
     const sum = pieces.reduce(
         (total, piece) => total + piece.price,
@@ -324,8 +297,8 @@ export default function Night26() {
 
     const bundle = Math.round(sum * .9);
 
-    const full = pieces.every(
-        (piece) => inBag.has(piece.id)
+    const full = pieces.every((piece) =>
+        isPieceInBag(piece, getSize(piece))
     );
 
     /* =====================================
@@ -337,9 +310,7 @@ export default function Night26() {
 
         LOOKS.forEach((item) => {
             const image = new Image();
-
             image.src = item.image;
-
             image.decode?.().catch(() => {});
         });
 
@@ -354,12 +325,10 @@ export default function Night26() {
 
     const measure = useCallback(() => {
         const element = runway.current;
-
         if (!element) return;
 
         const width = element.clientWidth;
         const height = element.clientHeight;
-
         const mobile = window.innerWidth <= 820;
 
         const modelHeight = Math.min(
@@ -377,7 +346,6 @@ export default function Night26() {
             cx: width * (mobile ? .5 : .523),
             feet: height * (mobile ? .86 : .85)
         });
-
     }, []);
 
     useEffect(() => {
@@ -396,7 +364,6 @@ export default function Night26() {
 
         return () => {
             resizeObserver?.disconnect();
-
             window.removeEventListener("resize", measure);
         };
     }, [measure]);
@@ -408,18 +375,11 @@ export default function Night26() {
     const paint = useCallback((value) => {
         pos.current = value;
 
-        const {
-            u,
-            cx,
-            feet,
-            mh
-        } = geom;
-
+        const { u, cx, feet, mh } = geom;
         if (!mh) return;
 
         LOOKS.forEach((_, index) => {
             const element = models.current[index];
-
             if (!element) return;
 
             const distance = wrap(index - value);
@@ -441,16 +401,13 @@ export default function Night26() {
                 `blur(${blur * Math.max(.6, u)}px) brightness(${brightness})`;
 
             element.style.opacity = opacity;
-
-            element.style.zIndex =
-                100 - Math.round(absoluteDistance * 10);
+            element.style.zIndex = 100 - Math.round(absoluteDistance * 10);
 
             element.classList.toggle(
                 "is-centre",
                 absoluteDistance < .5
             );
         });
-
     }, [geom]);
 
     useEffect(() => {
@@ -463,7 +420,6 @@ export default function Night26() {
 
     const say = (message) => {
         setToast(message);
-
         clearTimeout(say.t);
 
         say.t = setTimeout(() => {
@@ -479,29 +435,22 @@ export default function Night26() {
         clearInterval(timer.current);
 
         const start = performance.now();
-
         if (!playing) return;
 
         timer.current = setInterval(() => {
             if (drag.current) return;
 
             const elapsed = performance.now() - start;
-
             setProgress(Math.min(1, elapsed / 5200));
 
             if (elapsed >= 5200) {
-                goRef.current(
-                    (activeRef.current + 1) % 6,
-                    1
-                );
+                goRef.current((activeRef.current + 1) % 6, 1);
             }
-
         }, 40);
-
     }, [playing]);
 
     /* =====================================
-       NAVIGATION BETWEEN LOOKS
+       NAVIGATION
     ===================================== */
 
     const go = useCallback((index, direction) => {
@@ -518,12 +467,10 @@ export default function Night26() {
         clearInterval(timer.current);
 
         setActive(target);
-
         activeRef.current = target;
 
         setBusy(true);
         setPins(false);
-
         setPinOpen(-1);
         setHover(-1);
 
@@ -534,18 +481,12 @@ export default function Night26() {
 
         const from = pos.current;
         const to = from + distance;
-
         const start = performance.now();
 
-        const duration =
-            760 + (Math.abs(distance) - 1) * 140;
+        const duration = 760 + (Math.abs(distance) - 1) * 140;
 
         const tick = (now) => {
-            const t = Math.min(
-                1,
-                (now - start) / duration
-            );
-
+            const t = Math.min(1, (now - start) / duration);
             const ease = 1 - Math.pow(1 - t, 4.2);
 
             paint(from + (to - from) * ease);
@@ -554,23 +495,16 @@ export default function Night26() {
                 raf.current = requestAnimationFrame(tick);
             } else {
                 pos.current = target;
-
                 paint(target);
-
                 setPins(true);
 
-                setTimeout(() => {
-                    setBusy(false);
-                }, 420);
-
+                setTimeout(() => setBusy(false), 420);
                 startTimer();
             }
         };
 
         cancelAnimationFrame(raf.current);
-
         raf.current = requestAnimationFrame(tick);
-
     }, [paint, startTimer]);
 
     useEffect(() => {
@@ -584,9 +518,7 @@ export default function Night26() {
     useEffect(() => {
         startTimer();
 
-        return () => {
-            clearInterval(timer.current);
-        };
+        return () => clearInterval(timer.current);
     }, [startTimer, active]);
 
     /* =====================================
@@ -604,10 +536,7 @@ export default function Night26() {
                 );
 
                 const hit = element?.closest?.(".n26-hit");
-
-                const index = hit
-                    ? Number(hit.dataset.index)
-                    : -1;
+                const index = hit ? Number(hit.dataset.index) : -1;
 
                 setPointer((previous) => ({
                     ...previous,
@@ -615,7 +544,6 @@ export default function Night26() {
                         index >= 0 &&
                         Math.abs(wrap(index - pos.current)) >= .5
                 }));
-
             } else {
                 setPointer((previous) =>
                     previous.visible
@@ -629,10 +557,7 @@ export default function Night26() {
 
         animationFrame = requestAnimationFrame(tick);
 
-        return () => {
-            cancelAnimationFrame(animationFrame);
-        };
-
+        return () => cancelAnimationFrame(animationFrame);
     }, [geom.n, pointer.x, pointer.y]);
 
     /* =====================================
@@ -642,37 +567,27 @@ export default function Night26() {
     useEffect(() => {
         const key = (event) => {
             if (event.key === "ArrowLeft") {
-                go(
-                    (activeRef.current + 5) % 6,
-                    -1
-                );
+                go((activeRef.current + 5) % 6, -1);
             }
 
             if (event.key === "ArrowRight") {
-                go(
-                    (activeRef.current + 1) % 6,
-                    1
-                );
+                go((activeRef.current + 1) % 6, 1);
             }
 
             if (
                 event.code === "Space" &&
-                !["INPUT", "TEXTAREA"].includes(
+                !["INPUT", "TEXTAREA", "BUTTON"].includes(
                     document.activeElement?.tagName
                 )
             ) {
                 event.preventDefault();
-
                 setPlaying((value) => !value);
             }
         };
 
         window.addEventListener("keydown", key);
 
-        return () => {
-            window.removeEventListener("keydown", key);
-        };
-
+        return () => window.removeEventListener("keydown", key);
     }, [go]);
 
     /* =====================================
@@ -680,12 +595,12 @@ export default function Night26() {
     ===================================== */
 
     const pointerDown = (event) => {
-        if (
-            event.pointerType === "mouse" &&
-            event.button !== 0
-        ) {
+        if (event.pointerType === "mouse" && event.button !== 0) {
             return;
         }
+
+        // Do not start runway dragging from interactive elements.
+        if (event.target.closest("button, a")) return;
 
         drag.current = {
             x: event.clientX,
@@ -695,9 +610,7 @@ export default function Night26() {
 
         clearInterval(timer.current);
 
-        event.currentTarget.setPointerCapture?.(
-            event.pointerId
-        );
+        event.currentTarget.setPointerCapture?.(event.pointerId);
     };
 
     const pointerMove = (event) => {
@@ -716,10 +629,7 @@ export default function Night26() {
         }
 
         if (drag.current.moved && geom.u) {
-            paint(
-                drag.current.start -
-                dx / (170 * geom.u)
-            );
+            paint(drag.current.start - dx / (170 * geom.u));
         }
     };
 
@@ -727,7 +637,6 @@ export default function Night26() {
         if (!drag.current) return;
 
         const moved = drag.current.moved;
-
         drag.current = null;
 
         if (moved) {
@@ -743,16 +652,14 @@ export default function Night26() {
 
     const fly = (piece) => {
         const source = document
-            .querySelector(
-                `[data-piece="${piece.id}"] .n26-thumb`
-            )
+            .querySelector(`[data-piece="${piece.id}"] .n26-thumb`)
             ?.getBoundingClientRect();
 
         const destination = bag.current?.getBoundingClientRect();
 
         if (!source || !destination) return;
 
-        const id = Date.now() + piece.id;
+        const id = `${Date.now()}-${piece.id}`;
 
         setFlyers((previous) => [
             ...previous,
@@ -774,42 +681,45 @@ export default function Night26() {
     };
 
     /* =====================================
+       PRODUCT DATA
+    ===================================== */
+
+    const makeProductData = (piece, size) => ({
+        id: piece.id,
+        name: piece.name,
+        price: piece.price,
+        new_price: piece.price,
+        old_price: piece.price,
+        image: piece.image,
+        img: piece.image,
+        images: [piece.image],
+        size,
+        category: "Night ’26 Shell",
+        brand: "LANADA"
+    });
+
+    /* =====================================
        ADD OR REMOVE PRODUCT
     ===================================== */
 
     const add = (piece) => {
-        if (inBag.has(piece.id)) {
-            removeFromCart?.(
-                inBag.get(piece.id).i
-            );
+        const size = getSize(piece);
+        const existing = findCartItem(piece, size);
 
-            say("Removed from bag");
-
+        if (existing) {
+            removeFromCart?.(existing.index);
+            say(`${piece.name} (${size}) removed`);
             return;
         }
 
-        const data = {
-            id: piece.id,
-            name: piece.name,
-            price: piece.price,
-            new_price: piece.price,
-            old_price: piece.price,
-            image: piece.image,
-            img: piece.image,
-            images: [piece.image],
-            category: "Night ’26 Shell",
-            brand: "LANADA"
-        };
+        if (!addToCart) {
+            say("Cart is not available");
+            return;
+        }
 
         fly(piece);
-
-        addToCart?.(
-            piece.id,
-            "One Size",
-            data
-        );
-
-        say(`${piece.name} added`);
+        addToCart(piece.id, size, makeProductData(piece, size));
+        say(`${piece.name} · Size ${size} added`);
     };
 
     /* =====================================
@@ -818,48 +728,37 @@ export default function Night26() {
 
     const addAll = () => {
         const missing = pieces.filter(
-            (piece) => !inBag.has(piece.id)
+            (piece) => !isPieceInBag(piece, getSize(piece))
         );
 
         if (!missing.length) {
             say("Full look already in your bag");
+            return;
+        }
 
+        if (!addToCart) {
+            say("Cart is not available");
             return;
         }
 
         missing.forEach((piece, index) => {
+            const size = getSize(piece);
+
             setTimeout(() => {
                 fly(piece);
-
-                addToCart?.(
+                addToCart(
                     piece.id,
-                    "One Size",
-                    {
-                        id: piece.id,
-                        name: piece.name,
-                        price: piece.price,
-                        new_price: piece.price,
-                        old_price: piece.price,
-                        image: piece.image,
-                        img: piece.image,
-                        images: [piece.image],
-                        category: "Night ’26 Shell",
-                        brand: "LANADA"
-                    }
+                    size,
+                    makeProductData(piece, size)
                 );
-
             }, index * 120);
         });
 
         setSweep(true);
 
-        setTimeout(() => {
-            setSweep(false);
-        }, 720);
+        setTimeout(() => setSweep(false), 720);
 
-        say(
-            `${look.name} — full look added · saved 10%`
-        );
+        say(`${look.name} — full look added · saved 10%`);
     };
 
     /* =====================================
@@ -868,10 +767,7 @@ export default function Night26() {
 
     return (
         <main className="night26-page">
-
             <div className="n26-stage">
-
-                {/* RUNWAY */}
 
                 <section
                     className="n26-runway"
@@ -881,7 +777,6 @@ export default function Night26() {
                     onPointerUp={pointerUp}
                     onPointerCancel={pointerUp}
                 >
-
                     <div
                         className="n26-floor-glow"
                         style={{
@@ -889,18 +784,13 @@ export default function Night26() {
                         }}
                     />
 
-                    {/* TITLE */}
-
                     <header className="n26-title">
                         <h1>Night ’26 Shell</h1>
-
                         <p>
                             Six looks, styled head to toe.
                             Tap a pin to see the piece.
                         </p>
                     </header>
-
-                    {/* MODELS */}
 
                     <div
                         className="n26-models"
@@ -941,71 +831,53 @@ export default function Night26() {
                         ))}
                     </div>
 
-                    {/* PRODUCT PINS */}
-
-                    {pins &&
-                        !geom.n &&
-                        pieces.map((piece, index) => (
-                            <button
-                                key={piece.id}
-                                className={`n26-pin ${
-                                    hover === index ||
-                                    pinOpen === index
-                                        ? "is-open"
-                                        : ""
-                                }`}
-                                style={{
-                                    left: `${
-                                        geom.cx -
-                                        geom.mw / 2 +
-                                        piece.pin[0] * geom.mw
-                                    }px`,
-
-                                    top: `${
-                                        geom.feet -
-                                        geom.mh +
-                                        piece.pin[1] * geom.mh
-                                    }px`,
-
-                                    animationDelay: `${120 + index * 120}ms`
-                                }}
-                                onMouseEnter={() => setHover(index)}
-                                onMouseLeave={() => setHover(-1)}
-                                onClick={() => {
-                                    setPinOpen((value) =>
-                                        value === index ? -1 : index
-                                    );
-                                }}
-                            >
-                                <span className="n26-pin-dot">
-                                    <i />
-                                </span>
-
-                                <span className="n26-pin-tip">
-                                    <b>{piece.name}</b>
-
-                                    <small>
-                                        {piece.price.toLocaleString("en-US")} DH
-                                    </small>
-                                </span>
-                            </button>
-                        ))}
-
-                    {/* NAVIGATION PILL */}
+                    {pins && !geom.n && pieces.map((piece, index) => (
+                        <button
+                            key={piece.id}
+                            className={`n26-pin ${
+                                hover === index || pinOpen === index
+                                    ? "is-open"
+                                    : ""
+                            }`}
+                            style={{
+                                left: `${
+                                    geom.cx -
+                                    geom.mw / 2 +
+                                    piece.pin[0] * geom.mw
+                                }px`,
+                                top: `${
+                                    geom.feet -
+                                    geom.mh +
+                                    piece.pin[1] * geom.mh
+                                }px`,
+                                animationDelay: `${120 + index * 120}ms`
+                            }}
+                            onMouseEnter={() => setHover(index)}
+                            onMouseLeave={() => setHover(-1)}
+                            onClick={() => {
+                                setPinOpen((value) =>
+                                    value === index ? -1 : index
+                                );
+                            }}
+                        >
+                            <span className="n26-pin-dot"><i /></span>
+                            <span className="n26-pin-tip">
+                                <b>{piece.name}</b>
+                                <small>
+                                    {piece.price.toLocaleString("en-US")} DH
+                                </small>
+                            </span>
+                        </button>
+                    ))}
 
                     <nav className="n26-pill">
-
                         <button className="n26-nav-icon">
                             <I type="menu" />
                         </button>
 
                         <i className="n26-separator" />
 
-                        <Link
-                            to="/"
-                            className="n26-wing"
-                            aria-label="LANADA"
-                        >
+                        <Link to="/" className="n26-wing" aria-label="LANADA">
                             <svg viewBox="0 0 56 24">
                                 <path
                                     d="M3 17c9-1 14-7 19-13 1 6-1 10-5 13 9-1 16-7 23-13-1 8-5 13-12 16 8-1 15-4 24-10-4 8-12 12-22 12H3Z"
@@ -1020,65 +892,36 @@ export default function Night26() {
                             <I type="search" />
                         </button>
 
-                        <Link
-                            to="/login"
-                            className="n26-nav-icon"
-                        >
+                        <Link to="/login" className="n26-nav-icon">
                             <I type="user" />
                         </Link>
 
-                        <Link
-                            to="/cart"
-                            className="n26-nav-icon n26-bag"
-                            ref={bag}
-                        >
+                        <Link to="/cart" className="n26-nav-icon n26-bag" ref={bag}>
                             <I type="bag" />
-
-                            <span
-                                className={
-                                    count
-                                        ? "n26-badge has-items"
-                                        : "n26-badge"
-                                }
-                            >
+                            <span className={count ? "n26-badge has-items" : "n26-badge"}>
                                 {count}
                             </span>
                         </Link>
-
                     </nav>
 
-                    {/* TOAST */}
-
-                    {toast && (
-                        <div className="n26-toast">
-                            {toast}
-                        </div>
-                    )}
-
-                    {/* TIMELINE CONTROLS */}
+                    {toast && <div className="n26-toast">{toast}</div>}
 
                     <div className="n26-controls">
-
                         <button
                             className="n26-round"
-                            onClick={() =>
-                                go((active + 5) % 6, -1)
-                            }
+                            onClick={() => go((active + 5) % 6, -1)}
                         >
                             <I type="left" />
                         </button>
 
                         <div className="n26-timeline">
-
                             {LOOKS.map((item, index) => (
                                 <button
                                     key={item.name}
                                     className={`n26-seg ${
                                         active === index ? "active" : ""
                                     }`}
-                                    onClick={() =>
-                                        go(index, wrap(index - active))
-                                    }
+                                    onClick={() => go(index, wrap(index - active))}
                                 >
                                     <span className="n26-track">
                                         <i
@@ -1094,44 +937,31 @@ export default function Night26() {
                                     </span>
 
                                     <span className="n26-seg-label">
-                                        <b>
-                                            {String(index + 1).padStart(2, "0")}
-                                        </b>
-
+                                        <b>{String(index + 1).padStart(2, "0")}</b>
                                         <em>{item.name}</em>
                                     </span>
                                 </button>
                             ))}
-
                         </div>
 
                         <button
                             className="n26-play"
-                            onClick={() =>
-                                setPlaying((value) => !value)
-                            }
+                            onClick={() => setPlaying((value) => !value)}
                         >
                             <I type={playing ? "pause" : "play"} />
                         </button>
 
                         <button
                             className="n26-round"
-                            onClick={() =>
-                                go((active + 1) % 6, 1)
-                            }
+                            onClick={() => go((active + 1) % 6, 1)}
                         >
                             <I type="right" />
                         </button>
-
                     </div>
-
-                    {/* VIEW CURSOR */}
 
                     <div
                         className={`n26-view-cursor ${
-                            pointer.visible && !geom.n
-                                ? "visible"
-                                : ""
+                            pointer.visible && !geom.n ? "visible" : ""
                         }`}
                         style={{
                             left: pointer.x,
@@ -1140,102 +970,104 @@ export default function Night26() {
                     >
                         VIEW
                     </div>
-
                 </section>
 
                 {/* PRODUCT SIDEBAR */}
 
                 <aside className="n26-side">
-
                     <div className="n26-side-head">
-                        <h2>
-                            In this <span>look</span>
-                        </h2>
-
+                        <h2>In this <span>look</span></h2>
                         <small>2 PIECES</small>
                     </div>
 
-                    {/* PRODUCT CARDS */}
-
                     <div className="n26-cards">
+                        {pieces.map((piece, index) => {
+                            const size = getSize(piece);
+                            const added = isPieceInBag(piece, size);
 
-                        {pieces.map((piece, index) => (
-                            <article
-                                key={piece.id}
-                                data-piece={piece.id}
-                                className={`n26-card ${
-                                    busy ? "is-busy" : ""
-                                } ${
-                                    hover === index
-                                        ? "pin-highlight"
-                                        : ""
-                                }`}
-                                onMouseEnter={() => setHover(index)}
-                                onMouseLeave={() => setHover(-1)}
-                            >
-
-                                <Thumbnail piece={piece} />
-
-                                <span className="n26-card-index">
-                                    {index + 1}
-                                </span>
-
-                                <div className="n26-card-info">
-                                    <strong>{piece.name}</strong>
-
-                                    <span>
-                                        {piece.price.toLocaleString("en-US")} DH
-                                    </span>
-                                </div>
-
-                                <button
-                                    className={`n26-add ${
-                                        inBag.has(piece.id)
-                                            ? "added"
-                                            : ""
+                            return (
+                                <article
+                                    key={piece.id}
+                                    data-piece={piece.id}
+                                    className={`n26-card ${
+                                        busy ? "is-busy" : ""
+                                    } ${
+                                        hover === index ? "pin-highlight" : ""
                                     }`}
-                                    onClick={() => add(piece)}
+                                    onMouseEnter={() => setHover(index)}
+                                    onMouseLeave={() => setHover(-1)}
                                 >
-                                    {inBag.has(piece.id) ? "×" : "+"}
-                                </button>
+                                    <Thumbnail piece={piece} />
 
-                                <div className="n26-skeleton">
-                                    <i />
-                                    <i />
-                                </div>
+                                    <span className="n26-card-index">
+                                        {index + 1}
+                                    </span>
 
-                            </article>
-                        ))}
+                                    <div className="n26-card-info">
+                                        <strong>{piece.name}</strong>
+                                        <span>
+                                            {piece.price.toLocaleString("en-US")} DH
+                                        </span>
+                                    </div>
 
+                                    {/* SIZE SELECTOR */}
+
+                                    <div
+                                        className="n26-size-selector"
+                                        aria-label={`Choose size for ${piece.name}`}
+                                    >
+                                        {SIZE_OPTIONS.map((option) => (
+                                            <button
+                                                key={option}
+                                                type="button"
+                                                className={
+                                                    size === option ? "selected" : ""
+                                                }
+                                                aria-pressed={size === option}
+                                                onClick={() => changeSize(piece, option)}
+                                            >
+                                                {option}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        className={`n26-add ${added ? "added" : ""}`}
+                                        aria-label={
+                                            added
+                                                ? `Remove ${piece.name} size ${size}`
+                                                : `Add ${piece.name} size ${size}`
+                                        }
+                                        onClick={() => add(piece)}
+                                    >
+                                        {added ? "×" : "+"}
+                                    </button>
+
+                                    <div className="n26-skeleton">
+                                        <i />
+                                        <i />
+                                    </div>
+                                </article>
+                            );
+                        })}
                     </div>
 
-                    {/* BUNDLE PRICE */}
-
                     <div className="n26-bundle">
-
                         <div>
                             <strong>Complete the look</strong>
-
-                            <p>
-                                Bundle all 2 and save 10%
-                            </p>
+                            <p>Bundle all 2 and save 10%</p>
                         </div>
 
                         <div className="n26-bundle-price">
-                            <del>
-                                {sum.toLocaleString("en-US")} DH
-                            </del>
-
+                            <del>{sum.toLocaleString("en-US")} DH</del>
                             <b>
                                 {bundle.toLocaleString("en-US")}
                                 {" "}
                                 <small>DH</small>
                             </b>
                         </div>
-
                     </div>
-
-                    {/* ADD COMPLETE LOOK */}
 
                     <button
                         className={`n26-cta ${
@@ -1250,18 +1082,14 @@ export default function Night26() {
                                 ? "FULL LOOK IN BAG"
                                 : "ADD FULL LOOK TO BAG"}
                         </span>
-
                         <I type="right" />
-
                         <i />
                     </button>
 
                     <p className="n26-currency-note">
                         Prices shown in Moroccan dirhams (DH).
                     </p>
-
                 </aside>
-
             </div>
 
             {/* FLYING PRODUCT ANIMATIONS */}
@@ -1279,7 +1107,6 @@ export default function Night26() {
                     }}
                 />
             ))}
-
         </main>
     );
 }

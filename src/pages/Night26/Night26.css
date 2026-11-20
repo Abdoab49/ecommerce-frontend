@@ -87,3 +87,71 @@ body.night26-active{overflow:hidden!important}
 }
 @media(max-width:390px){.n26-title p{max-width:260px}.n26-controls{gap:6px}.n26-timeline{gap:4px}.n26-seg,.n26-seg.active{width:18px}.n26-seg.active{width:34px}.n26-side{padding-left:14px;padding-right:14px}.n26-card{gap:12px}.n26-card-info strong{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.night26-page *,.night26-page *:before,.night26-page *:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* =========================================
+   NIGHT 26 - SIZE SELECTOR
+========================================= */
+
+.n26-card {
+    height: clamp(130px, 16vh, 148px);
+}
+
+.n26-card-info {
+    gap: 6px;
+    padding-right: 30px;
+}
+
+.n26-sizes {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 3px;
+}
+
+.n26-size {
+    min-width: 29px;
+    height: 25px;
+    padding: 0 5px;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 5px;
+    background: rgba(255,255,255,.025);
+    color: #92969f;
+    font: 500 9px Inter, sans-serif;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.n26-size:hover {
+    border-color: rgba(255,255,255,.65);
+    color: #fff;
+}
+
+.n26-size.selected {
+    border-color: #3d64ff;
+    background: #1f4dff;
+    color: #fff;
+}
+
+.n26-size:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.n26-card.is-busy .n26-sizes {
+    opacity: 0;
+}
+
+@media(max-width:390px) {
+    .n26-card {
+        height: 140px;
+    }
+
+    .n26-size {
+        min-width: 26px;
+        height: 24px;
+        font-size: 8px;
+    }
+
+    .n26-card-info {
+        gap: 5px;
+    }
+}
