@@ -825,11 +825,7 @@ export default function Night26() {
                     />
 
                     <header className="n26-title">
-                        <h1>Night ’26 Shell</h1>
-                        <p>
-                            Six looks, styled head to toe.
-                            Tap a pin to see the piece.
-                        </p>
+                        <h1>Lanada Shell</h1>
                     </header>
 
                     <div
@@ -1214,9 +1210,7 @@ export default function Night26() {
                         <i />
                     </button>
 
-                    <p className="n26-currency-note">
-                        Prices shown in Moroccan dirhams (DH).
-                    </p>
+
                 </aside>
             </div>
 
