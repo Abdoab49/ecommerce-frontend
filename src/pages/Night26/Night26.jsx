@@ -35,7 +35,7 @@ const mad = (usd) => Math.round(usd * USD_TO_MAD);
 const raw = [
     [
         "Cobalt Shell",
-        "hf_20261113_092602_2edcdd38-47f9-40ca-b2f0-3d1196e356ed.png",
+        "/Assets/Night26/1.png",
         "rgba(40,80,255,.30)",
         [
             ["Cobalt Rain Shell", 425, [300, 1080], [.60, .30]],
@@ -90,7 +90,9 @@ const raw = [
 ];
 
 const LOOKS = raw.map(([name, file, tone, items], index) => {
-    const image = H(file);
+    const image = file.startsWith("/")
+        ? file
+        : H(file);
 
     return {
         name,
