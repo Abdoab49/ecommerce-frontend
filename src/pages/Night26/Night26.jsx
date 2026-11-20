@@ -1,4 +1,3 @@
-
 import React, {
     useCallback,
     useContext,
@@ -247,11 +246,52 @@ export default function Night26() {
     const [flyers, setFlyers] = useState([]);
     const [sweep, setSweep] = useState(false);
 
-    // Each product has its own selected size.
     const [selectedSizes, setSelectedSizes] = useState({});
+
+    /* =====================================
+       SEARCH STATE
+    ===================================== */
+
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const look = LOOKS[active];
     const pieces = look.pieces;
+
+    /* =====================================
+       SEARCH LOGIC
+    ===================================== */
+
+    const searchResults = useMemo(() => {
+        const query = searchQuery.trim().toLowerCase();
+
+        if (!query) return [];
+
+        return LOOKS.flatMap((item, lookIndex) =>
+            item.pieces
+                .filter((piece) =>
+                    piece.name.toLowerCase().includes(query) ||
+                    item.name.toLowerCase().includes(query)
+                )
+                .map((piece) => ({
+                    ...piece,
+                    lookName: item.name,
+                    lookIndex
+                }))
+        );
+    }, [searchQuery]);
+
+    const openSearchResult = (result) => {
+        if (result.lookIndex !== activeRef.current) {
+            goRef.current(
+                result.lookIndex,
+                wrap(result.lookIndex - activeRef.current)
+            );
+        }
+
+        setSearchOpen(false);
+        setSearchQuery("");
+    };
 
     /* =====================================
        SIZE HELPERS
@@ -287,6 +327,7 @@ export default function Night26() {
         if (String(item.id || "").startsWith("night26-")) {
             return total + Number(item.quantity || 1);
         }
+
         return total;
     }, 0);
 
@@ -599,7 +640,6 @@ export default function Night26() {
             return;
         }
 
-        // Do not start runway dragging from interactive elements.
         if (event.target.closest("button, a")) return;
 
         drag.current = {
@@ -888,7 +928,19 @@ export default function Night26() {
 
                         <i className="n26-separator" />
 
-                        <button className="n26-nav-icon">
+                        {/* SEARCH BUTTON */}
+                        <button
+                            type="button"
+                            className={`n26-nav-icon ${
+                                searchOpen ? "search-active" : ""
+                            }`}
+                            aria-label="Search Night 26 products"
+                            aria-expanded={searchOpen}
+                            onClick={() => {
+                                setSearchOpen((value) => !value);
+                                setSearchQuery("");
+                            }}
+                        >
                             <I type="search" />
                         </button>
 
@@ -903,6 +955,80 @@ export default function Night26() {
                             </span>
                         </Link>
                     </nav>
+
+                    {/* SEARCH PANEL */}
+                    {searchOpen && (
+                        <div className="n26-search-panel">
+                            <div className="n26-search-input-wrap">
+                                <I type="search" />
+
+                                <input
+                                    type="search"
+                                    autoFocus
+                                    value={searchQuery}
+                                    placeholder="Search Night ’26 pieces..."
+                                    aria-label="Search Night 26 products"
+                                    onChange={(event) =>
+                                        setSearchQuery(event.target.value)
+                                    }
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Escape") {
+                                            setSearchOpen(false);
+                                            setSearchQuery("");
+                                        }
+                                    }}
+                                />
+
+                                <button
+                                    type="button"
+                                    className="n26-search-close"
+                                    aria-label="Close search"
+                                    onClick={() => {
+                                        setSearchOpen(false);
+                                        setSearchQuery("");
+                                    }}
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            {searchQuery.trim() ? (
+                                <div className="n26-search-results">
+                                    {searchResults.length > 0 ? (
+                                        searchResults.map((result) => (
+                                            <button
+                                                type="button"
+                                                key={result.id}
+                                                className="n26-search-result"
+                                                onClick={() =>
+                                                    openSearchResult(result)
+                                                }
+                                            >
+                                                <Thumbnail piece={result} />
+
+                                                <span className="n26-search-result-info">
+                                                    <strong>{result.name}</strong>
+                                                    <small>{result.lookName}</small>
+                                                </span>
+
+                                                <span className="n26-search-result-price">
+                                                    {result.price.toLocaleString("en-US")} DH
+                                                </span>
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <p className="n26-search-empty">
+                                            No products found in Night ’26.
+                                        </p>
+                                    )}
+                                </div>
+                            ) : (
+                                <p className="n26-search-hint">
+                                    Search by product name or look
+                                </p>
+                            )}
+                        </div>
+                    )}
 
                     {toast && <div className="n26-toast">{toast}</div>}
 
@@ -1024,7 +1150,9 @@ export default function Night26() {
                                                     size === option ? "selected" : ""
                                                 }
                                                 aria-pressed={size === option}
-                                                onClick={() => changeSize(piece, option)}
+                                                onClick={() =>
+                                                    changeSize(piece, option)
+                                                }
                                             >
                                                 {option}
                                             </button>
