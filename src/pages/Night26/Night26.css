@@ -368,3 +368,23 @@ body.night26-active{overflow:hidden!important}
         width: min(360px, calc(100% - 24px));
     }
 }
+
+/* Touch and mouse swipe support */
+.n26-runway {
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: grab;
+}
+
+.n26-runway:active {
+    cursor: grabbing;
+}
+
+.n26-models,
+.n26-model,
+.n26-figure {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}

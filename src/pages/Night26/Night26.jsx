@@ -631,60 +631,69 @@ export default function Night26() {
         return () => window.removeEventListener("keydown", key);
     }, [go]);
 
-    /* =====================================
-       DRAG AND SWIPE
-    ===================================== */
 
-    const pointerDown = (event) => {
-        if (event.pointerType === "mouse" && event.button !== 0) {
-            return;
-        }
+/* =====================================
+   DRAG AND SWIPE — TOUCH + MOUSE
+===================================== */
 
-        if (event.target.closest("button, a")) return;
+const pointerDown = (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+    }
 
-        drag.current = {
-            x: event.clientX,
-            start: pos.current,
-            moved: false
-        };
+    if (event.target.closest("button, a, input")) return;
 
-        clearInterval(timer.current);
-
-        event.currentTarget.setPointerCapture?.(event.pointerId);
+    drag.current = {
+        x: event.clientX,
+        start: pos.current,
+        moved: false,
+        pointerId: event.pointerId
     };
 
-    const pointerMove = (event) => {
-        setPointer({
-            x: event.clientX,
-            y: event.clientY,
-            visible: false
-        });
+    clearInterval(timer.current);
 
-        if (!drag.current) return;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+};
 
-        const dx = event.clientX - drag.current.x;
+const pointerMove = (event) => {
+    setPointer({
+        x: event.clientX,
+        y: event.clientY,
+        visible: false
+    });
 
-        if (Math.abs(dx) > 5) {
-            drag.current.moved = true;
-        }
+    if (!drag.current) return;
 
-        if (drag.current.moved && geom.u) {
-            paint(drag.current.start - dx / (170 * geom.u));
-        }
-    };
+    const dx = event.clientX - drag.current.x;
 
-    const pointerUp = () => {
-        if (!drag.current) return;
+    if (Math.abs(dx) > 6) {
+        drag.current.moved = true;
+    }
 
-        const moved = drag.current.moved;
-        drag.current = null;
+    if (drag.current.moved && geom.u) {
+        paint(drag.current.start - dx / (170 * geom.u));
+    }
+};
 
-        if (moved) {
-            go(Math.round(pos.current));
-        } else {
-            startTimer();
-        }
-    };
+const pointerUp = (event) => {
+    if (!drag.current) return;
+
+    const moved = drag.current.moved;
+
+    drag.current = null;
+
+    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    if (moved) {
+        const target = Math.round(pos.current);
+
+        go(target, target < activeRef.current ? -1 : 1);
+    } else {
+        startTimer();
+    }
+};
 
     /* =====================================
        FLY TO BAG ANIMATION
