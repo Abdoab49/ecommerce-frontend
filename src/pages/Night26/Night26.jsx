@@ -631,69 +631,68 @@ export default function Night26() {
         return () => window.removeEventListener("keydown", key);
     }, [go]);
 
+    /* =====================================
+       DRAG AND SWIPE — TOUCH + MOUSE
+    ===================================== */
 
-/* =====================================
-   DRAG AND SWIPE — TOUCH + MOUSE
-===================================== */
+    const pointerDown = (event) => {
+        if (event.pointerType === "mouse" && event.button !== 0) {
+            return;
+        }
 
-const pointerDown = (event) => {
-    if (event.pointerType === "mouse" && event.button !== 0) {
-        return;
-    }
+        if (event.target.closest("button, a, input")) return;
 
-    if (event.target.closest("button, a, input")) return;
+        drag.current = {
+            x: event.clientX,
+            start: pos.current,
+            moved: false,
+            pointerId: event.pointerId
+        };
 
-    drag.current = {
-        x: event.clientX,
-        start: pos.current,
-        moved: false,
-        pointerId: event.pointerId
+        clearInterval(timer.current);
+
+        event.currentTarget.setPointerCapture?.(event.pointerId);
     };
 
-    clearInterval(timer.current);
+    const pointerMove = (event) => {
+        setPointer({
+            x: event.clientX,
+            y: event.clientY,
+            visible: false
+        });
 
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-};
+        if (!drag.current) return;
 
-const pointerMove = (event) => {
-    setPointer({
-        x: event.clientX,
-        y: event.clientY,
-        visible: false
-    });
+        const dx = event.clientX - drag.current.x;
 
-    if (!drag.current) return;
+        if (Math.abs(dx) > 6) {
+            drag.current.moved = true;
+        }
 
-    const dx = event.clientX - drag.current.x;
+        if (drag.current.moved && geom.u) {
+            paint(drag.current.start - dx / (170 * geom.u));
+        }
+    };
 
-    if (Math.abs(dx) > 6) {
-        drag.current.moved = true;
-    }
+    const pointerUp = (event) => {
+        if (!drag.current) return;
 
-    if (drag.current.moved && geom.u) {
-        paint(drag.current.start - dx / (170 * geom.u));
-    }
-};
+        const moved = drag.current.moved;
 
-const pointerUp = (event) => {
-    if (!drag.current) return;
+        drag.current = null;
 
-    const moved = drag.current.moved;
+        if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+        }
 
-    drag.current = null;
+        if (moved) {
+            const target = Math.round(pos.current);
 
-    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
-        event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-
-    if (moved) {
-        const target = Math.round(pos.current);
-
-        go(target, target < activeRef.current ? -1 : 1);
-    } else {
-        startTimer();
-    }
-};
+            go(target, target < activeRef.current ? -1 : 1);
+        } else {
+            startTimer();
+        }
+    };
 
     /* =====================================
        FLY TO BAG ANIMATION
@@ -922,12 +921,19 @@ const pointerUp = (event) => {
 
                         <i className="n26-separator" />
 
-                        <Link to="/" className="n26-wing" aria-label="LANADA">
-                            <svg viewBox="0 0 56 24">
-                                <path
-                                    d="M3 17c9-1 14-7 19-13 1 6-1 10-5 13 9-1 16-7 23-13-1 8-5 13-12 16 8-1 15-4 24-10-4 8-12 12-22 12H3Z"
-                                    fill="currentColor"
-                                />
+                        <Link to="/" className="n26-wing" aria-label="Home">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.7"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M3 10.8L12 3L21 10.8" />
+                                <path d="M5.5 9.5V20H18.5V9.5" />
+                                <path d="M9.5 20V14H14.5V20" />
                             </svg>
                         </Link>
 
@@ -1218,8 +1224,6 @@ const pointerUp = (event) => {
                         <I type="right" />
                         <i />
                     </button>
-
-
                 </aside>
             </div>
 
