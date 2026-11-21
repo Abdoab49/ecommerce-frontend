@@ -5,19 +5,16 @@ import './Hero.css';
 const Hero = ({
   banner = 'LANADA',
   image = '/Assets/hero-image.jpg',
-  imageAlt = 'Editorial fashion portrait',
+  imageAlt = 'Fashion collection',
   headline = 'CREATIVE DEVELOPER BASED IN AMSTERDAM, NL.',
-  linkHref = '#popular',
 }) => {
   return (
     <header className="hero">
 
-      {/* Main Editorial Banner */}
       <div className="hero__banner">
         <h1 className="hero__banner-text">{banner}</h1>
       </div>
 
-      {/* Editorial Introduction */}
       <div className="hero__intro">
 
         <div className="hero__intro-left">
@@ -28,11 +25,6 @@ const Hero = ({
               alt={imageAlt}
             />
           </figure>
-
-          <a className="hero__link" href={linkHref}>
-            {linkLabel}
-            <span aria-hidden="true"> ↗</span>
-          </a>
         </div>
 
         <div className="hero__intro-right">
@@ -42,6 +34,7 @@ const Hero = ({
         </div>
 
       </div>
+
     </header>
   );
 };
