@@ -1,142 +1,162 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@700&display=swap');
 
+.hero {
+  --lipstick: #db3c8a;
+  --forest: #00522d;
+  --blush: #fce5df;
+  --chalk: #fff8f6;
+  --bubblegum: #f29ebd;
 
-.hero-left{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-    padding-left: 100px;
-    line-height: 1.1;
+  /* Beni n'est pas libre : Antonio est le substitut. Remplace par Beni si tu as la licence. */
+  --font-display: 'Beni', 'Antonio', 'Tungsten', Impact, sans-serif;
+  --font-ui: 'Clash Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  position: relative;
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 140px clamp(20px, 5vw, 60px) 60px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--chalk);
+  color: var(--forest);
+  font-family: var(--font-ui);
 }
 
-.hero-left h2{
-    color: #090909;
-    font-size: 26px;
-    font-weight: 600;
+/* Cercles de coin : 50px, rose, sans ombre */
+.hero__dot {
+  position: fixed;
+  top: 20px;
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  border: 0;
+  padding: 0;
+  border-radius: 9999px;
+  background: var(--lipstick);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-
-.hero-hand-icon{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.hero__dot--menu {
+  left: 20px;
 }
 
-.hero-hand-icon img{
-    width: 70px;
+.hero__dot--brand {
+  right: 20px;
 }
 
-.hero-latest-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 260px;
-    height: 60px;
-    border-radius: 75px;
-    margin-top: 20px;
-    background: #ff4141;
-    color: white;
-    font-size: 20px;
-    font-weight: 500;
+.hero__dot:hover {
+  transform: scale(1.08);
 }
 
-.hero-right{
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.hero__dot:focus-visible,
+.hero__link:focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 3px;
 }
-@media(max-width:1280px){
-    .hero-left{
-        padding-left: 100px;
-    }
-    .hero-left h2{
-        font-size: 22px;
-    }
-    .hero-left p{
-        font-size: 60px;
-    }
-    .hero-hand-icon img{
-        width: 80px;
-    }
-    .hero-latest-btn{
-        gap: 10px;
-        width: 250px;
-        height: 60px;
-        margin-top: 20px;
-        font-size: 18px;
-    }
-    .hero-right img{
-        width: 500px;
-    }
 
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
 }
-@media(max-width:1024px){
-    .hero-left{
-        padding-left: 80px;
-    }
-    .hero-left h2{
-        font-size: 20px;
-    }
-    .hero-left p{
-        font-size: 50px;
-    }
-    .hero-hand-icon img{
-        width: 65px;
-    }
-    .hero-latest-btn{
-        width: 220px;
-        height: 50px;
-        font-size: 16px;
-    }
-    .hero-right img{
-        width: 400px;
-    }
 
+.hero__badge {
+  padding: 7px 15px;
+  border-radius: 9999px;
+  background: var(--blush);
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
 }
-@media(max-width:800px){
-    .hero-left{
-        padding-left: 30px;
-    }
-    .hero-left h2{
-        font-size: 16px;
-    }
-    .hero-left p{
-        font-size: 40px;
-    }
-    .hero-hand-icon img{
-        width: 50px;
-    }
-    .hero-latest-btn{
-        width: 175px;
-        height: 40px;
-        font-size: 13px;
-    }
-    .hero-right img{
-        width: 300px;
-    }
+
+/* Titre : interligne 0.70, c'est ce qui le rend architectural */
+.hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(64px, 15vw, 230px);
+  line-height: 0.7;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
 }
-@media(max-width:500px){
-    .hero{
-        flex-direction: column;
-    }
-    .hero-right{
-        display: none;
-    }
-    .hero-left h2{
-        font-size: 18px;
-    }
-    .hero-left p{
-        font-size: 50px;
-    }
-    .hero-hand-icon img{
-        width: 55px;
-    }
-    .hero-latest-btn{
-        width: 200px;
-        height: 45px;
-        font-size: 14px;
-    }
+
+.hero__line {
+  display: block;
+}
+
+.hero__line--loud {
+  color: var(--lipstick);
+}
+
+.hero__line--mid {
+  color: var(--bubblegum);
+}
+
+.hero__text {
+  margin: 0;
+  max-width: 60ch;
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--forest);
+}
+
+.hero__link {
+  color: var(--forest);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.hero__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--lipstick);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+/* Écho fantôme, décalé en haut à droite */
+.hero__echo {
+  position: absolute;
+  top: 120px;
+  right: clamp(20px, 5vw, 60px);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(46px, 9vw, 130px);
+  line-height: 0.7;
+  text-transform: uppercase;
+  color: var(--blush);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 40px;
+  }
+
+  .hero__echo {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__dot {
+    transition: none;
+  }
 }
