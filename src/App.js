@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './App.css';
 
@@ -26,6 +27,7 @@ import Footer from './Components/Footer/Footer';
 import Shop from './pages/Shop';
 import ShopCategory from './pages/ShopCategory';
 import Product from './pages/Product';
+import TryTheLook from './pages/TryTheLook';
 
 import Cart from './Components/Cart/Cart';
 
@@ -75,7 +77,6 @@ import kid_banner from './Components/Assets/banner_kids.png';
 ========================================= */
 
 import ShopContextProvider from './Context/ShopContext';
-
 
 function App() {
     return (
@@ -132,6 +133,13 @@ function App() {
                                                 <GiveawayPromo />
                                             </>
                                         }
+                                    />
+
+                                    {/* TRY THE LOOK */}
+
+                                    <Route
+                                        path="/try-the-look"
+                                        element={<TryTheLook />}
                                     />
 
                                     {/* SHOP CATEGORIES */}
