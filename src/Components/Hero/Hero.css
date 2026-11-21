@@ -12,6 +12,7 @@
 
 .hero {
   --hero-display-weight: 700;
+  --hero-gold: #b8922f;
   --hero-serif: 'Editorial New', 'Source Serif 4', var(--font-editorial-new, Georgia, serif);
   --hero-display: 'Canopee', 'Bodoni Moda', var(--font-canopee, Georgia, serif);
 
@@ -111,25 +112,27 @@
   gap: var(--spacing-22, 22px);
 }
 
-.hero__bio {
+/* Image avec cadre doré (aplat, sans dégradé ni ombre) */
+.hero__frame {
   margin: 0;
-  max-width: 52ch;
-  font-size: 19px;
-  line-height: 1.27;
-  letter-spacing: -0.16px;
-  text-align: left;
+  width: 100%;
+  max-width: 520px;
+  padding: 14px;
+  border: 12px solid var(--hero-gold);
+  background: var(--color-bone-cream, #cdc6be);
 }
 
-/* Lettrine : seule fioriture typographique du texte courant */
-.hero__bio::first-letter {
-  float: left;
-  padding: 4px 10px 0 0;
-  font-family: var(--hero-display);
-  font-weight: var(--hero-display-weight);
-  font-size: 96px;
-  line-height: 0.78;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
+.hero__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 2px solid var(--hero-gold);
+  border-radius: 0;
+}
+
+.hero__image--empty {
+  background: var(--color-parchment, #e2dedb);
 }
 
 /* Text Link with Underline */

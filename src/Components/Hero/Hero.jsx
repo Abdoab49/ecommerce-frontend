@@ -11,7 +11,8 @@ const Hero = ({
   brand = 'Miranda',
   banner = 'MIRANDA',
   headline = 'Creative developer based in Amsterdam, NL.',
-  bio = 'Miranda conçoit et construit des sites interactifs, des illustrations et des expériences numériques pour des studios et des marques. Chaque projet est dessiné, codé et imprimé dans le même esprit : avec soin, avec du contraste, et un peu d’encre.',
+  image = '',
+  imageAlt = 'Portrait',
   linkLabel = 'Voir tous les projets',
   linkHref = '#projets',
   onMenuClick,
@@ -47,10 +48,16 @@ const Hero = ({
         <h1 className='hero__banner-text'>{banner}</h1>
       </div>
 
-      {/* Drop Cap Bio Block */}
+      {/* Image avec cadre doré */}
       <div className='hero__intro'>
         <div className='hero__intro-left'>
-          <p className='hero__bio'>{bio}</p>
+          <figure className='hero__frame'>
+            {image ? (
+              <img className='hero__image' src={image} alt={imageAlt} />
+            ) : (
+              <div className='hero__image hero__image--empty' role='img' aria-label={imageAlt} />
+            )}
+          </figure>
           <a className='hero__link' href={linkHref}>
             {linkLabel}
           </a>
