@@ -4,7 +4,7 @@ import './Hero.css';
 
 const Hero = ({
   banner = 'LANADA',
-  image = '/Assets/hero-image.jpg',
+  image = '/Assets/ShoeStore/background6.png',
   imageAlt = 'Fashion collection',
   headline = 'CREATIVE DEVELOPER BASED IN AMSTERDAM, NL.',
 }) => {
