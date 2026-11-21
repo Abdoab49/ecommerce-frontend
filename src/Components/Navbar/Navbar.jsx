@@ -1,18 +1,17 @@
-﻿
-import React, { useContext, useState, useEffect } from 'react';
+﻿import React, { useContext, useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import cart_icon from '../Assets/cart_icon.png';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 
+// Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-import { Menu, X, ArrowUpRight } from 'lucide-react';
-
 const Navbar = () => {
+    const [menu, setMenu] = useState('shop');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
 
@@ -20,26 +19,22 @@ const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const isHomePage = location.pathname === '/';
-
+    // Load user
     useEffect(() => {
-        const loadUser = () => {
-            const userData = localStorage.getItem('lanada_user');
+        const userData = localStorage.getItem('lanada_user');
 
-            if (userData) {
-                try {
-                    setUser(JSON.parse(userData));
-                } catch (error) {
-                    setUser(null);
-                }
-            } else {
+        if (userData) {
+            try {
+                setUser(JSON.parse(userData));
+            } catch (error) {
                 setUser(null);
             }
-        };
-
-        loadUser();
+        } else {
+            setUser(null);
+        }
     }, [location.pathname]);
 
+    // Listen for login/logout changes
     useEffect(() => {
         const handleStorageChange = () => {
             const userData = localStorage.getItem('lanada_user');
@@ -64,14 +59,15 @@ const Navbar = () => {
         };
     }, []);
 
-    useEffect(() => {
-        setIsMenuOpen(false);
-    }, [location.pathname]);
+    const toggleMenu = () => {
+        setIsMenuOpen(prev => !prev);
+    };
 
     const closeMenu = () => {
         setIsMenuOpen(false);
     };
 
+    // Logout
     const handleLogout = () => {
         localStorage.removeItem('lanada_user_id');
         localStorage.removeItem('lanada_user');
@@ -84,126 +80,157 @@ const Navbar = () => {
         navigate('/login');
     };
 
-    const navLinks = [
-        { label: 'SHOP', path: '/', key: 'shop' },
-        { label: 'MEN', path: '/mens', key: 'mens' },
-        { label: 'JACKETS', path: '/womens', key: 'womens' },
-        { label: 'CASQUETTE', path: '/casquette', key: 'casquette' },
-        { label: 'SHOES', path: '/shoes', key: 'shoes' },
-        { label: 'OFFCUT', path: '/offcut', key: 'offcut' }
-    ];
-
     return (
-        <nav
-            className={`${styles.navbar} ${
-                isHomePage ? styles.homeNavbar : styles.innerNavbar
-            }`}
-        >
+        <nav className={styles.navbar}>
             <div className={styles.navbarContainer}>
 
-                {/* LOGO */}
-
-                <Link
-                    to="/"
-                    className={styles.logo}
-                    onClick={closeMenu}
-                    aria-label="LANADA Home"
+                {/* Mobile menu toggle */}
+                <div
+                    className={styles.menuToggle}
+                    onClick={toggleMenu}
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Toggle navigation menu"
+                    aria-expanded={isMenuOpen}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleMenu();
+                        }
+                    }}
                 >
-                    <img
-                        src="/logo192.png"
-                        alt="LANADA"
-                        width="48"
-                        height="48"
-                    />
-                </Link>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
-                {/* DESKTOP NAVIGATION */}
+                {/* Logo */}
+                <div className={styles.logo}>
+                    <Link to="/" onClick={closeMenu}>
+                        <img
+                            src="/logo192.png"
+                            alt="LANADA Logo"
+                            width="48"
+                            height="48"
+                        />
+                    </Link>
+                </div>
 
+                {/* Navigation menu */}
                 <ul
                     className={`${styles.menuItems} ${
                         isMenuOpen ? styles.active : ''
                     }`}
                 >
-                    {navLinks.map((item) => {
-                        const isActive =
-                            item.path === '/'
-                                ? location.pathname === '/'
-                                : location.pathname === item.path;
+                    <li>
+                        <Link
+                            to="/"
+                            className={`${styles.link} ${
+                                menu === 'shop' ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                                setMenu('shop');
+                                closeMenu();
+                            }}
+                        >
+                            SHOP
+                        </Link>
+                    </li>
 
-                        return (
-                            <li key={item.key}>
-                                <Link
-                                    to={item.path}
-                                    className={`${styles.link} ${
-                                        isActive ? styles.activeLink : ''
-                                    }`}
-                                    onClick={closeMenu}
-                                >
-                                    {item.label}
-                                </Link>
-                            </li>
-                        );
-                    })}
+                    <li>
+                        <Link
+                            to="/mens"
+                            className={`${styles.link} ${
+                                menu === 'mens' ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                                setMenu('mens');
+                                closeMenu();
+                            }}
+                        >
+                            MEN
+                        </Link>
+                    </li>
 
+                    <li>
+                        <Link
+                            to="/womens"
+                            className={`${styles.link} ${
+                                menu === 'womens' ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                                setMenu('womens');
+                                closeMenu();
+                            }}
+                        >
+                            JACKETS
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/casquette"
+                            className={`${styles.link} ${
+                                menu === 'casquette' ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                                setMenu('casquette');
+                                closeMenu();
+                            }}
+                        >
+                            CASQUETTE
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/shoes"
+                            className={`${styles.link} ${
+                                menu === 'shoes' ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                                setMenu('shoes');
+                                closeMenu();
+                            }}
+                        >
+                            SHOES
+                        </Link>
+                    </li>
+
+                    {/* OFFCUT */}
+                    <li>
+                        <Link
+                            to="/offcut"
+                            className={`${styles.link} ${
+                                location.pathname === '/offcut' ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                                setMenu('offcut');
+                                closeMenu();
+                            }}
+                        >
+                            OFFCUT
+                        </Link>
+                    </li>
+
+                    {/* User name - only when logged in */}
                     {user && (
                         <li>
                             <Link
                                 to="/orders"
-                                className={`${styles.link} ${
-                                    location.pathname === '/orders'
-                                        ? styles.activeLink
-                                        : ''
-                                }`}
+                                className={styles.link}
                                 onClick={closeMenu}
                             >
-                                {user.fullName?.split(' ')[0] || 'MY ACCOUNT'}
+                                {user.fullName?.split(' ')[0] || 'My Account'}
                             </Link>
                         </li>
                     )}
-
-                    {/* MOBILE ACCOUNT ACTIONS */}
-
-                    <li className={styles.mobileAccount}>
-                        {user ? (
-                            <button
-                                type="button"
-                                onClick={handleLogout}
-                                className={styles.mobileAction}
-                            >
-                                <FontAwesomeIcon icon={faRightFromBracket} />
-                                Logout
-                            </button>
-                        ) : (
-                            <Link
-                                to="/login"
-                                className={styles.mobileAction}
-                                onClick={closeMenu}
-                            >
-                                <FontAwesomeIcon icon={faUser} />
-                                Login
-                            </Link>
-                        )}
-
-                        <Link
-                            to="/cart"
-                            className={styles.mobileAction}
-                            onClick={closeMenu}
-                        >
-                            <img src={cart_icon} alt="" />
-                            Shopping Cart
-                            {cartCount > 0 && (
-                                <span className={styles.mobileCartCount}>
-                                    {cartCount}
-                                </span>
-                            )}
-                        </Link>
-                    </li>
                 </ul>
 
-                {/* RIGHT SECTION */}
-
+                {/* Right section */}
                 <div className={styles.rightSection}>
 
+                    {/* Login / Logout */}
                     {user ? (
                         <button
                             type="button"
@@ -212,7 +239,10 @@ const Navbar = () => {
                             title="Logout"
                             aria-label="Logout"
                         >
-                            <FontAwesomeIcon icon={faRightFromBracket} />
+                            <FontAwesomeIcon
+                                icon={faRightFromBracket}
+                                className={styles.userIcon}
+                            />
                         </button>
                     ) : (
                         <Link
@@ -221,45 +251,30 @@ const Navbar = () => {
                             title="Login"
                             aria-label="Login"
                         >
-                            <FontAwesomeIcon icon={faUser} />
+                            <FontAwesomeIcon
+                                icon={faUser}
+                                className={styles.userIcon}
+                            />
                         </Link>
                     )}
 
-                    <Link
-                        to="/cart"
-                        className={styles.cart}
-                        aria-label="Shopping cart"
-                    >
-                        <img src={cart_icon} alt="Cart" />
+                    {/* Cart */}
+                    <div className={styles.cart}>
+                        <Link to="/cart" aria-label="Shopping cart">
+                            <img
+                                src={cart_icon}
+                                alt="Cart"
+                            />
+                        </Link>
 
                         {cartCount > 0 && (
                             <span className={styles.cartCount}>
                                 {cartCount}
                             </span>
                         )}
-                    </Link>
+                    </div>
 
-                    <Link
-                        to={user ? '/orders' : '/signup'}
-                        className={styles.registerButton}
-                    >
-                        {user ? 'MY ACCOUNT' : 'REGISTER'}
-                        <ArrowUpRight size={16} />
-                    </Link>
                 </div>
-
-                {/* MOBILE MENU BUTTON */}
-
-                <button
-                    type="button"
-                    className={styles.menuToggle}
-                    onClick={() => setIsMenuOpen((prev) => !prev)}
-                    aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-                    aria-expanded={isMenuOpen}
-                >
-                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-
             </div>
         </nav>
     );
