@@ -12,7 +12,7 @@
 
 .hero {
   --hero-display-weight: 700;
-  --hero-gold: #b8922f;
+  --hero-gold: #000000;
   --hero-serif: 'Editorial New', 'Source Serif 4', var(--font-editorial-new, Georgia, serif);
   --hero-display: 'Canopee', 'Bodoni Moda', var(--font-canopee, Georgia, serif);
 
