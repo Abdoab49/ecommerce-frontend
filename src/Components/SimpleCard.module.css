@@ -432,3 +432,160 @@
     padding: 6px;
   }
 }
+
+
+/* ============================================ */
+/* SIZE SELECTOR — اختيار المقاس */
+/* ============================================ */
+
+.sizeSection {
+  width: 100%;
+  margin: 12px 0 16px;
+}
+
+.sizeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.sizeLabel {
+  color: #222;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.selectedSize {
+  color: #777;
+  font-size: 11px;
+}
+
+.sizeOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sizeButton {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+  color: #222;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.sizeButton:hover:not(:disabled) {
+  border-color: #000;
+}
+
+.sizeSelected {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.sizeUnavailable {
+  background: #f5f5f5;
+  color: #aaa;
+  border-color: #e8e8e8;
+  text-decoration: line-through;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.sizeError {
+  margin: 8px 0 0;
+  color: #d93636;
+  font-size: 11px;
+}
+
+/* ============================================ */
+/* PRODUCT IMAGE BADGE */
+/* ============================================ */
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.imageWrapper .cardImgTop {
+  display: block;
+}
+
+.productBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px 9px;
+  background: #000;
+  color: #fff;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ============================================ */
+/* SIZE SELECTOR — RESPONSIVE */
+/* ============================================ */
+
+@media (max-width: 767px) {
+  .sizeSection {
+    margin: 9px 0 12px;
+  }
+
+  .sizeHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sizeButton {
+    min-width: 30px;
+    height: 31px;
+    padding: 0 5px;
+    font-size: 11px;
+  }
+
+  .sizeOptions {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 374px) {
+  .sizeButton {
+    min-width: 27px;
+    height: 29px;
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .sizeLabel {
+    font-size: 10px;
+  }
+
+  .selectedSize {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sizeButton {
+    transition: none;
+  }
+}
