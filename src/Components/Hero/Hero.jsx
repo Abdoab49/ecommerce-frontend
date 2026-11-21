@@ -8,7 +8,6 @@ const Hero = ({
   imageAlt = 'Editorial fashion portrait',
   headline = 'CREATIVE DEVELOPER BASED IN AMSTERDAM, NL.',
   linkHref = '#popular',
-  linkLabel = 'DISCOVER THE COLLECTION',
 }) => {
   return (
     <header className="hero">
@@ -37,18 +36,9 @@ const Hero = ({
         </div>
 
         <div className="hero__intro-right">
-          <p className="hero__eyebrow">
-            INDEPENDENT CREATIVE STUDIO
-          </p>
-
           <h2 className="hero__headline">
             {headline}
           </h2>
-
-          <p className="hero__description">
-            A creative vision shaped by modern culture,
-            timeless design and attention to every detail.
-          </p>
         </div>
 
       </div>
