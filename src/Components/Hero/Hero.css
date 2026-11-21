@@ -1,164 +1,142 @@
-@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@700&display=swap');
 
-/*
-  Ce fichier utilise les variables du :root de ton style guide
-  (--color-*, --text-*, --spacing-*...). Garde-les dans index.css.
-  Les valeurs de secours (2e argument de var()) évitent tout trou si une variable manque.
-  Attention : --leading-* sont des pixels SANS unité, ne les utilise pas en line-height.
-*/
 
-.hero {
-  position: relative;
-  box-sizing: border-box;
-  min-height: 100vh;
-  min-height: 100svh;
-  max-width: var(--page-max-width, 1440px);
-  margin: 0 auto;
-  padding: var(--spacing-140, 140px) clamp(20px, 5vw, var(--spacing-60, 60px)) var(--spacing-60, 60px);
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  background: var(--color-warm-chalk, #fff8f6);
-  color: var(--color-forest-ink, #00522d);
-  font-family: 'Clash Grotesk', 'Inter', var(--font-clash-grotesk, system-ui, sans-serif);
+.hero-left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding-left: 100px;
+    line-height: 1.1;
 }
 
-/* ---------- Cercles de coin (seuls éléments interactifs) ---------- */
-.hero__dot {
-  position: fixed;
-  top: var(--spacing-20, 20px);
-  z-index: 10;
-  width: 50px;
-  height: 50px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-iconbuttons, 9999px);
-  background: var(--color-lipstick-magenta, #db3c8a);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+.hero-left h2{
+    color: #090909;
+    font-size: 26px;
+    font-weight: 600;
 }
 
-.hero__dot--menu  { left: var(--spacing-20, 20px); }
-.hero__dot--brand { right: var(--spacing-20, 20px); }
 
-.hero__dot:hover { transform: scale(1.08); }
-
-.hero__dot:focus-visible,
-.hero__link:focus-visible {
-  outline: 3px solid var(--color-forest-ink, #00522d);
-  outline-offset: 3px;
+.hero-hand-icon{
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-/* ---------- Contenu ---------- */
-.hero__content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
+.hero-hand-icon img{
+    width: 70px;
 }
 
-.hero__badge {
-  padding: 7px 15px;
-  border-radius: var(--radius-tags, 9999px);
-  background: var(--color-blush-cream, #fce5df);
-  color: var(--color-forest-ink, #00522d);
-  font-size: var(--text-caption, 14px);
-  font-weight: 500;
-  line-height: 1.2;
+.hero-latest-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 260px;
+    height: 60px;
+    border-radius: 75px;
+    margin-top: 20px;
+    background: #ff4141;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
 }
 
-/* Titre : Beni 900, interligne 0.70 */
-.hero__title {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Beni', 'Antonio', var(--font-beni, Impact, sans-serif);
-  font-weight: 900;
-  font-size: clamp(64px, 15vw, var(--text-display, 230px));
-  line-height: 0.7;
-  letter-spacing: normal;
-  text-transform: uppercase;
+.hero-right{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+@media(max-width:1280px){
+    .hero-left{
+        padding-left: 100px;
+    }
+    .hero-left h2{
+        font-size: 22px;
+    }
+    .hero-left p{
+        font-size: 60px;
+    }
+    .hero-hand-icon img{
+        width: 80px;
+    }
+    .hero-latest-btn{
+        gap: 10px;
+        width: 250px;
+        height: 60px;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    .hero-right img{
+        width: 500px;
+    }
 
-.hero__line { display: block; }
-.hero__line--loud { color: var(--color-lipstick-magenta, #db3c8a); }
-.hero__line--mid  { color: var(--color-bubblegum, #f29ebd); }
-
-.hero__text {
-  margin: 0;
-  max-width: 60ch;
-  font-size: clamp(16px, 1.5vw, var(--text-body, 20px));
-  font-weight: 400;
-  line-height: 1.2;
 }
+@media(max-width:1024px){
+    .hero-left{
+        padding-left: 80px;
+    }
+    .hero-left h2{
+        font-size: 20px;
+    }
+    .hero-left p{
+        font-size: 50px;
+    }
+    .hero-hand-icon img{
+        width: 65px;
+    }
+    .hero-latest-btn{
+        width: 220px;
+        height: 50px;
+        font-size: 16px;
+    }
+    .hero-right img{
+        width: 400px;
+    }
 
-.hero__link {
-  color: var(--color-forest-ink, #00522d);
-  font-size: var(--text-body-sm, 16px);
-  font-weight: 500;
-  text-decoration: none;
 }
-
-.hero__link:hover {
-  text-decoration: underline;
-  text-decoration-color: var(--color-lipstick-magenta, #db3c8a);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 6px;
+@media(max-width:800px){
+    .hero-left{
+        padding-left: 30px;
+    }
+    .hero-left h2{
+        font-size: 16px;
+    }
+    .hero-left p{
+        font-size: 40px;
+    }
+    .hero-hand-icon img{
+        width: 50px;
+    }
+    .hero-latest-btn{
+        width: 175px;
+        height: 40px;
+        font-size: 13px;
+    }
+    .hero-right img{
+        width: 300px;
+    }
 }
-
-/* Écho pâle, en contrepoint du titre */
-.hero__echo {
-  position: absolute;
-  top: 120px;
-  right: clamp(20px, 5vw, var(--spacing-60, 60px));
-  font-family: 'Beni', 'Antonio', var(--font-beni, Impact, sans-serif);
-  font-weight: 900;
-  font-size: clamp(46px, 9vw, var(--text-heading-lg, 130px));
-  line-height: 0.7;
-  text-transform: uppercase;
-  color: var(--color-blush-cream, #fce5df);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* ---------- Animation : une seule, au chargement ---------- */
-@keyframes hero-line-in {
-  from { clip-path: inset(100% 0 0 0); transform: translateY(30%); }
-  to   { clip-path: inset(-30% 0 -30% 0); transform: translateY(0); }
-}
-
-@keyframes hero-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.hero__line {
-  animation: hero-line-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-.hero__line:nth-child(2) { animation-delay: 0.12s; }
-.hero__line:nth-child(3) { animation-delay: 0.24s; }
-
-.hero__echo {
-  animation: hero-fade-in 1s ease 0.7s both;
-}
-
-/* ---------- Mobile ---------- */
-@media (max-width: 600px) {
-  .hero {
-    padding-top: 120px;
-    padding-bottom: 40px;
-  }
-  .hero__echo { display: none; }
-}
-
-/* ---------- Respect de prefers-reduced-motion ---------- */
-@media (prefers-reduced-motion: reduce) {
-  .hero__line,
-  .hero__echo { animation: none; }
-  .hero__dot { transition: none; }
+@media(max-width:500px){
+    .hero{
+        flex-direction: column;
+    }
+    .hero-right{
+        display: none;
+    }
+    .hero-left h2{
+        font-size: 18px;
+    }
+    .hero-left p{
+        font-size: 50px;
+    }
+    .hero-hand-icon img{
+        width: 55px;
+    }
+    .hero-latest-btn{
+        width: 200px;
+        height: 45px;
+        font-size: 14px;
+    }
 }
