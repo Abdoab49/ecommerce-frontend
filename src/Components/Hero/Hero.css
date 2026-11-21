@@ -1,142 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&family=Playfair+Display:wght@500&family=Source+Serif+4:wght@300&display=swap');
 
+/*
+  Style "Miranda" : les polices d'origine (Editorial New, Canopee, Domaine Display, Germgoth)
+  sont payantes. Les substituts du style guide sont utilisés :
+    Editorial New  -> Source Serif 4 (300)
+    Canopee        -> Bodoni Moda (gras)
+    Domaine Display-> Playfair Display (500)
+  Si tu as les vraies polices (@font-face), mets --hero-display-weight à 400 : Canopee est en 400.
+  Les variables du :root (variables.css) doivent rester dans index.css.
+*/
 
-.hero-left{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-    padding-left: 100px;
-    line-height: 1.1;
+.hero {
+  --hero-display-weight: 700;
+  --hero-serif: 'Editorial New', 'Source Serif 4', var(--font-editorial-new, Georgia, serif);
+  --hero-display: 'Canopee', 'Bodoni Moda', var(--font-canopee, Georgia, serif);
+
+  box-sizing: border-box;
+  width: 100%;
+  background: var(--color-parchment, #e2dedb);
+  color: var(--color-ink-black, #1d1d1b);
+  font-family: var(--hero-serif);
+  font-weight: 300;
 }
 
-.hero-left h2{
-    color: #090909;
-    font-size: 26px;
-    font-weight: 600;
+.hero *,
+.hero *::before,
+.hero *::after {
+  box-sizing: border-box;
 }
 
-
-.hero-hand-icon{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+/* ---------- Editorial Header Bar ---------- */
+.hero__bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: var(--spacing-14, 14px) var(--card-padding, 24px);
+  border-bottom: 1px solid var(--color-ink-black, #1d1d1b);
+  font-size: 19px;
+  line-height: 1.18;
+  letter-spacing: -0.4px;
 }
 
-.hero-hand-icon img{
-    width: 70px;
+.hero__location {
+  justify-self: start;
 }
 
-.hero-latest-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 260px;
-    height: 60px;
-    border-radius: 75px;
-    margin-top: 20px;
-    background: #ff4141;
-    color: white;
-    font-size: 20px;
-    font-weight: 500;
+.hero__brand {
+  justify-self: center;
+  color: inherit;
+  text-decoration: none;
 }
 
-.hero-right{
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.hero__menu {
+  justify-self: end;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink-black, #1d1d1b);
+  cursor: pointer;
 }
-@media(max-width:1280px){
-    .hero-left{
-        padding-left: 100px;
-    }
-    .hero-left h2{
-        font-size: 22px;
-    }
-    .hero-left p{
-        font-size: 60px;
-    }
-    .hero-hand-icon img{
-        width: 80px;
-    }
-    .hero-latest-btn{
-        gap: 10px;
-        width: 250px;
-        height: 60px;
-        margin-top: 20px;
-        font-size: 18px;
-    }
-    .hero-right img{
-        width: 500px;
-    }
 
+.hero__menu:hover {
+  color: var(--color-pure-black, #000000);
 }
-@media(max-width:1024px){
-    .hero-left{
-        padding-left: 80px;
-    }
-    .hero-left h2{
-        font-size: 20px;
-    }
-    .hero-left p{
-        font-size: 50px;
-    }
-    .hero-hand-icon img{
-        width: 65px;
-    }
-    .hero-latest-btn{
-        width: 220px;
-        height: 50px;
-        font-size: 16px;
-    }
-    .hero-right img{
-        width: 400px;
-    }
 
+.hero__menu:focus-visible,
+.hero__link:focus-visible,
+.hero__brand:focus-visible {
+  outline: 2px solid var(--color-ink-black, #1d1d1b);
+  outline-offset: 3px;
 }
-@media(max-width:800px){
-    .hero-left{
-        padding-left: 30px;
-    }
-    .hero-left h2{
-        font-size: 16px;
-    }
-    .hero-left p{
-        font-size: 40px;
-    }
-    .hero-hand-icon img{
-        width: 50px;
-    }
-    .hero-latest-btn{
-        width: 175px;
-        height: 40px;
-        font-size: 13px;
-    }
-    .hero-right img{
-        width: 300px;
-    }
+
+/* ---------- Display Banner Block ---------- */
+.hero__banner {
+  width: 100%;
+  overflow-x: clip;
+  padding: var(--spacing-22, 22px) var(--card-padding, 24px);
+  background: var(--color-ink-black, #1d1d1b);
+  color: var(--color-parchment, #e2dedb);
 }
-@media(max-width:500px){
-    .hero{
-        flex-direction: column;
-    }
-    .hero-right{
-        display: none;
-    }
-    .hero-left h2{
-        font-size: 18px;
-    }
-    .hero-left p{
-        font-size: 50px;
-    }
-    .hero-hand-icon img{
-        width: 55px;
-    }
-    .hero-latest-btn{
-        width: 200px;
-        height: 45px;
-        font-size: 14px;
-    }
+
+.hero__banner-text {
+  margin: 0;
+  font-family: var(--hero-display);
+  font-weight: var(--hero-display-weight);
+  font-size: clamp(72px, 19vw, 533px);
+  line-height: 0.78;
+  letter-spacing: -0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- Drop Cap Bio Block ---------- */
+.hero__intro {
+  max-width: var(--page-max-width, 1440px);
+  margin: 0 auto;
+  padding: var(--spacing-43, 43px) var(--card-padding, 24px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-43, 43px);
+  align-items: start;
+}
+
+.hero__intro-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-22, 22px);
+}
+
+.hero__bio {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 19px;
+  line-height: 1.27;
+  letter-spacing: -0.16px;
+  text-align: left;
+}
+
+/* Lettrine : seule fioriture typographique du texte courant */
+.hero__bio::first-letter {
+  float: left;
+  padding: 4px 10px 0 0;
+  font-family: var(--hero-display);
+  font-weight: var(--hero-display-weight);
+  font-size: 96px;
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+/* Text Link with Underline */
+.hero__link {
+  color: var(--color-ink-black, #1d1d1b);
+  font-size: 17px;
+  line-height: 1.18;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.hero__link:hover {
+  color: var(--color-pure-black, #000000);
+}
+
+.hero__headline {
+  margin: 0;
+  font-family: var(--hero-display);
+  font-weight: var(--hero-display-weight);
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 0.91;
+  letter-spacing: -0.032em;
+  text-transform: uppercase;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px) {
+  .hero__intro {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-29, 29px);
+  }
+
+  .hero__headline {
+    order: -1;
+  }
+
+  .hero__bar {
+    font-size: 16px;
+  }
 }
