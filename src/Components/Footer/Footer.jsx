@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
@@ -7,27 +7,68 @@ const Footer = ({
     logoSrc = '/logo192.png',
     contactEmail = '',
     onNewsletterSubmit,
+    imageSrc = '/Assets/footer-campaign.jpg',
 }) => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState('');
     const [loading, setLoading] = useState(false);
     const [logoError, setLogoError] = useState(false);
+    const [mouse, setMouse] = useState({ x: -100, y: -100 });
+    const [entered, setEntered] = useState(false);
+
+    const footerRef = useRef(null);
 
     const year = new Date().getFullYear();
 
-    // NEWSLETTER SUBMISSION
+    useEffect(() => {
+        const footer = footerRef.current;
+        if (!footer) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setEntered(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15 }
+        );
+
+        observer.observe(footer);
+
+        return () => observer.disconnect();
+    }, []);
+
+    const handleMouseMove = (event) => {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+
+        const rect = footerRef.current?.getBoundingClientRect();
+        if (!rect) return;
+
+        setMouse({
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top,
+        });
+    };
+
+    const handleScan = () => {
+        if (!footerRef.current) return;
+
+        footerRef.current.classList.remove('lanada-scan');
+        void footerRef.current.offsetWidth;
+        footerRef.current.classList.add('lanada-scan');
+    };
+
     const handleNewsletter = async (event) => {
         event.preventDefault();
 
         const cleanEmail = email.trim().toLowerCase();
-
-        // Email validation
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!cleanEmail || !emailPattern.test(cleanEmail)) {
-            setMessageType('error');
+        if (!emailPattern.test(cleanEmail)) {
             setMessage('Please enter a valid email address.');
+            setMessageType('error');
             return;
         }
 
@@ -38,155 +79,195 @@ const Footer = ({
             setMessage('');
             setMessageType('');
 
-            // Submit through backend callback
             if (typeof onNewsletterSubmit === 'function') {
                 await onNewsletterSubmit(cleanEmail);
 
+                setMessage('Thank you for joining LANADA.');
                 setMessageType('success');
-                setMessage(
-                    'Thank you! You have successfully joined LANADA.'
-                );
-
                 setEmail('');
                 return;
             }
 
-            // Open email application
             if (contactEmail) {
                 const subject = encodeURIComponent(
                     'LANADA Newsletter Subscription'
                 );
 
                 const body = encodeURIComponent(
-                    `Hello LANADA,
-
-Please add this email to your newsletter:
-
-${cleanEmail}
-
-Thank you.`
+                    `Hello LANADA,\n\nPlease add this email to your newsletter:\n\n${cleanEmail}\n\nThank you.`
                 );
 
-                const mailtoUrl =
+                window.location.href =
                     `mailto:${contactEmail}?subject=${subject}&body=${body}`;
 
-                window.location.href = mailtoUrl;
-
+                setMessage('Your email application is opening.');
                 setMessageType('info');
-                setMessage(
-                    'Your email application is opening. Send the message to complete your request.'
-                );
-
                 return;
             }
 
+            setMessage('Newsletter service is not connected yet.');
             setMessageType('error');
-            setMessage(
-                'Newsletter service is not connected yet. Please try again later.'
-            );
-
         } catch (error) {
-            console.error('Newsletter submission error:', error);
+            console.error('Newsletter error:', error);
 
-            setMessageType('error');
             setMessage(
                 error?.message || 'Something went wrong. Please try again.'
             );
-
+            setMessageType('error');
         } finally {
             setLoading(false);
         }
     };
 
+    const footerLinks = [
+        {
+            title: 'EXPLORE',
+            links: [
+                { label: 'Shop All', to: '/shop' },
+                { label: 'Men', to: '/mens' },
+                { label: 'Jackets', to: '/womens' },
+                { label: 'Shoes', to: '/shoes' },
+                { label: 'Casquette', to: '/casquette' },
+                { label: 'Offcut', to: '/offcut' },
+            ],
+        },
+        {
+            title: 'LANADA',
+            links: [
+                { label: 'Our Story', to: '/about' },
+                { label: 'Night 26', to: '/night-26-shell' },
+                { label: 'My Orders', to: '/orders' },
+            ],
+        },
+        {
+            title: 'INFORMATION',
+            links: [
+                { label: 'Privacy Policy', to: '/privacy' },
+                { label: 'Terms & Conditions', to: '/terms' },
+            ],
+        },
+    ];
+
     return (
-        <footer className="lanada-footer">
+        <footer
+            ref={footerRef}
+            className={`lanada-editorial-footer ${entered ? 'is-visible' : ''}`}
+            onMouseMove={handleMouseMove}
+            onClick={handleScan}
+            style={{
+                '--mouse-x': `${mouse.x}px`,
+                '--mouse-y': `${mouse.y}px`,
+            }}
+        >
+            {/* CAMPAIGN IMAGE */}
 
-            <div className="lanada-footer-container">
+            <div className="lanada-footer-art">
+                <img
+                    src={imageSrc}
+                    alt=""
+                    className="lanada-footer-art-image"
+                    loading="lazy"
+                />
 
-                {/* LOGO */}
+                <div className="lanada-footer-art-overlay" />
 
-                <div className="lanada-footer-logo-area">
-
-                    {!logoError && logoSrc ? (
-                        <img
-                            src={logoSrc}
-                            alt="LANADA logo"
-                            className="lanada-footer-logo"
-                            onError={() => setLogoError(true)}
-                        />
-                    ) : (
-                        <span className="lanada-footer-logo-text">
-                            LANADA<span>.</span>
-                        </span>
-                    )}
-
-                    <p className="lanada-footer-tagline">
-                        THE ART OF EVERYDAY STYLE.
-                    </p>
-
+                <div className="lanada-footer-art-caption">
+                    <span>LANADA STUDIO</span>
+                    <span>COLLECTION / 2026</span>
                 </div>
 
-                {/* ABOUT */}
+                <div className="lanada-footer-art-index">
+                    <span>01</span>
+                    <span>—</span>
+                    <span>26</span>
+                </div>
+            </div>
 
-                <section className="lanada-footer-about">
-                    <h2>ABOUT LANADA</h2>
+            {/* MAIN RED FIELD */}
 
-                    <p>
-                        LANADA is more than a fashion destination.
-                        It is a reflection of individuality, confidence
-                        and personal expression. We believe great style
-                        is timeless, effortless and uniquely yours.
-                        Discover a collection made for the way you live.
-                    </p>
+            <div className="lanada-footer-red">
 
-                    <Link
-                        to="/about"
-                        className="lanada-footer-about-link"
-                    >
-                        DISCOVER OUR STORY
-                        <span aria-hidden="true"> →</span>
-                    </Link>
-                </section>
+                {/* POINTER EFFECT */}
+
+                <div
+                    className="lanada-footer-pointer"
+                    aria-hidden="true"
+                />
+
+                <div className="lanada-footer-topline">
+                    <span>THE ART OF EVERYDAY STYLE.</span>
+                    <span>MADE TO BE DIFFERENT.</span>
+                </div>
+
+                {/* BRAND */}
+
+                <div className="lanada-footer-brand">
+
+                    <div className="lanada-footer-brand-logo">
+                        {!logoError && logoSrc ? (
+                            <img
+                                src={logoSrc}
+                                alt="LANADA"
+                                onError={() => setLogoError(true)}
+                            />
+                        ) : (
+                            <span>LANADA</span>
+                        )}
+                    </div>
+
+                    <h2 className="lanada-footer-wordmark">
+                        LANADA
+                    </h2>
+
+                    <div className="lanada-footer-brand-description">
+                        <p>
+                            NOT JUST CLOTHING.
+                            <br />
+                            A WAY OF SEEING THE WORLD.
+                        </p>
+
+                        <span className="lanada-footer-brand-number">
+                            L—001
+                        </span>
+                    </div>
+                </div>
 
                 {/* NEWSLETTER */}
 
                 <section className="lanada-footer-newsletter">
 
-                    <h3>STAY IN TOUCH.</h3>
+                    <div className="lanada-footer-newsletter-copy">
+                        <span className="lanada-footer-eyebrow">
+                            THE LANADA LETTER
+                        </span>
 
-                    <p>
-                        Receive the latest collections, new arrivals
-                        and exclusive updates directly in your inbox.
-                    </p>
+                        <h3>
+                            Stay ahead.
+                            <br />
+                            Stay <em>different.</em>
+                        </h3>
+
+                        <p>
+                            New collections. Unexpected drops.
+                            Stories worth knowing.
+                        </p>
+                    </div>
 
                     <form
-                        className="lanada-footer-email-form"
+                        className="lanada-footer-form"
                         onSubmit={handleNewsletter}
                         noValidate
                     >
+                        <label htmlFor="lanada-newsletter-email">
+                            YOUR EMAIL ADDRESS
+                        </label>
 
-                        <div className="lanada-footer-email-input">
-
-                            <svg
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <rect
-                                    x="3"
-                                    y="5"
-                                    width="18"
-                                    height="14"
-                                    rx="2"
-                                />
-
-                                <path d="m4 7 8 6 8-6" />
-                            </svg>
-
+                        <div className="lanada-footer-input-row">
                             <input
+                                id="lanada-newsletter-email"
                                 type="email"
                                 name="newsletterEmail"
-                                placeholder="Enter your email address"
-                                aria-label="Enter your email address"
+                                placeholder="name@email.com"
                                 autoComplete="email"
                                 value={email}
                                 onChange={(event) => {
@@ -194,108 +275,128 @@ Thank you.`
                                     setMessage('');
                                     setMessageType('');
                                 }}
-                                required
                                 disabled={loading}
+                                required
                             />
 
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                aria-label="Subscribe to newsletter"
+                            >
+                                {loading ? (
+                                    <span className="lanada-footer-loader" />
+                                ) : (
+                                    <span className="lanada-footer-arrow">
+                                        ↗
+                                    </span>
+                                )}
+                            </button>
                         </div>
 
-                        <button
-                            type="submit"
-                            className="lanada-footer-email-submit"
-                            disabled={loading}
-                            aria-label="Subscribe"
-                        >
-                            {loading ? (
-                                <span className="lanada-footer-spinner"></span>
-                            ) : (
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                >
-                                    <path d="M5 12h14" />
-                                    <path d="m13 5 7 7-7 7" />
-                                </svg>
-                            )}
-                        </button>
+                        {message && (
+                            <p
+                                className={`lanada-footer-feedback ${messageType}`}
+                                role="status"
+                                aria-live="polite"
+                            >
+                                {message}
+                            </p>
+                        )}
 
+                        <span className="lanada-footer-privacy">
+                            NO SPAM. ONLY GOOD THINGS.
+                        </span>
                     </form>
-
-                    {message && (
-                        <p
-                            className={`lanada-footer-message ${messageType}`}
-                            role="status"
-                            aria-live="polite"
-                        >
-                            {message}
-                        </p>
-                    )}
-
-                    <span className="lanada-footer-note">
-                        NO SPAM. JUST WHAT YOU LOVE.
-                    </span>
-
                 </section>
 
-                {/* FOOTER NAVIGATION */}
+                {/* NAVIGATION */}
 
-                <nav
-                    className="lanada-footer-navigation"
-                    aria-label="Footer navigation"
-                >
-                    <Link to="/shop">SHOP</Link>
+                <div className="lanada-footer-links">
 
-                    <Link to="/about">ABOUT</Link>
-
-                    <Link to="/orders">MY ORDERS</Link>
-
-                    <Link to="/privacy">PRIVACY POLICY</Link>
-
-                    <Link to="/terms">TERMS & CONDITIONS</Link>
-                </nav>
-
-                {/* CONTACT */}
-
-                {contactEmail && (
-                    <a
-                        className="lanada-footer-contact"
-                        href={`mailto:${contactEmail}`}
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
+                    {footerLinks.map((column) => (
+                        <nav
+                            key={column.title}
+                            className="lanada-footer-link-column"
+                            aria-label={column.title}
                         >
-                            <rect
-                                x="3"
-                                y="5"
-                                width="18"
-                                height="14"
-                                rx="2"
-                            />
+                            <h4>{column.title}</h4>
 
-                            <path d="m4 7 8 6 8-6" />
-                        </svg>
+                            {column.links.map((link) => (
+                                <Link
+                                    key={link.label}
+                                    to={link.to}
+                                >
+                                    {link.label}
+                                    <span>↗</span>
+                                </Link>
+                            ))}
+                        </nav>
+                    ))}
 
-                        CONTACT LANADA
-                    </a>
-                )}
+                    {/* CONTACT */}
 
-                {/* COPYRIGHT */}
+                    <div className="lanada-footer-link-column lanada-footer-contact-column">
+                        <h4>GET IN TOUCH</h4>
+
+                        {contactEmail ? (
+                            <a href={`mailto:${contactEmail}`}>
+                                {contactEmail}
+                                <span>↗</span>
+                            </a>
+                        ) : (
+                            <Link to="/about">
+                                Contact LANADA
+                                <span>↗</span>
+                            </Link>
+                        )}
+
+                        <p>
+                            Casablanca
+                            <br />
+                            Morocco
+                        </p>
+
+                        <a
+                            href="https://www.instagram.com/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Instagram
+                            <span>↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                {/* BOTTOM */}
 
                 <div className="lanada-footer-bottom">
 
-                    <p>
-                        © {year} LANADA. ALL RIGHTS RESERVED.
-                    </p>
+                    <div className="lanada-footer-bottom-left">
+                        <span>© {year} LANADA</span>
+                        <span>ALL RIGHTS RESERVED.</span>
+                    </div>
 
-                    <p>
+                    <button
+                        type="button"
+                        className="lanada-footer-back-top"
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth',
+                            });
+                        }}
+                    >
+                        BACK TO TOP
+                        <span>↑</span>
+                    </button>
+
+                    <span className="lanada-footer-bottom-tag">
                         MADE FOR YOUR STYLE.
-                    </p>
-
+                    </span>
                 </div>
-
             </div>
-
         </footer>
     );
 };
