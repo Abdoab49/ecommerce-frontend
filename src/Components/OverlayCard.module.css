@@ -157,3 +157,60 @@
   .cardTitle { font-size: 2.5rem; }
   .cardText { font-size: 1.25rem; }
 }
+
+
+.card {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #080b09;
+  border-radius: 0;
+}
+
+.cardImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.asciiCanvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.cardImgOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0.08) 55%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+}
+
+@media (max-width: 768px) {
+  .card {
+    min-height: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asciiCanvas {
+    animation: none;
+  }
+}
