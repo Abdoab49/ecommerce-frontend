@@ -54,6 +54,12 @@ import Shoes from './pages/Shoes';
 import HealthCheck from './pages/HealthCheck';
 
 /* =========================================
+   TRY THE LOOK — RUNWAY
+========================================= */
+
+import TryTheLook from './pages/TryTheLook';
+
+/* =========================================
    LEGAL & INFORMATION PAGES
 ========================================= */
 
@@ -222,6 +228,13 @@ function App() {
                                                 <GiveawayPromo />
                                             </>
                                         }
+                                    />
+
+                                    {/* TRY THE LOOK — RUNWAY */}
+
+                                    <Route
+                                        path="/try-the-look"
+                                        element={<TryTheLook />}
                                     />
 
                                     {/* SHOP CATEGORIES */}

@@ -1,533 +1,578 @@
 
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ShopContext } from '../Context/ShopContext';
-import './TryTheLook.css';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import "./TryTheLook.css";
 
-const ASSET = 'https://reel-ref-try-the-look.vercel.app/assets/';
+const ASSETS = "https://reel-ref-try-the-look.vercel.app/assets/";
+const SHOP = "https://nike-makknzjs.myshopify.com";
+const STORAGE_KEY = "runway-styling-bag-v3";
 
 const products = {
-  'Air Jordan 12 Retro': {
-    id: 'tatum-5-orbit-copy',
+  "air-jordan": {
+    id: "tatum-5-orbit-copy",
+    name: "Air Jordan 12 Retro",
+    vendor: "Nikey | Password: 1",
     price: 149,
-    image: 'source-tatum-5-orbit-copy.webp',
-    type: 'Nike',
-    sizes: ['40', '41', '42', '43', '44', '45', '46'],
-    url: 'https://nike-makknzjs.myshopify.com/products/tatum-5-orbit-copy'
+    image: "source-tatum-5-orbit-copy.webp",
+    url: `${SHOP}/products/tatum-5-orbit-copy`,
+    sizes: ["40", "41", "42", "43", "44", "45", "46"],
+    variants: [57015167025457, 57015167058225, 57015167090993, 57015167123761, 57015167156529, 57015167189297, 57015167222065],
   },
-  Tshirt: {
-    id: 'tshirt',
+  tshirt: {
+    id: "tshirt",
+    name: "Tshirt",
+    vendor: "Nike",
     price: 199,
-    image: 'source-tshirt.webp',
-    type: 'Nike',
-    sizes: ['S', 'L', 'M', 'XL'],
-    url: 'https://nike-makknzjs.myshopify.com/products/tshirt'
+    image: "source-tshirt.webp",
+    url: `${SHOP}/products/tshirt`,
+    sizes: ["S", "L", "M", "XL"],
+    variants: [56835911582001, 56835911614769, 56835911647537, 56835911680305],
   },
-  Sweatshirt: {
-    id: 'sweatshirt',
+  sweatshirt: {
+    id: "sweatshirt",
+    name: "Sweatshirt",
+    vendor: "Nike",
     price: 199,
-    image: 'source-sweatshirt.webp',
-    type: 'Nike',
-    sizes: ['S', 'L', 'M', 'XL'],
-    url: 'https://nike-makknzjs.myshopify.com/products/sweatshirt'
+    image: "source-sweatshirt.webp",
+    url: `${SHOP}/products/sweatshirt`,
+    sizes: ["S", "L", "M", "XL"],
+    variants: [56835806396721, 56835806429489, 56835806462257, 56835806495025],
   },
-  'Tatum 5 Orbit': {
-    id: 'tatum-5-orbit',
+  "tatum-orbit": {
+    id: "tatum-5-orbit",
+    name: "Tatum 5 Orbit",
+    vendor: "Nikey | Password: 1",
     price: 149,
-    image: 'source-tatum-5-orbit.webp',
-    type: 'Nike',
-    sizes: ['40', '41', '42', '43', '44', '45', '46'],
-    url: 'https://nike-makknzjs.myshopify.com/products/tatum-5-orbit'
+    image: "source-tatum-5-orbit.webp",
+    url: `${SHOP}/products/tatum-5-orbit`,
+    sizes: ["40", "41", "42", "43", "44", "45", "46"],
+    variants: [57015166730545, 57015166763313, 57015166796081, 57015166828849, 57015166861617, 57015166894385, 57015166927153],
   },
-  'Hoodie Black': {
-    id: 'hoodie-black',
+  "hoodie-black": {
+    id: "hoodie-black",
+    name: "Hoodie Black",
+    vendor: "Nike",
     price: 199,
-    image: 'source-hoodie-black.webp',
-    type: 'Nike',
-    sizes: ['S', 'L', 'M', 'XL'],
-    url: 'https://nike-makknzjs.myshopify.com/products/hoodie-black'
+    image: "source-hoodie-black.webp",
+    url: `${SHOP}/products/hoodie-black`,
+    sizes: ["S", "L", "M", "XL"],
+    variants: [56836251681073, 56836251713841, 56836251746609, 56836251779377],
   },
-  'Sweatshirt Plus': {
-    id: 'sweatshirt-plus',
+  "sweatshirt-plus": {
+    id: "sweatshirt-plus",
+    name: "Sweatshirt Plus",
+    vendor: "Nike",
     price: 199,
-    image: 'source-sweatshirt-plus.webp',
-    type: 'Nike',
-    sizes: ['S', 'L', 'M', 'XL'],
-    url: 'https://nike-makknzjs.myshopify.com/products/sweatshirt-plus'
+    image: "source-sweatshirt-plus.webp",
+    url: `${SHOP}/products/sweatshirt-plus`,
+    sizes: ["S", "L", "M", "XL"],
+    variants: [56836143743281, 56836143776049, 56836143808817, 56836143841585],
   },
-  Hoodie: {
-    id: 'hoodie',
+  hoodie: {
+    id: "hoodie",
+    name: "Hoodie",
+    vendor: "Nike",
     price: 199,
-    image: 'source-hoodie.webp',
-    type: 'Nike',
-    sizes: ['S', 'L', 'M', 'XL'],
-    url: 'https://nike-makknzjs.myshopify.com/products/hoodie'
+    image: "source-hoodie.webp",
+    url: `${SHOP}/products/hoodie`,
+    sizes: ["S", "L", "M", "XL"],
+    variants: [56836002185521, 56836002218289, 56836002251057, 56836002283825],
   },
-  'Luka 5': {
-    id: 'air-jordan-12-retro-copy',
+  luka: {
+    id: "air-jordan-12-retro-copy",
+    name: "Luka 5",
+    vendor: "Nikey | Password: 1",
     price: 149,
-    image: 'source-air-jordan-12-retro-copy.webp',
-    type: 'Nike',
-    sizes: ['40', '41', '42', '43', '44', '45', '46'],
-    url: 'https://nike-makknzjs.myshopify.com/products/air-jordan-12-retro-copy'
-  }
+    image: "source-air-jordan-12-retro-copy.webp",
+    url: `${SHOP}/products/air-jordan-12-retro-copy`,
+    sizes: ["40", "41", "42", "43", "44", "45", "46"],
+    variants: [57015176364337, 57015176397105, 57015176429873, 57015176462641, 57015176495409, 57015176528177, 57015176560945],
+  },
 };
 
 const looks = [
   {
-    name: 'The City Edit',
-    model: 'model-1-640.webp',
-    pieces: ['Air Jordan 12 Retro', 'Tshirt', 'Sweatshirt'],
-    desc: 'A charcoal knit and easy denim.'
+    name: "The City Edit",
+    model: "model-1-640.webp",
+    original: "original-look-1.webp",
+    description: "A charcoal knit and easy denim.",
+    items: ["air-jordan", "tshirt", "sweatshirt"],
   },
   {
-    name: 'Gallery Opening',
-    model: 'model-5-640.webp',
-    pieces: ['Tatum 5 Orbit', 'Hoodie Black', 'Tshirt'],
-    desc: 'A clean white tee and relaxed denim.'
+    name: "Gallery Opening",
+    model: "model-5-640.webp",
+    original: "original-look-5.webp",
+    description: "A clean white tee and relaxed denim.",
+    items: ["tatum-orbit", "hoodie-black", "tshirt"],
+    newItem: "hoodie-black",
   },
   {
-    name: 'Gallery Opening',
-    model: 'model-4-640.webp',
-    pieces: ['Sweatshirt Plus', 'Tatum 5 Orbit', 'Tshirt'],
-    desc: 'Olive knitwear. A grounded palette.'
+    name: "Gallery Opening",
+    model: "model-4-640.webp",
+    original: "original-look-4.webp",
+    description: "Olive knitwear. A grounded palette.",
+    items: ["sweatshirt-plus", "tatum-orbit", "tshirt"],
+    newItem: "tatum-orbit",
   },
   {
-    name: 'Studio Day',
-    model: 'model-6-640.webp',
-    pieces: ['Hoodie Black', 'Air Jordan 12 Retro', 'Tshirt'],
-    desc: 'Black, white and laid-back denim.'
+    name: "Studio Day",
+    model: "model-6-640.webp",
+    original: "original-look-6.webp",
+    description: "Black, white and laid-back denim.",
+    items: ["hoodie-black", "air-jordan", "tshirt"],
   },
   {
-    name: 'Studio Day',
-    model: 'model-3-640.webp',
-    pieces: ['Sweatshirt', 'Tatum 5 Orbit', 'Tshirt'],
-    desc: 'Burgundy layers. A tailored perspective.'
+    name: "Studio Day",
+    model: "model-3-640.webp",
+    original: "original-look-3.webp",
+    description: "Burgundy layers. A tailored perspective.",
+    items: ["sweatshirt", "tatum-orbit", "tshirt"],
   },
   {
-    name: 'Studio Day',
-    model: 'model-2-640.webp',
-    pieces: ['Hoodie', 'Luka 5', 'Tshirt'],
-    desc: 'A grey crew and your favourite denim.'
-  }
+    name: "Studio Day",
+    model: "model-2-640.webp",
+    original: "original-look-2.webp",
+    description: "A grey crew and your favourite denim.",
+    items: ["hoodie", "luka", "tshirt"],
+  },
 ];
 
+const money = (amount) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+
+function getSavedBag() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function getVariant(product, size) {
+  const index = product.sizes.indexOf(size);
+  return index >= 0 ? product.variants[index] : null;
+}
+
 export default function TryTheLook() {
-  const shop = useContext(ShopContext) || {};
-  const addToCart = shop.addToCart;
-
   const [active, setActive] = useState(0);
-  const [sizes, setSizes] = useState({});
-  const [bag, setBag] = useState([]);
+  const [playing, setPlaying] = useState(true);
+  const [selectedSizes, setSelectedSizes] = useState({});
+  const [openPicker, setOpenPicker] = useState(null);
+  const [bag, setBag] = useState(getSavedBag);
   const [bagOpen, setBagOpen] = useState(false);
-  const [viewOpen, setViewOpen] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const [toast, setToast] = useState('');
+  const [popup, setPopup] = useState(false);
+  const [hotProduct, setHotProduct] = useState(null);
+  const [message, setMessage] = useState("");
+  const [toast, setToast] = useState("");
 
-  const touch = useRef(null);
   const look = looks[active];
 
-  const total = useMemo(
-    () => look.pieces.reduce((sum, name) => sum + products[name].price, 0),
-    [look]
-  );
+  const totalItems = bag.reduce((sum, item) => sum + item.quantity, 0);
+  const subtotal = bag.reduce((sum, item) => {
+    const product = Object.values(products).find((p) => p.id === item.id);
+    return sum + (product ? product.price * item.quantity : 0);
+  }, 0);
 
-  const selected = (name) =>
-    sizes[`${active}-${name}`] || products[name].sizes[0];
+  const saveBag = useCallback((nextBag) => {
+    setBag(nextBag);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextBag));
+    } catch {
+      // Storage may be unavailable in private browsing.
+    }
+  }, []);
 
-  useEffect(() => {
-    if (paused || viewOpen || bagOpen) return;
+  const showToast = useCallback((text) => {
+    setToast(text);
+    window.setTimeout(() => setToast(""), 2500);
+  }, []);
 
-    const timer = setInterval(() => {
-      setActive((current) => (current + 1) % looks.length);
-    }, 5000);
+  const goTo = useCallback((index) => {
+    setActive((index + looks.length) % looks.length);
+    setOpenPicker(null);
+    setPopup(false);
+    setHotProduct(null);
+    setMessage("");
+  }, []);
 
-    return () => clearInterval(timer);
-  }, [paused, viewOpen, bagOpen]);
+  const addProduct = useCallback((productKey, size) => {
+    const product = products[productKey];
+    const variantId = getVariant(product, size);
 
-  const notify = (message) => {
-    setToast(message);
-    window.setTimeout(() => setToast(''), 2600);
-  };
-
-  const addPiece = (name) => {
-    const product = products[name];
-    const size = selected(name);
-
-    const item = {
-      id: `runway-${product.id}-${active}-${name}`,
-      name,
-      price: product.price,
-      new_price: product.price,
-      image: ASSET + product.image,
-      size,
-      quantity: 1,
-      category: 'runway',
-      brand: 'Nike'
-    };
-
-    if (addToCart) {
-      addToCart(item.id, size, item);
+    if (!variantId) {
+      setMessage(`Please choose a size for ${product.name}.`);
+      return false;
     }
 
-    setBag((old) => [
-      ...old,
-      { ...item, key: `${Date.now()}-${Math.random()}` }
-    ]);
+    const next = [...bag];
+    const existing = next.find((item) => item.id === product.id && item.variantId === variantId);
 
-    notify(`${name} added to your styling bag`);
+    if (existing) {
+      existing.quantity = Math.min(20, existing.quantity + 1);
+    } else {
+      next.push({
+        id: product.id,
+        variantId,
+        size,
+        quantity: 1,
+      });
+    }
+
+    saveBag(next);
+    showToast("Piece saved to your styling bag");
+    setOpenPicker(null);
+    setMessage("");
+    return true;
+  }, [bag, saveBag, showToast]);
+
+  const addFullLook = () => {
+    const missing = look.items.filter((key) => !selectedSizes[`${active}-${key}`]);
+
+    if (missing.length) {
+      setMessage(`Pick a size for: ${missing.map((key) => products[key].name).join(", ")}`);
+      setOpenPicker(missing[0]);
+      return;
+    }
+
+    const next = [...bag];
+
+    look.items.forEach((key) => {
+      const product = products[key];
+      const size = selectedSizes[`${active}-${key}`];
+      const variantId = getVariant(product, size);
+      const existing = next.find((item) => item.id === product.id && item.variantId === variantId);
+
+      if (existing) {
+        existing.quantity = Math.min(20, existing.quantity + 1);
+      } else {
+        next.push({ id: product.id, variantId, size, quantity: 1 });
+      }
+    });
+
+    saveBag(next);
+    setMessage("");
+    setOpenPicker(null);
+    showToast("Look saved to your styling bag");
   };
 
-  const addFull = () => {
-    look.pieces.forEach(addPiece);
-    notify('Full look added to your LANADA cart');
+  const removeBagItem = (variantId) => {
+    saveBag(bag.filter((item) => item.variantId !== variantId));
   };
 
-  const move = (direction) => {
-    setActive((current) =>
-      (current + direction + looks.length) % looks.length
-    );
+  const exportBag = () => {
+    const lines = [
+      "RUNWAY — STYLING SHORTLIST",
+      "Reference prices; no order or payment has been placed.",
+      "",
+      ...bag.flatMap((entry) => {
+        const product = Object.values(products).find((p) => p.id === entry.id);
+        if (!product) return [];
+        return [
+          `${product.name} · Size ${entry.size} · Quantity ${entry.quantity}`,
+          product.url,
+        ];
+      }),
+    ];
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "runway-outfit-shortlist.txt";
+    anchor.click();
+    URL.revokeObjectURL(url);
   };
+
+  useEffect(() => {
+    if (!playing || popup || bagOpen) return undefined;
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % looks.length);
+      setOpenPicker(null);
+      setMessage("");
+    }, 5000);
+    return () => window.clearInterval(timer);
+  }, [playing, popup, bagOpen]);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setPopup(false);
+        setBagOpen(false);
+        setOpenPicker(null);
+      }
+      if (event.key === "ArrowRight" && !popup && !bagOpen) goTo(active + 1);
+      if (event.key === "ArrowLeft" && !popup && !bagOpen) goTo(active - 1);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [active, bagOpen, popup, goTo]);
+
+  const updateSize = (key, size) => {
+    setSelectedSizes((current) => ({
+      ...current,
+      [`${active}-${key}`]: size,
+    }));
+  };
+
+  const pinProducts = useMemo(() => look.items.map((key) => products[key]), [look]);
 
   return (
-    <main
-      className="ttl-page"
-      onTouchStart={(event) => {
-        touch.current = event.touches[0].clientX;
-      }}
-      onTouchEnd={(event) => {
-        if (touch.current === null) return;
+    <main className="try-look">
+      <header className="tl-header">
+        <a href="/" className="tl-logo" aria-label="LANADA home">
+          <img src={`${ASSETS}nike-logo.svg`} alt="Nike" />
+        </a>
 
-        const distance =
-          event.changedTouches[0].clientX - touch.current;
+        <nav className="tl-nav" aria-label="Runway navigation">
+          <a href="/">Home</a>
+          <a href={`${SHOP}/pages/nike-orbit`} target="_blank" rel="noreferrer">Nike Orbit</a>
+          <a href={`${SHOP}/pages/scene-rail`} target="_blank" rel="noreferrer">Hand Rail Pro</a>
+          <a href="/try-the-look" aria-current="page">Runway</a>
+        </nav>
 
-        if (Math.abs(distance) > 55) {
-          move(distance < 0 ? 1 : -1);
-        }
-
-        touch.current = null;
-      }}
-    >
-      <section className="ttl-intro">
-        <div>
-          <span className="ttl-kicker">LANADA × NIKE / STYLE EDITION</span>
-          <h1>
-            Try the Look<span>.</span>
-          </h1>
-          <p>
-            Six looks, styled head to toe. Explore the runway,
-            isolate a look, and find every piece.
-          </p>
-        </div>
-
-        <button
-          className="ttl-bag-link"
-          onClick={() => setBagOpen(true)}
-        >
-          Styling bag <span>{bag.length}</span>
+        <button className="tl-bag-button" onClick={() => setBagOpen(true)} aria-label="Open styling bag">
+          <svg viewBox="0 0 24 26" aria-hidden="true">
+            <path d="M4 8h16l1 16H3L4 8zM8 8V6a4 4 0 0 1 8 0v2" />
+          </svg>
+          <span>{totalItems}</span>
         </button>
-      </section>
+      </header>
 
-      <section className="ttl-layout">
-        <div className="ttl-stage">
-          <div className="ttl-stage-top">
-            <span>THE RUNWAY</span>
-            <span>0{active + 1} / 06</span>
+      <section className="tl-layout">
+        <div className="tl-left">
+          <div className="tl-intro">
+            <div>
+              <h1>Try the Look.</h1>
+              <p>Six looks, styled head to toe. Tap a pin to see the piece.</p>
+            </div>
+            <span className="tl-counter">{String(active + 1).padStart(2, "0")} / 06</span>
           </div>
 
-          <div className="ttl-orbit" aria-label="Runway looks carousel">
-            {looks.map((item, index) => {
-              let offset = index - active;
-
-              if (offset > 3) offset -= 6;
-              if (offset < -3) offset += 6;
-
-              return (
-                <button
-                  key={index}
-                  className={`ttl-model ttl-pos-${offset} ${
-                    index === active ? 'is-active' : ''
-                  }`}
-                  onClick={() => {
-                    setActive(index);
-                    setViewOpen(false);
-                  }}
-                  aria-label={`View look ${index + 1}: ${item.name}`}
-                  tabIndex={Math.abs(offset) > 2 ? -1 : 0}
-                >
-                  <img
-                    src={ASSET + item.model}
-                    alt={item.name}
-                    draggable="false"
-                  />
-                  <span className="ttl-model-name">
-                    0{index + 1} — {item.name}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="ttl-stage-controls">
-            <button onClick={() => move(-1)} aria-label="Previous look">
-              ←
+          <div className="tl-stage">
+            <div className="tl-stage-glow" />
+            <button
+              className="tl-model-button"
+              onClick={() => {
+                setPopup(true);
+                setPlaying(false);
+              }}
+              aria-label={`View look: ${look.name}`}
+            >
+              <img
+                key={look.model}
+                className="tl-model"
+                src={`${ASSETS}${look.model}`}
+                alt={look.name}
+                draggable="false"
+              />
             </button>
+            <button className="tl-view-button" onClick={() => { setPopup(true); setPlaying(false); }}>
+              View look <span>↗</span>
+            </button>
+          </div>
 
-            <div className="ttl-progress">
-              {looks.map((_, index) => (
+          <div className="tl-controls">
+            <button onClick={() => goTo(active - 1)} aria-label="Previous look">←</button>
+            <div className="tl-progress">
+              {looks.map((item, index) => (
                 <button
-                  key={index}
-                  onClick={() => setActive(index)}
-                  className={index === active ? 'active' : ''}
-                  aria-label={`Go to look ${index + 1}`}
+                  key={`${item.name}-${index}`}
+                  className={index === active ? "active" : index < active ? "past" : ""}
+                  onClick={() => goTo(index)}
+                  aria-label={`Look ${index + 1}: ${item.name}`}
+                  aria-current={index === active ? "true" : undefined}
                 >
-                  <i />
+                  <span />
+                  {index === active && (
+                    <small>{String(index + 1).padStart(2, "0")}　{item.name}</small>
+                  )}
                 </button>
               ))}
             </div>
-
-            <button onClick={() => move(1)} aria-label="Next look">
-              →
+            <button onClick={() => setPlaying((value) => !value)} aria-label={playing ? "Pause autoplay" : "Start autoplay"}>
+              {playing ? "Ⅱ" : "▶"}
             </button>
-
-            <button
-              className="ttl-pause"
-              onClick={() => setPaused((value) => !value)}
-            >
-              {paused ? 'Play' : 'Pause'}
-            </button>
-          </div>
-
-          <div className="ttl-stage-bottom">
-            <span>{look.desc}</span>
-            <button onClick={() => setViewOpen(true)}>
-              View look <b>↗</b>
-            </button>
+            <button onClick={() => goTo(active + 1)} aria-label="Next look">→</button>
           </div>
         </div>
 
-        <aside className="ttl-panel">
-          <div className="ttl-panel-head">
-            <div>
-              <span className="ttl-kicker">LOOK 0{active + 1}</span>
-              <h2>In this look</h2>
-            </div>
-
-            <span className="ttl-piece-count">03 PIECES</span>
+        <aside className="tl-panel">
+          <div className="tl-panel-heading">
+            <h2>In this look</h2>
+            <span>3 PIECES</span>
           </div>
 
-          <div className="ttl-products">
-            {look.pieces.map((name, index) => {
-              const product = products[name];
+          <div className="tl-mobile-look-name">
+            <strong>{look.name}</strong>
+            <span>3 pieces</span>
+          </div>
+
+          <div className="tl-products">
+            {look.items.map((key, index) => {
+              const product = products[key];
+              const size = selectedSizes[`${active}-${key}`] || "";
+              const isOpen = openPicker === key;
 
               return (
-                <article
-                  id={`ttl-product-${index}`}
-                  className="ttl-product"
-                  key={`${active}-${name}`}
-                >
-                  <div className="ttl-product-img">
-                    <img src={ASSET + product.image} alt={name} />
+                <article className={`tl-product ${hotProduct === index ? "is-hot" : ""}`} key={`${active}-${key}`}>
+                  <a className="tl-product-image" href={product.url} target="_blank" rel="noreferrer" tabIndex="-1" aria-hidden="true">
+                    <img src={`${ASSETS}${product.image}`} alt="" loading="lazy" />
                     <span>{index + 1}</span>
-                  </div>
+                    {look.newItem === key && <b>NEW</b>}
+                  </a>
 
-                  <div className="ttl-product-info">
-                    <a
-                      href={product.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ttl-product-name"
-                    >
-                      {name}
+                  <div className="tl-product-info">
+                    <small>{product.vendor}</small>
+                    <a href={product.url} target="_blank" rel="noreferrer" className="tl-product-name">
+                      {product.name}
                     </a>
-
-                    <small>{product.type}</small>
-
-                    <strong>${product.price.toFixed(2)}</strong>
-
-                    <label>
-                      SIZE
-                      <select
-                        value={selected(name)}
-                        onChange={(event) =>
-                          setSizes((old) => ({
-                            ...old,
-                            [`${active}-${name}`]: event.target.value
-                          }))
-                        }
-                      >
-                        {product.sizes.map((size) => (
-                          <option key={size}>{size}</option>
-                        ))}
-                      </select>
-                    </label>
+                    <span>{money(product.price)}</span>
+                    {size && <em>Selected size: {size}</em>}
                   </div>
 
                   <button
-                    className="ttl-add-one"
-                    onClick={() => addPiece(name)}
-                    aria-label={`Add ${name}`}
+                    className={`tl-add ${isOpen ? "selected" : ""}`}
+                    onClick={() => setOpenPicker(isOpen ? null : key)}
+                    aria-expanded={isOpen}
+                    aria-label={`Choose size: ${product.name}`}
                   >
-                    +
+                    {isOpen ? "×" : "+"}
                   </button>
+
+                  {isOpen && (
+                    <div className="tl-picker">
+                      <div className="tl-picker-title">
+                        <span>{product.sizes.length > 5 ? "Shoe size" : "Size"}</span>
+                        <button onClick={() => setOpenPicker(null)} aria-label="Close size picker">×</button>
+                      </div>
+                      <div className="tl-sizes">
+                        {product.sizes.map((option) => (
+                          <button
+                            key={option}
+                            className={size === option ? "chosen" : ""}
+                            onClick={() => updateSize(key, option)}
+                          >
+                            {option}
+                          </button>
+                        ))}
+                      </div>
+                      <button
+                        className="tl-confirm"
+                        onClick={() => size && addProduct(key, size)}
+                        disabled={!size}
+                      >
+                        Add to bag
+                      </button>
+                    </div>
+                  )}
                 </article>
               );
             })}
           </div>
 
-          <div className="ttl-bundle">
-            <div>
-              <span>COMPLETE THE LOOK</span>
-              <h3>All 3 pieces</h3>
+          <div className="tl-bundle">
+            <p className="tl-message" role="status">{message}</p>
+            <div className="tl-bundle-info">
+              <div>
+                <strong>Complete the look</strong>
+                <small>Bundle all 3 and save 10%</small>
+              </div>
+              <div className="tl-bundle-price">
+                <del>$547.00</del>
+                <strong>$492.30</strong>
+              </div>
             </div>
-
-            <div className="ttl-bundle-price">
-              <del>${(total + 54.7).toFixed(2)}</del>
-              <strong>$492.30</strong>
-            </div>
+            <button className="tl-full-button" onClick={addFullLook}>
+              <span className="desktop-label">Add full look to bag</span>
+              <span className="mobile-label">Add full look — $492.30</span>
+              <span>→</span>
+            </button>
           </div>
-
-          <button className="ttl-add-full" onClick={addFull}>
-            Add full look to bag <span>↗</span>
-          </button>
-
-          <p className="ttl-footnote">
-            Choose your sizes, then add the complete look to your LANADA cart.
-          </p>
         </aside>
       </section>
 
-      {viewOpen && (
-        <div
-          className="ttl-modal-backdrop"
-          onClick={() => setViewOpen(false)}
-        >
-          <section
-            className="ttl-look-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              className="ttl-close"
-              onClick={() => setViewOpen(false)}
-            >
-              ×
-            </button>
+      <div className="tl-mobile-progress">
+        <span style={{ width: `${((active + 1) / 6) * 100}%` }} />
+      </div>
 
-            <span className="ttl-kicker">LOOK 0{active + 1}</span>
-            <h2>{look.name}</h2>
-
-            <div className="ttl-modal-figure">
-              <img src={ASSET + look.model} alt={look.name} />
-
-              {look.pieces.map((piece, index) => (
-                <button
-                  key={piece}
-                  style={{
-                    top: ['29%', '57%', '84%'][index],
-                    left: index === 0 ? '57%' : index === 1 ? '43%' : '54%'
-                  }}
-                  onClick={() =>
-                    document
-                      .getElementById(`ttl-product-${index}`)
-                      ?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                      })
-                  }
-                >
-                  {index + 1}
-                </button>
-              ))}
+      {popup && (
+        <div className="tl-popup" role="dialog" aria-modal="true" aria-label="View look" onClick={() => setPopup(false)}>
+          <div className="tl-popup-top">
+            <div>
+              <small>LOOK {String(active + 1).padStart(2, "0")}</small>
+              <h2>{look.name}</h2>
             </div>
+            <button onClick={() => setPopup(false)} aria-label="Close popup">×</button>
+          </div>
 
-            <p>{look.desc}</p>
-
-            <div className="ttl-modal-items">
-              {look.pieces.map((piece, index) => (
-                <button
-                  key={piece}
-                  onClick={() => {
-                    setViewOpen(false);
-                    document
-                      .querySelector('.ttl-panel')
-                      ?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  {index + 1}. {piece} ↗
-                </button>
-              ))}
-            </div>
-          </section>
+          <div className="tl-popup-model" onClick={(event) => event.stopPropagation()}>
+            <img src={`${ASSETS}${look.original}`} alt={look.name} />
+            {pinProducts.map((product, index) => (
+              <button
+                key={product.id}
+                className={`tl-pin tl-pin-${index + 1} ${hotProduct === index ? "active" : ""}`}
+                onClick={() => {
+                  setHotProduct(index);
+                  setMessage(`${product.name} — ${money(product.price)}`);
+                }}
+                aria-label={`View ${product.name}`}
+              >
+                {index + 1}
+                <span>{product.name}</span>
+              </button>
+            ))}
+          </div>
+          <p className="tl-popup-hint">Tap a dot to shop the piece</p>
         </div>
       )}
 
       {bagOpen && (
-        <div
-          className="ttl-modal-backdrop"
-          onClick={() => setBagOpen(false)}
-        >
-          <section
-            className="ttl-bag-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              className="ttl-close"
-              onClick={() => setBagOpen(false)}
-            >
-              ×
-            </button>
+        <div className="tl-bag-overlay" onClick={() => setBagOpen(false)}>
+          <section className="tl-bag-dialog" role="dialog" aria-modal="true" aria-label="Your styling bag" onClick={(event) => event.stopPropagation()}>
+            <div className="tl-bag-heading">
+              <h2>Your styling bag</h2>
+              <button onClick={() => setBagOpen(false)} aria-label="Close styling bag">×</button>
+            </div>
+            <p className="tl-bag-note">
+              A local outfit shortlist. No payment or order is collected here. Open a piece on the original demo to continue.
+            </p>
 
-            <span className="ttl-kicker">LANADA / YOUR EDIT</span>
-            <h2>
-              Styling bag <small>({bag.length})</small>
-            </h2>
+            <div className="tl-bag-items">
+              {bag.length === 0 ? (
+                <p className="tl-bag-note">Your styling bag is empty. Choose a size beside a piece to save it.</p>
+              ) : bag.map((entry) => {
+                const product = Object.values(products).find((item) => item.id === entry.id);
+                if (!product) return null;
 
-            {bag.length === 0 ? (
-              <p>
-                Your styling bag is empty. Add a piece from the runway
-                to get started.
-              </p>
-            ) : (
-              <>
-                {bag.map((item) => (
-                  <div className="ttl-bag-row" key={item.key}>
-                    <img src={item.image} alt="" />
-
+                return (
+                  <div className="tl-bag-row" key={entry.variantId}>
+                    <img src={`${ASSETS}${product.image}`} alt={product.name} />
                     <div>
-                      <strong>{item.name}</strong>
-                      <small>Size {item.size}</small>
+                      <h3>{product.name}</h3>
+                      <p>Size {entry.size} · Quantity {entry.quantity} · {money(product.price)}</p>
+                      <a href={product.url} target="_blank" rel="noreferrer">View original piece ↗</a>
                     </div>
-
-                    <b>${item.price.toFixed(2)}</b>
+                    <button onClick={() => removeBagItem(entry.variantId)} aria-label={`Remove ${product.name}`}>×</button>
                   </div>
-                ))}
+                );
+              })}
+            </div>
 
-                <div className="ttl-bag-total">
-                  <span>Subtotal</span>
-                  <strong>
-                    ${bag.reduce((sum, item) => sum + item.price, 0).toFixed(2)}
-                  </strong>
-                </div>
-
-                <button
-                  className="ttl-add-full"
-                  onClick={() => {
-                    setBagOpen(false);
-                    notify('Your selections are saved in the LANADA cart');
-                  }}
-                >
-                  Continue shopping
-                </button>
+            {bag.length > 0 && (
+              <>
+                <p className="tl-bag-total">Reference subtotal {money(subtotal)}</p>
+                <button className="tl-export" onClick={exportBag}>Download outfit shortlist</button>
               </>
             )}
           </section>
         </div>
       )}
 
-      {toast && (
-        <div className="ttl-toast" role="status">
-          {toast}
-        </div>
-      )}
+      <div className={`tl-toast ${toast ? "visible" : ""}`} role="status">{toast}</div>
     </main>
   );
 }
