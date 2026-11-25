@@ -15,7 +15,7 @@ const Casquette = () => {
             <div className="casquette-header">
                 <div className="casquette-banner">
                     <img
-                        src="/Assets/ShoeStore/background5.png"
+                        src="/Assets/ShoeStore/background12.png"
                         alt="Casquette Collection"
                         className="banner-img"
                     />
