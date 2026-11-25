@@ -20,6 +20,7 @@ import ShoeCard from '../Components/ShoeCard/ShoeCard';
 import BannerVideo from '../Components/BannerVideo/BannerVideo';
 import TryTheLook from './TryTheLook';
 import SliderFoot from '../Components/SliderFoot';
+import Sliderensemble from '/Components/Sliderensemble'
 const Shop = () => {
     return (
         <div>
@@ -43,6 +44,7 @@ const Shop = () => {
             <SliderFoot />
             <TryTheLook />
             <BannerVideo />
+            <Sliderensemble />
             <SocialIcons />
         </div>
     )
