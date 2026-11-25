@@ -371,7 +371,7 @@ export default function TryTheLook() {
     <main className="rw-page">
       <header className="rw-header">
         <a className="rw-brand" href="/" aria-label="Home">
-          <span className="rw-brand-word">THE EDIT</span>
+          <span className="rw-vendor"></span>
         </a>
 
         <nav className="rw-nav" aria-label="Main navigation">
