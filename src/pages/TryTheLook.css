@@ -2401,23 +2401,18 @@
   }
 }
 
-/* Desktop: رفع Try the Look والصورة الرئيسية قليلاً */
-@media (min-width: 1100px) {
-  .rw-stage {
-    transform: translateY(-35px);
+/* Mobile: show the other products */
+@media (max-width: 749px) {
+  .rw-ring {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
-  .rw-active-model {
-    bottom: 55px;
-  }
-}
-
-@media (min-width: 1500px) {
-  .rw-stage {
-    transform: translateY(-45px);
-  }
-
-  .rw-active-model {
-    bottom: 65px;
+  .rw-ring-model {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 0.85 !important;
+    filter: none !important;
   }
 }
