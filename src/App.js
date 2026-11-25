@@ -21,12 +21,6 @@ import GiveawayPromo from './Components/GiveawayPromo/GiveawayPromo';
 import Footer from './Components/Footer/Footer';
 
 /* =========================================
-   PROMPT SECTION
-========================================= */
-
-import PromptSection from './Components/PromptSection/PromptSection';
-
-/* =========================================
    INTERACTIVE CARD STACK
 ========================================= */
 
@@ -212,8 +206,6 @@ function App() {
                                                 <Shop />
 
                                                 <InteractiveCardSection />
-
-                                                <PromptSection />
 
                                                 <GiveawayPromo />
                                             </>
