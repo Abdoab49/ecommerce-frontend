@@ -651,11 +651,7 @@ export default function TryTheLook() {
                   const y = 3 + (1 - Math.cos(angle)) * 22;
                   return (
                     <div
-                      className={`rw-ring-model ${
-  i === index ? "is-active" : ""
-} ${signed === -1 ? "is-prev" : ""} ${
-  signed === 1 ? "is-next" : ""
-}`}
+                      className={`rw-ring-model ${i === index ? "is-active" : ""}`}
                       key={item.key}
                       style={{
                         "--x": `${x}%`,
