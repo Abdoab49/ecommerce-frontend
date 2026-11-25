@@ -2400,3 +2400,24 @@
     width: clamp(160px, 17vw, 320px);
   }
 }
+
+/* Desktop: رفع Try the Look والصورة الرئيسية قليلاً */
+@media (min-width: 1100px) {
+  .rw-stage {
+    transform: translateY(-35px);
+  }
+
+  .rw-active-model {
+    bottom: 55px;
+  }
+}
+
+@media (min-width: 1500px) {
+  .rw-stage {
+    transform: translateY(-45px);
+  }
+
+  .rw-active-model {
+    bottom: 65px;
+  }
+}
