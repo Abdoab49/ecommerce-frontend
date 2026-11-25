@@ -10,6 +10,7 @@ import "./TryTheLook.css";
 
 const ASSET = "https://reel-ref-try-the-look.vercel.app/assets";
 const SHOP = "https://nike-makknzjs.myshopify.com";
+const BAG_KEY = "runway-styling-bag-v3";
 const AUTOPLAY_MS = 5000;
 
 const PRODUCTS = {
@@ -222,6 +223,24 @@ const money = (value) =>
     currency: "USD",
   }).format(value);
 
+function readBag() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(BAG_KEY) || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter(
+        (item) =>
+          Number.isSafeInteger(Number(item.id)) &&
+          Number.isInteger(item.quantity) &&
+          item.quantity >= 1 &&
+          item.quantity <= 20
+      )
+      .slice(0, 50);
+  } catch {
+    return [];
+  }
+}
+
 function getVariant(product, size) {
   const index = product.sizes.indexOf(size);
   if (index < 0) return null;
@@ -268,6 +287,9 @@ export default function TryTheLook() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [engaged, setEngaged] = useState(false);
+  const [bag, setBag] = useState(readBag);
+  const [toast, setToast] = useState("");
+  const [bagOpen, setBagOpen] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [picker, setPicker] = useState(null);
   const [sizes, setSizes] = useState({});
@@ -279,9 +301,11 @@ export default function TryTheLook() {
   const stageRef = useRef(null);
   const dragRef = useRef(null);
   const timerRef = useRef(null);
+  const toastRef = useRef(null);
   const touchStartRef = useRef(0);
 
   const look = LOOKS[index];
+  const count = bag.reduce((sum, item) => sum + item.quantity, 0);
   const currentProducts = useMemo(
     () => look.products.map((id) => PRODUCTS[id]),
     [look]
@@ -292,25 +316,49 @@ export default function TryTheLook() {
     timerRef.current = null;
   }, []);
 
-
-  const addItems = useCallback((items) => {
-    const validItems = items
-      .filter((item) => Number.isSafeInteger(Number(item.id)) && Number(item.id) > 0)
-      .map((item) => ({
-        id: Number(item.id),
-        quantity: Math.max(1, Math.min(20, Number(item.quantity) || 1)),
-      }));
-
-    if (!validItems.length) {
-      setMessage("Please choose an available size.");
-      return;
-    }
-
-    const cartPath = validItems
-      .map((item) => `${item.id}:${item.quantity}`)
-      .join(",");
-    window.location.assign(`${SHOP}/cart/${cartPath}`);
+  const showToast = useCallback((text) => {
+    setToast(text);
+    window.clearTimeout(toastRef.current);
+    toastRef.current = window.setTimeout(() => setToast(""), 2500);
   }, []);
+
+  const saveBag = useCallback((next) => {
+    setBag(next);
+    try {
+      localStorage.setItem(BAG_KEY, JSON.stringify(next));
+    } catch {
+      // Storage may be unavailable; the current session still works.
+    }
+  }, []);
+
+  const addItems = useCallback(
+    (items) => {
+      const next = [...bag];
+
+      for (const item of items) {
+        const variant = Number(item.id);
+        const product = Object.values(PRODUCTS).find((p) =>
+          p.variants.includes(variant)
+        );
+        if (!product) throw new Error("Please choose an available size.");
+
+        const existing = next.find((entry) => Number(entry.id) === variant);
+        if (existing) {
+          existing.quantity = Math.min(20, existing.quantity + 1);
+        } else {
+          next.push({ id: variant, quantity: 1 });
+        }
+      }
+
+      saveBag(next);
+      showToast(
+        items.length > 1
+          ? "Look saved to your styling bag"
+          : "Piece saved to your styling bag"
+      );
+    },
+    [bag, saveBag, showToast]
+  );
 
   const moveTo = useCallback(
     (next) => {
@@ -368,23 +416,25 @@ export default function TryTheLook() {
     return () => {
       document.removeEventListener("visibilitychange", onVisibility);
       stopTimer();
+      window.clearTimeout(toastRef.current);
     };
   }, [stopTimer]);
 
   useEffect(() => {
     const onKey = (event) => {
       if (event.key === "Escape") {
-        if (picker !== null) setPicker(null);
+        if (bagOpen) setBagOpen(false);
+        else if (picker !== null) setPicker(null);
         else if (popupOpen) setPopupOpen(false);
       }
-      if (popupOpen) return;
+      if (popupOpen || bagOpen) return;
       if (event.key === "ArrowRight") next();
       if (event.key === "ArrowLeft") prev();
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [next, prev, popupOpen, picker]);
+  }, [next, prev, popupOpen, bagOpen, picker]);
 
   const engage = () => {
     setEngaged(true);
@@ -495,28 +545,68 @@ export default function TryTheLook() {
     }
   };
 
+  const removeBagItem = (variantId) => {
+    saveBag(bag.filter((item) => Number(item.id) !== Number(variantId)));
+  };
+
+  const bagDetails = bag.map((entry) => {
+    const product = Object.values(PRODUCTS).find((p) =>
+      p.variants.includes(Number(entry.id))
+    );
+    if (!product) return null;
+    const sizeIndex = product.variants.indexOf(Number(entry.id));
+    return {
+      ...entry,
+      product,
+      size: product.sizes[sizeIndex],
+      lineTotal: product.price * entry.quantity,
+    };
+  }).filter(Boolean);
+
+  const bagTotal = bagDetails.reduce((sum, item) => sum + item.lineTotal, 0);
+
+  const exportBag = () => {
+    const content = [
+      "RUNWAY — STYLING SHORTLIST",
+      "Reference prices; no order or payment has been placed.",
+      "",
+      ...bagDetails.flatMap((item) => [
+        `${item.product.name} · Size ${item.size} · Quantity ${item.quantity}`,
+        item.product.url,
+      ]),
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "runway-outfit-shortlist.txt";
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
 
   return (
     <main className="rw-page">
       <header className="rw-header">
-        <a className="rw-brand" href="/" aria-label="LANADA home">
-          <img src={`${ASSET}/nike-logo.svg`} alt="Nike" />
+        <a className="rw-brand" href="/" aria-label="Runway home">
+          <img src="/logo192.png" alt="LANADA" />
         </a>
 
         <nav className="rw-nav" aria-label="Main navigation">
           <a href="/">Home</a>
-          <a href="/" >Shop</a>
-          <a href="/collections/all">Collections</a>
-          <a href="/try-the-look" aria-current="page">Try the Look</a>
+          <a href={`${SHOP}/pages/nike-orbit`} target="_blank" rel="noreferrer">Nike Orbit</a>
+          <a href={`${SHOP}/pages/scene-rail`} target="_blank" rel="noreferrer">Hand Rail Pro</a>
+          <a href="/try-the-look" aria-current="page">Runway</a>
         </nav>
 
         <button
           className="rw-header-bag"
           type="button"
-          onClick={() => window.location.assign(`${SHOP}/cart`)}
-          aria-label="Open LANADA shopping cart"
+          onClick={() => setBagOpen(true)}
+          aria-label="Open styling bag"
         >
           <Icon name="bag" size={24} />
+          <span>{count}</span>
         </button>
       </header>
 
@@ -541,6 +631,15 @@ export default function TryTheLook() {
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
+              onMouseEnter={() => {
+                if (!engaged) stopTimer();
+              }}
+              onMouseLeave={() => {
+                if (!engaged && playing) {
+                  stopTimer();
+                  timerRef.current = window.setTimeout(next, AUTOPLAY_MS);
+                }
+              }}
             >
               <div className="rw-ring" aria-hidden="true">
                 {LOOKS.map((item, i) => {
@@ -552,7 +651,11 @@ export default function TryTheLook() {
                   const y = 3 + (1 - Math.cos(angle)) * 22;
                   return (
                     <div
-                      className={`rw-ring-model ${i === index ? "is-active" : ""}`}
+                      className={`rw-ring-model ${
+  i === index ? "is-active" : ""
+} ${signed === -1 ? "is-prev" : ""} ${
+  signed === 1 ? "is-next" : ""
+}`}
                       key={item.key}
                       style={{
                         "--x": `${x}%`,
@@ -668,6 +771,8 @@ export default function TryTheLook() {
                     <article
                       className={`rw-item ${picker === product.id ? "is-picking" : ""} ${isAdded ? "is-added" : ""} ${hotPin === i ? "is-hot" : ""}`}
                       key={`${look.key}-${product.id}`}
+                      onMouseEnter={() => setHotPin(i)}
+                      onMouseLeave={() => setHotPin(null)}
                     >
                       <a
                         className="rw-media"
