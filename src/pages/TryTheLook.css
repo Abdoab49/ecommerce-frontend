@@ -2466,18 +2466,3 @@
   }
 }
 
-.rw-ring-model.is-prev,
-.rw-ring-model.is-next {
-  width: clamp(48px, 14vw, 72px) !important;
-  aspect-ratio: 9 / 16;
-  opacity: 0.65 !important;
-  transform: translateX(-50%) scale(0.8);
-}
-
-.rw-ring-model.is-prev {
-  left: 12% !important;
-}
-
-.rw-ring-model.is-next {
-  left: 88% !important;
-}
