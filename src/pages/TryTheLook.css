@@ -4892,3 +4892,33 @@
     place-items: center;
   }
 }
+
+
+/* Mobile swipe experience */
+@media (max-width: 749px) {
+  .rw-stage {
+    touch-action: pan-y pinch-zoom;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .rw-stage img {
+    -webkit-user-drag: none;
+  }
+
+  .rw-swipe-hint {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin: 12px 0 18px;
+  }
+}
+
+@media (min-width: 750px) {
+  .rw-swipe-hint {
+    display: none;
+  }
+}
