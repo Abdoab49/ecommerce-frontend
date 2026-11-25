@@ -14,3 +14,143 @@
 * {
   background-color: transparent;
 }
+
+
+/* =========================================
+   LANADA INTERACTIVE CARD SECTION
+========================================= */
+
+.lanada-card-stack-section {
+    width: 100%;
+    min-height: 650px;
+    padding: 75px 20px 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.lanada-card-stack-title {
+    margin: 0 0 48px;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+    text-align: center;
+    color: inherit;
+}
+
+.lanada-card-stack-wrapper {
+    position: relative;
+    width: 320px;
+    height: 420px;
+    background: transparent;
+    border-radius: 2rem;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
+}
+
+.lanada-card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.lanada-card-content img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lanada-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.4),
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+}
+
+.lanada-card-content:hover .lanada-card-overlay {
+    opacity: 1;
+}
+
+/* RESET BUTTON */
+
+.lanada-card-reset {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #222222;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+    cursor: pointer;
+    transition:
+        transform 200ms ease,
+        box-shadow 200ms ease;
+}
+
+.lanada-card-reset:hover {
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.lanada-card-reset:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.lanada-card-reset svg {
+    transition: transform 500ms ease;
+}
+
+.lanada-card-reset:hover svg {
+    transform: rotate(180deg);
+}
+
+/* DESCRIPTION */
+
+.lanada-card-stack-hint {
+    margin: 120px 0 0;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.5;
+    text-align: center;
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+    .lanada-card-stack-section {
+        min-height: 600px;
+        padding: 55px 16px 90px;
+    }
+
+    .lanada-card-stack-title {
+        margin-bottom: 40px;
+        font-size: 18px;
+    }
+
+    .lanada-card-stack-wrapper {
+        width: min(320px, calc(100vw - 48px));
+        height: 400px;
+    }
+
+    .lanada-card-stack-hint {
+        font-size: 12px;
+        margin-top: 115px;
+    }
+}

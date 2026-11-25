@@ -1,54 +1,75 @@
 
-.ics-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  touch-action: pan-y;
+/* =========================================
+   INTERACTIVE CARD STACK
+   LANADA COMPONENT
+========================================= */
+
+.ics-stack-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+    isolation: isolate;
+    touch-action: pan-y;
 }
 
-.ics-card-rotate {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
+/* CARD POSITION */
+
+.ics-card-position {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.ics-card-draggable {
-  cursor: grab;
-  touch-action: none;
+.ics-draggable {
+    cursor: grab;
+    touch-action: pan-y;
 }
 
-.ics-card-draggable:active {
-  cursor: grabbing;
+.ics-draggable:active {
+    cursor: grabbing;
 }
+
+/* MAIN CARD */
 
 .ics-card {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 16px;
-  background: var(--card, #fff);
-  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transform-style: preserve-3d;
-  user-select: none;
-  -webkit-user-select: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+    transform-style: preserve-3d;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
+
+/* CARD IMAGES */
 
 .ics-card img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  pointer-events: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
+/* RESPONSIVE */
+
 @media (max-width: 768px) {
-  .ics-card {
-    border-radius: 14px;
-  }
+    .ics-card {
+        border-radius: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ics-card {
+        transition: none;
+    }
 }
