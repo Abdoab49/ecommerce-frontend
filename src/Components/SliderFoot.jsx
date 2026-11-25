@@ -7,7 +7,7 @@ const SliderFoot = () => {
     <div className={styles.slider}>
       <img
         className={styles.sliderImage}
-        src="/Assets/ShoeStore/background4.png"
+        src="/Assets/ShoeStore/background11.png"
         alt="Slider Foot"
       />
     </div>
