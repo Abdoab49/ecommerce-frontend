@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './App.css';
 
@@ -18,6 +19,12 @@ import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 import GiveawayPromo from './Components/GiveawayPromo/GiveawayPromo';
 import Footer from './Components/Footer/Footer';
+
+/* =========================================
+   NEW COMPONENT
+========================================= */
+
+import InteractiveCardStack from './Components/InteractiveCardStack/InteractiveCardStack';
 
 /* =========================================
    MAIN PAGES
@@ -76,6 +83,9 @@ import kid_banner from './Components/Assets/banner_kids.png';
 
 import ShopContextProvider from './Context/ShopContext';
 
+/* =========================================
+   APP
+========================================= */
 
 function App() {
     return (
@@ -95,7 +105,9 @@ function App() {
                         {/* GLOBAL COMPONENTS */}
 
                         <Navbar />
+
                         <NotificationBell />
+
                         <MyOrdersButton />
 
                         <div
@@ -119,10 +131,25 @@ function App() {
                                         element={
                                             <>
                                                 <Shop />
+
+                                                {/* NEW INTERACTIVE CARD STACK */}
+
+                                                <InteractiveCardStack
+                                                    randomRotation={true}
+                                                    sensitivity={120}
+                                                    sendToBackOnClick={true}
+                                                    autoplay={false}
+                                                    autoplayDelay={3500}
+                                                    pauseOnHover={true}
+                                                    mobileClickOnly={false}
+                                                />
+
                                                 <GiveawayPromo />
                                             </>
                                         }
                                     />
+
+                                    {/* SHOP */}
 
                                     <Route
                                         path="/shop"

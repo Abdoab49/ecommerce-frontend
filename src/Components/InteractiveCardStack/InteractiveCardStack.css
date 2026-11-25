@@ -1,0 +1,422 @@
+
+/* =========================================
+   LANADA — INTERACTIVE CARD STACK
+========================================= */
+
+.ics-section {
+  position: relative;
+  width: 100%;
+  padding: 85px 20px 75px;
+  overflow: hidden;
+  background: transparent;
+  color: #f7f7f7;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: inherit;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.ics-heading {
+  width: 100%;
+  max-width: 850px;
+  text-align: center;
+  margin: 0 auto 38px;
+}
+
+.ics-eyebrow {
+  display: inline-block;
+  margin-bottom: 15px;
+
+  color: #999;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.ics-heading h2 {
+  margin: 0;
+
+  font-size: clamp(30px, 5vw, 54px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+.ics-heading h2 span {
+  color: #b8ff35;
+}
+
+.ics-heading p {
+  margin: 14px 0 0;
+
+  color: #a4a4a4;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================
+   STACK STAGE
+========================================= */
+
+.ics-stage {
+  position: relative;
+
+  width: 100%;
+  max-width: 500px;
+  height: 460px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  perspective: 1200px;
+}
+
+.ics-stack {
+  position: relative;
+
+  width: 320px;
+  height: 420px;
+
+  transform-style: preserve-3d;
+}
+
+.ics-card-position {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.ics-card {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  border-radius: 22px;
+
+  background: #171717;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.38);
+}
+
+/* =========================================
+   CARD IMAGE
+========================================= */
+
+.ics-card-image {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  pointer-events: none;
+
+  -webkit-user-drag: none;
+}
+
+/* =========================================
+   IMAGE GRADIENT
+========================================= */
+
+.ics-card-shade {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02) 25%,
+    rgba(0, 0, 0, 0.18) 48%,
+    rgba(0, 0, 0, 0.82) 100%
+  );
+
+  pointer-events: none;
+}
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.ics-card-content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  padding: 25px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  pointer-events: none;
+}
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+.ics-card-category {
+  align-self: flex-start;
+
+  padding: 8px 11px;
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 30px;
+
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+
+  color: #fff;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+/* =========================================
+   TITLE & DESCRIPTION
+========================================= */
+
+.ics-card-information h3 {
+  margin: 0 0 8px;
+
+  color: #fff;
+
+  font-size: clamp(25px, 4vw, 32px);
+  line-height: 1.08;
+
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.ics-card-information p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.8);
+
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+/* =========================================
+   CARD NUMBER
+========================================= */
+
+.ics-card-number {
+  position: absolute;
+
+  right: 25px;
+  bottom: 25px;
+
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.ics-controls {
+  width: 100%;
+  max-width: 500px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 15px;
+  margin-top: 14px;
+}
+
+/* =========================================
+   HINT
+========================================= */
+
+.ics-hint {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #999;
+  font-size: 11px;
+}
+
+.ics-hint-dot {
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+
+  background: #b8ff35;
+
+  box-shadow:
+    0 0 12px rgba(184, 255, 53, 0.6);
+}
+
+/* =========================================
+   RESET BUTTON
+========================================= */
+
+.ics-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+  min-height: 39px;
+  padding: 0 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  color: #fff;
+
+  font: inherit;
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.ics-reset span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.ics-reset:hover {
+  background: rgba(184, 255, 53, 0.12);
+
+  border-color: rgba(184, 255, 53, 0.6);
+
+  transform: translateY(-2px);
+}
+
+.ics-reset:active {
+  transform: scale(0.96);
+}
+
+/* =========================================
+   TABLET & MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .ics-section {
+    padding: 60px 16px;
+  }
+
+  .ics-heading {
+    margin-bottom: 25px;
+  }
+
+  .ics-heading h2 {
+    letter-spacing: -1.3px;
+  }
+
+  .ics-stage {
+    height: 390px;
+  }
+
+  .ics-stack {
+    width: min(290px, 78vw);
+    height: 360px;
+  }
+
+  .ics-card {
+    border-radius: 18px;
+  }
+
+  .ics-card-content {
+    padding: 20px;
+  }
+
+  .ics-card-number {
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .ics-controls {
+    max-width: 390px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+  .ics-section {
+    padding: 45px 12px;
+  }
+
+  .ics-stage {
+    height: 340px;
+  }
+
+  .ics-stack {
+    width: min(255px, 78vw);
+    height: 310px;
+  }
+
+  .ics-card-content {
+    padding: 17px;
+  }
+
+  .ics-card-information h3 {
+    font-size: 25px;
+  }
+
+  .ics-hint {
+    font-size: 10px;
+  }
+
+  .ics-reset {
+    padding: 0 12px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .ics-reset {
+    transition: none;
+  }
+}
