@@ -2466,3 +2466,64 @@
   }
 }
 
+/* LANADA — Disable mouse hover effects */
+.rw-nav a:hover {
+  text-decoration: none;
+}
+
+.rw-item:hover .rw-media > img {
+  transform: none;
+}
+
+.rw-product-name:hover {
+  background-size: 0 1px;
+}
+
+.rw-pin:hover:not(.is-hot):not(:focus-visible) {
+  color: #151413;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .12);
+}
+
+.rw-pin:hover:not(.is-hot):not(:focus-visible)::after {
+  opacity: 0;
+  transform: translate(-8px, -50%) scale(.96);
+}
+
+.rw-add:hover::before {
+  opacity: 0;
+  transform: scale(.55);
+}
+
+.rw-size:hover span {
+  border-color: #c8c8c8;
+}
+
+.rw-confirm:hover {
+  transform: none;
+}
+
+.rw-cta:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.rw-cta:hover::before {
+  animation: none;
+}
+
+.rw-cta:hover .rw-cta-arrow {
+  transform: none;
+}
+
+.rw-lightbox-top button:hover {
+  transform: none;
+}
+
+/* LANADA logo */
+.rw-brand img {
+  width: 68px;
+  height: 40px;
+  object-fit: contain;
+}
