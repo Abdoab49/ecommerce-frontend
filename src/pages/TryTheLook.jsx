@@ -5,95 +5,132 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useContext,
 } from "react";
-import { useNavigate } from "react-router-dom";
-import { ShopContext } from "../../Context/ShopContext";
 import "./TryTheLook.css";
 
 const ASSET = "https://reel-ref-try-the-look.vercel.app/assets";
+const SHOP = "https://nike-makknzjs.myshopify.com";
+const BAG_KEY = "runway-styling-bag-v3";
 const AUTOPLAY_MS = 5000;
 
 const PRODUCTS = {
   "tatum-5-orbit-copy": {
     id: "tatum-5-orbit-copy",
     name: "Air Jordan 12 Retro",
-    vendor: "LANADA",
+    vendor: "Nikey | Password: 1",
     price: 149,
     image: "source-tatum-5-orbit-copy.webp",
     imageHeight: 400,
     optionName: "Shoe size",
     sizes: ["40", "41", "42", "43", "44", "45", "46"],
+    variants: [
+      57015167025457, 57015167058225, 57015167090993,
+      57015167123761, 57015167156529, 57015167189297,
+      57015167222065,
+    ],
+    url: `${SHOP}/products/tatum-5-orbit-copy`,
   },
   tshirt: {
     id: "tshirt",
     name: "Tshirt",
-    vendor: "LANADA",
+    vendor: "Nike",
     price: 199,
     image: "source-tshirt.webp",
     imageHeight: 563,
     optionName: "Size",
     sizes: ["S", "L", "M", "XL"],
+    variants: [
+      56835911582001, 56835911614769, 56835911647537, 56835911680305,
+    ],
+    url: `${SHOP}/products/tshirt`,
   },
   sweatshirt: {
     id: "sweatshirt",
     name: "Sweatshirt",
-    vendor: "LANADA",
+    vendor: "Nike",
     price: 199,
     image: "source-sweatshirt.webp",
     imageHeight: 581,
     optionName: "Size",
     sizes: ["S", "L", "M", "XL"],
+    variants: [
+      56835806396721, 56835806429489, 56835806462257, 56835806495025,
+    ],
+    url: `${SHOP}/products/sweatshirt`,
   },
   "tatum-5-orbit": {
     id: "tatum-5-orbit",
     name: "Tatum 5 Orbit",
-    vendor: "LANADA",
+    vendor: "Nikey | Password: 1",
     price: 149,
     image: "source-tatum-5-orbit.webp",
     imageHeight: 400,
     optionName: "Shoe size",
     sizes: ["40", "41", "42", "43", "44", "45", "46"],
+    variants: [
+      57015166730545, 57015166763313, 57015166796081,
+      57015166828849, 57015166861617, 57015166894385,
+      57015166927153,
+    ],
+    url: `${SHOP}/products/tatum-5-orbit`,
   },
   "hoodie-black": {
     id: "hoodie-black",
     name: "Hoodie Black",
-    vendor: "LANADA",
+    vendor: "Nike",
     price: 199,
     image: "source-hoodie-black.webp",
     imageHeight: 536,
     optionName: "Size",
     sizes: ["S", "L", "M", "XL"],
+    variants: [
+      56836251681073, 56836251713841, 56836251746609, 56836251779377,
+    ],
+    url: `${SHOP}/products/hoodie-black`,
   },
   "sweatshirt-plus": {
     id: "sweatshirt-plus",
     name: "Sweatshirt Plus",
-    vendor: "LANADA",
+    vendor: "Nike",
     price: 199,
     image: "source-sweatshirt-plus.webp",
     imageHeight: 610,
     optionName: "Size",
     sizes: ["S", "L", "M", "XL"],
+    variants: [
+      56836143743281, 56836143776049, 56836143808817, 56836143841585,
+    ],
+    url: `${SHOP}/products/sweatshirt-plus`,
   },
   hoodie: {
     id: "hoodie",
     name: "Hoodie",
-    vendor: "LANADA",
+    vendor: "Nike",
     price: 199,
     image: "source-hoodie.webp",
     imageHeight: 555,
     optionName: "Size",
     sizes: ["S", "L", "M", "XL"],
+    variants: [
+      56836002185521, 56836002218289, 56836002251057, 56836002283825,
+    ],
+    url: `${SHOP}/products/hoodie`,
   },
   "air-jordan-12-retro-copy": {
     id: "air-jordan-12-retro-copy",
     name: "Luka 5",
-    vendor: "LANADA",
+    vendor: "Nikey | Password: 1",
     price: 149,
     image: "source-air-jordan-12-retro-copy.webp",
     imageHeight: 400,
     optionName: "Shoe size",
     sizes: ["40", "41", "42", "43", "44", "45", "46"],
+    variants: [
+      57015176364337, 57015176397105, 57015176429873,
+      57015176462641, 57015176495409, 57015176528177,
+      57015176560945,
+    ],
+    url: `${SHOP}/products/air-jordan-12-retro-copy`,
   },
 };
 
@@ -186,6 +223,30 @@ const money = (value) =>
     currency: "USD",
   }).format(value);
 
+function readBag() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(BAG_KEY) || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter(
+        (item) =>
+          Number.isSafeInteger(Number(item.id)) &&
+          Number.isInteger(item.quantity) &&
+          item.quantity >= 1 &&
+          item.quantity <= 20
+      )
+      .slice(0, 50);
+  } catch {
+    return [];
+  }
+}
+
+function getVariant(product, size) {
+  const index = product.sizes.indexOf(size);
+  if (index < 0) return null;
+  return product.variants[index];
+}
+
 function Icon({ name, size = 20 }) {
   const common = {
     width: size,
@@ -223,12 +284,12 @@ function Icon({ name, size = 20 }) {
 }
 
 export default function TryTheLook() {
-  const { addToCart, cartCount = 0 } = useContext(ShopContext) || {};
-  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [engaged, setEngaged] = useState(false);
+  const [bag, setBag] = useState(readBag);
   const [toast, setToast] = useState("");
+  const [bagOpen, setBagOpen] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [picker, setPicker] = useState(null);
   const [sizes, setSizes] = useState({});
@@ -241,8 +302,10 @@ export default function TryTheLook() {
   const dragRef = useRef(null);
   const timerRef = useRef(null);
   const toastRef = useRef(null);
+  const touchStartRef = useRef(0);
 
   const look = LOOKS[index];
+  const count = bag.reduce((sum, item) => sum + item.quantity, 0);
   const currentProducts = useMemo(
     () => look.products.map((id) => PRODUCTS[id]),
     [look]
@@ -258,6 +321,44 @@ export default function TryTheLook() {
     window.clearTimeout(toastRef.current);
     toastRef.current = window.setTimeout(() => setToast(""), 2500);
   }, []);
+
+  const saveBag = useCallback((next) => {
+    setBag(next);
+    try {
+      localStorage.setItem(BAG_KEY, JSON.stringify(next));
+    } catch {
+      // Storage may be unavailable; the current session still works.
+    }
+  }, []);
+
+  const addItems = useCallback(
+    (items) => {
+      const next = [...bag];
+
+      for (const item of items) {
+        const variant = Number(item.id);
+        const product = Object.values(PRODUCTS).find((p) =>
+          p.variants.includes(variant)
+        );
+        if (!product) throw new Error("Please choose an available size.");
+
+        const existing = next.find((entry) => Number(entry.id) === variant);
+        if (existing) {
+          existing.quantity = Math.min(20, existing.quantity + 1);
+        } else {
+          next.push({ id: variant, quantity: 1 });
+        }
+      }
+
+      saveBag(next);
+      showToast(
+        items.length > 1
+          ? "Look saved to your styling bag"
+          : "Piece saved to your styling bag"
+      );
+    },
+    [bag, saveBag, showToast]
+  );
 
   const moveTo = useCallback(
     (next) => {
@@ -322,17 +423,18 @@ export default function TryTheLook() {
   useEffect(() => {
     const onKey = (event) => {
       if (event.key === "Escape") {
-        if (picker !== null) setPicker(null);
+        if (bagOpen) setBagOpen(false);
+        else if (picker !== null) setPicker(null);
         else if (popupOpen) setPopupOpen(false);
       }
-      if (popupOpen) return;
+      if (popupOpen || bagOpen) return;
       if (event.key === "ArrowRight") next();
       if (event.key === "ArrowLeft") prev();
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [next, prev, popupOpen, picker]);
+  }, [next, prev, popupOpen, bagOpen, picker]);
 
   const engage = () => {
     setEngaged(true);
@@ -391,37 +493,22 @@ export default function TryTheLook() {
     setPicker(productId);
   };
 
-  const addLanadaProduct = (product, size) => {
-    if (typeof addToCart !== "function") {
-      setMessage("LANADA cart is unavailable. Please refresh and try again.");
-      return false;
-    }
-
-    const productId = `trythelook-${product.id}`;
-    addToCart(productId, size, {
-      id: productId,
-      name: product.name,
-      price: Number(product.price),
-      image: `${ASSET}/${product.image}`,
-      images: [`${ASSET}/${product.image}`],
-      category: "clothing",
-      brand: "LANADA",
-    });
-    return true;
-  };
-
   const confirmPiece = (productId) => {
     const product = PRODUCTS[productId];
     const size = sizes[productId] || product.sizes[0];
+    const variant = getVariant(product, size);
+    if (!variant) {
+      setMessage("Please choose an available size.");
+      return;
+    }
 
     try {
-      if (!addLanadaProduct(product, size)) return;
+      addItems([{ id: variant, quantity: 1 }]);
       setAdded((old) => ({ ...old, [productId]: true }));
       setPicker(null);
       setMessage("");
-      showToast(`${product.name} added to LANADA cart`);
     } catch {
-      setMessage("Couldn’t add to LANADA cart. Please try again.");
+      setMessage("Couldn’t add to bag. Please try again.");
     }
   };
 
@@ -431,50 +518,95 @@ export default function TryTheLook() {
     setMessage("");
 
     const pending = currentProducts.filter((product) => !added[product.id]);
-    const missing = pending.filter((product) => !sizes[product.id]);
+    const ready = pending.filter((product) => {
+      const selected = sizes[product.id];
+      return Boolean(selected && selected !== product.sizes[0]);
+    });
+    const missing = pending.filter((product) => !ready.includes(product));
 
     if (missing.length) {
       setPicker(missing[0].id);
-      setMessage(`Choose a size for: ${missing.map((p) => p.name).join(", ")}`);
+      setMessage(`Pick a size for: ${missing.map((p) => p.name).join(", ")}`);
       return;
     }
 
     try {
-      pending.forEach((product) => {
-        addLanadaProduct(product, sizes[product.id] || product.sizes[0]);
-      });
+      const items = ready.map((product) => ({
+        id: getVariant(product, sizes[product.id]),
+        quantity: 1,
+      }));
+      addItems(items);
       setAdded((old) => ({
         ...old,
-        ...Object.fromEntries(pending.map((product) => [product.id, true])),
+        ...Object.fromEntries(ready.map((product) => [product.id, true])),
       }));
-      showToast("Complete look added to LANADA cart");
     } catch {
-      setMessage("Couldn’t add the complete look. Please try again.");
+      setMessage("Couldn’t add to bag. Please try again.");
     }
+  };
+
+  const removeBagItem = (variantId) => {
+    saveBag(bag.filter((item) => Number(item.id) !== Number(variantId)));
+  };
+
+  const bagDetails = bag.map((entry) => {
+    const product = Object.values(PRODUCTS).find((p) =>
+      p.variants.includes(Number(entry.id))
+    );
+    if (!product) return null;
+    const sizeIndex = product.variants.indexOf(Number(entry.id));
+    return {
+      ...entry,
+      product,
+      size: product.sizes[sizeIndex],
+      lineTotal: product.price * entry.quantity,
+    };
+  }).filter(Boolean);
+
+  const bagTotal = bagDetails.reduce((sum, item) => sum + item.lineTotal, 0);
+
+  const exportBag = () => {
+    const content = [
+      "RUNWAY — STYLING SHORTLIST",
+      "Reference prices; no order or payment has been placed.",
+      "",
+      ...bagDetails.flatMap((item) => [
+        `${item.product.name} · Size ${item.size} · Quantity ${item.quantity}`,
+        item.product.url,
+      ]),
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "runway-outfit-shortlist.txt";
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   return (
     <main className="rw-page">
       <header className="rw-header">
-        <a className="rw-brand" href="/" aria-label="LANADA home">
+        <a className="rw-brand" href="/" aria-label="Runway home">
           <img src="/logo192.png" alt="LANADA" />
         </a>
 
         <nav className="rw-nav" aria-label="Main navigation">
           <a href="/">Home</a>
-          <a href="/collections">Shop</a>
-          <a href="/collections">Collections</a>
-          <a href="/try-the-look" aria-current="page">Try the Look</a>
+          <a href={`${SHOP}/pages/nike-orbit`} target="_blank" rel="noreferrer">Nike Orbit</a>
+          <a href={`${SHOP}/pages/scene-rail`} target="_blank" rel="noreferrer">Hand Rail Pro</a>
+          <a href="/try-the-look" aria-current="page">Runway</a>
         </nav>
 
         <button
           className="rw-header-bag"
           type="button"
-          onClick={() => navigate("/cart")}
-          aria-label={`Open LANADA cart, ${cartCount} items`}
+          onClick={() => setBagOpen(true)}
+          aria-label="Open styling bag"
         >
           <Icon name="bag" size={24} />
-          <span>{cartCount}</span>
+          <span>{count}</span>
         </button>
       </header>
 
@@ -499,6 +631,15 @@ export default function TryTheLook() {
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
+              onMouseEnter={() => {
+                if (!engaged) stopTimer();
+              }}
+              onMouseLeave={() => {
+                if (!engaged && playing) {
+                  stopTimer();
+                  timerRef.current = window.setTimeout(next, AUTOPLAY_MS);
+                }
+              }}
             >
               <div className="rw-ring" aria-hidden="true">
                 {LOOKS.map((item, i) => {
@@ -510,7 +651,11 @@ export default function TryTheLook() {
                   const y = 3 + (1 - Math.cos(angle)) * 22;
                   return (
                     <div
-                      className={`rw-ring-model ${i === index ? "is-active" : ""}`}
+                      className={`rw-ring-model ${
+  i === index ? "is-active" : ""
+} ${signed === -1 ? "is-prev" : ""} ${
+  signed === 1 ? "is-next" : ""
+}`}
                       key={item.key}
                       style={{
                         "--x": `${x}%`,
@@ -626,8 +771,17 @@ export default function TryTheLook() {
                     <article
                       className={`rw-item ${picker === product.id ? "is-picking" : ""} ${isAdded ? "is-added" : ""} ${hotPin === i ? "is-hot" : ""}`}
                       key={`${look.key}-${product.id}`}
+                      onMouseEnter={() => setHotPin(i)}
+                      onMouseLeave={() => setHotPin(null)}
                     >
-                      <div className="rw-media">
+                      <a
+                        className="rw-media"
+                        href={product.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        tabIndex={-1}
+                        aria-hidden="true"
+                      >
                         <img
                           src={`${ASSET}/${product.image}`}
                           alt=""
@@ -637,18 +791,20 @@ export default function TryTheLook() {
                         />
                         <span className="rw-number">{i + 1}</span>
                         {look.newProduct === product.id && <span className="rw-tag">New</span>}
-                      </div>
+                      </a>
 
                       <div className="rw-info">
                         <span className="rw-vendor">{product.vendor}</span>
-                        <span className="rw-product-name">{product.name}</span>
+                        <a className="rw-product-name" href={product.url} target="_blank" rel="noreferrer">
+                          {product.name}
+                        </a>
                         <span className="rw-price">{money(product.price)}</span>
                       </div>
 
                       <button
                         type="button"
                         className="rw-add"
-                        aria-label={isAdded ? `Added to bag: ${product.name}` : `Add to cart: ${product.name}`}
+                        aria-label={isAdded ? `Added to bag: ${product.name}` : `Add to bag: ${product.name}`}
                         aria-expanded={picker === product.id}
                         aria-controls={`rw-picker-${product.id}`}
                         disabled={isAdded}
@@ -697,7 +853,7 @@ export default function TryTheLook() {
                             className="rw-confirm"
                             onClick={() => confirmPiece(product.id)}
                           >
-                            Add to cart
+                            Add to bag
                           </button>
                         </div>
                       )}
@@ -711,13 +867,16 @@ export default function TryTheLook() {
                 <div className="rw-bundle-row">
                   <div>
                     <strong>Complete the look</strong>
-                    <span>Add all 3 pieces to your cart</span>
+                    <span>Bundle all 3 and save 10%</span>
                   </div>
-
+                  <div className="rw-bundle-price">
+                    <s>$547.00</s>
+                    <strong>$492.30</strong>
+                  </div>
                 </div>
                 <button type="button" className="rw-cta" onClick={addFullLook}>
-                  <span className="rw-cta-desktop">Add full look to cart</span>
-                  <span className="rw-cta-mobile">Add full look to cart</span>
+                  <span className="rw-cta-desktop">Add full look to bag</span>
+                  <span className="rw-cta-mobile">Add full look — $492.30</span>
                   <span className="rw-cta-arrow">→</span>
                 </button>
               </div>
@@ -765,6 +924,62 @@ export default function TryTheLook() {
             ))}
           </div>
           <p className="rw-lightbox-hint">Tap a dot to shop the piece</p>
+        </div>
+      )}
+
+      {bagOpen && (
+        <div
+          className="rw-bag-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setBagOpen(false);
+          }}
+        >
+          <section className="rw-bag-dialog" role="dialog" aria-modal="true" aria-labelledby="rw-bag-title">
+            <div className="rw-bag-heading">
+              <h2 id="rw-bag-title">Your styling bag</h2>
+              <button type="button" onClick={() => setBagOpen(false)} aria-label="Close styling bag">×</button>
+            </div>
+            <p className="rw-bag-note">
+              A local outfit shortlist. No payment or order is collected here. Open a piece on the original demo to continue.
+            </p>
+
+            {bagDetails.length === 0 ? (
+              <p className="rw-bag-note">Your styling bag is empty. Choose a size beside a piece to save it.</p>
+            ) : (
+              <div className="rw-bag-items">
+                {bagDetails.map((item) => (
+                  <article className="rw-bag-row" key={item.id}>
+                    <img src={`${ASSET}/${item.product.image}`} alt={item.product.name} />
+                    <div>
+                      <h3>{item.product.name}</h3>
+                      <p>Size {item.size} · Quantity {item.quantity} · {money(item.product.price)}</p>
+                      <a href={item.product.url} target="_blank" rel="noreferrer">View original piece ↗</a>
+                    </div>
+                    <button
+                      type="button"
+                      aria-label={`Remove ${item.product.name}`}
+                      onClick={() => removeBagItem(item.id)}
+                    >
+                      ×
+                    </button>
+                  </article>
+                ))}
+              </div>
+            )}
+
+            <p className="rw-bag-total">
+              {bagDetails.length ? `Reference subtotal ${money(bagTotal)}` : ""}
+            </p>
+            <button
+              type="button"
+              className="rw-export"
+              disabled={!bagDetails.length}
+              onClick={exportBag}
+            >
+              Download outfit shortlist
+            </button>
+          </section>
         </div>
       )}
 
