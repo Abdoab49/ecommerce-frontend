@@ -2401,25 +2401,3 @@
   }
 }
 
-/* MOBILE - prevent product images overlapping */
-@media (max-width: 749px) {
-  .rw-ring {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: absolute;
-    inset: 0;
-    align-items: center;
-    justify-content: space-between;
-    pointer-events: none;
-  }
-
-  .rw-ring-model {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 0.85 !important;
-    filter: none !important;
-    max-width: 25%;
-    pointer-events: auto;
-  }
-}
