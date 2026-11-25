@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styles from './Sliderensemble.module.css';
+import styles from './SliderFoot.module.css';
 
 const SliderFoot = () => {
   return (
