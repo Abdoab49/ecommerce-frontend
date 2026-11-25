@@ -17,7 +17,7 @@ const BannerCard = () => {
     >
       <img 
         className={styles.cardImg} 
-        src="/Assets/ShoeStore/background5.png" 
+        src="/Assets/ShoeStore/background12.png" 
         alt="Collection banner"
       />
       <div className={styles.cardImgOverlay}>
