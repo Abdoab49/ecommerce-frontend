@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 
 import {
@@ -19,14 +19,6 @@ import NotificationBell from './Components/NotificationBell/NotificationBell';
 import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 import GiveawayPromo from './Components/GiveawayPromo/GiveawayPromo';
 import Footer from './Components/Footer/Footer';
-
-/* =========================================
-   INTERACTIVE CARD STACK
-========================================= */
-
-import InteractiveCardStack from './Components/InteractiveCardStack/InteractiveCardStack';
-
-import { RefreshCcw } from 'lucide-react';
 
 /* =========================================
    MAIN PAGES
@@ -92,80 +84,6 @@ import kid_banner from './Components/Assets/banner_kids.png';
 import ShopContextProvider from './Context/ShopContext';
 
 /* =========================================
-   CARD IMAGES
-========================================= */
-
-const IMAGES = [
-    'https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format',
-    'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=500&auto=format',
-    'https://images.unsplash.com/photo-1452626212852-811d58933cae?q=80&w=500&auto=format',
-    'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=500&auto=format'
-];
-
-/* =========================================
-   INTERACTIVE CARD SECTION
-========================================= */
-
-function InteractiveCardSection() {
-    const [key, setKey] = useState(0);
-
-    const cardItems = IMAGES.map((src, index) => (
-        <div
-            key={index}
-            className="lanada-card-content"
-        >
-            <img
-                src={src}
-                alt={`Showcase ${index + 1}`}
-                loading="lazy"
-            />
-
-            <div className="lanada-card-overlay" />
-        </div>
-    ));
-
-    return (
-        <section className="lanada-card-stack-section">
-
-            <h2 className="lanada-card-stack-title">
-                Interactive Card Stack
-            </h2>
-
-            <div className="lanada-card-stack-wrapper">
-
-                <InteractiveCardStack
-                    key={key}
-                    cards={cardItems}
-                    randomRotation={true}
-                    sensitivity={180}
-                    sendToBackOnClick={true}
-                    autoplay={false}
-                    autoplayDelay={3500}
-                    pauseOnHover={true}
-                    mobileClickOnly={false}
-                />
-
-                <button
-                    type="button"
-                    onClick={() => setKey((prev) => prev + 1)}
-                    className="lanada-card-reset"
-                    aria-label="Reset Animation"
-                    title="Reset Animation"
-                >
-                    <RefreshCcw size={20} />
-                </button>
-
-            </div>
-
-            <p className="lanada-card-stack-hint">
-                Drag or click the top card to cycle
-            </p>
-
-        </section>
-    );
-}
-
-/* =========================================
    APP
 ========================================= */
 
@@ -210,9 +128,6 @@ function App() {
                                         element={
                                             <>
                                                 <Shop />
-
-                                                <InteractiveCardSection />
-
                                                 <GiveawayPromo />
                                             </>
                                         }
