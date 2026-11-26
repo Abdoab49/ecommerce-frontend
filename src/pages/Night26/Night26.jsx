@@ -347,18 +347,12 @@ export default function Night26() {
     ===================================== */
 
     useEffect(() => {
-        document.body.classList.add("night26-active");
-
-        LOOKS.forEach((item) => {
-            const image = new Image();
-            image.src = item.image;
-            image.decode?.().catch(() => {});
-        });
-
-        return () => {
-            document.body.classList.remove("night26-active");
-        };
-    }, []);
+    LOOKS.forEach((item) => {
+        const image = new Image();
+        image.src = item.image;
+        image.decode?.().catch(() => {});
+    });
+}, []);
 
     /* =====================================
        RESPONSIVE MEASUREMENTS
