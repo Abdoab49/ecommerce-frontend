@@ -19,8 +19,8 @@
     --mute: #8a8e96;
     --dim: #5b5f67;
     --line: rgba(255,255,255,.08);
-    --blue: #1f4dff;
-    --blue2: #3d64ff;
+    --blue: #000000;
+    --blue2: #1a1a1a;
     --sw: clamp(300px, 31vw, 500px);
 
     position: relative;
