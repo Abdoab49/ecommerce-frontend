@@ -42,31 +42,33 @@ export default function Offcut() {
   let top;
 
   if (isMobile) {
-    // تكبير الملابس باش تقرب تملى عرض شاشة الهاتف
-    k = Math.min(
-      Math.max((viewportWidth * 0.86) / 289, 0.85),
-      1.35
-    );
+  // Zoom أقل شوية باش الملابس تبان كاملة
+  k = Math.min(
+    Math.max((viewportWidth * 0.72) / 289, 0.75),
+    1.15
+  );
 
-    // توسيط مجموعة الملابس وسط الشاشة
-    left = (viewportWidth / 2) - (750 * k);
+  // توسيط الملابس أفقياً
+  left = (viewportWidth / 2) - (750 * k);
 
+  // توسيط التصميم داخل المساحة المتاحة
+  const reservedBottom = 100;
+  const garmentCenterY = 386;
 
-    // نرفع الملابس ونوسّطها داخل المساحة الظاهرة
-const reservedBottom = 90;
-const garmentCenterY = 386;
+  top =
+    (viewportHeight - reservedBottom) / 2
+    - garmentCenterY * k;
 
-top = (viewportHeight - reservedBottom) / 2 - garmentCenterY * k;
-  } else {
-    // نفس قياسات الحاسوب الأصلية
-    k = Math.min(
-      viewportWidth / 1500,
-      viewportHeight / 1000
-    );
+} else {
+  k = Math.min(
+    viewportWidth / 1500,
+    viewportHeight / 1000
+  );
 
-    left = (viewportWidth - 1500 * k) / 2;
-    top = (viewportHeight - 1000 * k) / 2;
-  }
+  left = (viewportWidth - 1500 * k) / 2;
+  top = (viewportHeight - 1000 * k) / 2;
+}
+
 
   art.style.transform = `scale(${k})`;
   art.style.left = `${left}px`;
