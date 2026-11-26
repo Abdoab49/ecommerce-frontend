@@ -37,13 +37,36 @@ export default function Offcut() {
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  const k = isMobile
-    ? Math.min(viewportWidth / 1500, viewportHeight / 1000)
-    : Math.min(viewportWidth / 1500, viewportHeight / 1000);
+  let k;
+  let left;
+  let top;
+
+  if (isMobile) {
+    // تكبير الملابس باش تقرب تملى عرض شاشة الهاتف
+    k = Math.min(
+      Math.max((viewportWidth * 0.86) / 289, 0.85),
+      1.35
+    );
+
+    // توسيط مجموعة الملابس وسط الشاشة
+    left = (viewportWidth / 2) - (750 * k);
+
+    // نخلي الجزء العلوي من التصميم ظاهر
+    top = 0;
+  } else {
+    // نفس قياسات الحاسوب الأصلية
+    k = Math.min(
+      viewportWidth / 1500,
+      viewportHeight / 1000
+    );
+
+    left = (viewportWidth - 1500 * k) / 2;
+    top = (viewportHeight - 1000 * k) / 2;
+  }
 
   art.style.transform = `scale(${k})`;
-  art.style.left = `${(viewportWidth - 1500 * k) / 2}px`;
-  art.style.top = `${(viewportHeight - 1000 * k) / 2}px`;
+  art.style.left = `${left}px`;
+  art.style.top = `${top}px`;
 }
   function paint(el,k){const ew=el.offsetWidth,eh=el.offsetHeight,sx=ew/BW,sy=eh/CH,col=k%5,row=Math.floor(k/5),xb=col*CW-PAD,yb=ROWY[row];el.style.backgroundImage=`url("${SHEET}")`;el.style.backgroundSize=`${SW/BW*ew}px ${SH/CH*eh}px`;el.style.backgroundPosition=`${-xb*sx}px ${-yb*sy}px`;el.style.clipPath=clips[k]}
   function layout(){G.forEach((el,k)=>{let x=CX+(k-(N-1)/2)*SLOT;if(hov>=0&&k!==hov)x+=Math.sign(k-hov)*OPEN;el.style.left=`${x}px`;el.classList.toggle('face',k===hov)});if(hov>=0){cap.style.left=G[hov].style.left;capName.textContent=products[hov][0];capPrice.textContent=products[hov][1];cap.classList.add('on')}else cap.classList.remove('on')}

@@ -990,3 +990,69 @@
     height: 100svh;
   }
 }
+/* =========================================
+   MOBILE — LARGER CLOTHING DISPLAY
+========================================= */
+
+@media (max-width: 768px) {
+  .offcut-page {
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .offcut-page #art {
+    transform-origin: top left;
+    overflow: visible;
+  }
+
+  .offcut-page #rack {
+    overflow: visible;
+  }
+
+  .offcut-page .g {
+    cursor: pointer;
+  }
+
+  .offcut-page #cap {
+    font-size: 12px;
+    letter-spacing: .08em;
+  }
+
+  .offcut-page #logo {
+    top: 22px;
+  }
+
+  .offcut-page #about,
+  .offcut-page #contact {
+    top: 30px;
+  }
+
+  .offcut-page #band {
+    z-index: 20;
+  }
+
+  .offcut-page #det {
+    z-index: 30;
+  }
+
+  .offcut-page #big {
+    max-width: none;
+  }
+
+  .offcut-page #info {
+    max-width: calc(100vw - 30px);
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 380px) {
+  .offcut-page #logo {
+    font-size: 42px;
+  }
+
+  .offcut-page #cap {
+    font-size: 10px;
+  }
+}
