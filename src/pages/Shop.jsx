@@ -22,6 +22,7 @@ import TryTheLook from './TryTheLook';
 import SliderFoot from '../Components/SliderFoot';
 import Sliderensemble from '../Components/Sliderensemble';
 import Night26 from './Night26/Night26'
+import CurvedLensCarousel from "../Components/CurvedLensCarousel";
 const Shop = () => {
     return (
         <div>
@@ -47,6 +48,7 @@ const Shop = () => {
             <BannerVideo />
             <Sliderensemble />
             <Night26 />
+            <CurvedLensCarousel />
             <SocialIcons />
         </div>
     )
