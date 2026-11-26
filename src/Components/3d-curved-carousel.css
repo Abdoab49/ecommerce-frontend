@@ -1,170 +1,143 @@
 
 .clc-section {
   width: 100%;
-  padding: 90px 0 75px;
-  overflow: hidden;
+  padding: 75px 5%;
   background: #fff;
   color: #111;
-  box-sizing: border-box;
-}
-
-.clc-section * {
-  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 
 .clc-header {
-  width: min(1400px, 92%);
-  margin: 0 auto 35px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 30px;
+  max-width: 1450px;
+  margin: 0 auto 45px;
 }
 
-.clc-eyebrow {
+.clc-eyebrow,
+.clc-products-heading > div > span,
+.clc-bag > div:first-child > span {
   display: block;
-  margin-bottom: 16px;
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 3px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #777;
 }
 
-.clc-heading {
-  margin: 0;
-  font-size: clamp(38px, 6vw, 78px);
-  font-weight: 800;
-  line-height: 0.94;
+.clc-header h2 {
+  margin: 12px 0 7px;
+  font-size: clamp(38px, 6vw, 76px);
+  line-height: .95;
+  font-weight: 900;
   letter-spacing: -4px;
 }
 
-.clc-header-description {
-  max-width: 300px;
-  font-size: 13px;
-  line-height: 1.8;
-  color: #777;
-  margin-bottom: 5px;
+.clc-header h2 span {
+  color: #e53935;
 }
 
-.clc-carousel {
-  width: 100%;
-  position: relative;
+.clc-header p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.clc-counter {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding-bottom: 5px;
+}
+
+.clc-counter strong {
+  font-size: 35px;
+  font-weight: 800;
+}
+
+.clc-counter span {
+  color: #999;
+  font-size: 13px;
+}
+
+.clc-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, .8fr);
+  gap: 55px;
+  max-width: 1450px;
+  margin: auto;
+  align-items: center;
 }
 
 .clc-stage {
+  min-width: 0;
   position: relative;
-  width: 100%;
-  height: clamp(380px, 48vw, 650px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1400px;
-  perspective-origin: 50% 50%;
 }
 
-.clc-card {
+.clc-ring {
+  position: relative;
+  height: 600px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  touch-action: pan-y;
+  user-select: none;
+  overflow: hidden;
+}
+
+.clc-slide {
   position: absolute;
-  width: clamp(240px, 34vw, 470px);
-  height: clamp(330px, 43vw, 570px);
-  transform:
-    translateX(calc(var(--position) * 68%))
-    scale(calc(1 - var(--distance) * 0.14))
-    rotateY(calc(var(--position) * -16deg));
-  opacity: calc(1 - var(--distance) * 0.22);
-  filter: brightness(calc(1 - var(--distance) * 0.18));
-  transition:
-    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.5s ease,
-    filter 0.5s ease;
+  left: 50%;
+  top: 50%;
+  width: min(52%, 340px);
+  height: 490px;
+  padding: 0;
+  border: 0;
+  background: #f1f1f1;
+  overflow: hidden;
   cursor: pointer;
-  overflow: hidden;
-  border-radius: 3px;
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--position) * 245px + var(--drag)))
+    rotateY(calc(var(--position) * -23deg))
+    scale(calc(1 - min(abs(var(--position)), 3) * .13));
+  opacity: calc(1 - min(abs(var(--position)), 3) * .22);
+  filter: saturate(.85);
+  transition:
+    transform .8s cubic-bezier(.2,.75,.25,1),
+    opacity .8s ease,
+    filter .8s ease;
 }
 
-.clc-card-active {
-  transform: translateX(0) scale(1) rotateY(0);
+.clc-slide.is-active {
+  filter: saturate(1);
   opacity: 1;
-  filter: brightness(1);
+  cursor: grab;
 }
 
-.clc-image-wrap {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background: #ddd;
+.clc-ring.is-dragging .clc-slide {
+  transition: none;
+  cursor: grabbing;
 }
 
-.clc-image {
+.clc-slide img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.8s ease;
+  pointer-events: none;
 }
 
-.clc-card-active:hover .clc-image {
-  transform: scale(1.04);
-}
-
-.clc-image-overlay {
+.clc-slide-label {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 35%,
-    rgba(0, 0, 0, 0.65) 100%
-  );
-}
-
-.clc-card-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: clamp(20px, 3vw, 38px);
+  left: 18px;
+  bottom: 18px;
   color: white;
-}
-
-.clc-card-subtitle {
-  font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: 600;
-}
-
-.clc-card-content h3 {
-  font-size: clamp(23px, 3vw, 38px);
-  line-height: 1;
-  margin: 12px 0;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.clc-card-content p {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0 0 22px;
-}
-
-.clc-discover {
-  display: inline-flex;
-  align-items: center;
-  gap: 15px;
-  color: white;
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-}
-
-.clc-discover span {
-  font-size: 15px;
-  transition: transform 0.3s ease;
-}
-
-.clc-discover:hover span {
-  transform: translate(3px, -3px);
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px #0008;
 }
 
 .clc-controls {
@@ -172,122 +145,448 @@
   align-items: center;
   justify-content: center;
   gap: 30px;
-  margin-top: 25px;
+  margin: 10px 0 22px;
 }
 
-.clc-arrow {
-  width: 44px;
-  height: 44px;
-  border: 1px solid #dedede;
-  background: transparent;
+.clc-controls > button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
   border-radius: 50%;
+  background: white;
   color: #111;
-  font-size: 18px;
+  font-size: 19px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: .2s;
 }
 
-.clc-arrow:hover {
+.clc-controls > button:hover {
   background: #111;
   color: white;
   border-color: #111;
 }
 
-.clc-pagination {
+.clc-dots {
   display: flex;
+  gap: 8px;
   align-items: center;
-  gap: 12px;
-  font-size: 11px;
 }
 
-.clc-current {
+.clc-dots button {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.clc-dots button.active {
+  width: 24px;
+  border-radius: 10px;
+  background: #111;
+}
+
+.clc-view-look {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 340px;
+  margin: auto;
+  padding: 17px 20px;
+  border: 1px solid #111;
+  background: #111;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.clc-view-look:hover {
+  background: white;
+  color: #111;
+}
+
+.clc-view-look span {
+  font-size: 18px;
+}
+
+.clc-products {
+  width: 100%;
+}
+
+.clc-products-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.clc-products-heading h3 {
+  margin: 7px 0 0;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.clc-product-count {
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 1px;
   font-weight: 700;
 }
 
-.clc-total {
-  color: #999;
+.clc-product {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 17px;
+  padding: 22px 0;
+  border-bottom: 1px solid #e8e8e8;
 }
 
-.clc-pagination-line {
-  width: 40px;
-  height: 1px;
-  background: #ccc;
+.clc-product-image {
+  width: 112px;
+  height: 130px;
+  background: #f4f4f4;
+  overflow: hidden;
 }
 
-/* Tablet */
-@media (max-width: 768px) {
+.clc-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clc-product-info h4 {
+  margin: 1px 0 7px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.clc-product-info > p {
+  margin: 0 0 13px;
+  font-size: 13px;
+  color: #666;
+}
+
+.clc-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.clc-sizes button {
+  min-width: 27px;
+  height: 27px;
+  padding: 0 6px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #222;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.clc-sizes button.selected {
+  border-color: #111;
+  background: #111;
+  color: white;
+}
+
+.clc-add {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #111;
+  background: white;
+  color: #111;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.clc-add:hover {
+  background: #111;
+  color: white;
+}
+
+.clc-add span {
+  font-size: 17px;
+}
+
+.clc-bag {
+  margin-top: 24px;
+  padding: 18px;
+  background: #f5f5f5;
+}
+
+.clc-bag > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clc-bag > div:first-child strong {
+  font-size: 11px;
+}
+
+.clc-bag-items {
+  margin-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.clc-bag-items > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  font-size: 11px;
+}
+
+.clc-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(5px);
+}
+
+.clc-modal {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  width: min(900px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: white;
+}
+
+.clc-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: white;
+  color: #111;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+.clc-modal-image {
+  position: relative;
+  min-height: 550px;
+  background: #eee;
+}
+
+.clc-modal-image > img {
+  width: 100%;
+  height: 100%;
+  min-height: 550px;
+  object-fit: cover;
+}
+
+.clc-pin {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #111;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px #0004;
+}
+
+.clc-pin-1 {
+  top: 35%;
+  left: 35%;
+}
+
+.clc-pin-2 {
+  top: 72%;
+  left: 58%;
+}
+
+.clc-modal-info {
+  padding: 55px 35px 35px;
+}
+
+.clc-modal-info > span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #888;
+}
+
+.clc-modal-info h3 {
+  margin: 10px 0;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.clc-modal-info > p {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.clc-modal-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.clc-modal-product img {
+  width: 58px;
+  height: 65px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.clc-modal-product > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.clc-modal-product strong {
+  font-size: 12px;
+}
+
+.clc-modal-product span {
+  color: #777;
+  font-size: 12px;
+}
+
+.clc-modal-product button {
+  padding: 8px 12px;
+  border: 1px solid #111;
+  background: white;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clc-pin-description {
+  padding: 10px;
+  background: #f4f4f4;
+  color: #111 !important;
+}
+
+@media (max-width: 1000px) {
+  .clc-layout {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .clc-ring {
+    height: 570px;
+  }
+
+  .clc-products {
+    max-width: 650px;
+    margin: auto;
+  }
+}
+
+@media (max-width: 600px) {
   .clc-section {
-    padding: 55px 0;
+    padding: 45px 16px;
   }
 
   .clc-header {
-    width: 90%;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 15px;
     margin-bottom: 25px;
   }
 
-  .clc-heading {
+  .clc-header h2 {
+    font-size: 43px;
     letter-spacing: -2px;
   }
 
-  .clc-header-description {
-    margin: 0;
+  .clc-header p {
+    font-size: 12px;
   }
 
-  .clc-stage {
-    height: 460px;
+  .clc-counter strong {
+    font-size: 25px;
   }
 
-  .clc-card {
-    width: 270px;
-    height: 380px;
+  .clc-ring {
+    height: 440px;
+    perspective: 900px;
+  }
+
+  .clc-slide {
+    width: 68%;
+    height: 365px;
     transform:
-      translateX(calc(var(--position) * 65%))
-      scale(calc(1 - var(--distance) * 0.12))
-      rotateY(calc(var(--position) * -12deg));
-  }
-
-  .clc-card-active {
-    transform: translateX(0) scale(1) rotateY(0);
-  }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .clc-section {
-    padding: 40px 0;
-  }
-
-  .clc-heading {
-    font-size: 43px;
-  }
-
-  .clc-stage {
-    height: 400px;
-  }
-
-  .clc-card {
-    width: 245px;
-    height: 340px;
-    transform:
-      translateX(calc(var(--position) * 58%))
-      scale(calc(1 - var(--distance) * 0.1))
-      rotateY(calc(var(--position) * -9deg));
-  }
-
-  .clc-card-active {
-    transform: translateX(0) scale(1) rotateY(0);
+      translate(-50%, -50%)
+      translateX(calc(var(--position) * 150px + var(--drag)))
+      rotateY(calc(var(--position) * -19deg))
+      scale(calc(1 - min(abs(var(--position)), 3) * .15));
   }
 
   .clc-controls {
-    margin-top: 15px;
     gap: 18px;
   }
 
-  .clc-arrow {
-    width: 38px;
-    height: 38px;
+  .clc-product {
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .clc-product-image {
+    width: 90px;
+    height: 115px;
+  }
+
+  .clc-modal {
+    grid-template-columns: 1fr;
+    max-height: 92vh;
+  }
+
+  .clc-modal-image,
+  .clc-modal-image > img {
+    min-height: 350px;
+    max-height: 48vh;
+  }
+
+  .clc-modal-info {
+    padding: 25px 20px;
+  }
+
+  .clc-modal-info h3 {
+    font-size: 27px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clc-slide,
+  .clc-controls > button,
+  .clc-add,
+  .clc-view-look {
+    transition: none;
   }
 }
