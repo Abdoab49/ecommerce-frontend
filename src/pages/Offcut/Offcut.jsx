@@ -30,18 +30,21 @@ export default function Offcut() {
   const num=root.querySelector('#num'),name=root.querySelector('#name'),price=root.querySelector('#price');
   const G=[];let hov=-1,opened=-1;
   function fit() {
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+  const rect = root.getBoundingClientRect();
 
-    const k = Math.min(
-      viewportWidth / 1500,
-      viewportHeight / 1000
-    );
+  const viewportWidth = rect.width;
+  const viewportHeight = rect.height;
 
-    art.style.transform = `scale(${k})`;
-    art.style.left = `${(viewportWidth - 1500 * k) / 2}px`;
-    art.style.top = `${(viewportHeight - 1000 * k) / 2}px`;
-  }
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  const k = isMobile
+    ? Math.min(viewportWidth / 1500, viewportHeight / 1000)
+    : Math.min(viewportWidth / 1500, viewportHeight / 1000);
+
+  art.style.transform = `scale(${k})`;
+  art.style.left = `${(viewportWidth - 1500 * k) / 2}px`;
+  art.style.top = `${(viewportHeight - 1000 * k) / 2}px`;
+}
   function paint(el,k){const ew=el.offsetWidth,eh=el.offsetHeight,sx=ew/BW,sy=eh/CH,col=k%5,row=Math.floor(k/5),xb=col*CW-PAD,yb=ROWY[row];el.style.backgroundImage=`url("${SHEET}")`;el.style.backgroundSize=`${SW/BW*ew}px ${SH/CH*eh}px`;el.style.backgroundPosition=`${-xb*sx}px ${-yb*sy}px`;el.style.clipPath=clips[k]}
   function layout(){G.forEach((el,k)=>{let x=CX+(k-(N-1)/2)*SLOT;if(hov>=0&&k!==hov)x+=Math.sign(k-hov)*OPEN;el.style.left=`${x}px`;el.classList.toggle('face',k===hov)});if(hov>=0){cap.style.left=G[hov].style.left;capName.textContent=products[hov][0];capPrice.textContent=products[hov][1];cap.classList.add('on')}else cap.classList.remove('on')}
   for(let k=0;k<N;k++){const g=document.createElement('div'),i=document.createElement('i');g.className='g';g.appendChild(i);rack.appendChild(g);paint(i,k);g.addEventListener('pointerenter',()=>{if(opened<0){hov=k;layout()}});g.addEventListener('click',()=>openG(k));G.push(g)}

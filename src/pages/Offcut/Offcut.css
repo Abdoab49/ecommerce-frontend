@@ -846,3 +846,147 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* =========================================
+   MOBILE RESPONSIVE FIX
+========================================= */
+
+.offcut-page {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.offcut-page #art {
+  position: absolute;
+  width: 1500px;
+  height: 1000px;
+  transform-origin: top left;
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+  .offcut-page {
+    height: 100svh;
+    min-height: 560px;
+  }
+
+  .offcut-page #about,
+  .offcut-page #contact {
+    top: 35px;
+  }
+
+  .offcut-page #logo {
+    top: 25px;
+    font-size: 58px;
+  }
+
+  .offcut-page #rack {
+    width: 1500px;
+  }
+
+  .offcut-page #cap {
+    font-size: 13px;
+  }
+
+  .offcut-page #avail {
+    top: 800px;
+  }
+
+  .offcut-page #big {
+    width: 473px;
+    height: 492px;
+  }
+
+  .offcut-page #info {
+    top: 760px;
+    width: 600px;
+  }
+
+  .offcut-page .arr {
+    width: 54px;
+    height: 54px;
+  }
+
+  .offcut-page #prev {
+    left: calc(50% - 310px);
+  }
+
+  .offcut-page #next {
+    left: calc(50% + 264px);
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .offcut-page {
+    min-height: 520px;
+    height: 100svh;
+  }
+
+  .offcut-page #logo {
+    font-size: 52px;
+  }
+
+  .offcut-page #about,
+  .offcut-page #contact {
+    font-size: 11px;
+  }
+
+  .offcut-page #band {
+    height: 42px;
+  }
+
+  .offcut-page #track {
+    font-size: 11px;
+  }
+
+  .offcut-page .pill {
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 10px;
+  }
+
+  .offcut-page #name {
+    font-size: 34px;
+  }
+
+  .offcut-page #close {
+    top: 75px;
+  }
+
+  .offcut-page .arr {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 380px) {
+  .offcut-page {
+    min-height: 500px;
+  }
+
+  .offcut-page #logo {
+    font-size: 46px;
+  }
+
+  .offcut-page #about,
+  .offcut-page #contact {
+    font-size: 9px;
+  }
+
+  .offcut-page #name {
+    font-size: 30px;
+  }
+}
+
+/* LANDSCAPE MOBILE */
+@media (max-height: 500px) and (orientation: landscape) {
+  .offcut-page {
+    min-height: 360px;
+    height: 100svh;
+  }
+}
