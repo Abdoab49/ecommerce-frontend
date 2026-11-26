@@ -51,8 +51,12 @@ export default function Offcut() {
     // توسيط مجموعة الملابس وسط الشاشة
     left = (viewportWidth / 2) - (750 * k);
 
-    // نخلي الجزء العلوي من التصميم ظاهر
-    top = 0;
+
+    // نرفع الملابس ونوسّطها داخل المساحة الظاهرة
+const reservedBottom = 90;
+const garmentCenterY = 386;
+
+top = (viewportHeight - reservedBottom) / 2 - garmentCenterY * k;
   } else {
     // نفس قياسات الحاسوب الأصلية
     k = Math.min(
