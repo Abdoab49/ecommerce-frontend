@@ -1,6 +1,6 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&family=UnifrakturMaguntia&display=swap");
 .cf {
   position: relative;
   min-height: 100vh;
@@ -505,4 +505,21 @@ body.clothes-carousel-open .bottom-menu {
   .cf__floating-preview {
     transition: none;
   }
+}
+/* Product names typography */
+.cf__product-name {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Product details */
+.cf__product-details {
+  font-family: "Inter", sans-serif;
+}
+
+/* Optional Gothic style */
+.cf__product-name--gothic {
+  font-family: "UnifrakturMaguntia", cursive;
+  font-style: normal;
 }
