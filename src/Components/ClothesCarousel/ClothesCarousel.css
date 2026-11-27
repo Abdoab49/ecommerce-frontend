@@ -535,10 +535,14 @@
 }
 
 .cf__floating-img {
-  width: 100%;
-  height: 100%;
+  width: 115%;
+  height: 115%;
+  max-width: none;
+  max-height: none;
   object-fit: contain !important;
   object-position: center;
+  transform: scale(1.08);
+  transform-origin: center;
 }
 
 /* الحفاظ على مكان كارد المقاسات */
