@@ -267,74 +267,86 @@ export default function ClothesCarousel({
         onClick={() => setOpen(false)}
       />
 
-      <div
-        className="cf__sheet"
-        role="dialog"
-        aria-modal={open}
-        aria-label={p.name}
+<div
+  className="cf__sheet"
+  role="dialog"
+  aria-modal={open}
+  aria-label={p.name}
+>
+  {/* Product image */}
+  <div className="cf__preview">
+    <img
+      src={p.image || placeholder(p.name)}
+      alt={p.name}
+      className="cf__preview-img"
+      draggable={false}
+    />
+  </div>
+
+  {/* Product information */}
+  <div className="cf__head">
+    <div>
+      <h3 className="cf__sname">{p.name}</h3>
+
+      <p className="cf__sprice">
+        {Number(p.price || 0).toLocaleString("fr-FR")} MAD
+      </p>
+    </div>
+
+    <button
+      className="cf__close"
+      onClick={() => setOpen(false)}
+      aria-label="Fermer"
+    >
+      ✕
+    </button>
+  </div>
+
+  <p className="cf__label">
+    Taille · tour de poitrine
+  </p>
+
+  <div
+    className="cf__sizes"
+    role="radiogroup"
+    aria-label="Taille"
+  >
+    {SIZES.map((currentSize) => (
+      <button
+        key={currentSize}
+        role="radio"
+        aria-checked={size === currentSize}
+        disabled={!p.sizes?.[currentSize]}
+        className={
+          "cf__size" +
+          (size === currentSize ? " is-on" : "")
+        }
+        onClick={() =>
+          setPicked((previous) => ({
+            ...previous,
+            [p.id]: currentSize
+          }))
+        }
       >
-        <div className="cf__head">
-          <div>
-            <h3 className="cf__sname">{p.name}</h3>
+        <b>{currentSize}</b>
+        <small>{SIZE_CHEST[currentSize]} cm</small>
+      </button>
+    ))}
+  </div>
 
-            <p className="cf__sprice">
-              {Number(p.price || 0).toLocaleString("fr-FR")} MAD
-            </p>
-          </div>
+  <button
+    className={"cf__cta" + (done ? " is-done" : "")}
+    disabled={!size || done}
+    onClick={add}
+  >
+    {done
+      ? `Ajouté · ${size}`
+      : size
+        ? "Ajouter au panier"
+        : "Choisis ta taille"}
+  </button>
+</div>
 
-          <button
-            className="cf__close"
-            onClick={() => setOpen(false)}
-            aria-label="Fermer"
-          >
-            ✕
-          </button>
-        </div>
-
-        <p className="cf__label">
-          Taille · tour de poitrine
-        </p>
-
-        <div
-          className="cf__sizes"
-          role="radiogroup"
-          aria-label="Taille"
-        >
-          {SIZES.map((currentSize) => (
-            <button
-              key={currentSize}
-              role="radio"
-              aria-checked={size === currentSize}
-              disabled={!p.sizes?.[currentSize]}
-              className={
-                "cf__size" +
-                (size === currentSize ? " is-on" : "")
-              }
-              onClick={() =>
-                setPicked((previous) => ({
-                  ...previous,
-                  [p.id]: currentSize
-                }))
-              }
-            >
-              <b>{currentSize}</b>
-              <small>{SIZE_CHEST[currentSize]} cm</small>
-            </button>
-          ))}
-        </div>
-
-        <button
-          className={"cf__cta" + (done ? " is-done" : "")}
-          disabled={!size || done}
-          onClick={add}
-        >
-          {done
-            ? `Ajouté · ${size}`
-            : size
-              ? "Ajouter au panier"
-              : "Choisis ta taille"}
-        </button>
-      </div>
     </div>
   );
 }
