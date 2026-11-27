@@ -524,3 +524,24 @@
     transition: none;
   }
 }
+/* رفع صورة المنتج بدون تحريك كارد المقاسات */
+.cf__floating-preview {
+  bottom: 370px !important;
+  height: 230px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cf__floating-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center;
+}
+
+/* الحفاظ على مكان كارد المقاسات */
+.cf__sheet {
+  bottom: 85px;
+}
