@@ -79,7 +79,9 @@ export default function ClothesCarousel({
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
     };
 
     window.addEventListener("keydown", handleEscape);
@@ -214,10 +216,7 @@ export default function ClothesCarousel({
                 >
                   <img
                     className="cf__img"
-                    src={
-                      product.image ||
-                      placeholder(product.shape, product.color)
-                    }
+                    src={product.image || placeholder(product.name)}
                     alt={product.name}
                     draggable={false}
                   />
@@ -267,86 +266,86 @@ export default function ClothesCarousel({
         onClick={() => setOpen(false)}
       />
 
-<div
-  className="cf__sheet"
-  role="dialog"
-  aria-modal={open}
-  aria-label={p.name}
->
-  {/* Product image */}
-  <div className="cf__product-image">
-  <img
-    src={p.image || placeholder(p.name)}
-    alt={p.name}
-    className="cf__product-img"
-    draggable={false}
-  />
-</div>
+      {/* الصورة مستقلة وخارج كارد المقاسات */}
+      <div className="cf__floating-preview" aria-hidden={!open}>
+        <img
+          src={p.image || placeholder(p.name)}
+          alt={p.name}
+          className="cf__floating-img"
+          draggable={false}
+        />
+      </div>
 
-  {/* Product information */}
-  <div className="cf__head">
-    <div>
-      <h3 className="cf__sname">{p.name}</h3>
-
-      <p className="cf__sprice">
-        {Number(p.price || 0).toLocaleString("fr-FR")} MAD
-      </p>
-    </div>
-
-    <button
-      className="cf__close"
-      onClick={() => setOpen(false)}
-      aria-label="Fermer"
-    >
-      ✕
-    </button>
-  </div>
-
-  <p className="cf__label">
-    Taille · tour de poitrine
-  </p>
-
-  <div
-    className="cf__sizes"
-    role="radiogroup"
-    aria-label="Taille"
-  >
-    {SIZES.map((currentSize) => (
-      <button
-        key={currentSize}
-        role="radio"
-        aria-checked={size === currentSize}
-        disabled={!p.sizes?.[currentSize]}
-        className={
-          "cf__size" +
-          (size === currentSize ? " is-on" : "")
-        }
-        onClick={() =>
-          setPicked((previous) => ({
-            ...previous,
-            [p.id]: currentSize
-          }))
-        }
+      {/* كارد المقاسات فقط */}
+      <div
+        className="cf__sheet"
+        role="dialog"
+        aria-modal={open}
+        aria-label={p.name}
+        aria-hidden={!open}
       >
-        <b>{currentSize}</b>
-        <small>{SIZE_CHEST[currentSize]} cm</small>
-      </button>
-    ))}
-  </div>
+        <div className="cf__head">
+          <div>
+            <h3 className="cf__sname">{p.name}</h3>
 
-  <button
-    className={"cf__cta" + (done ? " is-done" : "")}
-    disabled={!size || done}
-    onClick={add}
-  >
-    {done
-      ? `Ajouté · ${size}`
-      : size
-        ? "Ajouter au panier"
-        : "Choisis ta taille"}
-  </button>
-</div>
+            <p className="cf__sprice">
+              {Number(p.price || 0).toLocaleString("fr-FR")} MAD
+            </p>
+          </div>
 
+          <button
+            className="cf__close"
+            onClick={() => setOpen(false)}
+            aria-label="Fermer"
+          >
+            ✕
+          </button>
+        </div>
+
+        <p className="cf__label">
+          Taille · tour de poitrine
+        </p>
+
+        <div
+          className="cf__sizes"
+          role="radiogroup"
+          aria-label="Taille"
+        >
+          {SIZES.map((currentSize) => (
+            <button
+              key={currentSize}
+              role="radio"
+              aria-checked={size === currentSize}
+              disabled={!p.sizes?.[currentSize]}
+              className={
+                "cf__size" +
+                (size === currentSize ? " is-on" : "")
+              }
+              onClick={() =>
+                setPicked((previous) => ({
+                  ...previous,
+                  [p.id]: currentSize
+                }))
+              }
+            >
+              <b>{currentSize}</b>
+              <small>{SIZE_CHEST[currentSize]} cm</small>
+            </button>
+          ))}
+        </div>
+
+        <button
+          className={"cf__cta" + (done ? " is-done" : "")}
+          disabled={!size || done}
+          onClick={add}
+        >
+          {done
+            ? `Ajouté · ${size}`
+            : size
+              ? "Ajouter au panier"
+              : "Choisis ta taille"}
+        </button>
+      </div>
     </div>
   );
 }

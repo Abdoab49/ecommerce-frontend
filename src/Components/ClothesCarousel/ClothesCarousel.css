@@ -462,39 +462,43 @@
   display: block;
 }
 
-/* ===== PRODUCT PREVIEW IN SIZE PANEL ===== */
 
-/* ===== MOBILE PRODUCT CARD FINAL LAYOUT ===== */
-
+/* ===== MOBILE PRODUCT CARD ===== */
 @media (max-width: 720px) {
   .cf__sheet {
+    position: fixed;
+    left: 50%;
     bottom: 76px;
     width: calc(100% - 24px);
     max-height: 82dvh;
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 14px 16px 16px;
+    padding: 16px;
     border-radius: 22px;
-    display: flex;
-    flex-direction: column;
+    border-bottom: 1px solid rgba(255,255,255,.25);
+    scrollbar-width: none;
   }
 
+  .cf__sheet::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* صورة مستقلة فوق معلومات المنتج */
   .cf__product-image {
     width: 100%;
-    height: 210px;
-    min-height: 210px;
-    flex: none;
+    height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 0 12px;
     overflow: hidden;
+    margin: 0 0 16px;
     background: transparent;
     border: none;
     box-shadow: none;
   }
 
   .cf__product-img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -502,9 +506,9 @@
     transform: none;
   }
 
+  /* اسم المنتج والثمن تحت الصورة */
   .cf__head {
-    flex: none;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
   .cf__sname {
@@ -512,29 +516,29 @@
   }
 
   .cf__sprice {
+    margin-top: 5px;
     font-size: 14px;
-    margin-top: 4px;
   }
 
   .cf__close {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
   }
 
+  /* المقاسات تحت معلومات المنتج */
   .cf__label {
-    margin-bottom: 8px;
-    font-size: 11px;
+    margin-bottom: 9px;
+    font-size: 12px;
   }
 
   .cf__sizes {
-    flex: none;
+    display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 7px;
-    margin: 0;
+    gap: 8px;
   }
 
   .cf__size {
-    height: 52px;
+    height: 54px;
     min-width: 0;
   }
 
@@ -546,87 +550,10 @@
     font-size: 10px;
   }
 
+  /* زر إضافة للسلة */
   .cf__cta {
-    flex: none;
-    height: 48px;
-    margin-top: 14px;
-  }
-}
-/* ===== MOBILE: TALL PRODUCT CARD ===== */
-@media (max-width: 720px) {
-  .cf__sheet {
-    bottom: 76px;
-    width: calc(100% - 24px);
-
-    /* نخلي الكارد تطوال من الفوق */
-    max-height: 78dvh;
-    overflow-y: auto;
-    box-sizing: border-box;
-
-    padding: 16px 16px 18px;
-    border-radius: 22px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-
-    scrollbar-width: none;
-  }
-
-  .cf__sheet::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* الصورة فوق وبحجم واضح */
-  .cf__preview {
     width: 100%;
-    height: 230px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin: 0 auto 12px;
-  }
-
-  .cf__preview-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    display: block;
-    transform: none;
-  }
-
-  /* معلومات المنتج تحت الصورة */
-  .cf__head {
-    margin-bottom: 12px;
-  }
-
-  .cf__sname {
-    font-size: 21px;
-  }
-
-  .cf__sprice {
-    font-size: 14px;
-  }
-
-  /* المقاسات تحت معلومات المنتج */
-  .cf__sizes {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .cf__size {
-    height: 52px;
-  }
-
-  .cf__size b {
-    font-size: 16px;
-  }
-
-  .cf__size small {
-    font-size: 10px;
-  }
-
-  .cf__cta {
-    height: 48px;
-    margin-top: 14px;
+    height: 50px;
+    margin-top: 15px;
   }
 }
