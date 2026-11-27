@@ -60,6 +60,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -67,19 +68,19 @@
 
 /* Image: 1080 x 1317 */
 .sliderImage {
-  width: 100%;
-  aspect-ratio: 1080 / 1317;
-  height: auto;
-  object-fit: cover;
   display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1080 / 1317;
+  object-fit: contain;
+  object-position: center;
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
 }
 
-/* ===== MEDIA QUERIES ===== */
+/* ===== LARGE SCREENS ===== */
 
-/* شاشات كبيرة */
 @media (max-width: 1024px) {
   .indicator {
     width: 30px;
@@ -90,8 +91,21 @@
   }
 }
 
-/* شاشات تابلت */
+/* ===== TABLET ===== */
+
 @media (max-width: 768px) {
+  .slider {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sliderImage {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1080 / 1317;
+    object-fit: contain;
+  }
+
   .indicator {
     width: 25px;
     height: 3px;
@@ -102,8 +116,29 @@
   }
 }
 
-/* شاشات موبايل */
+/* ===== MOBILE ===== */
+
 @media (max-width: 576px) {
+  .slider {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .sliderInner,
+  .sliderItem {
+    width: 100%;
+  }
+
+  .sliderImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1080 / 1317;
+    object-fit: contain;
+    object-position: center;
+  }
+
   .indicator {
     width: 20px;
     height: 3px;
@@ -115,11 +150,20 @@
 
   .sliderIndicators {
     bottom: 12px;
+    gap: 8px;
   }
 }
 
-/* شاشات موبايل صغيرة */
+/* ===== SMALL MOBILE ===== */
+
 @media (max-width: 400px) {
+  .sliderImage {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1080 / 1317;
+    object-fit: contain;
+  }
+
   .indicator {
     width: 15px;
   }
@@ -129,7 +173,8 @@
   }
 }
 
-/* شاشات أفقية */
+/* ===== LANDSCAPE SCREENS ===== */
+
 @media (orientation: landscape) and (max-height: 500px) {
   .sliderIndicators {
     bottom: 10px;
