@@ -1,5 +1,8 @@
 
-/* Slider.module.css */
+/* =====================================
+   SLIDER
+   Image ratio: 1080 x 1317
+===================================== */
 
 .slider {
   position: relative;
@@ -10,63 +13,39 @@
   border-radius: 12px;
 }
 
-/* Indicators */
-.sliderIndicators {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  z-index: 10;
-}
-
-.indicator {
-  width: 40px;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  border-radius: 2px;
-}
-
-.indicator.active {
-  background-color: #ffffff;
-  width: 60px;
-}
-
-/* Slider Inner */
 .sliderInner {
   position: relative;
   width: 100%;
   overflow: hidden;
-  touch-action: pan-y;
-  user-select: none;
-  -webkit-user-select: none;
 }
+
+/* =====================================
+   INFINITE TRACK
+===================================== */
+
+.sliderTrack {
+  display: flex;
+  width: max-content;
+  align-items: stretch;
+  animation: infiniteSlide 24s linear infinite;
+  will-change: transform;
+}
+
+/* =====================================
+   SLIDES
+===================================== */
 
 .sliderItem {
-  display: none;
-  width: 100%;
+  flex: 0 0 360px;
+  width: 360px;
+  padding: 0 8px;
+  box-sizing: border-box;
 }
 
-.sliderItem.active {
-  display: block;
-  animation: fade 0.5s ease;
-}
+/* =====================================
+   IMAGES
+===================================== */
 
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* Image: 1080 x 1317 */
 .sliderImage {
   display: block;
   width: 100%;
@@ -79,104 +58,113 @@
   -webkit-user-drag: none;
 }
 
-/* ===== LARGE SCREENS ===== */
+/* =====================================
+   INFINITE ANIMATION
+===================================== */
+
+@keyframes infiniteSlide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =====================================
+   LARGE SCREENS
+===================================== */
+
+@media (min-width: 1025px) {
+  .sliderItem {
+    flex: 0 0 360px;
+    width: 360px;
+  }
+
+  .sliderTrack {
+    animation-duration: 24s;
+  }
+}
+
+/* =====================================
+   TABLET
+===================================== */
 
 @media (max-width: 1024px) {
-  .indicator {
-    width: 30px;
+  .sliderItem {
+    flex: 0 0 300px;
+    width: 300px;
+    padding: 0 7px;
   }
 
-  .indicator.active {
-    width: 50px;
+  .sliderTrack {
+    animation-duration: 22s;
   }
 }
 
-/* ===== TABLET ===== */
+/* =====================================
+   MOBILE
+===================================== */
 
 @media (max-width: 768px) {
-  .slider {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .sliderImage {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1080 / 1317;
-    object-fit: contain;
-  }
-
-  .indicator {
-    width: 25px;
-    height: 3px;
-  }
-
-  .indicator.active {
-    width: 40px;
-  }
-}
-
-/* ===== MOBILE ===== */
-
-@media (max-width: 576px) {
   .slider {
     width: 100%;
     max-width: 100%;
     border-radius: 8px;
   }
 
-  .sliderInner,
   .sliderItem {
-    width: 100%;
+    flex: 0 0 72vw;
+    width: 72vw;
+    padding: 0 5px;
   }
 
   .sliderImage {
-    display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 1080 / 1317;
     object-fit: contain;
-    object-position: center;
   }
 
-  .indicator {
-    width: 20px;
-    height: 3px;
-  }
-
-  .indicator.active {
-    width: 30px;
-  }
-
-  .sliderIndicators {
-    bottom: 12px;
-    gap: 8px;
+  .sliderTrack {
+    animation-duration: 18s;
   }
 }
 
-/* ===== SMALL MOBILE ===== */
+/* =====================================
+   SMALL MOBILE
+===================================== */
 
 @media (max-width: 400px) {
-  .sliderImage {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1080 / 1317;
-    object-fit: contain;
+  .sliderItem {
+    flex: 0 0 78vw;
+    width: 78vw;
+    padding: 0 4px;
   }
 
-  .indicator {
-    width: 15px;
-  }
-
-  .indicator.active {
-    width: 25px;
+  .sliderTrack {
+    animation-duration: 16s;
   }
 }
 
-/* ===== LANDSCAPE SCREENS ===== */
+/* =====================================
+   LANDSCAPE
+===================================== */
 
 @media (orientation: landscape) and (max-height: 500px) {
-  .sliderIndicators {
-    bottom: 10px;
+  .sliderItem {
+    flex: 0 0 240px;
+    width: 240px;
+  }
+}
+
+/* =====================================
+   REDUCED MOTION
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sliderTrack {
+    animation-duration: 60s;
   }
 }
