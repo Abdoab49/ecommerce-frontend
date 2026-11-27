@@ -5,10 +5,12 @@ import { ShopContext } from "../../Context/ShopContext";
 import "./ClothesCarousel.css";
 
 const SIZES = ["M", "L", "XL", "XXL"];
+
 const SPREAD = 250;
 const DEPTH = 190;
 const ANGLE = 36;
 const VISIBLE = 2;
+const WINDOW_SIZE = VISIBLE * 2 + 1;
 
 export default function ClothesCarousel({
   products = PRODUCTS,
@@ -26,15 +28,21 @@ export default function ClothesCarousel({
 
   const startX = useRef(null);
   const moved = useRef(false);
-  const scene = useRef(null);
-  const timer = useRef(null);
+  const closeTimer = useRef(null);
 
   const active = n ? ((index % n) + n) % n : 0;
   const p = safeProducts[active];
-
   const size = p ? picked[p.id] : null;
 
-  // إخفاء BottomNavBar فقط أثناء فتح اختيار المقاس
+  // تنظيف المؤقت
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  // إخفاء BottomNavBar أثناء فتح اختيار المقاس
   useEffect(() => {
     document.body.classList.toggle("clothes-carousel-open", open);
 
@@ -43,20 +51,33 @@ export default function ClothesCarousel({
     };
   }, [open]);
 
+  // تنظيف المؤقت عند حذف المكون
+  useEffect(() => {
+    return () => clearCloseTimer();
+  }, []);
+
+  // عدد المنتجات في السلة
   const actualCartCount = Array.isArray(cartItems)
     ? cartItems.reduce(
-        (sum, item) => sum + (item.quantity || 1),
+        (sum, item) => sum + (Number(item.quantity) || 1),
         0
       )
     : 0;
 
   const displayedCart = externalCartCount ?? actualCartCount;
 
+  // إغلاق اختيار المقاس
+  const closeSizePanel = () => {
+    clearCloseTimer();
+    setOpen(false);
+    setDone(false);
+  };
+
+  // التنقل بين المنتجات
   const go = (direction) => {
     if (!n) return;
 
-    setOpen(false);
-    setDone(false);
+    closeSizePanel();
     setIndex((current) => current + direction);
   };
 
@@ -72,9 +93,31 @@ export default function ClothesCarousel({
     if (difference) go(difference);
   };
 
-  // إضافة المنتج للسلة الحقيقية
+  // المنتجات القريبة فقط من المنتج النشيط
+  const visibleProducts = [];
+
+  for (let offset = -VISIBLE; offset <= VISIBLE; offset++) {
+    if (n === 0) break;
+
+    const productIndex = ((active + offset) % n + n) % n;
+
+    // تفادي تكرار المنتج عندما يكون عدد المنتجات قليلاً
+    if (visibleProducts.some((item) => item.productIndex === productIndex)) {
+      continue;
+    }
+
+    visibleProducts.push({
+      product: safeProducts[productIndex],
+      productIndex,
+      offset: offset
+    });
+  }
+
+  // إضافة المنتج للسلة
   const add = () => {
     if (!p || !size || !p.sizes?.[size] || done) return;
+
+    const productImage = p.image || placeholder(p.name);
 
     const productData = {
       ...p,
@@ -83,31 +126,36 @@ export default function ClothesCarousel({
       price: Number(p.price || p.new_price || 0),
       new_price: Number(p.new_price || p.price || 0),
       old_price: Number(p.old_price || 0),
-      image: p.image || placeholder(p.name),
-      images: p.images || [
-        p.image || placeholder(p.name)
-      ],
-      category: p.category || "T-Shirts",
+      image: productImage,
+      images: p.images || [productImage],
+      category: p.category || "T-Shirts"
     };
 
     addToCart(productData.id, size, productData);
 
     setDone(true);
+    clearCloseTimer();
 
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-
-    timer.current = setTimeout(() => {
+    closeTimer.current = setTimeout(() => {
       setDone(false);
       setOpen(false);
+      closeTimer.current = null;
     }, 1300);
   };
 
+  // إغلاق بالزر Escape
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        closeSizePanel();
+      }
+
+      if (!open && event.key === "ArrowLeft") {
+        go(-1);
+      }
+
+      if (!open && event.key === "ArrowRight") {
+        go(1);
       }
     };
 
@@ -115,31 +163,8 @@ export default function ClothesCarousel({
 
     return () => {
       window.removeEventListener("keydown", handleEscape);
-
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
     };
-  }, []);
-
-  const tilt = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    scene.current?.style.setProperty(
-      "--px",
-      (((event.clientX - rect.left) / rect.width) * 2 - 1).toFixed(3)
-    );
-
-    scene.current?.style.setProperty(
-      "--py",
-      (((event.clientY - rect.top) / rect.height) * 2 - 1).toFixed(3)
-    );
-  };
-
-  const untilt = () => {
-    scene.current?.style.setProperty("--px", 0);
-    scene.current?.style.setProperty("--py", 0);
-  };
+  }, [open, n]);
 
   if (!n) {
     return (
@@ -155,10 +180,6 @@ export default function ClothesCarousel({
     <div
       className={"cf" + (open ? " cf--open" : "")}
       tabIndex={0}
-      onKeyDown={(event) => {
-        if (event.key === "ArrowLeft") go(-1);
-        if (event.key === "ArrowRight") go(1);
-      }}
     >
       <div className="cf__top">
         <span>
@@ -174,8 +195,6 @@ export default function ClothesCarousel({
       <div className="cf__lift">
         <div
           className="cf__stage"
-          onPointerMove={tilt}
-          onPointerLeave={untilt}
           onPointerDown={(event) => {
             startX.current = event.clientX;
             moved.current = false;
@@ -201,20 +220,16 @@ export default function ClothesCarousel({
             ))}
           </div>
 
-          <div className="cf__scene" ref={scene}>
-            {safeProducts.map((product, i) => {
-              const half = Math.floor(n / 2);
-
-              const offset =
-                ((((i - index + half) % n) + n) % n) - half;
-
+          <div className="cf__scene">
+            {visibleProducts.map(({ product, productIndex, offset }) => {
               const distance = Math.abs(offset);
 
               return (
                 <div
                   key={product.id}
                   className={
-                    "cf__slot" + (i === active ? " is-active" : "")
+                    "cf__slot" +
+                    (productIndex === active ? " is-active" : "")
                   }
                   style={{
                     transform: `
@@ -223,17 +238,16 @@ export default function ClothesCarousel({
                       translateZ(${-distance * DEPTH}px)
                       rotateY(${-offset * ANGLE}deg)
                     `,
-                    opacity: distance > VISIBLE ? 0 : 1,
-                    filter: `brightness(${(1 - distance * 0.3).toFixed(2)})`,
+                    opacity: 1,
                     zIndex: 10 - distance
                   }}
                   onClick={() => {
                     if (moved.current) return;
 
-                    if (i === active) {
+                    if (productIndex === active) {
                       setOpen(true);
                     } else {
-                      goTo(i);
+                      goTo(productIndex);
                     }
                   }}
                 >
@@ -241,6 +255,8 @@ export default function ClothesCarousel({
                     className="cf__img"
                     src={product.image || placeholder(product.name)}
                     alt={product.name}
+                    loading={distance === 0 ? "eager" : "lazy"}
+                    decoding="async"
                     draggable={false}
                   />
                 </div>
@@ -264,6 +280,7 @@ export default function ClothesCarousel({
         </div>
 
         <button
+          type="button"
           className="cf__open"
           onClick={() => setOpen(true)}
         >
@@ -274,6 +291,7 @@ export default function ClothesCarousel({
       <div className="cf__bar">
         {safeProducts.map((product, i) => (
           <button
+            type="button"
             key={product.id}
             className={"cf__dot" + (i === active ? " is-active" : "")}
             onClick={() => goTo(i)}
@@ -285,11 +303,11 @@ export default function ClothesCarousel({
       {/* خلفية التعتيم */}
       <div
         className="cf__scrim"
-        onClick={() => setOpen(false)}
+        onClick={closeSizePanel}
         aria-hidden="true"
       />
 
-      {/* صورة المنتج المستقلة */}
+      {/* صورة المنتج المستقلة فوق كارد المقاسات */}
       <div
         className="cf__floating-preview"
         aria-hidden={!open}
@@ -298,11 +316,13 @@ export default function ClothesCarousel({
           src={p.image || placeholder(p.name)}
           alt={p.name}
           className="cf__floating-img"
+          loading="eager"
+          decoding="async"
           draggable={false}
         />
       </div>
 
-      {/* كارد المقاسات بدون صورة */}
+      {/* كارد المقاسات مستقل وبدون صورة */}
       <div
         className="cf__sheet"
         role="dialog"
@@ -320,8 +340,9 @@ export default function ClothesCarousel({
           </div>
 
           <button
+            type="button"
             className="cf__close"
-            onClick={() => setOpen(false)}
+            onClick={closeSizePanel}
             aria-label="Fermer"
           >
             ✕
@@ -345,7 +366,8 @@ export default function ClothesCarousel({
               aria-checked={size === currentSize}
               disabled={!p.sizes?.[currentSize]}
               className={
-                "cf__size" + (size === currentSize ? " is-on" : "")
+                "cf__size" +
+                (size === currentSize ? " is-on" : "")
               }
               onClick={() =>
                 setPicked((previous) => ({
