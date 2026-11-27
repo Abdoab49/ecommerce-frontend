@@ -534,3 +534,32 @@ body.clothes-carousel-open .bottom-menu {
     transition: none;
   }
 }
+/* هبوط الصورة وكارد المقاسات معاً */
+.cf__floating-preview {
+  bottom: 310px !important;
+}
+
+.cf__sheet {
+  bottom: -10px !important;
+}
+
+/* الهاتف */
+@media (max-width: 720px) {
+  .cf__floating-preview {
+    bottom: 240px !important;
+  }
+
+  .cf__sheet {
+    bottom: 45px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .cf__floating-preview {
+    bottom: 230px !important;
+  }
+
+  .cf__sheet {
+    bottom: 35px !important;
+  }
+}
