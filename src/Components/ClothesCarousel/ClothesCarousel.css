@@ -543,3 +543,15 @@
     font-size: 14px;
   }
 }
+@media (max-width: 720px) {
+  .cf__product-image {
+    height: 125px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+  }
+
+  .cf__product-img {
+    transform: translateY(-12px) scale(0.92);
+    object-fit: contain;
+  }
+}
