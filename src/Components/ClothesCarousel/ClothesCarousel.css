@@ -464,44 +464,57 @@
 
 /* ===== PRODUCT PREVIEW IN SIZE PANEL ===== */
 
-/* ===== MOBILE CAROUSEL SPACE FIX ===== */
+/* ===== COMPACT SIZE PANEL - MOBILE ===== */
 
 @media (max-width: 720px) {
-  .cf {
-    min-height: auto;
-    padding-top: 12px;
-    padding-bottom: 12px;
+  .cf__sheet {
+    max-height: 82dvh;
+    padding: 12px 18px calc(14px + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
   }
 
-  .cf__stage {
-    height: 340px;
-    min-height: 340px;
+  .cf__product-image {
+    height: 190px;
+    margin-bottom: 4px;
   }
 
-  .cf__scene {
-    --k: 0.54;
+  .cf__head {
+    margin-bottom: 10px;
   }
 
-  .cf__slot {
-    width: 300px;
-    height: 390px;
+  .cf__sname {
+    font-size: 21px;
   }
 
-  .cf__info {
-    margin-top: -8px;
-    gap: 10px;
+  .cf__sprice {
+    font-size: 14px;
+    margin-top: 4px;
   }
 
-  .cf__name {
-    font-size: 24px;
+  .cf__label {
+    margin-bottom: 6px;
+    font-size: 11px;
   }
 
-  .cf__bar {
-    margin-top: 10px;
-  }
-
-  .cf__open {
+  .cf__sizes {
+    gap: 7px;
     margin-top: 6px;
-    padding: 12px 22px;
+  }
+
+  .cf__size {
+    height: 54px;
+  }
+
+  .cf__size b {
+    font-size: 16px;
+  }
+
+  .cf__size small {
+    font-size: 10px;
+  }
+
+  .cf__cta {
+    height: 48px;
+    margin-top: 12px;
   }
 }
