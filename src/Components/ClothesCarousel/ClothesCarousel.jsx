@@ -1,10 +1,6 @@
-
-import { useEffect, useRef, useState } from "react";
-import {
-  PRODUCTS,
-  SIZE_CHEST,
-  placeholder
-} from "./products";
+import { useContext, useEffect, useRef, useState } from "react";
+import { PRODUCTS, SIZE_CHEST, placeholder } from "./products";
+import { ShopContext } from "../../Context/ShopContext";
 import "./ClothesCarousel.css";
 
 const SIZES = ["M", "L", "XL", "XXL"];
@@ -15,16 +11,16 @@ const VISIBLE = 2;
 
 export default function ClothesCarousel({
   products = PRODUCTS,
-  onAdd,
   cartCount: externalCartCount
 }) {
+  const { addToCart, cartItems } = useContext(ShopContext);
+
   const safeProducts = Array.isArray(products) ? products : [];
   const n = safeProducts.length;
 
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [picked, setPicked] = useState({});
-  const [cart, setCart] = useState(0);
   const [done, setDone] = useState(false);
 
   const startX = useRef(null);
@@ -34,11 +30,18 @@ export default function ClothesCarousel({
 
   const active = n ? ((index % n) + n) % n : 0;
   const p = safeProducts[active];
+
   const size = p ? picked[p.id] : null;
-  const displayedCart = externalCartCount ?? cart;
+
+  const actualCartCount = Array.isArray(cartItems)
+    ? cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0)
+    : 0;
+
+  const displayedCart = externalCartCount ?? actualCartCount;
 
   const go = (direction) => {
     if (!n) return;
+
     setOpen(false);
     setDone(false);
     setIndex((current) => current + direction);
@@ -56,20 +59,28 @@ export default function ClothesCarousel({
     if (difference) go(difference);
   };
 
+  // إضافة المنتج للسلة الحقيقية
   const add = () => {
-    if (!p || !size || !onAdd) return;
+    if (!p || !size || done) return;
 
-    onAdd({ product: p, size });
+    const productData = {
+      ...p,
+      id: p.id,
+      name: p.name,
+      price: Number(p.price || p.new_price || 0),
+      new_price: Number(p.new_price || p.price || 0),
+      old_price: Number(p.old_price || 0),
+      image: p.image || placeholder(p.name),
+      images: p.images || [p.image || placeholder(p.name)],
+      category: p.category || "T-Shirts",
+      quantity: 1
+    };
 
-    if (externalCartCount === undefined) {
-      setCart((current) => current + 1);
-    }
+    addToCart(productData.id, size, productData);
 
     setDone(true);
 
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
+    if (timer.current) clearTimeout(timer.current);
 
     timer.current = setTimeout(() => {
       setDone(false);
@@ -79,19 +90,14 @@ export default function ClothesCarousel({
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-      }
+      if (event.key === "Escape") setOpen(false);
     };
 
     window.addEventListener("keydown", handleEscape);
 
     return () => {
       window.removeEventListener("keydown", handleEscape);
-
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
+      if (timer.current) clearTimeout(timer.current);
     };
   }, []);
 
@@ -157,7 +163,6 @@ export default function ClothesCarousel({
             if (startX.current === null) return;
 
             const difference = event.clientX - startX.current;
-
             startX.current = null;
             moved.current = Math.abs(difference) > 6;
 
@@ -188,8 +193,7 @@ export default function ClothesCarousel({
                 <div
                   key={product.id}
                   className={
-                    "cf__slot" +
-                    (i === active ? " is-active" : "")
+                    "cf__slot" + (i === active ? " is-active" : "")
                   }
                   style={{
                     transform: `
@@ -199,9 +203,7 @@ export default function ClothesCarousel({
                       rotateY(${-offset * ANGLE}deg)
                     `,
                     opacity: distance > VISIBLE ? 0 : 1,
-                    filter: `brightness(${(
-                      1 - distance * 0.3
-                    ).toFixed(2)})`,
+                    filter: `brightness(${(1 - distance * 0.3).toFixed(2)})`,
                     zIndex: 10 - distance
                   }}
                   onClick={() => {
@@ -240,10 +242,7 @@ export default function ClothesCarousel({
           </p>
         </div>
 
-        <button
-          className="cf__open"
-          onClick={() => setOpen(true)}
-        >
+        <button className="cf__open" onClick={() => setOpen(true)}>
           Choisir la taille →
         </button>
       </div>
@@ -252,21 +251,21 @@ export default function ClothesCarousel({
         {safeProducts.map((product, i) => (
           <button
             key={product.id}
-            className={
-              "cf__dot" + (i === active ? " is-active" : "")
-            }
+            className={"cf__dot" + (i === active ? " is-active" : "")}
             onClick={() => goTo(i)}
             aria-label={product.name}
           />
         ))}
       </div>
 
+      {/* خلفية التعتيم */}
       <div
         className="cf__scrim"
         onClick={() => setOpen(false)}
+        aria-hidden="true"
       />
 
-      {/* الصورة مستقلة وخارج كارد المقاسات */}
+      {/* الصورة مستقلة تماماً عن كارد المقاسات */}
       <div className="cf__floating-preview" aria-hidden={!open}>
         <img
           src={p.image || placeholder(p.name)}
@@ -276,12 +275,12 @@ export default function ClothesCarousel({
         />
       </div>
 
-      {/* كارد المقاسات فقط */}
+      {/* كارد المقاسات بدون صورة */}
       <div
         className="cf__sheet"
         role="dialog"
         aria-modal={open}
-        aria-label={p.name}
+        aria-label={`Choisir la taille de ${p.name}`}
         aria-hidden={!open}
       >
         <div className="cf__head">
@@ -306,20 +305,16 @@ export default function ClothesCarousel({
           Taille · tour de poitrine
         </p>
 
-        <div
-          className="cf__sizes"
-          role="radiogroup"
-          aria-label="Taille"
-        >
+        <div className="cf__sizes" role="radiogroup" aria-label="Taille">
           {SIZES.map((currentSize) => (
             <button
               key={currentSize}
+              type="button"
               role="radio"
               aria-checked={size === currentSize}
               disabled={!p.sizes?.[currentSize]}
               className={
-                "cf__size" +
-                (size === currentSize ? " is-on" : "")
+                "cf__size" + (size === currentSize ? " is-on" : "")
               }
               onClick={() =>
                 setPicked((previous) => ({
@@ -335,6 +330,7 @@ export default function ClothesCarousel({
         </div>
 
         <button
+          type="button"
           className={"cf__cta" + (done ? " is-done" : "")}
           disabled={!size || done}
           onClick={add}
