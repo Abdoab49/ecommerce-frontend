@@ -23,6 +23,7 @@ import SliderFoot from '../Components/SliderFoot';
 import Sliderensemble from '../Components/Sliderensemble';
 import Night26 from './Night26/Night26'
 import Sliders from '../Components/Sliders'
+import ClothesCarousel from '../Components/ClothesCarousel/ClothesCarousel'
 const Shop = () => {
     return (
         <div>
@@ -49,6 +50,7 @@ const Shop = () => {
             <Sliderensemble />
             <Night26 />
             <Sliders />
+            <ClothesCarousel />
             <SocialIcons />
         </div>
     )
