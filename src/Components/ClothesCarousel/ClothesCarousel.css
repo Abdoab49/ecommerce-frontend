@@ -65,6 +65,7 @@
   transition: transform .5s ease-out;
 }
 
+/* صور المنتجات - الحجم الأصلي */
 .cf__slot {
   position: absolute;
   left: 50%;
