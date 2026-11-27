@@ -1,41 +1,28 @@
 
-/* =========================================
-   BANNER VIDEO CAROUSEL
-   Responsive - No Video Distortion
-========================================= */
-
 .bannerContainer {
   width: 100%;
-  max-width: 900px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 8px;
+  padding: clamp(8px, 2vw, 24px);
   box-sizing: border-box;
 }
 
-/* =========================================
-   CAROUSEL FRAME
-========================================= */
-
+/* Carousel frame */
 .bannerCarousel {
   position: relative;
   width: 100%;
-  max-width: 680px;
+  max-width: 1080px;
   aspect-ratio: 4 / 5;
   margin: 0 auto;
   overflow: hidden;
-
   background: #000;
-  border-radius: 14px;
-
+  border-radius: clamp(8px, 1.5vw, 18px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.14);
-
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
-
   outline: none;
 }
 
@@ -48,24 +35,15 @@
   outline-offset: 4px;
 }
 
-/* =========================================
-   SLIDES
-========================================= */
-
+/* Slides */
 .bannerItem {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   opacity: 0;
   visibility: hidden;
-
-  transition:
-    opacity 0.7s ease-in-out,
-    visibility 0.7s ease-in-out;
-
+  transition: opacity 0.7s ease, visibility 0.7s ease;
   pointer-events: none;
   background: #000;
 }
@@ -77,60 +55,40 @@
   z-index: 2;
 }
 
-/* =========================================
-   VIDEO
-   Preserve original video proportions
-========================================= */
-
+/* Video - keep original proportions */
 .bannerVideo {
   display: block;
-
   width: 100%;
   height: 100%;
-
   object-fit: contain;
   object-position: center;
-
   background: #000;
   border: 0;
-
   pointer-events: none;
-
   -webkit-user-drag: none;
 }
 
-/* =========================================
-   INDICATORS
-========================================= */
-
+/* Indicators */
 .indicators {
   position: absolute;
   z-index: 5;
-
   bottom: 12px;
   left: 50%;
-
   transform: translateX(-50%);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 8px;
 }
 
 .indicator {
   width: 8px;
   height: 8px;
-
   padding: 0;
   border: 0;
   border-radius: 50%;
-
   background: rgba(255, 255, 255, 0.55);
-
   cursor: pointer;
-
   transition: all 0.25s ease;
 }
 
@@ -140,14 +98,32 @@
   background: #fff;
 }
 
-/* =========================================
-   LARGE DESKTOP
-========================================= */
-
-@media (min-width: 1920px) {
+/* Desktop */
+@media (min-width: 1200px) {
   .bannerContainer {
-    max-width: 920px;
-    padding: 12px;
+    max-width: 1120px;
+  }
+
+  .bannerCarousel {
+    max-width: 900px;
+  }
+}
+
+/* Laptop */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .bannerContainer {
+    max-width: 100%;
+  }
+
+  .bannerCarousel {
+    max-width: 820px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 991px) {
+  .bannerContainer {
+    padding: 16px;
   }
 
   .bannerCarousel {
@@ -155,86 +131,27 @@
   }
 }
 
-/* =========================================
-   DESKTOP
-========================================= */
-
-@media (min-width: 1200px) and (max-width: 1919px) {
-  .bannerContainer {
-    max-width: 900px;
-  }
-
-  .bannerCarousel {
-    max-width: 640px;
-  }
-}
-
-/* =========================================
-   LAPTOP
-========================================= */
-
-@media (min-width: 992px) and (max-width: 1199px) {
-  .bannerContainer {
-    max-width: 100%;
-    padding: 12px;
-  }
-
-  .bannerCarousel {
-    max-width: 580px;
-  }
-}
-
-/* =========================================
-   TABLET LANDSCAPE
-========================================= */
-
-@media (min-width: 768px) and (max-width: 991px) {
-  .bannerContainer {
-    max-width: 100%;
-    padding: 12px;
-  }
-
-  .bannerCarousel {
-    max-width: 520px;
-    border-radius: 12px;
-  }
-}
-
-/* =========================================
-   TABLET PORTRAIT
-========================================= */
-
-@media (min-width: 481px) and (max-width: 767px) {
-  .bannerContainer {
-    width: 100%;
-    padding: 10px;
-  }
-
-  .bannerCarousel {
-    width: 90%;
-    max-width: 440px;
-    border-radius: 11px;
-  }
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (min-width: 381px) and (max-width: 480px) {
+/* Mobile */
+@media (max-width: 480px) {
   .bannerContainer {
     width: 100%;
     padding: 8px;
   }
 
   .bannerCarousel {
-    width: 88%;
-    max-width: 360px;
+    width: 100%;
+    max-width: 100%;
     border-radius: 10px;
   }
 
+  .bannerVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .indicators {
-    bottom: 9px;
+    bottom: 8px;
     gap: 6px;
   }
 
@@ -248,78 +165,25 @@
   }
 }
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (min-width: 321px) and (max-width: 380px) {
-  .bannerContainer {
-    width: 100%;
-    padding: 7px;
-  }
-
-  .bannerCarousel {
-    width: 88%;
-    max-width: 330px;
-    border-radius: 9px;
-  }
-
-  .indicators {
-    bottom: 8px;
-    gap: 6px;
-  }
-}
-
-/* =========================================
-   VERY SMALL MOBILE
-========================================= */
-
+/* Very small screens */
 @media (max-width: 320px) {
   .bannerContainer {
-    width: 100%;
-    padding: 6px;
+    padding: 5px;
   }
 
   .bannerCarousel {
-    width: 88%;
-    max-width: 280px;
-    border-radius: 8px;
-  }
-
-  .indicators {
-    bottom: 7px;
-    gap: 5px;
-  }
-
-  .indicator {
-    width: 6px;
-    height: 6px;
-  }
-
-  .indicatorActive {
-    width: 16px;
+    border-radius: 7px;
   }
 }
 
-/* =========================================
-   LANDSCAPE PHONES
-========================================= */
-
+/* Landscape phones */
 @media (max-height: 500px) and (orientation: landscape) {
-  .bannerContainer {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-
   .bannerCarousel {
-    max-width: 320px;
+    max-width: 360px;
   }
 }
 
-/* =========================================
-   REDUCED MOTION
-========================================= */
-
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bannerItem {
     transition: none;
