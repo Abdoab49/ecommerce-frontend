@@ -1,6 +1,6 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600&family=UnifrakturMaguntia&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap");
+
 .cf {
   position: relative;
   min-height: 100vh;
@@ -113,11 +113,18 @@
   text-align: center;
 }
 
+/* الخط الجديد لأسماء المنتجات فقط */
+.cf__name,
+.cf__sname {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
 .cf__name {
   margin: 0;
   font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -.03em;
 }
 
 .cf__price {
@@ -187,7 +194,7 @@
   pointer-events: auto;
 }
 
-/* صورة المنتج المستقلة - فوق كارد المقاسات */
+/* صورة المنتج المستقلة */
 .cf__floating-preview {
   position: fixed;
   z-index: 12;
@@ -227,7 +234,7 @@
   transform-origin: center;
 }
 
-/* كارد المقاسات - مستقل وتحت الصورة */
+/* كارد المقاسات */
 .cf__sheet {
   position: fixed;
   z-index: 13;
@@ -269,7 +276,6 @@
 .cf__sname {
   margin: 0;
   font-size: 25px;
-  font-weight: 700;
 }
 
 .cf__sprice {
@@ -424,14 +430,12 @@
     margin-top: 8px;
   }
 
-  /* الصورة فوق كارد المقاسات */
   .cf__floating-preview {
     bottom: 330px;
     width: min(300px,82vw);
     height: 230px;
   }
 
-  /* كارد المقاسات في الأسفل */
   .cf__sheet {
     bottom: 45px;
     width: calc(100% - 24px);
@@ -490,7 +494,7 @@
   }
 }
 
-/* إخفاء BottomNavBar فقط أثناء فتح المقاسات */
+/* إخفاء BottomNavBar أثناء فتح المقاسات */
 body.clothes-carousel-open .bottom-menu {
   display: none !important;
 }
@@ -505,21 +509,4 @@ body.clothes-carousel-open .bottom-menu {
   .cf__floating-preview {
     transition: none;
   }
-}
-/* Product names typography */
-.cf__product-name {
-  font-family: "Instrument Serif", serif;
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Product details */
-.cf__product-details {
-  font-family: "Inter", sans-serif;
-}
-
-/* Optional Gothic style */
-.cf__product-name--gothic {
-  font-family: "UnifrakturMaguntia", cursive;
-  font-style: normal;
 }
