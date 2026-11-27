@@ -10,7 +10,6 @@ const SPREAD = 250;
 const DEPTH = 190;
 const ANGLE = 36;
 const VISIBLE = 2;
-const WINDOW_SIZE = VISIBLE * 2 + 1;
 
 export default function ClothesCarousel({
   products = PRODUCTS,
@@ -53,7 +52,11 @@ export default function ClothesCarousel({
 
   // تنظيف المؤقت عند حذف المكون
   useEffect(() => {
-    return () => clearCloseTimer();
+    return () => {
+      if (closeTimer.current) {
+        clearTimeout(closeTimer.current);
+      }
+    };
   }, []);
 
   // عدد المنتجات في السلة
@@ -93,7 +96,7 @@ export default function ClothesCarousel({
     if (difference) go(difference);
   };
 
-  // المنتجات القريبة فقط من المنتج النشيط
+  // المنتجات القريبة من المنتج النشيط فقط
   const visibleProducts = [];
 
   for (let offset = -VISIBLE; offset <= VISIBLE; offset++) {
@@ -101,15 +104,18 @@ export default function ClothesCarousel({
 
     const productIndex = ((active + offset) % n + n) % n;
 
-    // تفادي تكرار المنتج عندما يكون عدد المنتجات قليلاً
-    if (visibleProducts.some((item) => item.productIndex === productIndex)) {
+    if (
+      visibleProducts.some(
+        (item) => item.productIndex === productIndex
+      )
+    ) {
       continue;
     }
 
     visibleProducts.push({
       product: safeProducts[productIndex],
       productIndex,
-      offset: offset
+      offset
     });
   }
 
@@ -143,7 +149,7 @@ export default function ClothesCarousel({
     }, 1300);
   };
 
-  // إغلاق بالزر Escape
+  // إغلاق بـ Escape والتنقل بالأسهم
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
@@ -173,8 +179,6 @@ export default function ClothesCarousel({
       </div>
     );
   }
-
-  const label = "NOUVELLE COLLECTION — ";
 
   return (
     <div
@@ -214,54 +218,50 @@ export default function ClothesCarousel({
             startX.current = null;
           }}
         >
-          <div className="cf__marquee" aria-hidden="true">
-            {[0, 1].map((key) => (
-              <span key={key}>{label.repeat(4)}</span>
-            ))}
-          </div>
-
           <div className="cf__scene">
-            {visibleProducts.map(({ product, productIndex, offset }) => {
-              const distance = Math.abs(offset);
+            {visibleProducts.map(
+              ({ product, productIndex, offset }) => {
+                const distance = Math.abs(offset);
 
-              return (
-                <div
-                  key={product.id}
-                  className={
-                    "cf__slot" +
-                    (productIndex === active ? " is-active" : "")
-                  }
-                  style={{
-                    transform: `
-                      translate(-50%, -50%)
-                      translateX(${offset * SPREAD}px)
-                      translateZ(${-distance * DEPTH}px)
-                      rotateY(${-offset * ANGLE}deg)
-                    `,
-                    opacity: 1,
-                    zIndex: 10 - distance
-                  }}
-                  onClick={() => {
-                    if (moved.current) return;
-
-                    if (productIndex === active) {
-                      setOpen(true);
-                    } else {
-                      goTo(productIndex);
+                return (
+                  <div
+                    key={product.id}
+                    className={
+                      "cf__slot" +
+                      (productIndex === active ? " is-active" : "")
                     }
-                  }}
-                >
-                  <img
-                    className="cf__img"
-                    src={product.image || placeholder(product.name)}
-                    alt={product.name}
-                    loading={distance === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    draggable={false}
-                  />
-                </div>
-              );
-            })}
+                    style={{
+                      transform: `
+                        translate(-50%, -50%)
+                        translateX(${offset * SPREAD}px)
+                        translateZ(${-distance * DEPTH}px)
+                        rotateY(${-offset * ANGLE}deg)
+                      `,
+                      opacity: 1,
+                      zIndex: 10 - distance
+                    }}
+                    onClick={() => {
+                      if (moved.current) return;
+
+                      if (productIndex === active) {
+                        setOpen(true);
+                      } else {
+                        goTo(productIndex);
+                      }
+                    }}
+                  >
+                    <img
+                      className="cf__img"
+                      src={product.image || placeholder(product.name)}
+                      alt={product.name}
+                      loading={distance === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      draggable={false}
+                    />
+                  </div>
+                );
+              }
+            )}
           </div>
         </div>
       </div>
@@ -293,7 +293,9 @@ export default function ClothesCarousel({
           <button
             type="button"
             key={product.id}
-            className={"cf__dot" + (i === active ? " is-active" : "")}
+            className={
+              "cf__dot" + (i === active ? " is-active" : "")
+            }
             onClick={() => goTo(i)}
             aria-label={product.name}
           />

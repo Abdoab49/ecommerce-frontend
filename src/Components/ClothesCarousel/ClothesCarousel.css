@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 .cf {
@@ -53,32 +54,6 @@
   cursor: grab;
 }
 
-.cf__marquee {
-  position: absolute;
-  top: 44%;
-  left: 0;
-  display: flex;
-  width: max-content;
-  white-space: nowrap;
-  font-size: clamp(110px,16vw,210px);
-  font-weight: 800;
-  letter-spacing: -.045em;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,.15);
-  animation: cf-run 70s linear infinite;
-  pointer-events: none;
-}
-
-.cf__marquee span {
-  padding-right: .5em;
-}
-
-@keyframes cf-run {
-  from { transform: translate(0,-50%); }
-  to { transform: translate(-50%,-50%); }
-}
-
 .cf__scene {
   position: absolute;
   inset: 0;
@@ -99,11 +74,7 @@
   cursor: pointer;
   transition:
     transform 1s cubic-bezier(.22,.75,.2,1),
-    opacity .6s,
-    filter .6s;
-  -webkit-box-reflect:
-    below 6px
-    linear-gradient(transparent 72%,rgba(255,255,255,.2));
+    opacity .6s;
 }
 
 .cf__img {
@@ -452,7 +423,7 @@
     margin-top: 8px;
   }
 
-  /* الصورة فوق وبعيدة عن كارد المقاسات */
+  /* الصورة فوق كارد المقاسات */
   .cf__floating-preview {
     bottom: 330px;
     width: min(300px,82vw);
@@ -525,10 +496,6 @@ body.clothes-carousel-open .bottom-menu {
 
 /* احترام إعداد تقليل الحركة */
 @media (prefers-reduced-motion:reduce) {
-  .cf__marquee {
-    animation: none;
-  }
-
   .cf__slot,
   .cf__scene,
   .cf__lift,
