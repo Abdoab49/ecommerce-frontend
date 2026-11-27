@@ -3,92 +3,49 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './BannerVideo.module.css';
 
 const VIDEOS = [
-  {
-    id: 1,
-    src: '/Assets/Videos/banner1.mp4',
-    alt: 'Banner 1',
-  },
-  {
-    id: 2,
-    src: '/Assets/Videos/banner2.mp4',
-    alt: 'Banner 2',
-  },
-  {
-    id: 3,
-    src: '/Assets/Videos/banner3.mp4',
-    alt: 'Banner 3',
-  },
+  { id: 1, src: '/Assets/Videos/banner1.mp4', alt: 'Banner 1' },
+  { id: 2, src: '/Assets/Videos/banner2.mp4', alt: 'Banner 2' },
+  { id: 3, src: '/Assets/Videos/banner3.mp4', alt: 'Banner 3' },
 ];
 
-const AUTO_SLIDE_DELAY = 4000;
+const AUTO_SLIDE_DELAY = 5000;
 const SWIPE_THRESHOLD = 50;
 
 const BannerVideo = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const videoRefs = useRef([]);
-  const pointerStartX = useRef(null);
-  const pointerEndX = useRef(null);
-  const isDragging = useRef(false);
-  const isPaused = useRef(false);
+  const startX = useRef(null);
+  const endX = useRef(null);
+  const paused = useRef(false);
   const resumeTimer = useRef(null);
-
-  // =========================================
-  // PAUSE / RESUME AUTOPLAY
-  // =========================================
-
-  const pauseAutoplay = () => {
-    isPaused.current = true;
-
-    if (resumeTimer.current) {
-      clearTimeout(resumeTimer.current);
-      resumeTimer.current = null;
-    }
-  };
-
-  const resumeAutoplay = () => {
-    if (resumeTimer.current) {
-      clearTimeout(resumeTimer.current);
-    }
-
-    resumeTimer.current = setTimeout(() => {
-      isPaused.current = false;
-      resumeTimer.current = null;
-    }, 700);
-  };
-
-  // =========================================
-  // NEXT / PREVIOUS SLIDE
-  // =========================================
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
   };
 
   const previousSlide = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + VIDEOS.length) % VIDEOS.length
-    );
+    setCurrentIndex((prev) => (prev - 1 + VIDEOS.length) % VIDEOS.length);
   };
 
-  // =========================================
-  // AUTOPLAY CAROUSEL
-  // =========================================
+  const pauseAutoplay = () => {
+    paused.current = true;
+    clearTimeout(resumeTimer.current);
+  };
+
+  const resumeAutoplay = () => {
+    clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => {
+      paused.current = false;
+    }, 700);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isPaused.current) {
-        nextSlide();
-      }
+      if (!paused.current) nextSlide();
     }, AUTO_SLIDE_DELAY);
 
     return () => clearInterval(interval);
   }, []);
-
-  // =========================================
-  // VIDEO PERFORMANCE
-  // Play active video only
-  // =========================================
 
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
@@ -99,131 +56,65 @@ const BannerVideo = () => {
       video.loop = true;
 
       if (index === currentIndex) {
-        const playPromise = video.play();
-
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // Browser may block autoplay.
-            // The video can retry when allowed.
-          });
-        }
+        video.play().catch(() => {});
       } else {
         video.pause();
+        video.currentTime = 0;
       }
     });
   }, [currentIndex]);
 
-  // =========================================
-  // CLEANUP TIMERS
-  // =========================================
-
   useEffect(() => {
     return () => {
-      if (resumeTimer.current) {
-        clearTimeout(resumeTimer.current);
-      }
-
-      videoRefs.current.forEach((video) => {
-        if (video) video.pause();
-      });
+      clearTimeout(resumeTimer.current);
+      videoRefs.current.forEach((video) => video?.pause());
     };
   }, []);
 
-  // =========================================
-  // POINTER DOWN
-  // Touch + Mouse + Stylus
-  // =========================================
-
   const handlePointerDown = (e) => {
-    if (e.pointerType === 'mouse' && e.button !== 0) {
-      return;
-    }
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-    pointerStartX.current = e.clientX;
-    pointerEndX.current = e.clientX;
-
-    isDragging.current = true;
-
+    startX.current = e.clientX;
+    endX.current = e.clientX;
     pauseAutoplay();
 
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
-    } catch (error) {
-      // Pointer capture may not be available.
-    }
+    } catch {}
   };
-
-  // =========================================
-  // POINTER MOVE
-  // =========================================
 
   const handlePointerMove = (e) => {
-    if (!isDragging.current) return;
-
-    pointerEndX.current = e.clientX;
+    if (startX.current !== null) {
+      endX.current = e.clientX;
+    }
   };
-
-  // =========================================
-  // POINTER UP
-  // =========================================
 
   const handlePointerUp = () => {
-    if (!isDragging.current) return;
+    if (startX.current !== null && endX.current !== null) {
+      const distance = startX.current - endX.current;
 
-    const startX = pointerStartX.current;
-    const endX = pointerEndX.current;
-
-    if (startX !== null && endX !== null) {
-      const distance = startX - endX;
-
-      if (distance > SWIPE_THRESHOLD) {
-        nextSlide();
-      } else if (distance < -SWIPE_THRESHOLD) {
-        previousSlide();
-      }
+      if (distance > SWIPE_THRESHOLD) nextSlide();
+      if (distance < -SWIPE_THRESHOLD) previousSlide();
     }
 
-    isDragging.current = false;
-    pointerStartX.current = null;
-    pointerEndX.current = null;
-
+    startX.current = null;
+    endX.current = null;
     resumeAutoplay();
   };
-
-  // =========================================
-  // POINTER CANCEL
-  // =========================================
 
   const handlePointerCancel = () => {
-    isDragging.current = false;
-
-    pointerStartX.current = null;
-    pointerEndX.current = null;
-
+    startX.current = null;
+    endX.current = null;
     resumeAutoplay();
   };
-
-  // =========================================
-  // KEYBOARD SUPPORT
-  // =========================================
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowRight') {
-      pauseAutoplay();
       previousSlide();
-      resumeAutoplay();
-    }
-
-    if (e.key === 'ArrowLeft') {
-      pauseAutoplay();
+    } else if (e.key === 'ArrowLeft') {
       nextSlide();
-      resumeAutoplay();
     }
   };
-
-  // =========================================
-  // RENDER
-  // =========================================
 
   return (
     <section
@@ -244,7 +135,6 @@ const BannerVideo = () => {
         tabIndex={0}
         role="region"
         aria-roledescription="carousel"
-        aria-label="Promotional banners"
       >
         {VIDEOS.map((video, index) => (
           <div
@@ -270,6 +160,21 @@ const BannerVideo = () => {
             />
           </div>
         ))}
+
+        <div className={styles.indicators}>
+          {VIDEOS.map((video, index) => (
+            <button
+              key={video.id}
+              type="button"
+              className={`${styles.indicator} ${
+                index === currentIndex ? styles.indicatorActive : ''
+              }`}
+              onClick={() => setCurrentIndex(index)}
+              aria-label={`Go to video ${index + 1}`}
+              aria-current={index === currentIndex ? 'true' : undefined}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
