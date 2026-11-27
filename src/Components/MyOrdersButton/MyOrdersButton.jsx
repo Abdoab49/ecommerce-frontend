@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -135,24 +136,20 @@ const MyOrdersButton = () => {
         title="My Orders"
         aria-label={`My Orders, ${ordersCount} active orders`}
       >
-        {/* LEFT ARROW */}
         <span className="orders-leading-icon">
           <ArrowUpRight size={14} strokeWidth={2} />
         </span>
 
-        {/* BUTTON TEXT */}
         <span className="orders-label">
           MY ORDERS
         </span>
 
-        {/* ORDER COUNT */}
         {ordersCount > 0 && (
           <span className="orders-badge">
             {ordersCount > 99 ? '99+' : ordersCount}
           </span>
         )}
 
-        {/* PACKAGE ICON */}
         <span className="orders-package-icon">
           <PackageCheck size={17} strokeWidth={1.8} />
         </span>
@@ -163,14 +160,17 @@ const MyOrdersButton = () => {
 
 // =========================================
 // LANADA — MY ORDERS BUTTON
+// RIGHT SIDE / VERTICAL CENTER
 // =========================================
 
 const StyledWrapper = styled.div`
   position: fixed;
 
-  /* DESKTOP POSITION */
+  /* RIGHT SIDE - VERTICAL CENTER */
   right: 24px;
-  top: calc(52% - 44px);
+  top: 50%;
+  left: auto;
+  bottom: auto;
 
   transform: translateY(-50%);
   z-index: 999;
@@ -298,13 +298,11 @@ const StyledWrapper = styled.div`
 
   @media (max-width: 768px) {
     right: 13px;
-    top: auto;
+    top: 50%;
+    left: auto;
+    bottom: auto;
 
-    bottom: calc(
-      160px + env(safe-area-inset-bottom)
-    );
-
-    transform: none;
+    transform: translateY(-50%);
 
     .my-orders-button {
       min-width: 132px;
@@ -317,20 +315,12 @@ const StyledWrapper = styled.div`
     .orders-label {
       font-size: 9px;
     }
-
-    .my-orders-button:active {
-      transform: scale(0.96);
-    }
   }
 
   /* SMALL MOBILE */
 
   @media (max-width: 380px) {
     right: 9px;
-
-    bottom: calc(
-      148px + env(safe-area-inset-bottom)
-    );
 
     .my-orders-button {
       min-width: 122px;
