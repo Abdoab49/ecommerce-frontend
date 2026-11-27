@@ -8,8 +8,8 @@ const Slider = () => {
 
   const slides = [
     { id: 0, src: "/Assets/ShoeStore/slider.png", alt: "First slide" },
-    { id: 1, src: "/Assets/ShoeStore/slider.png", alt: "Second slide" },
-    { id: 2, src: "/Assets/ShoeStore/slider.png", alt: "Third slide" }
+    { id: 1, src: "/Assets/ShoeStore/slider1.png", alt: "Second slide" },
+    { id: 2, src: "/Assets/ShoeStore/slider2.png", alt: "Third slide" }
   ];
 
   // ✅ 1. Auto-play — كيتبدل كل 4 ثواني
