@@ -1,0 +1,137 @@
+
+/* Slider.module.css */
+
+.slider {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Indicators */
+.sliderIndicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 40px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 2px;
+}
+
+.indicator.active {
+  background-color: #ffffff;
+  width: 60px;
+}
+
+/* Slider Inner */
+.sliderInner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sliderItem {
+  display: none;
+  width: 100%;
+}
+
+.sliderItem.active {
+  display: block;
+  animation: fade 0.5s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Image: 1080 x 1317 */
+.sliderImage {
+  width: 100%;
+  aspect-ratio: 1080 / 1317;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+/* شاشات كبيرة */
+@media (max-width: 1024px) {
+  .indicator {
+    width: 30px;
+  }
+
+  .indicator.active {
+    width: 50px;
+  }
+}
+
+/* شاشات تابلت */
+@media (max-width: 768px) {
+  .indicator {
+    width: 25px;
+    height: 3px;
+  }
+
+  .indicator.active {
+    width: 40px;
+  }
+}
+
+/* شاشات موبايل */
+@media (max-width: 576px) {
+  .indicator {
+    width: 20px;
+    height: 3px;
+  }
+
+  .indicator.active {
+    width: 30px;
+  }
+
+  .sliderIndicators {
+    bottom: 12px;
+  }
+}
+
+/* شاشات موبايل صغيرة */
+@media (max-width: 400px) {
+  .indicator {
+    width: 15px;
+  }
+
+  .indicator.active {
+    width: 25px;
+  }
+}
+
+/* شاشات أفقية */
+@media (orientation: landscape) and (max-height: 500px) {
+  .sliderIndicators {
+    bottom: 10px;
+  }
+}
