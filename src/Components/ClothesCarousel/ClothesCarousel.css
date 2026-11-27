@@ -464,46 +464,56 @@
 
 /* ===== PRODUCT PREVIEW IN SIZE PANEL ===== */
 
-/* ===== MOBILE SIZE CARD: SMALLER + ABOVE NAVBAR ===== */
+/* ===== MOBILE PRODUCT CARD FINAL LAYOUT ===== */
 
 @media (max-width: 720px) {
   .cf__sheet {
-    /* رفع الكارد وترك مساحة للـ mobile navbar */
     bottom: 76px;
-
-    /* تصغير العرض والارتفاع */
     width: calc(100% - 24px);
-    max-height: 70dvh;
-
-    /* تقليل المسافات الداخلية */
+    max-height: 82dvh;
+    overflow-y: auto;
+    box-sizing: border-box;
     padding: 14px 16px 16px;
-
-    /* شكل الكارد */
-    border-radius: 20px;
-    border-bottom: 1px solid rgba(255,255,255,.25);
-
-    /* إلغاء الاعتماد على مساحة أسفل الشاشة */
-    padding-bottom: 16px;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* الصورة تصغر شوية */
   .cf__product-image {
-    height: 155px;
-    margin-bottom: 4px;
+    width: 100%;
+    height: 210px;
+    min-height: 210px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 12px;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
 
-  /* معلومات المنتج */
+  .cf__product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+  }
+
   .cf__head {
-    margin-bottom: 10px;
+    flex: none;
+    margin-bottom: 12px;
   }
 
   .cf__sname {
-    font-size: 20px;
+    font-size: 21px;
   }
 
   .cf__sprice {
-    margin-top: 3px;
-    font-size: 13px;
+    font-size: 14px;
+    margin-top: 4px;
   }
 
   .cf__close {
@@ -511,47 +521,34 @@
     height: 32px;
   }
 
-  /* المقاسات */
   .cf__label {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-size: 11px;
   }
 
   .cf__sizes {
+    flex: none;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 7px;
-    margin-top: 5px;
+    margin: 0;
   }
 
   .cf__size {
-    height: 48px;
-    border-radius: 9px;
+    height: 52px;
+    min-width: 0;
   }
 
   .cf__size b {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .cf__size small {
-    font-size: 9px;
+    font-size: 10px;
   }
 
-  /* زر الشراء */
   .cf__cta {
-    height: 46px;
-    margin-top: 11px;
-    border-radius: 10px;
-    font-size: 14px;
-  }
-}
-@media (max-width: 720px) {
-  .cf__product-image {
-    height: 125px;
-    margin-top: -8px;
-    margin-bottom: 8px;
-  }
-
-  .cf__product-img {
-    transform: translateY(-12px) scale(0.92);
-    object-fit: contain;
+    flex: none;
+    height: 48px;
+    margin-top: 14px;
   }
 }
