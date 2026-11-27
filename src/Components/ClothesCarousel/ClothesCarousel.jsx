@@ -274,14 +274,14 @@ export default function ClothesCarousel({
   aria-label={p.name}
 >
   {/* Product image */}
-  <div className="cf__preview">
-    <img
-      src={p.image || placeholder(p.name)}
-      alt={p.name}
-      className="cf__preview-img"
-      draggable={false}
-    />
-  </div>
+  <div className="cf__product-image">
+  <img
+    src={p.image || placeholder(p.name)}
+    alt={p.name}
+    className="cf__product-img"
+    draggable={false}
+  />
+</div>
 
   {/* Product information */}
   <div className="cf__head">
