@@ -464,3 +464,44 @@
 
 /* ===== PRODUCT PREVIEW IN SIZE PANEL ===== */
 
+/* ===== MOBILE CAROUSEL SPACE FIX ===== */
+
+@media (max-width: 720px) {
+  .cf {
+    min-height: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .cf__stage {
+    height: 340px;
+    min-height: 340px;
+  }
+
+  .cf__scene {
+    --k: 0.54;
+  }
+
+  .cf__slot {
+    width: 300px;
+    height: 390px;
+  }
+
+  .cf__info {
+    margin-top: -8px;
+    gap: 10px;
+  }
+
+  .cf__name {
+    font-size: 24px;
+  }
+
+  .cf__bar {
+    margin-top: 10px;
+  }
+
+  .cf__open {
+    margin-top: 6px;
+    padding: 12px 22px;
+  }
+}
