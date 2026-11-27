@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { PRODUCTS, SIZE_CHEST, placeholder } from "./products";
 import { ShopContext } from "../../Context/ShopContext";
@@ -33,8 +34,20 @@ export default function ClothesCarousel({
 
   const size = p ? picked[p.id] : null;
 
+  // إخفاء BottomNavBar فقط أثناء فتح اختيار المقاس
+  useEffect(() => {
+    document.body.classList.toggle("clothes-carousel-open", open);
+
+    return () => {
+      document.body.classList.remove("clothes-carousel-open");
+    };
+  }, [open]);
+
   const actualCartCount = Array.isArray(cartItems)
-    ? cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0)
+    ? cartItems.reduce(
+        (sum, item) => sum + (item.quantity || 1),
+        0
+      )
     : 0;
 
   const displayedCart = externalCartCount ?? actualCartCount;
@@ -61,7 +74,7 @@ export default function ClothesCarousel({
 
   // إضافة المنتج للسلة الحقيقية
   const add = () => {
-    if (!p || !size || done) return;
+    if (!p || !size || !p.sizes?.[size] || done) return;
 
     const productData = {
       ...p,
@@ -71,16 +84,19 @@ export default function ClothesCarousel({
       new_price: Number(p.new_price || p.price || 0),
       old_price: Number(p.old_price || 0),
       image: p.image || placeholder(p.name),
-      images: p.images || [p.image || placeholder(p.name)],
+      images: p.images || [
+        p.image || placeholder(p.name)
+      ],
       category: p.category || "T-Shirts",
-      quantity: 1
     };
 
     addToCart(productData.id, size, productData);
 
     setDone(true);
 
-    if (timer.current) clearTimeout(timer.current);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
 
     timer.current = setTimeout(() => {
       setDone(false);
@@ -90,14 +106,19 @@ export default function ClothesCarousel({
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
     };
 
     window.addEventListener("keydown", handleEscape);
 
     return () => {
       window.removeEventListener("keydown", handleEscape);
-      if (timer.current) clearTimeout(timer.current);
+
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
     };
   }, []);
 
@@ -242,7 +263,10 @@ export default function ClothesCarousel({
           </p>
         </div>
 
-        <button className="cf__open" onClick={() => setOpen(true)}>
+        <button
+          className="cf__open"
+          onClick={() => setOpen(true)}
+        >
           Choisir la taille →
         </button>
       </div>
@@ -265,8 +289,11 @@ export default function ClothesCarousel({
         aria-hidden="true"
       />
 
-      {/* الصورة مستقلة تماماً عن كارد المقاسات */}
-      <div className="cf__floating-preview" aria-hidden={!open}>
+      {/* صورة المنتج المستقلة */}
+      <div
+        className="cf__floating-preview"
+        aria-hidden={!open}
+      >
         <img
           src={p.image || placeholder(p.name)}
           alt={p.name}
@@ -305,7 +332,11 @@ export default function ClothesCarousel({
           Taille · tour de poitrine
         </p>
 
-        <div className="cf__sizes" role="radiogroup" aria-label="Taille">
+        <div
+          className="cf__sizes"
+          role="radiogroup"
+          aria-label="Taille"
+        >
           {SIZES.map((currentSize) => (
             <button
               key={currentSize}
